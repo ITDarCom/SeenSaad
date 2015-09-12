@@ -1,22 +1,22 @@
 <template name="articles">
-	<h1>المواضيع</h1>
-
-
 
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<ul class="list-group">
-				{{#each articles}}
-					{{article}}
-				{{/each}}
-			</ul>
+		<div class="col-md-offset-1 col-md-10 col-md-offset-1">
+			<h1>المواضيع</h1>
+			<p class="small text-muted">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
+			<hr>
+			{{#each articles}}
+			<div class="well well-sm">
+				<h4>{{title}}</h4>
+				<blockquote class="nomargin">
+					<span class="badge"><span class="glyphicon glyphicon-time"></span> {{dateFormated createdAt}}</span>
+					<br>
+					<span class="badge"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{user}}</span>
+				</blockquote>
+			</div>
+			{{/each}}
 		</div>
 	</div>
-
-
-
-
-
 
 </template>
 
@@ -28,8 +28,8 @@
 
 
 
-<template name="favorite">
-	<h1>المفضلة</h1>
+<template name="read">
+	<h1>المشاهدة</h1>
 </template>
 
 
@@ -40,6 +40,12 @@
 
 
 
-<template name="read">
-	<h1>القراءة</h1>
+<template name="favorite">
+	<h1>المفضلة</h1>
+</template>
+
+
+
+<template name="mine">
+	<h1>مواضيعي</h1>
 </template>
