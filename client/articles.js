@@ -4,16 +4,17 @@ Template.articles.helpers({
 	}
 });
 
-Template.addPlayerForm.events({
+Template.articles.events({
 	'click .remove': function(){
-		Meteor.call('removeArticle', this._id);
+		Articles.remove(this._id);
+		//Meteor.call('removeArticle', this._id);
 	}
 });
 
-
+/*
 Meteor.methods({
 	'removeArticle': function(ArticleId){
 		Articles.remove(ArticleId);
 	}
 });
-
+*/
