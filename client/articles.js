@@ -17,4 +17,4 @@ Meteor.methods({
 		Articles.remove(ArticleId);
 	}
 });
-*//////
+*/
