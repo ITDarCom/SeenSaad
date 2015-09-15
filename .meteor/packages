@@ -12,3 +12,4 @@ iron:router
 momentjs:moment
 aldeed:autoform
 aldeed:collection2
+mizzao:bootboxjs

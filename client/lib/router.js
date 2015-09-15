@@ -10,6 +10,7 @@ Router.map(function () {
 	this.route('favorite', {path:'/favorite'});
 	this.route('mine', {path:'/mine'});
 	this.route('add', {path:'/add'});
+	this.route('edit', {path: '/edit/:id'});
 	this.route('messages', {path:'/messages'});
 	this.route('about', {path:'/about'});
 });

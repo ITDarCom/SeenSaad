@@ -1,0 +1,7 @@
+<template name="edit">
+    {{#with thisArticle}}
+        <div class="container">
+            {{> quickForm collection="Articles" doc=this id="updateArticleForm" type="update" fields="title,body"}}
+        </div>
+    {{/with}}
+</template>
