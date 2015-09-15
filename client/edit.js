@@ -7,3 +7,14 @@ Template.edit.helpers({
         return article
     }
 })
+AutoForm.hooks({
+    updateArticleForm: {
+        onSuccess: function (insert, result) {
+            $('#notify').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
+            $('#notify').show()
+            setTimeout(function () {
+                Router.go('articles')
+            }, 1500)
+        }
+    }
+})

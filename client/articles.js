@@ -3,16 +3,29 @@ Template.articles.helpers({
         return Articles.find({}, {sort: {createdAt: -1}});
     },
     isOwner: function () {
-        retur(Meteor.userId() == this._id)
+        return (Meteor.userId() == this.user)
     }
 });
 
 Template.articles.events({
     'click .remove': function () {
         var id = this._id;
-        var isDeleted = false
+
         bootbox.confirm({
             size: 'small',
+            buttons: {
+                cancel: {
+                    label: "إلغاء",
+                    className: "btn-default",
+                },
+                confirm: {
+                    label: "موافق",
+                    className: "btn-danger",
+                    callback: function () {
+                        return true;
+                    }
+                }
+            },
             message: "هل تريد حذف المقال فعلاً",
             callback: function (result) {
                 if (result) {
