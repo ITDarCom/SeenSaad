@@ -12,3 +12,9 @@ body{
 .nopadding{
 	padding: 0;
 }
+
+.iconbtn {
+	border: none;
+	padding: 0;
+	background: none;
+}

@@ -4,3 +4,4 @@ Meteor.publish(null, function () {
 Meteor.publish(null, function () {
 	return Favorites.find({userId: this.userId});
 });
+

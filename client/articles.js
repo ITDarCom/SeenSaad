@@ -41,6 +41,9 @@ Template.articles.events({
     'click .favorite': function () {
         if (Meteor.userId())
             Meteor.call('favoriteIt', this._id)
+    },
+    'click .edit': function () {
+        Router.go('edit', {id: this._id})
     }
 });
 
