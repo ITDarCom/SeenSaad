@@ -32,6 +32,9 @@ Template.articles.events({
                     Meteor.call("removeArticle", id)
                     $('#notify').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم حذف المقال بنجاح" + '</span></div>')
                     $('#notify').show()
+                    setTimeout(function () {
+                        $('#notify').hide()
+                    }, 1500)
                 }
                 else return
             }
