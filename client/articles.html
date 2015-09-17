@@ -1,12 +1,16 @@
 <template name="articles" xmlns="http://www.w3.org/1999/html">
 
 	<div class="row">
+
 		<div class="col-md-offset-1 col-md-10 col-md-offset-1">
 			<h1>المواضيع</h1>
 			<p class="small text-muted">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
 
             <div hidden id="notify"></div>
             <hr>
+
+
+
 
             {{#each articles}}
 			<div class="well well-sm">
@@ -22,7 +26,6 @@
                                 style="color: {{#if isFavorited}} #cabf2a {{else}} darkslategray {{/if}}"><i
                                 class=" favorite fa {{#if isFavorited}}fa-star {{else}}  fa-star-o {{/if}}fa-lg"></i>
                         </button>
-
                         {{#if isOwner}}
                             <button title="تعديل" class="iconbtn" style="color:darkslategray"><i
                                     class="edit fa fa-pencil fa-lg"></i>
