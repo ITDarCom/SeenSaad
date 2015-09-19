@@ -18,3 +18,15 @@ body{
 	padding: 0;
 	background: none;
 }
+
+.editable {
+    border: 1px inset #aaa;
+    margin: 5px;
+    padding: 2px;
+    cursor: text;
+
+}
+
+.textEditor {
+    white-space: pre-line
+}

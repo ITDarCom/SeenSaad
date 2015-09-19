@@ -14,7 +14,7 @@
 
             {{#each articles}}
 			<div class="well well-sm">
-				<h4>{{title}}</h4>
+                <a href="{{pathFor 'article' id=this._id}}"><h4>{{title}}</h4></a>
 				<blockquote class="nomargin">
 					<span class="badge"><span class="glyphicon glyphicon-time"></span> {{dateFormated createdAt}}</span>
 					<br>
