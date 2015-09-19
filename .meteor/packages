@@ -12,3 +12,5 @@ iron:router
 momentjs:moment
 aldeed:autoform
 aldeed:collection2
+fortawesome:fontawesome
+mizzao:bootboxjs

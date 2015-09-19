@@ -4,7 +4,6 @@
 			<h1>إضافة موضوع</h1>
 			<p class="small text-muted">أضف موضوع جديد من هنا</p>
 			<hr>
-
 			{{#if currentUser}}
 			{{#autoForm collection="Articles" id="addArticles" type="insert"}}
 			<fieldset>
@@ -15,9 +14,9 @@
 			{{/autoForm}}
 
 			{{else}}
-			<div class="alert alert-warning">
-				<strong>عفواً!</strong>
-				<blockquote>يرجى الدخول للموقع أولاً.</blockquote>
+			<div class="panel panel-warning">
+				<div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></div>
+				<div class="panel-body">عفواً! يرجى الدخول للموقع أولاً.</div>
 			</div>
 			{{/if}}
 		</div>
