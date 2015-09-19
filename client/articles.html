@@ -20,8 +20,7 @@
 					<br>
 					<span class="badge"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername user}}</span>
 					<div class="pull-left">
-                        <button class="favorite btn-sm btn {{#if isFavorited}}btn-success {{else}}btn-default{{/if}} ">
-                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
+
                         <button class="iconbtn" title="إضافة إلى المفضلة"
                                 style="color: {{#if isFavorited}} #cabf2a {{else}} darkslategray {{/if}}"><i
                                 class=" favorite fa {{#if isFavorited}}fa-star {{else}}  fa-star-o {{/if}}fa-lg"></i>
@@ -33,9 +32,8 @@
                             <button class="iconbtn" title="حذف" style="color:darkslategray"><i
                                     class="remove fa fa-trash fa-lg"></i>
                             </button>
-                            <a href="{{pathFor 'edit' id=this._id}}" class="edit btn-sm btn btn-danger"
-                               role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-						<button class="remove btn-sm btn btn-warning"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+
+
                         {{/if}}
 					</div>
 				</blockquote>
