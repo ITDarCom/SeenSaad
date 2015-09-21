@@ -59,12 +59,3 @@ Template.add.onRendered(function () {
     //$("#readingPermissions").prop('selectedIndex',(Articles.findOne(Router.current().params.id)).readingPermissions);
 
 })
-Template.edit.helpers(
-    {
-        formType: function () {
-            if (Router.current().route.getName() == "edit")
-                return "update"
-            if (Router.current().route.getName() == "add")
-                return "insert"
-        }
-    })
