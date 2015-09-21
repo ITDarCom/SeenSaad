@@ -11,7 +11,8 @@
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 1%">
                                 <li role="presentation" id="editButton">
-                                    <a role="menuitem" tabindex="-1" href="#">تعديل </a></li>
+                                    <a role="menuitem" tabindex="-1" href="{{pathFor 'edit' id=this._id}}">تعديل </a>
+                                </li>
                                 <li role="presentation" class="remove">
                                     <a role="menuitem" tabindex="-1" href="#">حذف </a></li>
                             </ul>
@@ -19,13 +20,15 @@
                     </div>
                 {{/if}}
 
+
+
                 <h4>
                     <div class="titleLabel" style="width: 75%"> {{title}}  </div>
                 </h4>
             </div>
 
             <div class="panel-body">
-                <p class="textEditor">  {{{body}}} </p>
+                <div class="textEditor" name="textEditor">  {{{body}}} </div>
 
 
             </div>
