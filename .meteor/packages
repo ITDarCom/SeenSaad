@@ -10,10 +10,10 @@ twbs:bootstrap
 ian:accounts-ui-bootstrap-3
 iron:router
 momentjs:moment
-aldeed:autoform
 aldeed:collection2
-mizzao:bootboxjs
 fortawesome:fontawesome
 mpowaga:autoform-summernote
 aldeed:autoform-select2
-natestrauser:select2
+natestrauser:select2@3.5.1
+zimme:select2-bootstrap3-css
+aldeed:autoform@=5.4.0

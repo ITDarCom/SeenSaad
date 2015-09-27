@@ -1,32 +1,40 @@
 <template name="add">
-	<div class="row">
-		<div class="col-md-offset-1 col-md-10 col-md-offset-1">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-md-offset-1">
             {{#if insert}}
                 <h1>إضافة موضوع</h1>
-			<p class="small text-muted">أضف موضوع جديد من هنا</p>
-			<hr>
+
+                <p class="small text-muted">أضف موضوع جديد من هنا</p>
+                <hr>
             {{/if}}
-			{{#if currentUser}}
-                {{#autoForm collection="Articles" id="addUpdateArticles" doc=thisArticle type=formType}}
-			<fieldset>
-				{{> afQuickField name='title'}}
-				{{> afQuickField name='body'}}
+            {{#if currentUser}}
+                {{#autoForm collection="Articles" id="addUpdateArticles" name="addUpdateArticles" doc=thisArticle type=formType }}
+                    <fieldset>
+                        {{> afQuickField name='title'}}
+                        {{> afQuickField name='body'}}
+                        {{> afQuickField name='contributingPermissions' id="contributingPermissions"  }}
 
-                {{> afQuickField name='readingPermissions' id='readingPermissions' value=doc.readingPermissions.value }}
-                {{#if afFieldValueIs name="readingPermissions" value="1"}}
-                    {{> afQuickField name="readingIds"  options=usersOptions  }}
-                {{/if}}
-			</fieldset>
-                    <button type="submit" class="btn btn-primary btn-block">{{saveButton}}</button>
-			{{/autoForm}}
+                        {{#if afFieldValueIs name="contributingPermissions" value="1"}}
+                            {{> afQuickField name="contributingIds" options=usersOptions }}
+                        {{/if}}
+                        <div id="readingDiv">
+                            {{> afQuickField name='readingPermissions' id="readingPermissions"  }}
+                            {{#if afFieldValueIs name="readingPermissions" value="1"}}
+                                {{> afQuickField name="readingIds"  options=usersOptions  }}
+                            {{/if}}
+                        </div>
 
-			{{else}}
-			<div class="alert alert-warning">
-				<strong>عفواً!</strong>
-				<blockquote>يرجى الدخول للموقع أولاً.</blockquote>
-			</div>
-			{{/if}}
-		</div>
-	</div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary">{{saveButton}}</button>
+                {{/autoForm}}
+
+            {{else}}
+                <div class="alert alert-warning">
+                    <strong>عفواً!</strong>
+                    <blockquote>يرجى الدخول للموقع أولاً.</blockquote>
+                </div>
+            {{/if}}
+        </div>
+    </div>
 
 </template>

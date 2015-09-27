@@ -6,6 +6,35 @@
 Template.article.helpers({
     thisArticle: function () {
         return Articles.findOne(Router.current().params.id);
+    },
+    allowContributing: function () {
+        if (Meteor.userId()) {
+            if (this.contributingPermissions == "0" || this.user == Meteor.userId()) {
+                return true
+            }
+            else {
+                return (this.contributingIds.indexOf(Meteor.userId()) != -1 )
+            }
+        }
+        else return false;
+    },
+    allowReading: function () {
+        if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {
+            return true
+        }
+        else {
+            if (Meteor.userId()) {
+                if (this.readingIds != null)
+                    return (this.readingIds.indexOf(Meteor.userId()) != -1)
+                if (this.contributingIds != null)
+                    return (this.contributingIds.indexOf(Meteor.userId()) != -1)
+            }
+            else return false;
+        }
+    },
+    comments: function () {
+        var article = Articles.findOne({_id: this._id});
+        return article.comments;
     }
 });
 Template.article.events({
