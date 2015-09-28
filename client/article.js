@@ -6,61 +6,47 @@
 Template.article.helpers({
     thisArticle: function () {
         return Articles.findOne(Router.current().params.id);
+        // used to get the article from db to display it
     },
     allowContributing: function () {
+        //this refer to this article that is displayed
         if (Meteor.userId()) {
-            if (this.contributingPermissions == "0" || this.user == Meteor.userId()) {
+            if (this.contributingPermissions == "0" || this.user == Meteor.userId()) { // 0 value mean the articel is public contribtion
                 return true
             }
             else {
-                if (this.contributingIds != null)
-                    return (this.contributingIds.indexOf(Meteor.userId()) != -1)
+                if (this.contributingIds != null) //  maybe user doesn't enter any user name for contribution
+                    return (this.contributingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
             }
         }
         else return false;
+        //is the current article is have the permissions for current user to contribute? ...
+        // 1- check id public contribution 2- check if this user is the owner of this article 3- check if this userId is existed in contributing array of ids for this article
+
     },
     allowReading: function () {
-        if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {
+        //this refer to this article that is displayed
+        if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {  // 0 value mean the articel is public contribtion or reading
             return true
         }
         else {
             if (Meteor.userId()) {
                 if (this.readingIds != null)
-                    return (this.readingIds.indexOf(Meteor.userId()) != -1)
+                    return (this.readingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
                 if (this.contributingIds != null)
-                    return (this.contributingIds.indexOf(Meteor.userId()) != -1)
+                    return (this.contributingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
             }
-            else return false;
+            else return false; // false mean not premitted
         }
     },
     comments: function () {
         var article = Articles.findOne({_id: this._id});
         return article.comments;
+        //return comments for this article
     }
 });
 Template.article.events({
     'click #editButton': function () {
         Router.go('edit', {id: this._id})
-        //$('.titleLabel').addClass("editable").attr("contentEditable", "true")
-        //$('.textEditor').addClass("editable").attr("contentEditable", "true")
-        //if (!$('.editButtons').length) {
-        //    $('.panel-footer').append($('<div class="editButtons pull-left" > <a href="#" id="applyUpdate" class="btn btn-success btn-sm"> حفظ </a> <a href="#" id="cancelUpdate" class="btn btn-default btn-sm">إلغاء</a> </div>'))
-        //    ;
-        //}
-    },
-    'click .editButtons': function () {
-        $('.editButtons').remove();
-        $('.articleButtons').show();
-        $('.titleLabel').removeClass("editable").removeAttr("contentEditable")
-        $('.textEditor').removeClass("editable").removeAttr("contentEditable")
-    },
-    'click #applyUpdate': function () {
-        if ($('.textEditor').text() != this.body && $('.titleLabel').text() != this.title)
-            Meteor.call("articleUpdate", $('.textEditor').html(), $('.titleLabel').text(), this._id)
-        else if ($('.textEditor').text() != this.body)
-            Meteor.call("articleUpdate", $('.textEditor').text(), null, this._id)
-        else if ($('.titleLabel').text() != this.title)
-            Meteor.call("articleUpdate", null, $('.titleLabel').text(), this._id)
-        alert(this.body)
     }
 })
