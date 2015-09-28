@@ -12,4 +12,5 @@ The main resource for the packages is the common [site AtmosphereJs](https://atm
 * [aldeed:autoform-select2](https://atmospherejs.com/aldeed/autoform-select2): add "select2" type for autoform fields
 * [natestrauser:select2](https://atmospherejs.com/natestrauser/select2): use select2 jquery library to select users in permssion sections.
 * [zimme:select2-bootstrap3-css](https://atmospherejs.com/zimme/select2-bootstrap3-css): enhanced design for select2
- 
+=======================================================================================
+## templates: 
