@@ -13,7 +13,8 @@ Template.article.helpers({
                 return true
             }
             else {
-                return (this.contributingIds.indexOf(Meteor.userId()) != -1 )
+                if (this.contributingIds != null)
+                    return (this.contributingIds.indexOf(Meteor.userId()) != -1)
             }
         }
         else return false;
