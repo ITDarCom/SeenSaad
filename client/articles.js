@@ -3,7 +3,6 @@ Template.articles.helpers({
     articles: function () {
         return Articles.find({}, {sort: {createdAt: -1}});
     }
-    //return all articles in the db
 });
 
 Template.articles.events({

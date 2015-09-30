@@ -6,7 +6,7 @@ Template.registerHelper('userUsername', function (id) {
     var user = Meteor.users.findOne({_id: id});
     return user ? user.username : 'notFound';
 });
-Template.registerHelper('isFavorited', function () {
+Template.registerHelper('favorite', function () {
     var favorited = Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
     return favorited
 });
