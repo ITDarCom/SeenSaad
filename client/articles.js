@@ -38,7 +38,7 @@ Template.searchBox.events({
 });
 Template.search.helpers({
     loading: function () {
-        alert(articlesSearch.getStatus())
+        //  alert(articlesSearch.getStatus())
         return (articlesSearch.getStatus() === 'loading');
     }
 })

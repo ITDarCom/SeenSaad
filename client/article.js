@@ -16,7 +16,7 @@ Template.article.helpers({
             }
             else {
                 if (this.contributingIds != null) //  maybe user doesn't enter any user name for contribution
-                    return (this.contributingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
+                    return (!_.isEmpty(_.where(this.contributingIds, this.userId))) //indexOf return -1 if element is not existed
             }
         }
         else return false;
@@ -32,10 +32,10 @@ Template.article.helpers({
         else {
             if (Meteor.userId()) {
                 if (this.readingIds != null)
-                    return (this.readingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
+                    return (!_.isEmpty(_.where(this.readingIds, Meteor.userId()))) // underscorejs lib
                 if (this.contributingIds != null)
-                    return (this.contributingIds.indexOf(Meteor.userId()) != -1) //indexOf return -1 if element is not existed
-            }
+                    return (!_.isEmpty(_.where(this.contributingIds, Meteor.userId())))
+            }// underscorejs lib
             else return false; // false mean not premitted
         }
     },

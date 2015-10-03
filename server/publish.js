@@ -12,7 +12,7 @@ Meteor.publish("publicArticles", function () {
         readingArticles = custom.readingArticles ? custom.readingArticles : []
         contributingArticles = custom.contributingArticles ? custom.contributingArticles : [];
         debugger
-        return Articles.find({$or: [{readingPermissions: "0"}, {_id: {$in: readingArticles}}, {_id: {$in: contributingArticles}}, {contributingPermissions: "0"}]}, {sort: {createdAt: -1}}, {limit: 50});
+        return Articles.find({$or: [{readingPermissions: "0"}, {user: this.userId}, {_id: {$in: readingArticles}}, {_id: {$in: contributingArticles}}, {contributingPermissions: "0"}]}, {sort: {createdAt: -1}}, {limit: 50});
     }
 
 });
@@ -34,6 +34,7 @@ Meteor.publish("myArticles", function () {
     return Articles.find({user: this.userId})
 })
 Meteor.publish("Article", function (articleId) {
+    debugger
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId)
         return Articles.find({_id: articleId})
@@ -41,12 +42,12 @@ Meteor.publish("Article", function (articleId) {
         return Articles.find({_id: articleId})
     else {
         if (article.contributingIds)
-            if (contributingIds.indexOf(this.userId) != -1)
+            if (!_.isEmpty(_.where(article.contributingIds, this.userId)))
                 return Articles.find({_id: articleId})
         if (article.readingPermissions == '0')
             return Articles.find({_id: articleId}, {fields: {comments: 0}})
         else if (article.readingIds)
-            if (contributingIds.indexOf(this.userId) != -1)
+            if (!_.isEmpty(_.where(article.readingIds, this.userId)))
                 return Articles.find({_id: articleId}, {fields: {comments: 0}})
     }
 })
