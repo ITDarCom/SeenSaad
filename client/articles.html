@@ -7,49 +7,63 @@
             <p class="small text-muted">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
             <hr>
             <div hidden id="notify"></div>
+            {{#if tasksLoaded}}
             {{#each articles}}
-                <div class="panel-group">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <h4 class="col-md-8">{{title}}</h4>
-                                <h4 class="col-md-4 text-left">
-                                    <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
-                                        <i class="fa {{#if favorite}}fa-heart{{else}}fa-heart-o{{/if}}"></i>
-                                    </button>
-                                    {{#if owner}}
-                                        <button class="edit btn-xs btn btn-warning" title="تعديل">
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                        <button class="remove btn-xs btn btn-danger" title="حذف">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    {{/if}}
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
-                                </div>
-                                <div class="col-md-4">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername user}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{> articleView}}
             {{/each}}
+            {{else}}
+                <img src="spinner.gif">
+            {{/if}}
         </div>
     </div>
 
 </template>
 
-
+<template name="articleView">
+    <div class="panel-group">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <a href="{{pathFor route='article' id=_id}}"><h4 class="col-md-8">{{{title}}}</h4></a>
+                    <h4 class="col-md-4 text-left">
+                        <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+                            <i class="fa {{#if favorite}}fa-heart{{else}}fa-heart-o{{/if}}"></i>
+                        </button>
+                        {{#if owner}}
+                            <button class="edit btn-xs btn btn-warning" title="تعديل">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="remove btn-xs btn btn-danger" title="حذف">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        {{/if}}
+                    </h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                    </div>
+                    <div class="col-md-4">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
 <template name="search">
     <h1>البحث</h1>
+
+    <div class="container">
+        {{> searchBox }}
+        {{#if loading}}
+            {{> spinner}}
+        {{/if}}
+        {{> searchResult}}
+    </div>
 </template>
 
 
@@ -76,4 +90,25 @@
     <h1>مواضيعي</h1>
 </template>
 
+<template name="searchBox">
+    <div class="col-sx">
+        <input type="text" id="search-box" class="form-control input-group " style="text-align:center;margin: 0%auto" PLACEHOLDER="أدخل كلمة للبحـث">
+        <hr>
+    </div>
 
+
+</template>
+
+<template name="searchResult">
+    <div class="row" id='search-result'>
+        <div id="search-meta">
+            {{#if isLoading}}
+                يبحث ...
+            {{/if}}
+        </div>
+
+        {{#each getArticles}}
+            {{> articleView}}
+        {{/each}}
+    </div>
+</template>

@@ -11,6 +11,7 @@ Meteor.publish("publicArticles", function () {
         var custom = Stream.findOne({userId: this.userId})
         readingArticles = custom.readingArticles ? custom.readingArticles : []
         contributingArticles = custom.contributingArticles ? custom.contributingArticles : [];
+        debugger
         return Articles.find({$or: [{readingPermissions: "0"}, {_id: {$in: readingArticles}}, {_id: {$in: contributingArticles}}, {contributingPermissions: "0"}]}, {sort: {createdAt: -1}}, {limit: 50});
     }
 

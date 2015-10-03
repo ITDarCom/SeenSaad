@@ -23,3 +23,7 @@ SimpleSchema.messages({
   minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
   maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 })
+Template.registerHelper('tasksLoaded',
+    function () {
+        return Session.get('tasksLoaded');
+    });

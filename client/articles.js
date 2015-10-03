@@ -20,4 +20,25 @@ Template.articles.events({
         Router.go('edit', {id: this._id})
     }
 });
-
+Template.searchResult.helpers({
+    getArticles: function () {
+        return articlesSearch.getData({
+            transform: function (matchText, regExp) {
+                return matchText.replace(regExp, "<b>$&</b>")
+            },
+            sort: {createdAt: -1}
+        });
+    }
+});
+Template.searchBox.events({
+    "keyup #search-box": _.throttle(function (e) {
+        var text = $(e.target).val().trim();
+        articlesSearch.search(text);
+    }, 200)
+});
+Template.search.helpers({
+    loading: function () {
+        alert(articlesSearch.getStatus())
+        return (articlesSearch.getStatus() === 'loading');
+    }
+})
