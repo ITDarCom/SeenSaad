@@ -1,10 +1,8 @@
-
 Template.articles.helpers({
     articles: function () {
         return Articles.find({}, {sort: {createdAt: -1}});
     }
 });
-
 Template.articles.events({
     'click .remove': function (event) {
         var id = this._id;
@@ -40,5 +38,24 @@ Template.search.helpers({
     loading: function () {
         //  alert(articlesSearch.getStatus())
         return (articlesSearch.getStatus() === 'loading');
+    }
+})
+Template.articles.onRendered(function () {
+    switch (Router.current().route.getName()) {
+        case "read":
+            $('h1').text('مواضيع المشاهدة');
+            $('.description').text('المواضيع التي لك صلاحية مشاهدتها');
+            break;
+        case "participation":
+            $('h1').text('مواضيع المشاركة');
+            $('.description').text(' المواضيع التي لك صلاحية مشاهدتها ووالمساهمة في نقاشهاا');
+            break;
+        case "favorite":
+            $('h1').text('المواضيع المفضلة');
+            $('.description').text('مواضيعك المفضلة');
+            break;
+        case "mine":
+            $('h1').text(' مواضيعي');
+            $('.description').text('مواضيعك ');
     }
 })

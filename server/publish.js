@@ -17,21 +17,30 @@ Meteor.publish("publicArticles", function () {
 
 });
 Meteor.publish("favoritedArticles", function () {
+    if (this.userId) {
     var ids = Favorites.findOne({userId: this.userId});
-    return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+        return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+    }
+    return false
 });
 Meteor.publish("readingArticles", function () {
+    if (this.userId) {
     var custom = Stream.findOne({userId: this.userId})
     readingArticles = custom.readingArticles ? custom.readingArticles : []
-    return Articles.find({_id: {$in: readingArticles}});
+        return Articles.find({_id: {$in: readingArticles}});
+    }
 })
 Meteor.publish("contributingArticles", function () {
+    if (this.userId) {
     var custom = Stream.findOne({userId: this.userId})
     contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
-    return Articles.find({_id: {$in: contributingArticles}});
+        return Articles.find({_id: {$in: contributingArticles}});
+    }
 })
 Meteor.publish("myArticles", function () {
-    return Articles.find({user: this.userId})
+    if (this.userId) {
+        return Articles.find({user: this.userId})
+    }
 })
 Meteor.publish("Article", function (articleId) {
     debugger
@@ -61,3 +70,7 @@ Meteor.publish(null, function () {
     else
         return Meteor.users.find({}, {fields: {username: 1}})
 });
+Meteor.publish(null, function () {
+    if (this.userId)
+        return Messages.find({$or: [{to: this.userId}, {from: this.userId}]})
+})

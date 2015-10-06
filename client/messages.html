@@ -1,3 +1,64 @@
 <template name="messages">
-	<h1>الرسائل</h1>
+    <h1>الرسائل</h1>
+
+
+    <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
+    <hr>
+    <div class="container">
+        <div id="sendMsgDiv" hidden>
+            {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
+                <fieldset>
+                    {{> afQuickField name="to" }}
+                    {{> afQuickField name='message'}}
+                </fieldset>
+                <button type="submit" class="btn btn-primary">أرسل</button>
+            {{/autoForm}}
+        </div>
+        <table class="table table-striped table-hover table-bordered ">
+            {{#each senders}}
+
+                <tbody>
+                <tr>
+                    <td style="width:1%">
+                        <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this}}</td>
+                    <a href="{{pathFor 'messageStream' id=this}}">
+                        <td>{{lastMessage}}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {{/each}}
+        </table>
+    </div>
 </template>
+<template name="messageStream">
+    <div class="container">
+        <div class=" col-lg-6 col-md-6 col-sm-6">
+            <table class="table table-bordered table-hover">
+                {{#each messages }}
+                    <tbody>
+                    {{#if fromMe}}
+                        <tr>
+                            <td style="width:1%">
+                                <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this.to}}
+                            </td>
+                            <td>{{message}}</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td>{{message}}</td>
+                            <td style="width:1%">
+                                <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this.from}}
+                            </td>
+
+                        </tr>
+                    {{/if}}
+
+                    </tbody>
+                {{/each}}
+            </table>
+        </div>
+    </div>
+
+
+</template>
+

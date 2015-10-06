@@ -4,16 +4,12 @@
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
             <h1>المواضيع</h1>
 
-            <p class="small text-muted">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
+            <p class="small text-muted description">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
             <hr>
             <div hidden id="notify"></div>
-            {{#if tasksLoaded}}
             {{#each articles}}
                 {{> articleView}}
             {{/each}}
-            {{else}}
-                <img src="spinner.gif">
-            {{/if}}
         </div>
     </div>
 
@@ -65,9 +61,6 @@
         {{> searchResult}}
     </div>
 </template>
-
-
-
 <template name="read">
     <h1>المشاهدة</h1>
 </template>

@@ -12,29 +12,26 @@ Router.map(function () {
 	this.route('read', {
 		path: '/read', template: 'articles', waitOn: function () {
             return Meteor.subscribe('readingArticles', function onReady() {
-                Session.set('tasksLoaded', true)
+
             });
 		}
 	});
 	this.route('participation', {
 		path: '/participation', template: 'articles', waitOn: function () {
             return Meteor.subscribe('contributingArticles', function onReady() {
-                Session.set('tasksLoaded', true)
-            });
+			});
 		}
 	});
 	this.route('favorite', {
 		path: '/favorite', template: 'articles', waitOn: function () {
             return Meteor.subscribe('favoritedArticles', function onReady() {
-                Session.set('tasksLoaded', true)
-            });
+			});
 		}
 	});
 	this.route('mine', {
 		path: '/mine', template: 'articles', waitOn: function () {
             return Meteor.subscribe('myArticles', function onReady() {
-                Session.set('tasksLoaded', true)
-            });
+			});
 		}
 	});
 	this.route('add', {path:'/add'});
@@ -42,11 +39,11 @@ Router.map(function () {
 	this.route('article', {
 		path: '/article/:id', waitOn: function () {
             return Meteor.subscribe('Article', this.params.id, function onReady() {
-                Session.set('tasksLoaded', true)
-            })
+			})
 		}
 	});
 	this.route('messages', {path:'/messages'});
+	this.route('messageStream', {path: '/messageStream/:id'})
 	this.route('about', {path:'/about'});
 });
 
