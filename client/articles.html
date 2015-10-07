@@ -23,7 +23,7 @@
                     <a href="{{pathFor route='article' id=_id}}"><h4 class="col-md-8">{{{title}}}</h4></a>
                     <h4 class="col-md-4 text-left">
                         <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
-                            <i class="fa {{#if favorite}}fa-heart{{else}}fa-heart-o{{/if}}"></i>
+                            <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
                         </button>
                         {{#if owner}}
                             <button class="edit btn-xs btn btn-warning" title="تعديل">

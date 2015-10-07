@@ -24,6 +24,10 @@ SimpleSchema.messages({
   maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 })
 ;
+
+
+
+//I get this plugin from official jquery website to expand textarea automatically https://plugins.jquery.com/autogrow/
 (function ($) {
     //pass in just the context as a $(obj) or a settings JS object
     $.fn.autogrow = function (opts) {
@@ -119,5 +123,5 @@ SimpleSchema.messages({
     }
 })(jQuery);
 $(document).ready(function () {
-    $('textarea').autogrow()
+    $('textarea').css('overflow', 'hidden').autogrow()
 })

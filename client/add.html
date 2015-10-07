@@ -12,20 +12,25 @@
                     <fieldset>
                         {{> afQuickField name='title'}}
                         {{> afQuickField name='body'}}
+                        <div class="col-xs-2">
                         {{> afQuickField name='contributingPermissions' id="contributingPermissions"  }}
-
+                        </div>
                         {{#if afFieldValueIs name="contributingPermissions" value="1"}}
-                            {{> afQuickField name="contributingIds" options=usersOptions }}
+                            <div class="col-xs-10">
+                                {{> afQuickField name="contributingIds" options=usersOptions }}</div>
                         {{/if}}
                         <div id="readingDiv">
-                            {{> afQuickField name='readingPermissions' id="readingPermissions"  }}
+                            <div class="col-xs-2">
+                                {{> afQuickField name='readingPermissions' id="readingPermissions"  }}</div>
+
                             {{#if afFieldValueIs name="readingPermissions" value="1"}}
-                                {{> afQuickField name="readingIds"  options=usersOptions  }}
+                                <div class="col-xs-10">
+                                    {{> afQuickField name="readingIds"  options=usersOptions  }}</div>
                             {{/if}}
                         </div>
 
                     </fieldset>
-                    <button type="submit" class="btn btn-primary">{{saveButton}}</button>
+                    <button type="submit" class="btn btn-block btn-primary">{{saveButton}}</button>
                 {{/autoForm}}
 
             {{else}}

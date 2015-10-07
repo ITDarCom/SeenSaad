@@ -41,6 +41,21 @@ Template.messageStream.helpers({
     }
 })
 Template.messageStream.onRendered(function () {
-    $('textarea').css('overflow', 'hidden').autogrow()
+    $(document).on('mouseenter', '.msg', function () {
+        $(this).find(":button").show();
+    }).on('mouseleave', '.msg', function () {
+        $(this).find(":button").hide();
+    });
 })
-
+Template.messageStream.events({
+    'click .delectConversionBtn': function () {
+        if (Meteor.userId()) {
+            Meteor.call("deleteConversion", Router.current().params.id)
+            Router.go('messages')
+        }
+    },
+    'click .deleteMsgBtn': function () {
+        if (Meteor.userId())
+            Messages.remove({_id: this._id})
+    }
+})
