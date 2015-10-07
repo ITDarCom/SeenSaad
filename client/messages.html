@@ -1,64 +1,72 @@
-<template name="messages">
+<template name="messages" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h1>الرسائل</h1>
 
 
     <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
     <hr>
     <div class="container">
-        <div id="sendMsgDiv" hidden>
-            {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
-                <fieldset>
-                    {{> afQuickField name="to" }}
-                    {{> afQuickField name='message'}}
-                </fieldset>
-                <button type="submit" class="btn btn-primary">أرسل</button>
-            {{/autoForm}}
-        </div>
-        <table class="table table-striped table-hover table-bordered ">
-            {{#each senders}}
+        <div class="col-md-offset-1 col-md-10 col-md-offset-1">
 
-                <tbody>
-                <tr>
-                    <td style="width:1%">
-                        <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this}}</td>
-                    <a href="{{pathFor 'messageStream' id=this}}">
-                        <td>{{lastMessage}}</td>
-                    </a>
-                </tr>
-                </tbody>
+            <div id="sendMsgDiv" hidden>
+                {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
+                    <fieldset>
+                        {{> afQuickField name="to" }}
+                        {{> afQuickField name='message'}}
+                    </fieldset>
+                    <button type="submit" class="btn btn-primary">أرسل</button>
+                {{/autoForm}}
+            </div>
+
+            {{#each senders}}
+                <div class="row">
+                    <div class="col-md-1">
+                        <img class="media-object img-circle" src="/nopic.png" alt="">
+                        <small>  {{userUsername this}} </small>
+                    </div>
+                    <div class="col-md-10"><a href="{{pathFor 'messageStream' id=this}}">
+                        <h2> {{lastMessage}}</h2>
+                    </a></div>
+
+                </div>
+                <hr>
             {{/each}}
-        </table>
+
+        </div>
     </div>
+
 </template>
 <template name="messageStream">
+    <h2> رسائل العضو </h2>
+    <hr>
     <div class="container">
-        <div class=" col-lg-6 col-md-6 col-sm-6">
-            <table class="table table-bordered table-hover">
-                {{#each messages }}
-                    <tbody>
+        <div class="col-md-offset-3 col-md-6 ">
+            {{#each messages }}
+                <div class="row" style="margin-bottom: 4px">
                     {{#if fromMe}}
-                        <tr>
-                            <td style="width:1%">
-                                <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this.to}}
-                            </td>
-                            <td>{{message}}</td>
-                        </tr>
+                        <div class="col-md-1">
+                            <img class="media-object img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
+                        </div>
+                        <div class="col-md-11"><h5>{{message}}</h5></div>
+
                     {{else}}
-                        <tr>
-                            <td>{{message}}</td>
-                            <td style="width:1%">
-                                <img class="media-object img-circle" src="/nopic.png" alt=""> {{userUsername this.from}}
-                            </td>
-
-                        </tr>
+                        <div class="col-md-2 pull-left">
+                            <img class="media-object img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
+                        </div>
+                        <div class="col-md-10 pull-left text-left"><h5>{{message}}</h5></div>
                     {{/if}}
-
-                    </tbody>
-                {{/each}}
-            </table>
+                </div>
+            {{/each}}
+            <hr>
+            {{#autoForm id="sendMsgToUser" type="insert" collection="Messages" }}
+                <div class="row">
+                    <div class="col-md-10">  {{> afFieldInput name='message' placeholder="اكتب رسالة"   rows=2}}
+                        {{> afFieldInput name= 'to' type="hidden" value=thisUser}}</div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-default">أرسل</button>
+                    </div>
+                </div>
+            {{/autoForm}}
         </div>
     </div>
-
-
 </template>
 

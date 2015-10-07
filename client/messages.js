@@ -25,7 +25,8 @@ Template.messages.helpers({
                 limit: 1
             }
         }).fetch()[0].message
-    }
+    },
+    
 })
 Template.messageStream.helpers({
     fromMe: function () {
@@ -34,5 +35,12 @@ Template.messageStream.helpers({
     },
     messages: function () {
         return Messages.find({$or: [{to: Router.current().params.id}, {from: Router.current().params.id}]})
+    },
+    thisUser: function () {
+        return (Router.current().params.id)
     }
 })
+Template.messageStream.onRendered(function () {
+    $('textarea').css('overflow', 'hidden').autogrow()
+})
+
