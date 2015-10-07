@@ -28,7 +28,7 @@ Template.add.helpers(
         },
         thisArticle: function () {
             if (Router.current().route.getName() == "edit")
-                return Articles.findOne(Router.current().params.id);
+                return Articles.findOne({_id: Router.current().params.id});
             // to get the article from collection to display it
         },
         insert: function () {

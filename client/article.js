@@ -47,6 +47,13 @@ Template.article.helpers({
 });
 Template.article.events({
     'click #editButton': function () {
-        Router.go('edit', {id: this._id})
+        Router.go('edit', {id: Router.current().params.id})
+    },
+    'click .remove': function () {
+        var id = this._id;
+        if (confirm('هل أنت متأكد من حذف الموضوع؟ ')) {
+            Meteor.call("removeArticle", id)
+        }
+        Router.go('articles')
     }
 })

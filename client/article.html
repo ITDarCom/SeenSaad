@@ -1,47 +1,62 @@
 <template name="article">
     {{#with thisArticle}}
         {{#if allowReading}}
-        <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-                {{#if owner}}
-                    <div class="articleButtons pull-left">
-                        <div class="dropdown">
-                            <button class="iconbtn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-
-                                <span class="caret"></span>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    {{#if owner}}
+                        <h4 class="col-md-4 pull-left text-left">
+                            <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+                                <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
                             </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 1%">
-                                <li role="presentation" id="editButton">
-                                    <a role="menuitem" tabindex="-1" href="{{pathFor 'edit' id=this._id}}">تعديل </a>
-                                </li>
-                                <li role="presentation" class="remove">
-                                    <a role="menuitem" tabindex="-1" href="#">حذف </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                {{/if}}
-                <h4>
-                    <div class="titleLabel" style="width: 75%"> {{title}}  </div>
-                </h4>
+                            {{#if owner}}
+                                <button id="editButton" class="edit btn-xs btn btn-warning" title="تعديل">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="remove btn-xs btn btn-danger" title="حذف">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            {{/if}}
+                        </h4>
+                        <!--<div class="articleButtons pull-left">-->
+                        <!--<div class="dropdown">-->
+                        <!--<button class="iconbtn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">-->
+
+                        <!--<span class="caret"></span>-->
+                        <!--</button>-->
+                        <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 1%">-->
+                        <!--<li role="presentation" id="editButton">-->
+                        <!--<a role="menuitem" tabindex="-1" href="{{pathFor 'edit' id=this._id}}">تعديل </a>-->
+                        <!--</li>-->
+                        <!--<li role="presentation" class="remove">-->
+                        <!--<a role="menuitem" tabindex="-1" href="#">حذف </a></li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    {{/if}}
+                    <h4>
+                        <div class="titleLabel" style="width: 75%"> {{title}}  </div>
+                    </h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="textEditor" name="textEditor">  {{{body}}} </div>
+
+
+                </div>
+                <div class="panel-footer">أضيفت بواسطة :<a
+                        href="{{pathFor route='#' _id=owner}}"> {{username}}</a>
+                    {{momentIt createdAt}}</div>
             </div>
-
-            <div class="panel-body">
-                <div class="textEditor" name="textEditor">  {{{body}}} </div>
-
-
-            </div>
-            <div class="panel-footer">أضيفت بواسطة :<a
-                    href="{{pathFor route='#' _id=owner}}"> {{username}}</a>
-                {{momentIt createdAt}}</div>
-        </div>
             {{#if allowContributing}}
-                <hr>
                 <!--add comments-->
                 {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
-                    <fieldset>
-                        {{> afQuickField name="commentText" }}
-                    </fieldset>
-                    <button type="submit" class="btn btn-success">أضف</button>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            {{> afQuickField name="commentText" label=false }}</div>
+                        <div class="col-xs-2">
+                            <button type="submit" class="btn btn-success">أضف</button>
+                        </div>
+                    </div>
                 {{/autoForm}}
             {{/if}}
             <!--Comments-->

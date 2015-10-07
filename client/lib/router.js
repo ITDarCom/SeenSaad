@@ -35,7 +35,11 @@ Router.map(function () {
 		}
 	});
 	this.route('add', {path:'/add'});
-	this.route('edit', {path: '/edit/:id', template: 'add'});
+	this.route('edit', {
+		path: '/edit/:id', template: 'add', waitOn: function () {
+			return Meteor.subscribe('Article', this.params.id)
+		}
+	});
 	this.route('article', {
 		path: '/article/:id', waitOn: function () {
             return Meteor.subscribe('Article', this.params.id, function onReady() {
