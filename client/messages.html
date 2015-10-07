@@ -11,7 +11,7 @@
                 {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                     <fieldset>
                         {{> afQuickField name="to" }}
-                        {{> afQuickField name='message'}}
+                        {{> afQuickField name="message" options=usersOptions }}
                     </fieldset>
                     <button type="submit" class="btn btn-primary">أرسل</button>
                 {{/autoForm}}

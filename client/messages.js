@@ -6,6 +6,9 @@ Template.messages.events({
         $('#sendMsgDiv').slideToggle();
     }
 });
+Template.messages.onRendered(function () {
+    $('.select2-chosen').val(null)
+})
 Template.messages.helpers({
     senders: function () {
         var me = Meteor.userId();
@@ -38,6 +41,11 @@ Template.messageStream.helpers({
     },
     thisUser: function () {
         return (Router.current().params.id)
+    }, usersOptions: function () {
+        return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
+            return {label: c.username, value: c._id};
+            // return users name for select2 field
+        })
     }
 })
 Template.messageStream.onRendered(function () {

@@ -17,21 +17,6 @@
                                 </button>
                             {{/if}}
                         </h4>
-                        <!--<div class="articleButtons pull-left">-->
-                        <!--<div class="dropdown">-->
-                        <!--<button class="iconbtn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">-->
-
-                        <!--<span class="caret"></span>-->
-                        <!--</button>-->
-                        <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 1%">-->
-                        <!--<li role="presentation" id="editButton">-->
-                        <!--<a role="menuitem" tabindex="-1" href="{{pathFor 'edit' id=this._id}}">تعديل </a>-->
-                        <!--</li>-->
-                        <!--<li role="presentation" class="remove">-->
-                        <!--<a role="menuitem" tabindex="-1" href="#">حذف </a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
-                        <!--</div>-->
                     {{/if}}
                     <h4>
                         <div class="titleLabel" style="width: 75%"> {{title}}  </div>
@@ -43,9 +28,16 @@
 
 
                 </div>
-                <div class="panel-footer">أضيفت بواسطة :<a
-                        href="{{pathFor route='#' _id=owner}}"> {{username}}</a>
-                    {{momentIt createdAt}}</div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                        </div>
+                        <div class="col-md-4">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                        </div>
+                    </div>
+                </div>
             </div>
             {{#if allowContributing}}
                 <!--add comments-->
