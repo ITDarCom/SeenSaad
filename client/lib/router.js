@@ -43,7 +43,15 @@ Router.map(function () {
 			return null
 		}
 	});
-	this.route('add', {path:'/add'});
+	this.route('add', {
+		path: '/add',
+		onBeforeAction: function () {
+			if (!Meteor.userId())
+				this.render('login')
+			else
+				this.render('add')
+		}
+	});
 	this.route('edit', {path: '/edit/:id', template: 'add'});
 	this.route('article', {
 		path: '/article/:id', waitOn: function () {

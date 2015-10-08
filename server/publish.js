@@ -1,6 +1,6 @@
 Meteor.publish("publicArticles", function () {
     if (!this.userId)
-        return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
+        return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}, {user: this.userId}]}, {
             fields: {
                 title: 1,
                 user: 1,
