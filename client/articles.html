@@ -7,9 +7,19 @@
             <p class="small text-muted description">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
             <hr>
             <div hidden id="notify"></div>
+            {{#if currentRouteName 'articles'}}
             {{#each articles}}
                 {{> articleView}}
             {{/each}}
+            {{else}}
+                {{#if currentUser}}
+                    {{#each articles}}
+                        {{> articleView}}
+                    {{/each}}
+                {{else}}
+                    {{> login}}
+                {{/if}}
+            {{/if}}
         </div>
     </div>
 

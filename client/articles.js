@@ -1,6 +1,9 @@
 Template.articles.helpers({
     articles: function () {
         return Articles.find({}, {sort: {createdAt: -1}});
+    },
+    currentRouteName: function () {
+        return (Router.current().route.getName())
     }
 });
 Template.articles.events({
