@@ -68,8 +68,7 @@ Meteor.loginWithPassword = _.wrap(Meteor.loginWithPassword, function (login) {
 	// Store the original arguments
 	var args = _.toArray(arguments).slice(1),
 		user = args[0],
-		pass = args[1],
-		origCallback = args[2];
+		pass = args[1]
 	// Create a new callback function
 	var newCallback = function () {
 		Router.go("articles")
