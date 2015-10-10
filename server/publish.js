@@ -1,43 +1,39 @@
 Meteor.publish("publicArticles", function () {
-    if (!this.userId)
-        return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}, {user: this.userId}]}, {
+    return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
             fields: {
                 title: 1,
                 user: 1,
                 createdAt: 1
             }
         })
-    else {
-        var custom = Stream.findOne({userId: this.userId})
-        readingArticles = custom.readingArticles ? custom.readingArticles : []
-        contributingArticles = custom.contributingArticles ? custom.contributingArticles : [];
-        debugger
-        return Articles.find({$or: [{readingPermissions: "0"}, {user: this.userId}, {_id: {$in: readingArticles}}, {_id: {$in: contributingArticles}}, {contributingPermissions: "0"}]}, {sort: {createdAt: -1}}, {limit: 50});
-    }
-
 });
-Meteor.publish("favoritedArticles", function () {
+Meteor.publish(null, function () {
     if (this.userId) {
     var ids = Favorites.findOne({userId: this.userId});
-        return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+        if (ids)
+            return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}});
     }
     return false
 });
-Meteor.publish("readingArticles", function () {
+Meteor.publish(null, function () {
     if (this.userId) {
-    var custom = Stream.findOne({userId: this.userId})
-    readingArticles = custom.readingArticles ? custom.readingArticles : []
-        return Articles.find({_id: {$in: readingArticles}});
+        var custom = Stream.findOne({userId: this.userId});
+        if (custom) {
+            readingArticles = custom.readingArticles ? custom.readingArticles : [];
+            return Articles.find({_id: {$in: readingArticles}});
+        }
     }
 })
 Meteor.publish("contributingArticles", function () {
     if (this.userId) {
     var custom = Stream.findOne({userId: this.userId})
-    contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
-        return Articles.find({_id: {$in: contributingArticles}});
+        if (custom) {
+            contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
+            return Articles.find({_id: {$in: contributingArticles}});
+        }
     }
 })
-Meteor.publish("myArticles", function () {
+Meteor.publish(null, function () {
     if (this.userId) {
         return Articles.find({user: this.userId})
     }
@@ -62,7 +58,7 @@ Meteor.publish("Article", function (articleId) {
 })
 Meteor.publish(null, function () {
     if (this.userId)
-        return Favorites.find({userId: this.userId});
+        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
 });
 Meteor.publish(null, function () {
     if (this.userId)
@@ -73,4 +69,8 @@ Meteor.publish(null, function () {
 Meteor.publish(null, function () {
     if (this.userId)
         return Messages.find({$or: [{to: this.userId}, {from: this.userId}]})
+})
+Meteor.publish(null, function () {
+    if (this.userId)
+        return Stream.find({userId: this.userId})
 })

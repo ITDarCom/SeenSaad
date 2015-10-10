@@ -1,9 +1,68 @@
 Template.articles.helpers({
     articles: function () {
-        return Articles.find({}, {sort: {createdAt: -1}});
-    },
+        if (Meteor.userId()) {
+            switch (Router.current().route.getName()) {
+                case "mine" :
+                    return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
+                case  "participation":
+                    var custom = Stream.findOne({userId: Meteor.userId()})
+                    if (custom) {
+                        contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
+                        return Articles.find({_id: {$in: contributingArticles}});
+                    }
+                    break;
+                case "read":
+                    var custom = Stream.findOne({userId: Meteor.userId()});
+                    if (custom) {
+                        readingArticles = custom.readingArticles ? custom.readingArticles : [];
+                        return Articles.find({_id: {$in: readingArticles}});
+                    }
+                    break;
+                case  "favorite":
+                    var ids = Favorites.findOne({userId: Meteor.userId()});
+                    if (ids)
+                        return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+                    break;
+                case "articles" :
+                    return Articles.find({}, {sort: {createdAt: -1}});
+            }
+        }
+        else {
+            if (Router.current().route.getName() == 'articles')
+                return Articles.find({});
+            Router.go("login")
+        }
+    }
+    ,
     currentRouteName: function () {
         return (Router.current().route.getName())
+    },
+    headerText: function () {
+        switch (Router.current().route.getName()) {
+            case "read" :
+                return 'مواضيع المشاهدة'
+            case "participation" :
+                return 'مواضيع المشاركة'
+            case "favorite" :
+                return 'المواضيع المفضلة'
+            case "mine" :
+                return ' مواضيعي'
+            case 'articles':
+                return 'المواضيع العامة'
+        }
+    },
+    headerDescription: function () {
+        switch (Router.current().route.getName()) {
+            case "read" :
+                return 'المواضيع التي لك صلاحية مشاهدتها'
+            case "participation" :
+                return ' المواضيع التي لك صلاحية مشاهدتها ووالمساهمة في نقاشها'
+            case "favorite" :
+                return 'مواضيعك المفضلة'
+            case "mine" :
+                return 'مواضيعك '
+        }
+
     }
 });
 Template.articles.events({
@@ -39,26 +98,6 @@ Template.searchBox.events({
 });
 Template.search.helpers({
     loading: function () {
-        //  alert(articlesSearch.getStatus())
         return (articlesSearch.getStatus() === 'loading');
-    }
-})
-Template.articles.onRendered(function () {
-    switch (Router.current().route.getName()) {
-        case "read":
-            $('h1').text('مواضيع المشاهدة');
-            $('.description').text('المواضيع التي لك صلاحية مشاهدتها');
-            break;
-        case "participation":
-            $('h1').text('مواضيع المشاركة');
-            $('.description').text(' المواضيع التي لك صلاحية مشاهدتها ووالمساهمة في نقاشهاا');
-            break;
-        case "favorite":
-            $('h1').text('المواضيع المفضلة');
-            $('.description').text('مواضيعك المفضلة');
-            break;
-        case "mine":
-            $('h1').text(' مواضيعي');
-            $('.description').text('مواضيعك ');
     }
 })

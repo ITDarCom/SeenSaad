@@ -2,24 +2,14 @@
 
     <div class="row">
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
-            <h1>المواضيع</h1>
+            <h1>{{headerText}}</h1>
 
-            <p class="small text-muted description">جميع المواضيع العامة والخاصة التي لك صلاحية مشاهدتها.</p>
+            <p class="small text-muted description">{{headerDescription}}</p>
             <hr>
             <div hidden id="notify"></div>
-            {{#if currentRouteName 'articles'}}
-            {{#each articles}}
-                {{> articleView}}
-            {{/each}}
-            {{else}}
-                {{#if currentUser}}
                     {{#each articles}}
                         {{> articleView}}
                     {{/each}}
-                {{else}}
-                    {{> login}}
-                {{/if}}
-            {{/if}}
         </div>
     </div>
 

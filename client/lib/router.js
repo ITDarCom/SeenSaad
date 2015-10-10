@@ -12,36 +12,14 @@ Router.map(function () {
 	});
 	this.route('search', {path:'/search'});
 	this.route('read', {
-		path: '/read', template: 'articles', waitOn: function () {
-			if (Meteor.userId())
-				return Meteor.subscribe('readingArticles');
-			Router.go('login')
-			return null
-		}
+		path: '/read', template: 'articles'
 	});
 	this.route('participation', {
-		path: '/participation', template: 'articles', waitOn: function () {
-			if (Meteor.userId())
-				return Meteor.subscribe('contributingArticles');
-			Router.go('login')
-			return null
-		}
+		path: '/participation', template: 'articles'
 	});
-	this.route('favorite', {
-		path: '/favorite', template: 'articles', waitOn: function () {
-			if (Meteor.userId())
-				return Meteor.subscribe('favoritedArticles');
-			Router.go('login')
-			return null
-		}
-	});
+	this.route('favorite', {path: '/favorite', template: 'articles'});
 	this.route('mine', {
-		path: '/mine', template: 'articles', waitOn: function () {
-			if (Meteor.userId())
-				return Meteor.subscribe('myArticles');
-			Router.go('login')
-			return null
-		}
+		path: '/mine', template: 'articles'
 	});
 	this.route('add', {
 		path: '/add',
