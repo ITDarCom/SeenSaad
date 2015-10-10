@@ -57,3 +57,4 @@ Template.article.events({
         Router.go('articles')
     }
 })
+

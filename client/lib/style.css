@@ -27,3 +27,6 @@ body{
 
 }
 
+#commentTextArea {
+	max-height: 100px;
+}
