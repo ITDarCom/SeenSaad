@@ -22,27 +22,27 @@
                 <div class="row">
                     <a href="{{pathFor route='article' id=_id}}"><h4 class="col-md-8">{{{title}}}</h4></a>
                     <h4 class="col-md-4 text-left">
-                        <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
-                            <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
-                        </button>
                         {{#if owner}}
-                            <button class="edit btn-xs btn btn-warning" title="تعديل">
-                                <i class="fa fa-pencil"></i>
-                            </button>
                             <button class="remove btn-xs btn btn-danger" title="حذف">
                                 <i class="fa fa-trash"></i>
                             </button>
+                            <button class="edit btn-xs btn btn-warning" title="تعديل">
+                                <i class="fa fa-pencil"></i>
+                            </button>
                         {{/if}}
+                        <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+                            <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
+                        </button>
                     </h4>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
                     </div>
                     <div class="col-md-4">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
                     </div>
                 </div>
             </div>

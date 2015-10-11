@@ -5,67 +5,75 @@
                 <div class="panel-heading clearfix">
                     {{#if owner}}
                         <h4 class="col-md-4 pull-left text-left">
-                            <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
-                                <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
-                            </button>
                             {{#if owner}}
-                                <button id="editButton" class="edit btn-xs btn btn-warning" title="تعديل">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
                                 <button class="remove btn-xs btn btn-danger" title="حذف">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                                <button id="editButton" class="edit btn-xs btn btn-warning" title="تعديل">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
                             {{/if}}
+                            <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+                                <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
+                            </button>
                         </h4>
                     {{/if}}
                     <h4>
                         <div class="titleLabel" style="width: 75%"> {{title}}  </div>
                     </h4>
                 </div>
-
                 <div class="panel-body">
                     <div class="textEditor" name="textEditor">  {{{body}}} </div>
-
-
                 </div>
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-md-4">
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
                         </div>
                         <div class="col-md-4">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
                         </div>
                     </div>
                 </div>
             </div>
-            {{#if allowContributing}}
-                <!--add comments-->
-                {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
-                    <div class="row">
-                        <div class="col-xs-10">
-                            {{> afQuickField name="commentText" label=false id="commentTextArea" }}</div>
-                        <div class="col-xs-2">
-                            <button type="submit" class="btn btn-success">أضف</button>
-                        </div>
-                    </div>
-                {{/autoForm}}
-            {{/if}}
+            <hr>
+
             <!--Comments-->
             {{#each comments}}
-                <div class="media">
-                    <a class="pull-right" href="#">
-                        <img class="media-object" src="/nopic.png" alt="">
-                    </a>
+            <div class="well">
+                <p style="white-space: pre">  {{commentText}} </p> <!-- this is not standard ???? -->
+                <blockquote class="nomargin small">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
+                    &nbsp; &nbsp;
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}
+                </blockquote>
+            </div>
 
-                    <div class="media-body">
-                        <h4 class="media-heading">{{userUsername commenter}}
-                            <small>{{momentIt createdAt}}</small>
-                        </h4>
-                        <p style="white-space: pre">  {{commentText}} </p>
-                    </div>
-                </div>
             {{/each}}
+
+            {{#if allowContributing}}
+            <!--add comments-->
+            {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
+            <div class="row">
+                <div class="col-xs-10">
+                    {{> afQuickField name="commentText" label=false id="commentTextArea" }}</div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-success">أضف</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="submit">أضف</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.row -->
+
+
+            {{/autoForm}}
+            {{/if}}
         {{else}}
             <div class="alert alert-warning">
                 <strong>عفواً!</strong>
