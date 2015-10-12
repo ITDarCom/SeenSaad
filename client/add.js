@@ -2,18 +2,15 @@ AutoForm.hooks(
     {
         addUpdateArticles: {
             onSuccess: function (insert, result) {
-                if (result == 1) {
-                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
-                    Router.go("article", {id: this.docId});
-                }
-                else {
-                    Meteor.call("permissionDeploy", result)
-                    Router.go("article", {id: result});
-                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
-                }
-                setTimeout(function () {
-                    $('.alert-success').remove()
-                }, 1500)
+                Meteor.call("permissionDeploy", result)
+                Router.go("article", {id: result});
+                $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
+
+            },
+            onSuccess: function (update) {
+                Meteor.call('permissionUpdate', this.docId, this.currentDoc.$set.readingIds, this.currentDoc.contributingIds)
+                $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
+                Router.go("article", {id: this.docId});
             }
         }
     })
@@ -64,17 +61,17 @@ Template.add.events({
 Template.autoForm.onRendered(function () {
     if (this.data.id == "addUpdateArticles")
         if (this.data.type == "update") {
-        if (Router.current().route.getName() == "edit")
-            $('#contributingPermissions').val(this.data.doc.contributingPermissions)
-        if (this.data.doc.contributingPermissions == 1) {
-            $('#readingPermissions').val(this.data.doc.readingPermissions)
-            $('#readingDiv').show()
+            if (Router.current().route.getName() == "edit")
+                $('#contributingPermissions').val(this.data.doc.contributingPermissions)
+            if (this.data.doc.contributingPermissions == 1) {
+                $('#readingPermissions').val(this.data.doc.readingPermissions)
+                $('#readingDiv').show()
+            }
+            else {
+                $('#readingDiv').hide()
+            }
         }
-        else {
-            $('#readingDiv').hide()
-        }
-    }
-    else if (this.data.type == "insert") {
+        else if (this.data.type == "insert") {
             $('#readingDiv').hide()
         }
     //after bug founded in autoform ... in readingPemissions field or contributingPermissions field we get wrong value from the doc (always return 0 value) ... so it's a renedering problem in autoform

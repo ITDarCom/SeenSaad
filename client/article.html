@@ -2,7 +2,7 @@
     {{#with thisArticle}}
         {{#if allowReading}}
             <div class="panel panel-default">
-                <div class="panel-heading clearfix">
+                <div class="panel-heading">
                     {{#if owner}}
                         <h4 class="col-md-4 pull-left text-left">
                             {{#if owner}}
@@ -19,11 +19,11 @@
                         </h4>
                     {{/if}}
                     <h4>
-                        <div class="titleLabel" style="width: 75%"> {{title}}  </div>
+                        <div class="titleLabel" style="width: 75%">{{title}}</div>
                     </h4>
                 </div>
                 <div class="panel-body">
-                    <div class="textEditor" name="textEditor">  {{{body}}} </div>
+                    <div class="textEditor" name="textEditor">{{{body}}}</div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
@@ -55,22 +55,12 @@
             <!--add comments-->
             {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
             <div class="row">
-                <div class="col-xs-10">
-                    {{> afQuickField name="commentText" label=false id="commentTextArea" }}</div>
-                <div class="col-xs-2">
-                    <button type="submit" class="btn btn-success">أضف</button>
+                <div class="col-md-11 commentTextarea">
+                    {{> afQuickField name="commentText" label=false id="commentTextArea" class="commentTextarea"}}</div>
+                <div class="col-md-1 commentDivBtn">
+                    <button type="submit" class="btn btn-success commentBtn">أضف</button>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-success" type="submit">أضف</button>
-                    </span>
-                </div><!-- /input-group -->
-            </div><!-- /.row -->
-
 
             {{/autoForm}}
             {{/if}}

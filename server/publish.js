@@ -2,7 +2,7 @@ Meteor.publish("publicArticles", function () {
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
             fields: {
                 title: 1,
-                user: 1,
+                username: 1,
                 createdAt: 1
             }
         })
@@ -24,11 +24,12 @@ Meteor.publish(null, function () {
         }
     }
 })
-Meteor.publish("contributingArticles", function () {
+Meteor.publish(null, function () {
     if (this.userId) {
     var custom = Stream.findOne({userId: this.userId})
         if (custom) {
             contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
+
             return Articles.find({_id: {$in: contributingArticles}});
         }
     }

@@ -11,12 +11,12 @@ Template.article.helpers({
     allowContributing: function () {
         //this refer to this article that is displayed
         if (Meteor.userId()) {
-            if (this.contributingPermissions == "0" || this.user == Meteor.userId()) { // 0 value mean the articel is public contribtion
+            if (this.contributingPermissions == "0" || this.user == Meteor.userId()) { // 0 value mean the article is public contribtion
                 return true
             }
             else {
                 if (this.contributingIds != null) //  maybe user doesn't enter any user name for contribution
-                    return (!_.isEmpty(_.where(this.contributingIds, this.userId))) //indexOf return -1 if element is not existed
+                    return (!_.isEmpty(_.where(this.contributingIds, Meteor.userId()))) //indexOf return -1 if element is not existed
             }
         }
         else return false;
@@ -44,6 +44,7 @@ Template.article.helpers({
         return article.comments;
         //return comments for this article
     }
+
 });
 Template.article.events({
     'click #editButton': function () {

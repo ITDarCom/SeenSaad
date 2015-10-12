@@ -1,22 +1,17 @@
 @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
 
-body{
-	font-family: 'Droid Arabic Kufi';
-	padding-top: 20px;
-	padding-bottom: 20px;
+body {
+    font-family: 'Droid Arabic Kufi';
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.nomargin{
-	margin: 0;
-}
-.nopadding{
-	padding: 0;
+.nomargin {
+    margin: 0;
 }
 
-.iconbtn {
-	border: none;
-	padding: 0;
-	background: none;
+.nopadding {
+    padding: 0;
 }
 
 .editable {
@@ -27,6 +22,40 @@ body{
 
 }
 
+.panel-heading {
+    border-bottom: 0;
+}
+
+.panel-footer {
+    border-top: 0;
+}
+
 #commentTextArea {
-	max-height: 100px;
+    max-height: 100px;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    float: right;
+    direction: ltr;
+    margin-right: 5px;
+}
+
+p {
+    white-space: pre;
+}
+
+.input-group-addon {
+    max-height: 20px;
+}
+
+.commentDivBtn {
+    padding-right: 0px;
+}
+
+.commentBtn {
+    padding-top: 24px;
+}
+
+.commentTextarea {
+    padding-left: 0px;
 }
