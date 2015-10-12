@@ -41,7 +41,7 @@
             <!--Comments-->
             {{#each comments}}
                 <div class="well">
-                    <p style="white-space: pre">  {{commentText}} </p> <!-- this is not standard ????  -->
+                    <p>{{{nl2br commentText}}}</p>
                     <blockquote class="nomargin small">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
                         &nbsp; &nbsp;

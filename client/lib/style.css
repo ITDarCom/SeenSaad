@@ -40,10 +40,6 @@ body {
     margin-right: 5px;
 }
 
-p {
-    white-space: pre;
-}
-
 .input-group-addon {
     max-height: 20px;
 }
