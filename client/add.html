@@ -1,4 +1,5 @@
 <template name="add">
+    {{#if canEdit}}
     <div class="row">
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
             {{#if insert}}
@@ -33,4 +34,10 @@
                 {{/autoForm}}
         </div>
     </div>
+    {{else}}
+        <div class="alert alert-warning">
+            <strong>عفواً!</strong>
+            <blockquote> ليس لديك الصلاحية لولوج هذه الصفحة</blockquote>
+        </div>
+    {{/if}}
 </template>

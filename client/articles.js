@@ -8,14 +8,14 @@ Template.articles.helpers({
                     var custom = Stream.findOne({userId: Meteor.userId()})
                     if (custom) {
                         contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
-                        return Articles.find({_id: {$in: contributingArticles}});
+                        return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
                 case "read":
                     var custom = Stream.findOne({userId: Meteor.userId()});
                     if (custom) {
                         readingArticles = custom.readingArticles ? custom.readingArticles : [];
-                        return Articles.find({_id: {$in: readingArticles}});
+                        return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
                 case  "favorite":
@@ -29,11 +29,10 @@ Template.articles.helpers({
         }
         else {
             if (Router.current().route.getName() == 'articles')
-                return Articles.find({});
+                return Articles.find({}), {sort: {createdAt: -1}};
             Router.go("login")
         }
-    }
-    ,
+    },
     currentRouteName: function () {
         return (Router.current().route.getName())
     },

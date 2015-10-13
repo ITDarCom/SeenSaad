@@ -10,7 +10,7 @@ Template.registerHelper('favorite', function () {
     var favorited = Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
     return favorited
 });
-Template.registerHelper('owner', function () {
+Template.registerHelper('owner', function (articeleId) {
     return (Meteor.userId() == this.user)
 });
 Template.registerHelper("momentIt", function (toMoment) {

@@ -1,4 +1,4 @@
-Meteor.publish("publicArticles", function () {
+Meteor.publish(null, function () {
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
             fields: {
                 title: 1,
@@ -14,6 +14,10 @@ Meteor.publish(null, function () {
             return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}});
     }
     return false
+});
+Meteor.publish(null, function () {
+    if (this.userId)
+        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
 });
 Meteor.publish(null, function () {
     if (this.userId) {
@@ -40,7 +44,6 @@ Meteor.publish(null, function () {
     }
 })
 Meteor.publish("Article", function (articleId) {
-    debugger
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId)
         return Articles.find({_id: articleId})
@@ -57,10 +60,7 @@ Meteor.publish("Article", function (articleId) {
                 return Articles.find({_id: articleId}, {fields: {comments: 0}})
     }
 })
-Meteor.publish(null, function () {
-    if (this.userId)
-        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
-});
+
 Meteor.publish(null, function () {
     if (this.userId)
         return Meteor.users.find();

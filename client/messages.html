@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-1">
                         <img class="media-object img-circle" src="/nopic.png" alt="">
-                        <small>  {{userUsername this}} </small>
+                        <small> {{userUsername this}}</small>
                     </div>
                     <div class="col-md-10"><a href="{{pathFor 'messageStream' id=this}}">
                         <h2> {{lastMessage}}</h2>
@@ -45,13 +45,13 @@
         </legend>
         <div class="col-md-offset-3 col-md-6 ">
             {{#each messages }}
-                <div class="row" style="margin-bottom: 4px">
+                <div class="row">
                     {{#if fromMe}}
                         <div class="col-md-1">
                             <img class="media-object img-circle " height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
                         </div>
                         <div class="col-md-11 msg">
-                            <button style="display: none" class="btn btn-sm btn-danger deleteMsgBtn pull-left">
+                            <button class="btn hidden btn-sm btn-danger deleteMsgBtn pull-left">
                                 <small><i class="fa fa-trash"></i></small>
                             </button>
                             <h5>{{message}}</h5>
@@ -64,7 +64,7 @@
 
                         </div>
                         <div class="col-md-10 pull-left text-left msg">
-                            <button style="display: none" class="btn btn-sm btn-danger pull-right">
+                            <button class="hidden btn btn-sm btn-danger pull-right">
                                 <small><i class="fa fa-trash"></i></small>
                             </button>
                             <h5>{{message}}</h5>

@@ -1,21 +1,30 @@
 AutoForm.hooks(
     {
         addUpdateArticles: {
-            onSuccess: function (insert, result) {
+            onSuccess: function (formType, result) {
+                if (formType == 'insert') {
                 Meteor.call("permissionDeploy", result)
                 Router.go("article", {id: result});
-                $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
-
-            },
-            onSuccess: function (update) {
-                Meteor.call('permissionUpdate', this.docId, this.currentDoc.$set.readingIds, this.currentDoc.contributingIds)
-                $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
+                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
+                }
+                if (formType == "update") {
+                    var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
+                    var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
+                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds)
+                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
+                }
                 Router.go("article", {id: this.docId});
+
             }
         }
     })
 Template.add.helpers(
     {
+        canEdit: function () {
+            if ((Router.current().params.id) && (Router.current().route.getName() == "edit"))
+                return (Articles.findOne(Router.current().params.id).user == Meteor.userId())
+            return (Router.current().route.getName() == "add")
+        },
         formType: function () {
             if (Router.current().route.getName() == "edit")
                 return "update"

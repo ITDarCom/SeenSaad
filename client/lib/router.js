@@ -3,40 +3,27 @@ Router.configure({
 	loadingTemplate: 'spinner'
 
 });
-
 Router.map(function () {
-	this.route('articles', {
-		path: '/', waitOn: function () {
-			return Meteor.subscribe('publicArticles');
-		}
-	});
+	this.route('articles', {path: '/'});
 	this.route('search', {path:'/search'});
-	this.route('read', {
-		path: '/read', template: 'articles'
-	});
-	this.route('participation', {
-		path: '/participation', template: 'articles'
-	});
+	this.route('read', {path: '/read', template: 'articles'});
+	this.route('participation', {path: '/participation', template: 'articles'});
 	this.route('favorite', {path: '/favorite', template: 'articles'});
-	this.route('mine', {
-		path: '/mine', template: 'articles'
-	});
+	this.route('mine', {path: '/mine', template: 'articles'});
+	this.route('about', {path: '/about'});
+	this.route('/login');
+	this.route('edit', {path: '/edit/:id', template: 'add'});
 	this.route('add', {
-		path: '/add',
-		onBeforeAction: function () {
+		path: '/add', onBeforeAction: function () {
 			if (!Meteor.userId())
 				this.render('login')
 			else
 				this.render('add')
 		}
 	});
-	this.route('edit', {path: '/edit/:id', template: 'add'});
 	this.route('article', {
 		path: '/article/:id', waitOn: function () {
-			if (Meteor.userId())
-				return Meteor.subscribe('Article', this.params.id)
-			Router.go("login")
-			return null
+			return Meteor.subscribe("Article", Router.current().params.id)
 		}
 	});
 	this.route('messages', {
@@ -47,8 +34,7 @@ Router.map(function () {
 				this.render('messages')
 		}
 	});
-	this.route('about', {path:'/about'});
-	this.route('/login')
+	this.route('messageStream', {path: '/messageStream/:id'})
 });
 Meteor.loginWithPassword = _.wrap(Meteor.loginWithPassword, function (login) {
 	// Store the original arguments

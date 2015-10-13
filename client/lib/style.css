@@ -49,9 +49,14 @@ body {
 }
 
 .commentBtn {
-    padding-top: 24px;
+    height: 50px;
 }
 
 .commentTextarea {
     padding-left: 0px;
+}
+
+#search-box {
+    text-align: center;
+    margin: 0% auto;
 }
