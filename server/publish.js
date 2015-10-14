@@ -1,15 +1,15 @@
 Meteor.publish(null, function () {
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-            fields: {
-                title: 1,
-                username: 1,
-                createdAt: 1
-            }
-        })
+        fields: {
+            title: 1,
+            username: 1,
+            createdAt: 1
+        }
+    })
 });
 Meteor.publish(null, function () {
     if (this.userId) {
-    var ids = Favorites.findOne({userId: this.userId});
+        var ids = Favorites.findOne({userId: this.userId});
         if (ids)
             return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}});
     }
@@ -17,23 +17,22 @@ Meteor.publish(null, function () {
 });
 Meteor.publish(null, function () {
     if (this.userId)
-        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
+        return Favorites.find({userId: this.userId});
 });
 Meteor.publish(null, function () {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
-            readingArticles = custom.readingArticles ? custom.readingArticles : [];
-            return Articles.find({_id: {$in: readingArticles}});
+            var readingArticles = custom.readingArticles ? custom.readingArticles : [];
+            return Articles.find({_id: {$in: readingArticles}}, {fields: {comments: 0, contributingIds: 0}});
         }
     }
 })
 Meteor.publish(null, function () {
     if (this.userId) {
-    var custom = Stream.findOne({userId: this.userId})
+        var custom = Stream.findOne({userId: this.userId});
         if (custom) {
-            contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
-
+            var contributingArticles = custom.contributingArticles ? custom.contributingArticles : [];
             return Articles.find({_id: {$in: contributingArticles}});
         }
     }
