@@ -1,10 +1,17 @@
 <template name="article">
     {{#with thisArticle}}
         {{#if allowReading}}
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    {{#if owner}}
-                        <h4 class="col-md-4 pull-left text-left">
+                    <h3 class="text-center"><ins>{{title}}</ins></h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                        </div>
+                        <div class="col-md-4 text-left">
                             {{#if owner}}
                                 <button class="remove btn-xs btn btn-danger" title="حذف">
                                     <i class="fa fa-trash"></i>
@@ -16,37 +23,26 @@
                             <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
                                 <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
                             </button>
-                        </h4>
-                    {{/if}}
-                    <h4>
-                        <div class="titleLabel">{{title}}</div>
-                    </h4>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="textEditor" name="textEditor">{{{body}}}</div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{username}}
-                        </div>
-                        <div class="col-md-4">
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{dateFormated createdAt}}
-                        </div>
-                    </div>
                 </div>
             </div>
             <hr>
 
             <!--Comments-->
             {{#each comments}}
-                <div class="well">
-                    <p>{{{nl2br commentText}}}</p>
-                    <blockquote class="nomargin small">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
-                        &nbsp; &nbsp;
+                        &nbsp;&nbsp;
                         <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}
-                    </blockquote>
+                    </div>
+                    <div class="panel-body">
+                        <div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
+                    </div>
                 </div>
             {{/each}}
             {{#if allowContributing}}
