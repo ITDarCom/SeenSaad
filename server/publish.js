@@ -1,48 +1,36 @@
-Meteor.publish(null, function () {
-    return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-        fields: {
-            title: 1,
-            username: 1,
-            createdAt: 1
-        }
-    })
-});
-Meteor.publish(null, function () {
+Meteor.publish(null, function () {   // Articles publishment
     if (this.userId) {
-        var ids = Favorites.findOne({userId: this.userId});
-        if (ids)
-            return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}});
+        var userStream = Stream.findOne({userId: this.userId});
+        var userFavorites = Favorites.findOne({userId: this.userId});
+        var publicReadingArticles = {readingPermissions: 0}, publicContributingArticles = {contributingPermissions: '0'}, myArticles = {user: this.userId};
+        var myReadingArticles = {_id: {$in: userStream.readingArticles}}, myContributingArticles = {_id: {$in: userStream.contributingArticles}}, favoriteArticles = {_id: {$in: userFavorites.favorites}};
+        return Articles.find({$or: [publicReadingArticles, publicContributingArticles, myArticles, myReadingArticles, myContributingArticles, favoriteArticles]}, {
+            fields: {
+                title: 1,
+                username: 1,
+                createdAt: 1
+            }
+        })
     }
-    return false
+    else {
+        return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
+            fields: {
+                title: 1,
+                username: 1,
+                createdAt: 1
+            }
+        })
+
+
+    }
 });
-Meteor.publish(null, function () {
+
+Meteor.publish(null, function () { //favorites row for user
     if (this.userId)
         return Favorites.find({userId: this.userId});
 });
-Meteor.publish(null, function () {
-    if (this.userId) {
-        var custom = Stream.findOne({userId: this.userId});
-        if (custom) {
-            var readingArticles = custom.readingArticles ? custom.readingArticles : [];
-            return Articles.find({_id: {$in: readingArticles}}, {fields: {comments: 0, contributingIds: 0}});
-        }
-    }
-})
-Meteor.publish(null, function () {
-    if (this.userId) {
-        var custom = Stream.findOne({userId: this.userId});
-        if (custom) {
-            var contributingArticles = custom.contributingArticles ? custom.contributingArticles : [];
-            return Articles.find({_id: {$in: contributingArticles}});
-        }
-    }
-})
-Meteor.publish(null, function () {
-    if (this.userId) {
-        return Articles.find({user: this.userId})
-    }
-})
-Meteor.publish("Article", function (articleId) {
+Meteor.publish("Article", function (articleId) {  // Article details
+
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId)
         return Articles.find({_id: articleId})
@@ -60,17 +48,17 @@ Meteor.publish("Article", function (articleId) {
     }
 })
 
-Meteor.publish(null, function () {
+Meteor.publish(null, function () {  //usersNames publish
     if (this.userId)
         return Meteor.users.find();
     else
         return Meteor.users.find({}, {fields: {username: 1}})
 });
-Meteor.publish(null, function () {
+Meteor.publish(null, function () {   // messages publish
     if (this.userId)
         return Messages.find({$or: [{to: this.userId}, {from: this.userId}]})
 })
-Meteor.publish(null, function () {
+Meteor.publish(null, function () {  //publish stream
     if (this.userId)
         return Stream.find({userId: this.userId})
 })

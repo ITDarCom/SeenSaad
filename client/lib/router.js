@@ -50,3 +50,27 @@ Meteor.loginWithPassword = _.wrap(Meteor.loginWithPassword, function (login) {
 	// the original user, pass plus the new callback
 	login(user, pass, newCallback);
 })
+Accounts.createUser = _.wrap(Accounts.createUser, function (createUser) {
+
+	// Store the original arguments
+	var args = _.toArray(arguments).slice(1),
+		user = args[0],
+		origCallback = args[1];
+
+	// Create a new callback function
+	// Could also be defined elsewhere outside of this wrapped function
+	// This is called on the client
+	var newCallback = function (err) {
+		if (err) {
+			console.error(err);
+		} else {
+			Stream.insert({userId: Meteor.userId()})
+			Favorites.insert({userId: Meteor.userId()})
+		}
+	};
+
+	// Now call the original create user function with
+	// the original user object plus the new callback
+	createUser(user, newCallback);
+
+});
