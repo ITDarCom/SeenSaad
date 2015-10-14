@@ -5,7 +5,6 @@
 
 Template.article.helpers({
     thisArticle: function () {
-
         return Articles.findOne(Router.current().params.id);
         // used to get the article from db to display it
     },
@@ -32,8 +31,8 @@ Template.article.helpers({
         }
         else {
             if (Meteor.userId()) {
-                if (this.readingIds != null)
-                    return (!_.isEmpty(_.where(this.readingIds, Meteor.userId()))) // underscorejs lib
+                if ((this.readingIds != null) && (!_.isEmpty(_.where(this.readingIds, Meteor.userId()))))
+                    return true // underscorejs lib
                 if (this.contributingIds != null)
                     return (!_.isEmpty(_.where(this.contributingIds, Meteor.userId())))
             }// underscorejs lib

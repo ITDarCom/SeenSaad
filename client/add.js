@@ -3,14 +3,16 @@ AutoForm.hooks(
         addUpdateArticles: {
             onSuccess: function (formType, result) {
                 if (formType == 'insert') {
-                Meteor.call("permissionDeploy", result)
+                    Meteor.call("permissionDeploy", result);
                 Router.go("article", {id: result});
+                    $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
                 }
                 if (formType == "update") {
                     var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                     var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
-                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds)
+                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                    $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
                 }
                 Router.go("article", {id: this.docId});
@@ -22,14 +24,14 @@ Template.add.helpers(
     {
         canEdit: function () {
             if ((Router.current().params.id) && (Router.current().route.getName() == "edit"))
-                return (Articles.findOne(Router.current().params.id).user == Meteor.userId())
+                return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
             return (Router.current().route.getName() == "add")
         },
         formType: function () {
             if (Router.current().route.getName() == "edit")
-                return "update"
+                return "update";
             if (Router.current().route.getName() == "add")
-                return "insert"
+                return "insert";
             //to choose form type (insert or update)
         },
         thisArticle: function () {

@@ -1,6 +1,7 @@
 Template.articles.helpers({
     articles: function () {
         if (Meteor.userId()) {
+            $('.alert').hide();
             switch (Router.current().route.getName()) {
                 case "mine" :
                     return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
