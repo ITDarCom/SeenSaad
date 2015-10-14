@@ -50,9 +50,9 @@ Template.messageStream.helpers({
 })
 Template.messageStream.onRendered(function () {
     $(document).on('mouseenter', '.msg', function () {
-        $(this).find(":button").show();
+        $(this).find(":button").removeClass("hidden");
     }).on('mouseleave', '.msg', function () {
-        $(this).find(":button").hide();
+        $(this).find(":button").addClass("hidden");
     });
 })
 Template.messageStream.events({

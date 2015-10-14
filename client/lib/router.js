@@ -23,6 +23,7 @@ Router.map(function () {
 	});
 	this.route('article', {
 		path: '/article/:id', waitOn: function () {
+			Meteor.call("readCounter", Router.current().params.id)
 			return Meteor.subscribe("Article", Router.current().params.id)
 		}
 	});

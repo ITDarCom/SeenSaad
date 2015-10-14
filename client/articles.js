@@ -29,7 +29,7 @@ Template.articles.helpers({
         }
         else {
             if (Router.current().route.getName() == 'articles')
-                return Articles.find({}), {sort: {createdAt: -1}};
+                return Articles.find({}, {sort: {createdAt: -1}});
             Router.go("login")
         }
     },

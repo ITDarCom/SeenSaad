@@ -5,6 +5,7 @@
 
 Template.article.helpers({
     thisArticle: function () {
+
         return Articles.findOne(Router.current().params.id);
         // used to get the article from db to display it
     },
