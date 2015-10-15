@@ -5,13 +5,12 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-4">
-                            <h4 class="text-center">
-                                <ins>{{title}}</ins>
-                            </h4>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                            &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}
                         </div>
                         <div class="col-md-4 text-center">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}
+                            <h4>{{title}}</h4>
                         </div>
                         <div class="col-md-4 text-left">
                             {{#if owner}}
