@@ -10,7 +10,7 @@
             <div id="sendMsgDiv" hidden>
                 {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                     <fieldset>
-                        {{> afQuickField name="to" }}
+                        {{> afQuickField name="to" select2Options=select2opts}}
                         {{> afQuickField name="message" options=usersOptions }}
                     </fieldset>
                     <button type="submit" class="btn btn-primary">أرسل</button>

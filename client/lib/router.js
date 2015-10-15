@@ -3,6 +3,7 @@ Router.configure({
 	loadingTemplate: 'spinner'
 
 });
+Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
 	this.route('articles', {path: '/'});
 	this.route('search', {path:'/search'});

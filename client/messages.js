@@ -41,7 +41,11 @@ Template.messageStream.helpers({
     },
     thisUser: function () {
         return (Router.current().params.id)
-    }, usersOptions: function () {
+    },
+    select2opts: function () {
+
+    },
+    usersOptions: function () {
         return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
             return {label: c.username, value: c._id};
             // return users name for select2 field
