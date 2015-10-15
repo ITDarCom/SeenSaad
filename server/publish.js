@@ -58,13 +58,7 @@ Meteor.publish(null, function () {
 })
 Meteor.publish(null, function () {
     if (this.userId) {
-        return Articles.find({user: this.userId}, {
-            fields: {
-                title: 1,
-                username: 1,
-                createdAt: 1
-            }
-        })
+        return Articles.find({user: this.userId})
     }
 })
 Meteor.publish("Article", function (articleId) {
@@ -89,7 +83,6 @@ Meteor.publish("Article", function (articleId) {
         }
         else if (article.readingIds)
             if (!_.isEmpty(_.where(article.readingIds, this.userId))) {
-                Articles.update({_id: articleId}, {$inc: {read: 1}});
                 return Articles.find({_id: articleId})
             }
     }

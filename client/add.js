@@ -23,6 +23,7 @@ AutoForm.hooks(
 Template.add.helpers(
     {
         canEdit: function () {
+
             if ((Router.current().params.id) && (Router.current().route.getName() == "edit"))
                 return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
             return (Router.current().route.getName() == "add")
