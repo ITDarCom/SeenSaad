@@ -59,3 +59,6 @@ Template.article.events({
     }
 })
 
+Template.article.onRendered(function () {
+    Meteor.call("readCounter", Router.current().params.id)
+})
