@@ -35,27 +35,25 @@
 
             <!--Comments-->
             {{#each comments}}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
-                        &nbsp;&nbsp;
-                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}
-                    </div>
+                <div class="panel panel-info">
                     <div class="panel-body">
+                        <p class="text-muted"><strong>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
+                            &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}:
+                            <hr class="nomargin">
+                        </strong></p>
                         <div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
                     </div>
                 </div>
             {{/each}}
             {{#if allowContributing}}
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        إضافة رد
-                    </div>
+                <div class="panel panel-info">
                     <div class="panel-body">
                         {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
                             {{> afQuickField name="commentText" label=false id="commentTextArea" class="commentTextarea"}}
-                            <button type="submit" class="btn btn-success form-control">أضف</button>
+                            <button type="submit" class="btn btn-primary form-control">إضافة</button>
                         {{/autoForm}}
                     </div>
                 </div>
