@@ -53,16 +53,25 @@
     <h1>البحث</h1>
 
     <div class="container">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
         {{> searchBox }}
         {{#if loading}}
             {{> spinner}}
         {{/if}}
+
         {{> searchResult}}
+            </div>
+            <!--col-md-10-->
+
+        </div>
+        <!--row-->
     </div>
 </template>
 
 <template name="searchBox">
-    <div class="span1 offset2">
+
+<div class="span1 offset2">
         <input type="text" id="search-box" class="form-control input-group ">
     </div>
 

@@ -128,5 +128,8 @@ SimpleSchema.messages({
     }
 })(jQuery);
 $(document).ready(function () {
-    $('textarea').css('overflow', 'hidden').autogrow({vertical: true, horizontal: false})
+    $('textarea').autogrow({
+        vertical: true, horizontal: false, fixMinHeight: true
+    })
+
 })

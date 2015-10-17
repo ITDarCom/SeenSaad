@@ -1,13 +1,17 @@
 <template name="article">
     {{#with thisArticle}}
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
         {{#if allowReading}}
+
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-4">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
                             &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="dateSwitch"
+                                                                                                    title="{{dateFormated createdAt}}">{{momentIt createdAt}}</span>
                         </div>
                         <div class="col-md-4 text-center">
                             <h4>{{title}}</h4>
@@ -31,21 +35,24 @@
                     <div class="textEditor" name="textEditor">{{{body}}}</div>
                 </div>
             </div>
-            <hr>
+
 
             <!--Comments-->
             {{#each comments}}
                 <div class="panel panel-info">
                     <div class="panel-body">
                         <p class="text-muted"><strong>
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userUsername commenter}}
+                            <span class="glyphicon glyphicon-user"
+                                  aria-hidden="true"></span>  {{userUsername commenter}}
                             &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{momentIt createdAt}}:
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="dateSwitch"
+                                                                                                    title="{{dateFormated createdAt}}">{{momentIt createdAt}}</span>:
                             <hr class="nomargin">
                         </strong></p>
                         <div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
                     </div>
                 </div>
+
             {{/each}}
             {{#if allowContributing}}
 
@@ -66,5 +73,9 @@
                 <blockquote>يبدو أن الموضوع الذي تقوم بالوصول إليه غير متاح</blockquote>
             </div>
             {{/if}}
+            </div>
+            <!--col-md-10-->
+        </div>
+        <!--row-->
     {{/with}}
 </template>

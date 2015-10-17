@@ -32,7 +32,7 @@ body {
 }
 
 #commentTextArea {
-    max-height: 100px;
+    max-height: 150px;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
@@ -40,24 +40,12 @@ body {
     direction: ltr;
     margin-right: 5px;
 }
-
-.input-group-addon {
-    max-height: 20px;
-}
-
-.commentDivBtn {
-    padding-right: 0px;
-}
-
-.commentBtn {
-    height: 50px;
-}
-
-.commentTextarea {
-    padding-left: 0px;
-}
-
 #search-box {
     text-align: center;
     margin: 0% auto;
+    margin-bottom: 15px;
+}
+
+.dateSwitch {
+    cursor: pointer;
 }

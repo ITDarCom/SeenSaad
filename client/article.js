@@ -56,6 +56,12 @@ Template.article.events({
             Meteor.call("removeArticle", id)
         }
         Router.go('articles')
+    },
+    'click .dateSwitch': function () {
+        var target = $(event.target)
+        var temp = target.html()
+        target.html(target.attr('title'));
+        target.attr('title', temp)
     }
 })
 
