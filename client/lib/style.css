@@ -31,10 +31,6 @@ body {
     border-top: 0;
 }
 
-#commentTextArea {
-    max-height: 150px;
-}
-
 .select2-container-multi .select2-choices .select2-search-choice {
     float: right;
     direction: ltr;
@@ -47,5 +43,17 @@ body {
 }
 
 .dateSwitch {
+
     cursor: pointer;
+}
+
+div[contenteditable] {
+    min-height: 50px;
+    max-height: 200px;
+    overflow: auto;
+    outline: none;
+    padding-right: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding-top: 7px;
 }

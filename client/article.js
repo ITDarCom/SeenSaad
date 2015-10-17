@@ -27,7 +27,10 @@ Template.article.helpers({
     allowReading: function () {
         //this refer to this article that is displayed
         if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {  // 0 value mean the articel is public contribtion or reading
-            return true
+            {
+                Meteor.call("readCounter", Router.current().params.id)
+                return true
+            }
         }
         else {
             if (Meteor.userId()) {
@@ -66,5 +69,23 @@ Template.article.events({
 })
 
 Template.article.onRendered(function () {
-    Meteor.call("readCounter", Router.current().params.id)
+    var flag = true;
+    $('.commentTextarea').text("أضف ردك هنا ..")
+    $('.commentTextarea').focus(function () {
+        if (flag) {
+            flag = false;
+            $(this).empty();
+        }
+    });
+    $('.commentTextarea').focusout(function () {
+        if ($(event.target).text() == "") {
+            flag = true
+            if (flag) {
+                $('.commentTextarea').text("أضف ردك هنا ..")
+            }
+        }
+    });
+
+
+
 })
