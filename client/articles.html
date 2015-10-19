@@ -37,7 +37,8 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
+                            href="{{pathFor 'profile' id=this.user}}">{{username}}</a>
                     </div>
                     <div class="col-md-4">
                         <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{dateFormated createdAt}}

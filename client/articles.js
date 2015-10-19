@@ -4,7 +4,7 @@ Template.articles.helpers({
             $('.alert').hide();
             switch (Router.current().route.getName()) {
                 case "mine" :
-                    return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
+                    return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
                 case  "participation":
                     var custom = Stream.findOne({userId: Meteor.userId()})
                     if (custom) {
@@ -30,10 +30,8 @@ Template.articles.helpers({
                     return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
                     break;
                 case "profile" :
-                {
                     if (Router.current().params.id)
                         return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
-                }
             }
         }
         else {

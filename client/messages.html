@@ -1,12 +1,12 @@
 <template name="messages" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-    <h1>الرسائل</h1>
 
 
-    <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
-    <hr>
-    <div class="container">
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+            <h1>الرسائل</h1>
 
+
+            <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
+            <hr>
             <div id="sendMsgDiv" hidden>
                 {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                     <fieldset>
@@ -32,17 +32,16 @@
             {{/each}}
 
         </div>
-    </div>
+
 
 </template>
 <template name="messageStream">
 
-    <div class="container">
 
+    <div class="col-md-offset-3 col-md-6 ">
         <legend> رسائل العضو
             <button class="btn btn-danger btn-sm  delectConversionBtn pull-left">حذف المحادثة</button>
         </legend>
-        <div class="col-md-offset-3 col-md-6 ">
             {{#each messages }}
                 <div class="row">
                     {{#if fromMe}}
@@ -82,6 +81,6 @@
                 </div>
             {{/autoForm}}
         </div>
-    </div>
+
 </template>
 

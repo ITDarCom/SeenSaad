@@ -5,6 +5,7 @@ Router.configure({
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
+	this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
     this.route('profile', {path: '/profile/:id'});
     this.route('me', {path: '/me', template: 'profile'})
 	this.route('articles', {path: '/'});

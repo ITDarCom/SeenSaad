@@ -29,7 +29,6 @@ Template.registerHelper("currentRouteName", function () {
 });
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
-;
 SimpleSchema.messages({
   required: " [label] هو حقل مطلوب ولا بد من إدخاله",
   minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
@@ -63,35 +62,6 @@ AccountsTemplates.addFields([
         placeholder: 'اسم المستخدم',
         required: true,
         minLength: 3
-    },
-    {
-        _id: 'email',
-        type: 'email',
-        required: true,
-        displayName: "البريد الالكتروني",
-        placeholder: "البريد الالكتروني",
-        re: /.+@(.+){2,}\.(.+){2,}/,
-        errStr: 'بريد خاطئ .. الرجاء تصحيحه',
-    },
-    {
-        _id: "gender",
-        type: "radio",
-        displayName: "الجنس",
-        select: [
-            {
-                text: "ذكر",
-                value: "male",
-            },
-            {
-                text: "أنثى",
-                value: "female",
-            },
-        ],
-    },
-    {
-        _id: 'phone',
-        type: 'tel',
-        placeholder: 'رقم الجوال'
     },
     pwd
 ]);

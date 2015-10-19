@@ -3,7 +3,8 @@ Meteor.publish(null, function () {
             fields: {
                 title: 1,
                 username: 1,
-                createdAt: 1
+                createdAt: 1,
+                user: 1
             }
         })
 });
@@ -15,7 +16,8 @@ Meteor.publish(null, function () {
                 fields: {
                     title: 1,
                     username: 1,
-                    createdAt: 1
+                    createdAt: 1,
+                    user: 1
                 }
             });
     }
@@ -34,7 +36,8 @@ Meteor.publish(null, function () {
                 fields: {
                     title: 1,
                     username: 1,
-                    createdAt: 1
+                    createdAt: 1,
+                    user: 1
                 }
             });
         }
@@ -50,7 +53,8 @@ Meteor.publish(null, function () {
                 fields: {
                     title: 1,
                     username: 1,
-                    createdAt: 1
+                    createdAt: 1,
+                    user: 1
                 }
             });
         }
