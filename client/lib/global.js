@@ -3,7 +3,10 @@ Template.registerHelper('dateFormated', function (date) {
 });
 
 Template.registerHelper('userUsername', function (id) {
-    var user = Meteor.users.findOne({_id: id});
+    if (id)
+        var user = Meteor.users.findOne({_id: id});
+    else
+        var user = Meteor.users.findOne({_id: Meteor.userId()})
     return user ? user.username : 'notFound';
 });
 Template.registerHelper('favorite', function () {
@@ -21,115 +24,76 @@ Template.registerHelper("nl2br", function (str, is_xhtml) {
 
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 });
+Template.registerHelper("currentRouteName", function () {
+    return (Router.current().route.getName())
+});
 moment.locale('ar_sa');
-
+T9n.setLanguage('ar');
+;
 SimpleSchema.messages({
   required: " [label] هو حقل مطلوب ولا بد من إدخاله",
   minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
   maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
-})
-;
+});
+AccountsTemplates.configure({
+    confirmPassword: true,
+    enablePasswordChange: true,
+    focusFirstInput: true,
+    showLabels: false,
+    showPlaceholders: true,
+    negativeValidation: true,
+    positiveValidation: true,
+    positiveFeedback: true,
+    showValidating: true,
+    homeRoutePath: '/me',
+    continuousValidation: true,
+    negativeFeedback: true,
+    negativeValidation: true,
+    positiveValidation: true,
+    positiveFeedback: true,
+    showValidating: true,
+});
+var pwd = AccountsTemplates.removeField('password');
+AccountsTemplates.removeField('email');
+AccountsTemplates.addFields([
+    {
+        _id: "username",
+        type: "text",
+        displayName: "اسم المستخدم",
+        placeholder: 'اسم المستخدم',
+        required: true,
+        minLength: 3
+    },
+    {
+        _id: 'email',
+        type: 'email',
+        required: true,
+        displayName: "البريد الالكتروني",
+        placeholder: "البريد الالكتروني",
+        re: /.+@(.+){2,}\.(.+){2,}/,
+        errStr: 'بريد خاطئ .. الرجاء تصحيحه',
+    },
+    {
+        _id: "gender",
+        type: "radio",
+        displayName: "الجنس",
+        select: [
+            {
+                text: "ذكر",
+                value: "male",
+            },
+            {
+                text: "أنثى",
+                value: "female",
+            },
+        ],
+    },
+    {
+        _id: 'phone',
+        type: 'tel',
+        placeholder: 'رقم الجوال'
+    },
+    pwd
+]);
 
 
-
-//I get this plugin from official jquery website to expand textarea automatically https://plugins.jquery.com/autogrow/
-(function ($) {
-    //pass in just the context as a $(obj) or a settings JS object
-    $.fn.autogrow = function (opts) {
-        var that = $(this).css({overflow: 'hidden', resize: 'none'}) //prevent scrollies
-            , selector = that.selector
-            , defaults = {
-                context: $(document) //what to wire events to
-                , animate: true //if you want the size change to animate
-                , speed: 200 //speed of animation
-                , fixMinHeight: true //if you don't want the box to shrink below its initial size
-                , cloneClass: 'autogrowclone' //helper CSS class for clone if you need to add special rules
-                , onInitialize: false //resizes the textareas when the plugin is initialized
-            }
-            ;
-        opts = $.isPlainObject(opts) ? opts : {context: opts ? opts : $(document)};
-        opts = $.extend({}, defaults, opts);
-        that.each(function (i, elem) {
-            var min, clone;
-            elem = $(elem);
-            //if the element is "invisible", we get an incorrect height value
-            //to get correct value, clone and append to the body.
-            if (elem.is(':visible') || parseInt(elem.css('height'), 10) > 0) {
-                min = 20;
-            } else {
-                clone = elem.clone()
-                    .addClass(opts.cloneClass)
-                    .val(elem.val())
-                    .css({
-                        position: 'absolute'
-                        , visibility: 'hidden'
-                        , display: 'block'
-                    })
-                ;
-                $('body').append(clone);
-                min = clone.innerHeight();
-                clone.remove();
-            }
-            if (opts.fixMinHeight) {
-                elem.data('autogrow-start-height', min); //set min height
-            }
-            elem.css('height', min);
-            if (opts.onInitialize) {
-                resize.call(elem);
-            }
-        });
-        opts.context
-            .on('keyup paste', selector, resize)
-        ;
-        function resize(e) {
-            var box = $(this)
-                , oldHeight = box.innerHeight()
-                , newHeight = this.scrollHeight
-                , minHeight = box.data('autogrow-start-height') || 0
-                , clone
-                ;
-            if (oldHeight < newHeight) { //user is typing
-                this.scrollTop = 0; //try to reduce the top of the content hiding for a second
-                opts.animate ? box.stop().animate({height: newHeight}, opts.speed) : box.innerHeight(newHeight);
-            } else if (!e || e.which == 8 || e.which == 46 || (e.ctrlKey && e.which == 88)) { //user is deleting, backspacing, or cutting
-                if (oldHeight > minHeight) { //shrink!
-                    //this cloning part is not particularly necessary. however, it helps with animation
-                    //since the only way to cleanly calculate where to shrink the box to is to incrementally
-                    //reduce the height of the box until the $.innerHeight() and the scrollHeight differ.
-                    //doing this on an exact clone to figure out the height first and then applying it to the
-                    //actual box makes it look cleaner to the user
-                    clone = box.clone()
-                        //add clone class for extra css rules
-                        .addClass(opts.cloneClass)
-                        //make "invisible", remove height restriction potentially imposed by existing CSS
-                        .css({position: 'absolute', zIndex: -10, height: ''})
-                        //populate with content for consistent measuring
-                        .val(box.val())
-                    ;
-                    box.after(clone); //append as close to the box as possible for best CSS matching for clone
-                    do { //reduce height until they don't match
-                        newHeight = clone[0].scrollHeight - 1;
-                        clone.innerHeight(newHeight);
-                    } while (newHeight === clone[0].scrollHeight);
-                    newHeight++; //adding one back eliminates a wiggle on deletion
-                    clone.remove();
-                    box.focus(); // Fix issue with Chrome losing focus from the textarea.
-                    //if user selects all and deletes or holds down delete til beginning
-                    //user could get here and shrink whole box
-                    newHeight < minHeight && (newHeight = minHeight);
-                    oldHeight > newHeight && opts.animate ? box.stop().animate({height: newHeight}, opts.speed) : box.innerHeight(newHeight);
-                } else { //just set to the minHeight
-                    box.innerHeight(minHeight);
-                }
-            }
-        }
-
-        return that;
-    }
-})(jQuery);
-$(document).ready(function () {
-    $('textarea').autogrow({
-        vertical: true, horizontal: false, fixMinHeight: true
-    })
-
-})

@@ -57,3 +57,22 @@ div[contenteditable] {
     border: 1px solid black;
     padding-top: 7px;
 }
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-articles {
+    border-right: 1px solid;
+}

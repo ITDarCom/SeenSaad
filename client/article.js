@@ -28,7 +28,7 @@ Template.article.helpers({
         //this refer to this article that is displayed
         if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {  // 0 value mean the articel is public contribtion or reading
             {
-                Meteor.call("readCounter", Router.current().params.id)
+                // Meteor.call("readCounter", Router.current().params.id)
                 return true
             }
         }

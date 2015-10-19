@@ -1,0 +1,66 @@
+<template name="profile">
+    {{#with thisUser}}
+
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <div class="profile-userpic">
+                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
+                             class="img-responsive" alt="">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{userUsername}}
+                        </div>
+                    </div>
+                    {{#if notUserOrGuest}}
+
+                        <div class="profile-userbuttons">
+                            <button type="button" class="btn btn-danger btn-sm" id="sendMessage">Message
+                            </button>
+                        </div>
+
+                    {{else}}
+                        <div class="profile-usermenu">
+                            <ul class="nav">
+                                <li class="{{#if currentRouteName 'profile'}} active {{/if}}">
+                                    <a href="{{pathFor route='profile' _id=_id}}">
+                                        <i class="glyphicon glyphicon-flag"></i>
+                                        المواضيع </a>
+                                </li>
+                                <li class="{{#if currentRouteName 'profileSetting'}} active {{/if}}">
+                                    <a href="{{pathFor route='profile' _id=_id}}">
+                                        <i class="glyphicon glyphicon-home"></i>
+                                        تعديل الملف الشخصي </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col-md-9 profile-articles">
+                <div class="row">
+                    {{#if currentRouteName  'profile'}}
+                        {{> articles}}
+                            <!--{{else}}-->
+                            <!--{{#if currentRouteName  'profileMessages'}}-->
+                            <!--{{> profileMessages}}-->
+                                <!--{{else}}-->
+                                <!--{{#if currentRouteName  'profileMessagesView'}}-->
+                                <!--{{> profileMessagesView}}-->
+                                    <!--{{else}}-->
+                                    <!--{{#if currentRouteName  'profileSetting'}}-->
+                                    <!--{{> profileSetting}}-->
+                                        <!--{{/if}}-->
+                                    <!--{{/if}}-->
+                                <!--{{/if}}-->
+                    {{/if}}
+                </div>
+            </div>
+
+
+        </div>
+    {{/with}}
+</template>
+

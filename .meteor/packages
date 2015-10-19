@@ -33,3 +33,7 @@ random
 ejson
 spacebars
 check
+useraccounts:bootstrap
+useraccounts:iron-routing
+cfs:standard-packages
+cfs:s3

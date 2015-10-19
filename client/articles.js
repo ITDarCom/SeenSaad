@@ -26,16 +26,21 @@ Template.articles.helpers({
                     break;
                 case "articles" :
                     return Articles.find({}, {sort: {createdAt: -1}});
+                case "me":
+                    return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
+                    break;
+                case "profile" :
+                {
+                    if (Router.current().params.id)
+                        return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+                }
             }
         }
         else {
             if (Router.current().route.getName() == 'articles')
                 return Articles.find({}, {sort: {createdAt: -1}});
-            Router.go("login")
+            Router.go("signIn")
         }
-    },
-    currentRouteName: function () {
-        return (Router.current().route.getName())
     },
     headerText: function () {
         switch (Router.current().route.getName()) {
