@@ -60,12 +60,6 @@ Template.messageStream.onRendered(function () {
     });
 })
 Template.messageStream.events({
-    'click .delectConversionBtn': function () {
-        if (Meteor.userId()) {
-            Meteor.call("deleteConversion", Router.current().params.id)
-            Router.go('messages')
-        }
-    },
     'click .deleteMsgBtn': function () {
         if (Meteor.userId())
             Messages.remove({_id: this._id})

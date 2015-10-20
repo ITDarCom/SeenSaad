@@ -30,7 +30,7 @@
                   <a href="#" class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle" data-toggle="dropdown"
                      role="button" aria-haspopup="true"
                      aria-expanded="false">{{#if currentUser}}{{userUsername}}{{else}} تسجيل الدخول/إنشاء حساب{{/if}}
-                      <span class="caret"></span></a>
+                      {{#if currentUser}} <span class="caret"></span>{{/if}}</a>
                   {{#if currentUser}}
                       <ul class="dropdown-menu">
                           <li class="myprofile"><a href="#">حسابي</a></li>
