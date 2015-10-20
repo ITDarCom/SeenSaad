@@ -53,9 +53,9 @@ Template.messageStream.helpers({
     }
 })
 Template.messageStream.onRendered(function () {
-    $(document).on('mouseenter', '.msg', function () {
+    $(document).on('mouseenter', '.clearfix', function () {
         $(this).find(":button").removeClass("hidden");
-    }).on('mouseleave', '.msg', function () {
+    }).on('mouseleave', '.clearfix', function () {
         $(this).find(":button").addClass("hidden");
     });
 })

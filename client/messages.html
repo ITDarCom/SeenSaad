@@ -55,23 +55,11 @@
                                 <small><i class="fa fa-trash "></i></small>
                             </button>
                             <blockquote class="me">{{{nl2br message}}}
-                                <small>{{momentIt createdAt}}</small>
+                                <small>{{momentIt sendingAt}}</small>
                             </blockquote>
 
                         </div>
                     </div>
-
-                    <!--<div class="col-md-1">-->
-                    <!--<img class="media-object img-circle " height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">-->
-                    <!--</div>-->
-                    <!--<div class="col-md-11 msg alert-info">-->
-                    <!--<button class="btn hidden btn-xs btn-danger deleteMsgBtn pull-left ">-->
-                    <!--<small><i class="fa fa-trash "></i></small>-->
-                    <!--</button>-->
-                    <!--<h5>{{message}}</h5>-->
-
-                    <!--</div>-->
-
                 {{else}}
                     <div class="col-md-11 col-xs-11 msg">
 
@@ -80,7 +68,7 @@
                                 <small><i class="fa fa-trash"></i></small>
                             </button>
                             <blockquote class="you">{{{nl2br message}}}
-                                <small>{{momentIt createdAt}}</small>
+                                <small>{{momentIt sendingAt}}</small>
                             </blockquote>
                         </div>
                     </div>

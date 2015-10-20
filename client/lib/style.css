@@ -61,6 +61,7 @@ body {
     border-radius: 10px;
     border: 1px solid #BCE8F1;
     padding-top: 7px;
+    margin-bottom: 5px;
 }
 
 .profile-userpic img {
@@ -94,6 +95,7 @@ body {
     background-color: #BCE8F1;
     padding-left: 10px;
     padding-right: 5px;
+
 }
 
 .you {
