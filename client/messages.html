@@ -50,8 +50,10 @@
                     </div>
 
                     <div class="col-md-11 col-xs-11">
-                        <div class="clearfix">
-                            <blockquote class="me">{{message}}</blockquote>
+                        <div class="clearfix pull-right">
+                            <blockquote class="me">{{{nl2br message}}}
+                                <small>{{momentIt createdAt}}</small>
+                            </blockquote>
                         </div>
                     </div>
 
@@ -67,15 +69,16 @@
                     <!--</div>-->
 
                 {{else}}
-                    <div class="col-md-1 col-xs-1 pull-left">
-                        <img class="img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}"
-                             title="{{userUsername this.from}}">
-                    </div>
                     <div class="col-md-11 col-xs-11">
-                        <div class="clearfix">
+                        <div class="clearfix pull-left">
                             <blockquote class="you">{{message}}</blockquote>
                         </div>
                     </div>
+                    <div class="col-md-1 col-xs-1">
+                        <img class="img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}"
+                             title="{{userUsername this.from}}">
+                    </div>
+
                     <!--<div class="col-md-2 pull-left">-->
                     <!--<img class="media-object img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">-->
 
