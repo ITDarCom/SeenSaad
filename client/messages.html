@@ -1,10 +1,6 @@
 <template name="messages" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
-
     <div class="col-md-offset-1 col-md-10 col-md-offset-1">
         <h1>الرسائل</h1>
-
-
         <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
         <hr>
         <div id="sendMsgDiv" hidden>
@@ -17,7 +13,6 @@
             {{/autoForm}}
             <hr>
         </div>
-
         {{#each senders}}
             <div class="row">
                 <div class="col-md-1">
@@ -30,25 +25,22 @@
             </div>
             <hr>
         {{/each}}
-
     </div>
-
-
 </template>
+
+
 <template name="messageStream">
-
-
     <div class="col-md-offset-3 col-md-6 ">
         <legend> رسائل العضو</legend>
         {{#each messages }}
             <div class="row">
                 {{#if fromMe}}
-
                     <div class="col-md-1 col-xs-1">
-                        <img class="img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}"
-                             title="{{userUsername this.from}}">
+                        <a href="{{pathFor 'profile' id=this.from}}"> <img class="img-circle" height="42" width="42"
+                                                                           src="/nopic.png"
+                                                                           alt="{{userUsername this.from}}"
+                                                                           title="{{userUsername this.from}}"></a>
                     </div>
-
                     <div class="col-md-11 col-xs-11 msg">
                         <div class="clearfix pull-right">
                             <button class="btn hidden btn-xs btn-danger deleteMsgBtn pull-left ">
@@ -73,20 +65,12 @@
                         </div>
                     </div>
                     <div class="col-md-1 col-xs-1">
-                        <img class="img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}"
-                             title="{{userUsername this.from}}">
+                        <a href="{{pathFor 'profile' id=this.from}}"> <img class="img-circle" height="42" width="42"
+                                                                           src="/nopic.png"
+                                                                           alt="{{userUsername this.from}}"
+                                                                           title="{{userUsername this.from}}"></a>
                     </div>
 
-                    <!--<div class="col-md-2 pull-left">-->
-                    <!--<img class="media-object img-circle" height="42" width="42" src="/nopic.png" alt="{{userUsername this.from}}" title="{{userUsername this.from}}">-->
-
-                    <!--</div>-->
-                    <!--<div class="col-md-10 pull-left text-left msg-box-left alert-primary">-->
-                    <!--<button class="hidden btn btn-xs btn-danger pull-right">-->
-                    <!--<small><i class="fa fa-trash"></i></small>-->
-                    <!--</button>-->
-                    <!--<h5 class="alert-primary">{{message}}</h5>-->
-                    <!--</div>-->
                 {{/if}}
             </div>
         {{/each}}
@@ -100,8 +84,6 @@
                 {{/autoForm}}
             </div>
         </div>
-
     </div>
-
 </template>
 

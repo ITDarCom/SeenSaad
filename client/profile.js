@@ -1,4 +1,7 @@
 Template.profile.helpers({
+    active: function () {
+        return Session.get('template')
+    },
     thisUser: function () {
         if (Router.current().params.id)
             return Meteor.users.findOne(Router.current().params.id)
@@ -15,6 +18,9 @@ Template.profile.helpers({
 
 Template.profile.events({
     'click #sendMessage': function () {
-        Router.go("sendMsg", {id: this._id})
+        Session.set('template', 'messageStream')
     }
 });
+Template.profile.onRendered(function () {
+    Session.set('template', 'articles')
+})
