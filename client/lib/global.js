@@ -34,6 +34,15 @@ SimpleSchema.messages({
   minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
   maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 });
+var mySubmitFunc = function (error, state) {
+    if (!error) {
+        if (state === "signUp") {
+            Stream.insert({userId: Meteor.userId()})
+            Favorites.insert({userId: Meteor.userId()})
+        }
+    }
+};
+
 AccountsTemplates.configure({
     confirmPassword: true,
     enablePasswordChange: true,
@@ -51,9 +60,11 @@ AccountsTemplates.configure({
     positiveValidation: true,
     positiveFeedback: true,
     showValidating: true,
+    onSubmitHook: mySubmitFunc
 });
+
 var pwd = AccountsTemplates.removeField('password');
-AccountsTemplates.removeField('email');
+//AccountsTemplates.removeField('email');
 AccountsTemplates.addFields([
     {
         _id: "username",
@@ -65,5 +76,3 @@ AccountsTemplates.addFields([
     },
     pwd
 ]);
-
-
