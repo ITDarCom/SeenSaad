@@ -64,6 +64,8 @@ Template.articles.helpers({
                 return 'مواضيعك المفضلة'
             case "mine" :
                 return 'مواضيعك '
+            case 'articles':
+                return 'جميع المواضيع التي لك صلاحية الوصول إليها'
         }
 
     }

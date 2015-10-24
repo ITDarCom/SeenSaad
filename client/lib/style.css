@@ -95,7 +95,7 @@ body {
     background-color: #BCE8F1;
     padding-left: 10px;
     padding-right: 5px;
-
+    word-break: break-word;
 }
 
 .you {
@@ -106,4 +106,17 @@ body {
     padding-left: 5px;
     background-color: #BCE8F1;
     text-align: left;
+    word-break: break-word;
+
+}
+
+.summaryDiv {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+hr {
+    border: thin solid black;
 }

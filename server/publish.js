@@ -1,12 +1,12 @@
 Meteor.publish(null, function () {
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-            fields: {
-                title: 1,
-                username: 1,
-                createdAt: 1,
-                user: 1
-            }
-        })
+        fields: {
+            title: 1,
+            username: 1,
+            createdAt: 1,
+            user: 1
+        }
+    })
 });
 Meteor.publish(null, function () {
     if (this.userId) {
@@ -93,16 +93,20 @@ Meteor.publish("Article", function (articleId) {
 })
 
 Meteor.publish(null, function () {
+        if (this.userId)
+            return Meteor.users.find({}, {fields: {username: 1}})
+
+    }
+)
+;
+Meteor.publish(null, function () {
     if (this.userId)
-        return Meteor.users.find();
-    else
-        return Meteor.users.find({}, {fields: {username: 1}})
+        return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
+            sender: 0,
+            reciver: 0
+        })
 });
 Meteor.publish(null, function () {
     if (this.userId)
-        return Messages.find({$or: [{to: this.userId}, {from: this.userId}]})
-})
-Meteor.publish(null, function () {
-    if (this.userId)
         return Stream.find({userId: this.userId})
-})
+});

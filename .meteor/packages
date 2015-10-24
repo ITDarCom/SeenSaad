@@ -37,3 +37,5 @@ useraccounts:bootstrap
 useraccounts:iron-routing
 cfs:standard-packages
 cfs:s3
+comerc:autoform-typeahead
+comerc:bs-typeahead

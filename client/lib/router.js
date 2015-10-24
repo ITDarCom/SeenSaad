@@ -1,7 +1,6 @@
 Router.configure({
 	layoutTemplate: 'layout',
 	loadingTemplate: 'spinner'
-
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {

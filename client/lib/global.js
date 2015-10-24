@@ -19,6 +19,9 @@ Template.registerHelper('owner', function (articeleId) {
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
+Template.registerHelper("currentId", function (toMoment) {
+    return Router.current().params.id;
+});
 Template.registerHelper("nl2br", function (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
 

@@ -21,6 +21,12 @@ Template.messages.helpers({
         })
         return _.uniq(contacts)
     },
+    s2Opts: function () {
+        return {
+            placeholder: "tesssst",
+            allowClear: true
+        };
+    },
     lastMessage: function () {
         return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
             sort: {
@@ -29,11 +35,19 @@ Template.messages.helpers({
             }
         }).fetch()[0].message
     },
-    
+    lastMessageSendingAt: function () {
+
+        return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+            sort: {
+                sendingAt: -1,
+                limit: 1
+            }
+        }).fetch()[0].sendingAt
+    }
+
 })
 Template.messageStream.helpers({
     fromMe: function () {
-        this.seen = true;
         return (this.from == Meteor.userId())
     },
     messages: function () {
@@ -41,15 +55,6 @@ Template.messageStream.helpers({
     },
     thisUser: function () {
         return (Router.current().params.id)
-    },
-    select2opts: function () {
-
-    },
-    usersOptions: function () {
-        return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
-            return {label: c.username, value: c._id};
-            // return users name for select2 field
-        })
     }
 })
 Template.messageStream.onRendered(function () {
@@ -62,6 +67,24 @@ Template.messageStream.onRendered(function () {
 Template.messageStream.events({
     'click .deleteMsgBtn': function () {
         if (Meteor.userId())
-            Messages.remove({_id: this._id})
+            Meteor.call('removeMessage', this._id);
     }
+})
+AutoForm.hooks({
+    sendMsgToUser: {
+        onSuccess: function (formType) {
+            if (formType == 'insert')
+                $('.msgTextarea').empty();
+        }
+    },
+    sendMsg: {
+        onSuccess: function (formType) {
+            if (formType == 'insert')
+                $('.msgTextarea').empty();
+        }
+    }
+
+})
+Template.messages.onRendered(function () {
+    $('.select2-chosen').text('اختر');
 })
