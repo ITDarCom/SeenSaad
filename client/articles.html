@@ -3,7 +3,7 @@
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
             <h1>{{headerText}}</h1>
             <small>{{headerDescription}}</small>
-            <hr>
+            <hr class="title">
             <div hidden id="notify"></div>
             {{#each articles}}
                 {{> articleView}}
@@ -58,7 +58,7 @@
                 <h1>البحث</h1>
 
                 <small>اكتب الكلمات المراد البحث عنها</small>
-                <hr>
+                <hr class="title">
                 {{> searchBox }}
                 {{> searchResult}}
             </div>
