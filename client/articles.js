@@ -33,10 +33,17 @@ Template.articles.helpers({
                     if (Router.current().params.id)
                         return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
             }
+            if (Session.get('template') == "articles") {
+                if (Router.current().params.id)
+                    return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+                return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
+            }
         }
         else {
             if (Router.current().route.getName() == 'articles')
                 return Articles.find({}, {sort: {createdAt: -1}});
+
+
             Router.go("signIn")
         }
     },

@@ -5,7 +5,43 @@ Router.configure({
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
 	this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
-    this.route('profile', {path: '/profile/:id'});
+	this.route('profile', {
+		path: '/profile/:id', action: function () {
+			Session.set('template', 'articles')
+			this.render('profile')
+		}
+	});
+	this.route('resetPasswd', {
+		path: '/profile/setting/resetpass', template: 'profile', action: function () {
+			this.render('profile')
+			Session.set('template', 'profileSetting');
+			Session.set('settings', 'chgpasswd')
+
+
+		}
+	})
+	this.route('editPresonalInfo', {
+		path: '/profile/setting/editInfo', template: 'profile', action: function () {
+			this.render('profile')
+			Session.set('template', 'profileSetting');
+			Session.set('settings', 'personalInformation')
+		}
+	})
+	this.route('editProfileImg', {
+		path: '/profile/setting/editProfileImg', template: 'profile', action: function () {
+			this.render('profile')
+			Session.set('template', 'profileSetting');
+			Session.set('settings', 'profileImg')
+		}
+	})
+	this.route('profileSetting', {
+		path: '/settings', template: 'profile', action: function () {
+			Session.set('template', 'profileSetting')
+			Session.set('settings', 'profileImg')
+			this.render('profile')
+
+		}
+	})
 	this.route('me', {path: '/profile', template: 'profile'});
 	this.route('articles', {path: '/'});
 	this.route('search', {path:'/search'});

@@ -1,4 +1,4 @@
-<template name="profile" xmlns="http://www.w3.org/1999/html">
+<template name="profile">
     {{#with thisUser}}
 
         <div class="row profile">
@@ -10,7 +10,7 @@
                     </div>
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-name">
-                            <h3>{{userUsername this._id}}</h3>
+                            <h3>{{userFullName this._id}}</h3>
                         </div>
                     </div>
                     {{#if notUserOrGuest}}
@@ -24,14 +24,14 @@
                     {{else}}
                         <div class="profile-usermenu">
                             <ul class="nav">
-                                <li class="{{#if currentRouteName 'profile'}} active {{/if}}">
-                                    <a href="#">
+                                <li id="profileArticles" class="{{#if currentRouteName 'profile'}} active {{/if}}">
+                                    <a href="{{pathFor 'profile'}}">
                                         <i class="glyphicon glyphicon-flag"></i>
                                         المواضيع </a>
                                 </li>
                                 <li id="profileSetting"
                                     class="{{#if currentRouteName 'profileSetting'}} active {{/if}}">
-                                    <a href="#">
+                                    <a href="{{pathFor 'profileSetting'}}">
                                         <i class="glyphicon glyphicon-home"></i>
                                         تعديل الملف الشخصي </a>
                                 </li>
@@ -53,23 +53,28 @@
 </template>
 
 <template name="profileSetting">
-    <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            <ul class="nav nav-pills">
-                <li role="presentation" class="{{#if activeSetting 'profileImg'}}active{{/if}}"><a id="profileImg"
-                                                                                                   class="profileSettingBtn"
-                                                                                                   href="#">تعديل الصورة
-                    الشخصية</a></li>
-                <li role="presentation" class="{{#if activeSetting 'chgpasswd'}}active{{/if}}"><a id="chgpasswd"
-                                                                                                  class="profileSettingBtn"
-                                                                                                  href="#">تغيير كلمة
-                    المرور</a></li>
-                <li role="presentation" class="{{#if activeSetting 'personalInformation'}}active{{/if}}"><a
-                        id="personalInformation" class="profileSettingBtn" href="#">تعديل المعلومات الشخصية</a></li>
-            </ul>
-            {{> Template.dynamic template=activeSetting}}
+    {{#if isMe}}
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
+                                                                               class="profileSettingBtn"
+                                                                               href="{{pathFor 'editProfileImg'}}">تعديل
+                        الصورة
+                        الشخصية</a></li>
+                    <li role="presentation" class="{{active 'chgpasswd'}}"><a id="chgpasswd"
+                                                                              class="profileSettingBtn"
+                                                                              href="{{pathFor 'resetPasswd'}}">تغيير
+                        كلمة
+                        المرور</a></li>
+                    <li role="presentation" class="{{active 'personalInformation' }}"><a
+                            id="personalInformation" class="profileSettingBtn" href="{{pathFor 'editPresonalInfo'}}">تعديل
+                        المعلومات الشخصية</a></li>
+                </ul>
+                {{> Template.dynamic template=activeSetting}}
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>
 <template name="profileImg">
     <br>
@@ -79,7 +84,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading"><strong>تحديث الصورة الشخصية</strong>
                     <small></small>
-                </div>
+                    </div>
                 <div class="panel-body">
                     <div class="profile-userpic">
                         <img src="{{getProfilePic}}"
@@ -107,13 +112,33 @@
 
 
                 </div>
-            </div>
+                </div>
 
         </div>
-    </div>
-    <div class="row">
-    </div>
+        </div>
+
 </template>
 <template name="chgpasswd">
     {{> atForm state="changePwd"}}
+</template>
+<template name="personalInformation">
+    <br>
+    <ul class="list-group">
+        <li class="list-group-item" field="profile.emails"> البريد الإلكتروني :<span
+                class="personalField">{{email}}</span> <a href="#" class='edit'>
+            <small>تعديل</small>
+        </a></li>
+        <li class="list-group-item" field="profile.firstName">الاسم الأول: <span
+                class="personalField">{{firstName}}</span> <a href="#" class='edit'>
+            <small>تعديل</small>
+        </a></li>
+        <li class="list-group-item" field="profile.familyName"> اسم العائلة: <span
+                class="personalField">{{familyName}}</span> <a href="#" class='edit'>
+            <small>تعديل</small>
+        </a></li>
+        <li class="list-group-item" field="profile.mobile"> رقم الجوال : <span class="personalField">{{mobile}}</span><a
+                href="#" class='edit'>
+            <small>تعديل</small>
+        </a></li>
+    </ul>
 </template>

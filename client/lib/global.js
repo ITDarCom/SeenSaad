@@ -1,7 +1,12 @@
 Template.registerHelper('dateFormated', function (date) {
-	return moment(date).format('HH:mm:ss YYYY.MM.DD');
+    return moment(date).format('HH:mm:ss YYYY.MM.DD');
 });
-
+Template.registerHelper('userFullName', function (id) {
+    var name = (UI._globalHelpers['firstName'](id) + ' ')
+    if (UI._globalHelpers['familyName'](id))
+        return name + UI._globalHelpers['familyName'](id)
+    return name
+})
 Template.registerHelper('userUsername', function (id) {
     if (id)
         var user = Meteor.users.findOne({_id: id});
@@ -40,11 +45,31 @@ Template.registerHelper("nl2br", function (str, is_xhtml) {
 Template.registerHelper("currentRouteName", function () {
     return (Router.current().route.getName())
 });
+Template.registerHelper("firstName", function (id) {
+    if (id)
+        return (Meteor.users.findOne(id).firstName) || Meteor.users.findOne(id).username
+    return (Meteor.users.findOne(Meteor.userId()).firstName) || "لم يتم إدخاله"
+
+});
+Template.registerHelper("familyName", function (id) {
+    if (id)
+        return (Meteor.users.findOne(id).familyName)
+    return (Meteor.users.findOne(Meteor.userId()).familyName) || "لم يتم إدخاله"
+});
+Template.registerHelper("email", function () {
+    if (Meteor.users.findOne(Meteor.userId()).emails)
+        return (Meteor.users.findOne(Meteor.userId()).emails[0].address) || "لم يتم إدخاله"
+    return "لم يتم إدخاله"
+});
+Template.registerHelper("mobile", function () {
+    return (Meteor.users.findOne(Meteor.userId()).mobile) || "لم يتم إدخاله"
+});
+
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
 SimpleSchema.messages({
-  required: " [label] هو حقل مطلوب ولا بد من إدخاله",
-  minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
-  maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
+    required: " [label] هو حقل مطلوب ولا بد من إدخاله",
+    minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
+    maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 });
 
