@@ -16,6 +16,16 @@ Template.registerHelper('favorite', function () {
 Template.registerHelper('owner', function (articeleId) {
     return (Meteor.userId() == this.user)
 });
+Template.registerHelper('getProfilePic', function (id) {
+    if (id)
+        pic = profilePicture.findOne({owner: id})
+    else
+        pic = profilePicture.findOne({owner: Meteor.userId()})
+    if (pic)
+        return pic.url()
+    else
+        return ("/nopic.png")
+});
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
@@ -37,45 +47,4 @@ SimpleSchema.messages({
   minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
   maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 });
-var mySubmitFunc = function (error, state) {
-    if (!error) {
-        if (state === "signUp") {
-            Stream.insert({userId: Meteor.userId()})
-            Favorites.insert({userId: Meteor.userId()})
-        }
-    }
-};
 
-AccountsTemplates.configure({
-    confirmPassword: true,
-    enablePasswordChange: true,
-    focusFirstInput: true,
-    showLabels: false,
-    showPlaceholders: true,
-    negativeValidation: true,
-    positiveValidation: true,
-    positiveFeedback: true,
-    showValidating: true,
-    homeRoutePath: '/me',
-    continuousValidation: true,
-    negativeFeedback: true,
-    negativeValidation: true,
-    positiveValidation: true,
-    positiveFeedback: true,
-    showValidating: true,
-    onSubmitHook: mySubmitFunc
-});
-
-var pwd = AccountsTemplates.removeField('password');
-//AccountsTemplates.removeField('email');
-AccountsTemplates.addFields([
-    {
-        _id: "username",
-        type: "text",
-        displayName: "اسم المستخدم",
-        placeholder: 'اسم المستخدم',
-        required: true,
-        minLength: 3
-    },
-    pwd
-]);

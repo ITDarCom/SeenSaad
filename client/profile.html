@@ -1,11 +1,11 @@
-<template name="profile">
+<template name="profile" xmlns="http://www.w3.org/1999/html">
     {{#with thisUser}}
 
         <div class="row profile">
             <div class="col-md-3">
                 <div class="profile-sidebar">
                     <div class="profile-userpic">
-                        <img src="/nopic2.jpg"
+                        <img src="{{getProfilePic currentId}}"
                              class="img-responsive" alt="">
                     </div>
                     <div class="profile-usertitle">
@@ -25,12 +25,13 @@
                         <div class="profile-usermenu">
                             <ul class="nav">
                                 <li class="{{#if currentRouteName 'profile'}} active {{/if}}">
-                                    <a href="{{pathFor route='profile' _id=_id}}">
+                                    <a href="#">
                                         <i class="glyphicon glyphicon-flag"></i>
                                         المواضيع </a>
                                 </li>
-                                <li class="{{#if currentRouteName 'profileSetting'}} active {{/if}}">
-                                    <a href="{{pathFor route='profile' _id=_id}}">
+                                <li id="profileSetting"
+                                    class="{{#if currentRouteName 'profileSetting'}} active {{/if}}">
+                                    <a href="#">
                                         <i class="glyphicon glyphicon-home"></i>
                                         تعديل الملف الشخصي </a>
                                 </li>
@@ -51,3 +52,68 @@
     {{/with}}
 </template>
 
+<template name="profileSetting">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="{{#if activeSetting 'profileImg'}}active{{/if}}"><a id="profileImg"
+                                                                                                   class="profileSettingBtn"
+                                                                                                   href="#">تعديل الصورة
+                    الشخصية</a></li>
+                <li role="presentation" class="{{#if activeSetting 'chgpasswd'}}active{{/if}}"><a id="chgpasswd"
+                                                                                                  class="profileSettingBtn"
+                                                                                                  href="#">تغيير كلمة
+                    المرور</a></li>
+                <li role="presentation" class="{{#if activeSetting 'personalInformation'}}active{{/if}}"><a
+                        id="personalInformation" class="profileSettingBtn" href="#">تعديل المعلومات الشخصية</a></li>
+            </ul>
+            {{> Template.dynamic template=activeSetting}}
+        </div>
+    </div>
+</template>
+<template name="profileImg">
+    <br>
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-7">
+            <div class="panel panel-info">
+                <div class="panel-heading"><strong>تحديث الصورة الشخصية</strong>
+                    <small></small>
+                </div>
+                <div class="panel-body">
+                    <div class="profile-userpic">
+                        <img src="{{getProfilePic}}"
+                             class="img-responsive" alt="">
+                    </div>
+                    <br>
+
+                    <div class="input-group image-preview">
+                        <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                        <!-- don't give a name === doesn't send on POST/GET -->
+                <span class="input-group-btn">
+                    <!-- image-preview-clear button -->
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span> Clear
+                    </button>
+                    <!-- image-preview-input -->
+                    <div class="btn btn-default image-preview-input">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <span class="image-preview-input-title">استعرض</span>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>
+                        <!-- rename it -->
+                    </div>
+                </span>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+    </div>
+</template>
+<template name="chgpasswd">
+    {{> atForm state="changePwd"}}
+</template>

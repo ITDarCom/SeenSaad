@@ -110,3 +110,7 @@ Meteor.publish(null, function () {
     if (this.userId)
         return Stream.find({userId: this.userId})
 });
+Meteor.publish(null, function () {
+
+    return profilePicture.find({})
+});

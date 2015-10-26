@@ -4,10 +4,7 @@
 //});
 
 Template.layout.events({
-	'click .myprofile': function () {
-		event.preventDefault()
-		Router.go("me");
-	},
+
 	'click .logOut': function () {
 		AccountsTemplates.logout();
 	},
