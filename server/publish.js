@@ -61,6 +61,7 @@ Meteor.publish(null, function () {
     }
 })
 Meteor.publish(null, function () {
+    debugger
     if (this.userId) {
         return Articles.find({user: this.userId})
     }
@@ -68,26 +69,29 @@ Meteor.publish(null, function () {
 Meteor.publish("Article", function (articleId) {
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId) {
-        article.read++;
+        Meteor.call("readCounter", articleId)
         return Articles.find({_id: articleId})
     }
     if (article.contributingPermissions == '0') {
-        article.read++;
+        Meteor.call("readCounter", articleId, this.userId)
         return Articles.find({_id: articleId})
     }
     else {
         if (article.contributingIds)
             if (!_.isEmpty(_.where(article.contributingIds, this.userId))) {
-                article.read++;
+                Meteor.call("readCounter", articleId, this.userId)
                 return Articles.find({_id: articleId})
             }
         if (article.readingPermissions == '0') {
-            article.read++;
+            Meteor.call("readCounter", articleId, this.userId)
             return Articles.find({_id: articleId})
         }
         else if (article.readingIds)
             if (!_.isEmpty(_.where(article.readingIds, this.userId))) {
-                return Articles.find({_id: articleId})
+                if (Articles.find({_id: articleId})) {
+                    Meteor.call("readCounter", articleId, this.userId)
+                    return true
+                }
             }
     }
 })

@@ -27,17 +27,17 @@ Template.article.helpers({
     allowReading: function () {
         //this refer to this article that is displayed
         if (this.readingPermissions == "0" || this.contributingPermissions == "0" || this.user == Meteor.userId()) {  // 0 value mean the articel is public contribtion or reading
-            {
-                // Meteor.call("readCounter", Router.current().params.id)
-                return true
-            }
+            return true
+
         }
         else {
             if (Meteor.userId()) {
-                if ((this.readingIds != null) && (!_.isEmpty(_.where(this.readingIds, Meteor.userId()))))
-                    return true // underscorejs lib
+                if ((this.readingIds != null) && (!_.isEmpty(_.where(this.readingIds, Meteor.userId())))) {
+                    return true
+                }// underscorejs lib
                 if (this.contributingIds != null)
-                    return (!_.isEmpty(_.where(this.contributingIds, Meteor.userId())))
+                    if (!_.isEmpty(_.where(this.contributingIds, Meteor.userId())))
+                        return true
             }// underscorejs lib
             else return false; // false mean not premitted
         }
@@ -46,8 +46,21 @@ Template.article.helpers({
         var article = Articles.findOne({_id: this._id});
         return article.comments;
         //return comments for this article
+    },
+    isPrivate: function () {
+        return this.contributingPermissions == 1;
+    },
+    commentCounter: function () {
+        return this.comments.length;
+    },
+    commenters: function () {
+        var commentrs = []
+        _.each(this.comments, function (c) {
+            if (!_.contains(commentrs, c.commenter))
+                commentrs.push(c.commenter)
+        })
+        return commentrs;
     }
-
 });
 Template.article.events({
     'click #editButton': function () {

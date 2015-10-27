@@ -17,7 +17,7 @@ AutoForm.hooks(
                 }
                 Router.go("article", {id: this.docId});
 
-            }
+            },
         }
     })
 Template.add.helpers(

@@ -12,6 +12,8 @@
                             &nbsp;&nbsp;
                             <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="dateSwitch"
                                                                                                     title="{{dateFormated createdAt}}">{{momentIt createdAt}}</span>
+                            {{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i
+                                    class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}
                         </div>
                         <div class="col-md-4 text-center">
                             <h4>{{title}}</h4>
@@ -30,6 +32,35 @@
                             </button>
                         </div>
                     </div>
+                </div>
+                <div class="alert alert-success"><a class="close" data-dismiss="alert">×</a>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th> عدد المشاهدات: {{read}}</th>
+                            <th> عدد المشاركات: {{commentCounter}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            {{#if allowContributing}}
+                                <td> المشاركون :
+                                    {{#each commenters}}
+                                        <a href="{{pathFor 'profile' this}}"> {{userUsername this}}</a>,
+                                    {{/each}}
+                                </td>
+                            {{/if}}
+                        </tr>
+                        {{#if allowReading}}
+                            <td> المشاهدون:
+                                {{#each readers}}
+                                    <a href="{{pathFor 'profile' this}}"> {{userUsername this}}</a>,
+                                {{/each}}
+                            </td>
+                        {{/if}}
+                        </tbody>
+                    </table>
                 </div>
                 <div class="panel-body">
                     <div class="textEditor" name="textEditor">{{{body}}}</div>
