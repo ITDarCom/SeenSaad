@@ -24,13 +24,13 @@
                     {{else}}
                         <div class="profile-usermenu">
                             <ul class="nav">
-                                <li id="profileArticles" class="{{#if currentRouteName 'profile'}} active {{/if}}">
-                                    <a href="{{pathFor 'profile'}}">
+                                <li id="profileArticles" class="{{currentActiveTemplate}}">
+                                    <a href="#">
                                         <i class="glyphicon glyphicon-flag"></i>
-                                        المواضيع </a>
+                                        المواضيع
+                                    </a>
                                 </li>
-                                <li id="profileSetting"
-                                    class="{{#if currentRouteName 'profileSetting'}} active {{/if}}">
+                                <li id="profileSetting" class="{{currentActiveTemplate}}">
                                     <a href="{{pathFor 'profileSetting'}}">
                                         <i class="glyphicon glyphicon-home"></i>
                                         تعديل الملف الشخصي </a>

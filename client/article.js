@@ -51,7 +51,9 @@ Template.article.helpers({
         return this.contributingPermissions == 1;
     },
     commentCounter: function () {
+        if (this.comments)
         return this.comments.length;
+        else return 0
     },
     commenters: function () {
         var commentrs = []
@@ -60,6 +62,11 @@ Template.article.helpers({
                 commentrs.push(c.commenter)
         })
         return commentrs;
+    },
+    favoriteCounter: function () {
+        if (this.favorite)
+            return this.favorite.length
+        else return 0
     }
 });
 Template.article.events({
@@ -78,6 +85,9 @@ Template.article.events({
         var temp = target.html()
         target.html(target.attr('title'));
         target.attr('title', temp)
+    },
+    'click #showInfo': function () {
+        $('#infoDiv').slideToggle();
     }
 })
 

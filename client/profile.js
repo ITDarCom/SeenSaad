@@ -12,6 +12,9 @@ Template.profile.helpers({
         var userId = Meteor.userId();
         var profileId = this._id;
         return !!Meteor.userId() && userId != profileId;
+    },
+    currentActiveTemplate: function () {
+        return
     }
 });
 
@@ -21,12 +24,22 @@ Template.profile.events({
     },
     'click #profileSetting': function () {
         Session.set('template', 'profileSetting');
+        $('.active').removeClass('active')
+        $(event.target).parent().addClass('active')
+
     },
     'click #profileArticles': function () {
         Session.set('template', 'articles');
+        $('.active').removeClass('active')
+        $(event.target).parent().addClass('active')
     }
 });
 Template.profile.onRendered(function () {
+
+    if (_.contains(['profileSetting', 'editProfileImg', 'editPresonalInfo', 'resetPasswd'], Router.current().route.getName()))
+        $('#profileSetting').addClass('active')
+    else
+        $('#profileArticles').addClass('active')
     //Session.set('template', 'articles')
 })
 Template.profileSetting.helpers({
@@ -53,8 +66,6 @@ Template.profileImg.events({})
 Template.profileImg.onRendered(function () {
     $(function () {
         $(".image-preview-input input:file").change(function () {
-
-
             // Create the preview image
             var file = this.files[0];
             var reader = new FileReader();

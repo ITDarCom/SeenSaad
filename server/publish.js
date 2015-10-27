@@ -61,7 +61,7 @@ Meteor.publish(null, function () {
     }
 })
 Meteor.publish(null, function () {
-    debugger
+
     if (this.userId) {
         return Articles.find({user: this.userId})
     }
