@@ -12,9 +12,6 @@ Template.profile.helpers({
         var userId = Meteor.userId();
         var profileId = this._id;
         return !!Meteor.userId() && userId != profileId;
-    },
-    currentActiveTemplate: function () {
-        return
     }
 });
 
