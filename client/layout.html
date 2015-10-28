@@ -29,7 +29,7 @@
                                                              aria-hidden="true"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-left">
-                        {{#if emailStatus}} <a href="{{pathFor 'me'}}"
+                        {{#if emailStatus}} <a href="{{pathFor 'editPresonalInfo'}}"
                                                title="ملفك الشخصي غير مكتمل .. اضغط لإكماله"><span
                                 class="fa-stack fa-lg">
   <i class="fa fa-circle fa-stack-2x"></i>
@@ -62,4 +62,9 @@
         {{> yield}}
     </div>
 
+</template>
+<template name="headerText">
+    <h1>{{headerText}}</h1>
+    <small>{{headerDescription}}</small>
+    <hr class="title">
 </template>

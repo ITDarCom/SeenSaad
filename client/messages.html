@@ -1,8 +1,6 @@
 <template name="messages" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-offset-1 col-md-10 col-md-offset-1">
-        <h1>الرسائل</h1>
-        <small>الرسائل الخاصة المتبادلة مع أعضاء الموقع</small>
-        <hr class="title">
+        {{> headerText}}
 
         <hr>
         {{#each senders}}
@@ -38,7 +36,7 @@
                     <strong>أرسل رسالة</strong></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-offset-2 col-md-8">
+                        <div class="col-md-offset-1 col-md-10">
                             {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                                 <fieldset>
                                     {{> afQuickField name="to" select2Options=s2Opts}}

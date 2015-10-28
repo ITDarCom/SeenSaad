@@ -44,35 +44,6 @@ Template.articles.helpers({
                 return Articles.find({}, {sort: {createdAt: -1}});
             Router.go("signIn")
         }
-    },
-    headerText: function () {
-        switch (Router.current().route.getName()) {
-            case "read" :
-                return 'مواضيع المشاهدة'
-            case "participation" :
-                return 'مواضيع المشاركة'
-            case "favorite" :
-                return 'المواضيع المفضلة'
-            case "mine" :
-                return ' مواضيعي'
-            case 'articles':
-                return 'المواضيع العامة'
-        }
-    },
-    headerDescription: function () {
-        switch (Router.current().route.getName()) {
-            case "read" :
-                return 'المواضيع التي لك صلاحية مشاهدتها'
-            case "participation" :
-                return ' المواضيع التي لك صلاحية مشاهدتها ووالمساهمة في نقاشها'
-            case "favorite" :
-                return 'مواضيعك المفضلة'
-            case "mine" :
-                return 'مواضيعك '
-            case 'articles':
-                return 'جميع المواضيع التي لك صلاحية الوصول إليها'
-        }
-
     }
 });
 Template.articles.events({

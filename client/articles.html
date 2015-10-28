@@ -1,9 +1,7 @@
 <template name="articles">
     <div class="row">
         <div class="col-md-offset-1 col-md-10 col-md-offset-1">
-            <h1>{{headerText}}</h1>
-            <small>{{headerDescription}}</small>
-            <hr class="title">
+            {{> headerText}}
             <div hidden id="notify"></div>
             {{#each articles}}
                 {{> articleView}}
@@ -57,10 +55,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
-                <h1>البحث</h1>
-
-                <small>اكتب الكلمات المراد البحث عنها</small>
-                <hr class="title">
+                {{> headerText}}
                 {{> searchBox }}
                 {{> searchResult}}
             </div>
