@@ -3,17 +3,7 @@
         <h1>الرسائل</h1>
         <small>الرسائل الخاصة المتبادلة مع أعضاء الموقع</small>
         <hr class="title">
-        <button type="button" class="btn btn-default sendMsgBtn">أرسل رسالة</button>
-        <div id="sendMsgDiv" hidden>
-            {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
-                <fieldset>
-                    {{> afQuickField name="to" select2Options=s2Opts}}
-                    {{> afQuickField name="message"}}
-                </fieldset>
-                <button type="submit" class="btn btn-primary">أرسل</button>
-            {{/autoForm}}
 
-        </div>
         <hr>
         {{#each senders}}
             <div class="panel-group">
@@ -22,7 +12,7 @@
                         <div class="row">
                             <div class="col-md-offset-2 col-xs-offset-2 col-md-4 col-xs-4">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
-                                    href="{{pathFor 'profile' id=this}}">{{userUsername this}}</a>
+                                    href="{{pathFor 'messageStream' id=this}}">{{userUsername this}}</a>
                             </div>
                             <div class="col-md-4">
                                 <span class="glyphicon glyphicon-time"
@@ -33,8 +23,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-offset-1 col-md-11 col-xs-offset-1 col-xs-11">
-                                <a href="{{pathFor route='messageStream' id=this}}"><h4
-                                        class="col-md-8">{{{lastMessage}}}</h4></a>
+                                <h4 class="col-md-8">{{{lastMessage}}}</h4>
 
                             </div>
 
@@ -43,6 +32,26 @@
                 </div>
             </div>
         {{/each}}
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>أرسل رسالة</strong></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
+                                <fieldset>
+                                    {{> afQuickField name="to" select2Options=s2Opts}}
+                                    {{> afQuickField name="message"}}
+                                </fieldset>
+                                <button type="submit" class="btn btn-primary">أرسل</button>
+                            {{/autoForm}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -52,7 +61,13 @@
         <div class="col-md-offset-1 col-md-10">
             <div class="panel panel-info">
                 <div class="panel-heading">
+                    <a href="{{pathFor 'messages'}}">
+                        <div class="pull-left">
+                            <i class="fa fa-arrow-circle-left fa-lg"></i>
+                        </div>
+                    </a>
                     <h4> رسائل العضو: {{userUsername currentId}}</h4>
+
                 </div>
                 <div class="panel-body">
                     {{#each messages }}

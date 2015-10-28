@@ -64,6 +64,13 @@ Template.registerHelper("email", function () {
 Template.registerHelper("mobile", function () {
     return (Meteor.users.findOne(Meteor.userId()).mobile) || "لم يتم إدخاله"
 });
+Template.registerHelper("emailStatus", function () {
+    if (Meteor.userId) {
+        user = Meteor.users.findOne(Meteor.userId());
+        return ((!user.emails || !user.firstName || !user.familyName || !user.mobile) || (user.emails && !user.emails[0].verified))
+    }
+    return false
+})
 
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
