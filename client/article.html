@@ -49,7 +49,7 @@
                             {{#if allowReading}}
                                 <td> الأعضاء المشاهدون :
                                     {{#each readers}}
-                                        <a href="{{pathFor 'profile' this}}"> {{userUsername this}}</a>
+                                        <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>
                                     {{else}}
                                         لا أحد
                                     {{/each}}
@@ -58,14 +58,14 @@
                             {{#if allowContributing}}
                                 <td> المشاركون :
                                     {{#each commenters}}
-                                        <a href="{{pathFor 'profile' this}}"> {{userUsername this}}</a>,
+                                        <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
                                     {{else}} لا أحد
                                     {{/each}}
                                 </td>
                             {{/if}}
                             <td> من قام بتفضيل هذا الموضوع :
                                 {{#each this.favorite}}
-                                    <a href="{{pathFor 'profile' this}}"> {{userUsername this}}</a>,
+                                    <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
                                 {{else}} لا أحد
                                 {{/each}}
                             </td>

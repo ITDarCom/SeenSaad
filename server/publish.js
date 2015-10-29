@@ -99,6 +99,9 @@ Meteor.publish("Article", function (articleId) {
 Meteor.publish(null, function () {
         if (this.userId)
             return Meteor.users.find()
+        else
+            return Meteor.users.find({}, {username: 1})
+
     }
 )
 ;
