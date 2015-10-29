@@ -86,5 +86,5 @@ AutoForm.hooks({
 
 })
 Template.messages.onRendered(function () {
-    $('.select2-chosen').text('اختر');
+    $('.select2-chosen').text('إلـى');
 })

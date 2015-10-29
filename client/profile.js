@@ -99,6 +99,7 @@ Template.profileImg.onRendered(function () {
 })
 Template.chgpasswd.onRendered(function () {
     $('#at-btn').removeClass("btn-default").addClass("btn-primary");
+    $('label').hide()
 })
 
 Template.personalInformation.events({

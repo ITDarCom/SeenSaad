@@ -55,22 +55,31 @@
     {{#if isMe}}
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
-                <ul class="nav nav-pills">
-                    <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
-                                                                               class="profileSettingBtn"
-                                                                               href="{{pathFor 'editProfileImg'}}">تعديل
-                        الصورة
-                        الشخصية</a></li>
-                    <li role="presentation" class="{{active 'chgpasswd'}}"><a id="chgpasswd"
-                                                                              class="profileSettingBtn"
-                                                                              href="{{pathFor 'resetPasswd'}}">تغيير
-                        كلمة
-                        المرور</a></li>
-                    <li role="presentation" class="{{active 'personalInformation' }}"><a
-                            id="personalInformation" class="profileSettingBtn" href="{{pathFor 'editPresonalInfo'}}">تعديل
-                        المعلومات الشخصية</a></li>
-                </ul>
-                {{> Template.dynamic template=activeSetting}}
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">تعديل المعلومات الشخصية </h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
+                                                                                       class="profileSettingBtn"
+                                                                                       href="{{pathFor 'editProfileImg'}}">تعديل
+                                الصورة
+                                الشخصية</a></li>
+                            <li role="presentation" class="{{active 'chgpasswd'}}"><a id="chgpasswd"
+                                                                                      class="profileSettingBtn"
+                                                                                      href="{{pathFor 'resetPasswd'}}">تغيير
+                                كلمة
+                                المرور</a></li>
+                            <li role="presentation" class="{{active 'personalInformation' }}"><a
+                                    id="personalInformation" class="profileSettingBtn"
+                                    href="{{pathFor 'editPresonalInfo'}}">تعديل
+                                المعلومات الشخصية</a></li>
+                        </ul>
+                        {{> Template.dynamic template=activeSetting}}
+                    </div>
+                </div>
+
             </div>
         </div>
     {{/if}}
@@ -80,11 +89,7 @@
 
     <div class="row">
         <div class="col-md-offset-2 col-md-7">
-            <div class="panel panel-info">
-                <div class="panel-heading"><strong>تحديث الصورة الشخصية</strong>
-                    <small></small>
-                    </div>
-                <div class="panel-body">
+
                     <div class="profile-userpic">
                         <img src="{{getProfilePic}}"
                              class="img-responsive" alt="">
@@ -110,11 +115,9 @@
                     </div>
 
 
-                </div>
-                </div>
+        </div>
+    </div>
 
-        </div>
-        </div>
 
 </template>
 <template name="chgpasswd">

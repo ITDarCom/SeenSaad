@@ -8,11 +8,11 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-offset-2 col-xs-offset-2 col-md-4 col-xs-4">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
-                                    href="{{pathFor 'messageStream' id=this}}">{{userUsername this}}</a>
+                            <div class="col-md-4 col-xs-4">
+                                <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
+                                        href="{{pathFor 'messageStream' id=this}}">{{userUsername this}}</a></h4>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-offset-4 col-xs-offset-4 col-md-4 col-xs-4">
                                 <span class="glyphicon glyphicon-time"
                                       aria-hidden="true"></span> {{dateFormated lastMessageSendingAt}}
                             </div>
@@ -39,10 +39,10 @@
                         <div class="col-md-offset-1 col-md-10">
                             {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                                 <fieldset>
-                                    {{> afQuickField name="to" select2Options=s2Opts}}
-                                    {{> afQuickField name="message"}}
+                                    {{> afQuickField name="to" label=false select2Options=s2Opts}}
+                                    {{> afQuickField name="message" label=false}}
                                 </fieldset>
-                                <button type="submit" class="btn btn-primary">أرسل</button>
+                                <button type="submit" class="btn btn-primary form-control">أرسل</button>
                             {{/autoForm}}
                         </div>
                     </div>

@@ -91,24 +91,3 @@ Template.article.events({
     }
 })
 
-Template.article.onRendered(function () {
-    var flag = true;
-    $('.commentTextarea').text("أضف ردك هنا ..")
-    $('.commentTextarea').focus(function () {
-        if (flag) {
-            flag = false;
-            $(this).empty();
-        }
-    });
-    $('.commentTextarea').focusout(function () {
-        if ($(event.target).text() == "") {
-            flag = true
-            if (flag) {
-                $('.commentTextarea').text("أضف ردك هنا ..")
-            }
-        }
-    });
-
-
-
-})
