@@ -68,7 +68,7 @@ Template.registerHelper("emailStatus", function () {
     if (Meteor.userId) {
         user = Meteor.users.findOne(Meteor.userId());
         if (!user.emails)
-            return false
+            return true
         return ( !user.firstName || !user.familyName || !user.mobile)
     }
     return false
