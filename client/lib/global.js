@@ -73,7 +73,9 @@ Template.registerHelper("emailStatus", function () {
     }
     return false
 })
-
+Template.registerHelper("'currentUser", function () {
+    return Meteor.userId();
+})
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
 SimpleSchema.messages({
