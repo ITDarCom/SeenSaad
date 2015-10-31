@@ -25,11 +25,6 @@ Template.profile.events({
         $(event.target).parent().addClass('active')
 
     },
-    'click #profileArticles': function () {
-        Session.set('template', 'articles');
-        $('.active').removeClass('active')
-        $(event.target).parent().addClass('active')
-    }
 });
 Template.profile.onRendered(function () {
 
@@ -37,7 +32,10 @@ Template.profile.onRendered(function () {
         $('#profileSetting').addClass('active')
     else
         $('#profileArticles').addClass('active')
-    //Session.set('template', 'articles')
+    if (this.notUserOrGuest())
+        Session.set('template', 'articles')
+    else
+        Session.set('template', 'profileSetting')
 })
 Template.profileSetting.helpers({
     activeSetting: function () {
@@ -57,9 +55,6 @@ Template.profileSetting.events({
         Session.set('settings', $(event.target).attr('id'))
     }
 })
-Template.profileImg.events({})
-
-
 Template.profileImg.onRendered(function () {
     $(function () {
         $(".image-preview-input input:file").change(function () {
@@ -100,54 +95,10 @@ Template.profileImg.onRendered(function () {
 Template.chgpasswd.onRendered(function () {
     $('#at-btn').removeClass("btn-default").addClass("btn-primary");
     $('label').hide()
+    $('.at-title').remove();
 })
 
 Template.personalInformation.events({
-    'click .edit': function () {
-
-        $(event.target).parent().parent().find('span').hide();
-        $(event.target).parent().parent().append('<input type="text"  class="newValue">&nbsp')
-        $(event.target).parent().parent().append("<button class='btn btn-xs btn-success accept'><span class='fa fa-check'></span></button>&nbsp")
-        $(event.target).parent().parent().append("<button class='btn btn-xs btn-danger cancel'><span class='fa fa-times'></span></button>&nbsp")
-        $(event.target).hide();
-        var newValue = $(event.target).parent().find('.newValue').text();
-
-
-    },
-    'click .cancel': function () {
-        $('.accept').remove();
-        $('.cancel').remove();
-        $('.newValue').remove();
-        $('small').show()
-        $('span').show()
-    },
-    'click .accept': function () {
-        var newValue = $(event.target).parent().parent().find('.newValue').val();
-        var field = $(event.target).closest('li').attr('field');
-        switch (field) {
-            case 'profile.mobile':
-                if (newValue.match(/^(\+\d{1,3}[- ]?)?\d{10}$/))
-                    Meteor.call('setPersonalInformation', field, newValue);
-                else alert("رقم الهاتف غير مناسب وغير مناسب لصيغة رقم الهاتف")
-                break;
-            case 'profile.emails':
-                re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/igm
-                if (re.test(newValue))
-                    Meteor.call('setPersonalInformation', field, newValue);
-                else
-                    alert("ايميل خاطئ")
-                break;
-            default :
-                Meteor.call('setPersonalInformation', field, newValue);
-        }
-
-
-        $('.accept').remove();
-        $('.cancel').remove();
-        $('.newValue').remove();
-        $('small').show()
-        $('span').show()
-    },
     'submit #user-profile-form': function (e) {
         e.preventDefault();
         firstname = function () {
@@ -227,6 +178,7 @@ Template.personalInformation.helpers({
 })
 Template.personalInformation.onRendered(function () {
     if (Meteor.userId()) {
+        $('.well').css('marginBottom', $('.form-group').css('marginBottom')).css('backgroundColor', $('input').css('backgroundColor'))
         user = Meteor.users.findOne(Meteor.userId())
         if (user.firstName)
             $('#firstName').val(user.firstName).attr('currentValue', user.firstName)

@@ -2,8 +2,8 @@
  * Created by omar on 10/4/15.
  */
 Template.messages.events({
-    'click .sendMsgBtn': function (e) {
-        $('#sendMsgDiv').slideToggle();
+    'click .msbBody': function (e) {
+        Router.go('messageStream', {id: this})
     }
 });
 Template.messages.onRendered(function () {
@@ -28,12 +28,18 @@ Template.messages.helpers({
         };
     },
     lastMessage: function () {
-        return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+        var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
             sort: {
                 sendingAt: -1,
                 limit: 1
             }
-        }).fetch()[0].message
+        }).fetch()[0].message.trim().substring(1, 50);
+        if (message.length > 50)
+            return message + '....'
+        else
+            return message
+
+
     },
     lastMessageSendingAt: function () {
 

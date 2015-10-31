@@ -30,6 +30,8 @@ Template.headerText.helpers({
 				return 'البحث'
 			case 'messages':
 				return 'الرسائل الخاصة'
+			case 'messageStream':
+				return 'الرسائل الخاصة'
 			case 'about':
 				return 'حول الموقع'
 
@@ -50,6 +52,8 @@ Template.headerText.helpers({
 			case 'search':
 				return 'اكتب الكلمات المراد البحث عنها'
 			case 'messages':
+				return ' الرسائل الخاصة المتبادلة مع أعضاء الموقع'
+			case 'messageStream':
 				return ' الرسائل الخاصة المتبادلة مع أعضاء الموقع'
 			case 'about':
 				return 'ما هو موقع س ص؟ '

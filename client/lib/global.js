@@ -84,3 +84,6 @@ SimpleSchema.messages({
     maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 });
 
+function clean(text) {
+
+}

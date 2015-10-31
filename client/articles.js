@@ -83,3 +83,11 @@ Template.search.helpers({
         return (articlesSearch.getStatus() === 'loading');
     }
 })
+Template.Time.events({
+    'click .dateSwitch': function () {
+        var target = $(event.target)
+        var temp = target.html()
+        target.html(target.attr('title'));
+        target.attr('title', temp)
+    }
+})

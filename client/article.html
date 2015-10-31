@@ -10,8 +10,7 @@
                         <div class="col-md-4">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
                             &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="dateSwitch"
-                                                                                                    title="{{dateFormated createdAt}}">{{momentIt createdAt}}</span>
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
                             {{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i
                                     class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}
                             <a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>

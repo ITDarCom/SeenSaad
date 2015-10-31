@@ -203,3 +203,11 @@ hr.title {
 .fa-hand-paper-o {
     color: red;
 }
+
+.clickableDiv {
+    display: block;
+}
+
+.panel-body {
+    word-wrap: break-word
+}

@@ -12,19 +12,19 @@
                                 <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
                                         href="{{pathFor 'messageStream' id=this}}">{{userUsername this}}</a></h4>
                             </div>
-                            <div class="col-md-offset-4 col-xs-offset-4 col-md-4 col-xs-4">
-                                <span class="glyphicon glyphicon-time"
-                                      aria-hidden="true"></span> {{dateFormated lastMessageSendingAt}}
-                            </div>
+                            <div class="pull-left text-left col-md-4 col-xs-4">
+
+                                <span class="glyphicon  glyphicon-time"
+                                      aria-hidden="true"></span> {{> Time data=lastMessageSendingAt}}</div>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-offset-1 col-md-11 col-xs-offset-1 col-xs-11">
-                                <h4 class="col-md-8">{{{lastMessage}}}</h4>
-
-                            </div>
-
+                            <a href="{{pathFor 'messageStream' id=this}}">
+                                <div class="msbBody">
+                                    <h4 class="col-md-8">{{lastMessage}}</h4>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -57,6 +57,7 @@
 <template name="messageStream">
     <div class="row">
         <div class="col-md-offset-1 col-md-10">
+            {{> headerText}}
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <a href="{{pathFor 'messages'}}">
@@ -64,19 +65,21 @@
                             <i class="fa fa-arrow-circle-left fa-lg"></i>
                         </div>
                     </a>
-                    <h4> رسائل العضو: {{userUsername currentId}}</h4>
+                    <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
+                            href="{{pathFor 'profile' id=this.user}}"> &nbsp; {{userUsername currentId}}</a></h4>
 
                 </div>
                 <div class="panel-body">
                     {{#each messages }}
                         <div class="row">
+
                             {{#if fromMe}}
                                 <div class="col-md-1 col-xs-1">
-                                    <a href="{{pathFor 'profile' id=this.from}}"> <img class="img-circle" height="42"
+                                    <img class="img-circle" height="42"
                                                                                        width="42"
                                                                                        src="{{getProfilePic}}"
                                                                                        alt="{{userUsername this.from}}"
-                                                                                       title="{{userUsername this.from}}"></a>
+                                         title="{{userUsername this.from}}">
                                 </div>
                                 <div class="col-md-11 col-xs-11 msg">
                                     <div class="clearfix pull-right">
@@ -84,7 +87,7 @@
                                             <small><i class="fa fa-trash "></i></small>
                                         </button>
                                         <blockquote class="me">{{{nl2br message}}}
-                                            <small>{{momentIt sendingAt}}</small>
+                                            <small>{{> Time data=sendingAt}}</small>
                                         </blockquote>
 
                                     </div>
@@ -97,16 +100,13 @@
                                             <small><i class="fa fa-trash"></i></small>
                                         </button>
                                         <blockquote class="you">{{{nl2br message}}}
-                                            <small>{{momentIt sendingAt}}</small>
+                                            <small>{{> Time data=sendingAt}}</small>
                                         </blockquote>
                                     </div>
                                 </div>
                                 <div class="col-md-1 col-xs-1">
-                                    <a href="{{pathFor 'profile' id=this.from}}"> <img class="img-circle" height="42"
-                                                                                       width="42"
-                                                                                       src="{{getProfilePic currentId}}"
-                                                                                       alt="{{userUsername this.from}}"
-                                                                                       title="{{userUsername this.from}}"></a>
+                                    <img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
+                                         alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
                                 </div>
 
                             {{/if}}

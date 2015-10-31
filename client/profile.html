@@ -23,12 +23,6 @@
                     {{else}}
                         <div class="profile-usermenu">
                             <ul class="nav">
-                                <li id="profileArticles" class="{{currentActiveTemplate}}">
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-flag"></i>
-                                        المواضيع
-                                    </a>
-                                </li>
                                 <li id="profileSetting" class="{{currentActiveTemplate}}">
                                     <a href="{{pathFor 'profileSetting'}}">
                                         <i class="glyphicon glyphicon-home"></i>
@@ -60,7 +54,7 @@
                         <h3 class="panel-title">ملفك الشخصي</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs nav-justified">
                             <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
                                                                                        class="profileSettingBtn"
                                                                                        href="{{pathFor 'editProfileImg'}}">الصورة</a></li>
@@ -124,27 +118,22 @@
     <div class="alert alert-danger" hidden id="alerter"><a class="close" data-dismiss="alert">×</a></div>
     <form id="user-profile-form" novalidate="novalidate">
         <div class="form-group">
-            <label for="firstName" class="control-label">الاسم الأول</label>
             <input type="text" placeholder="اسمك" name="firstName" id="firstName" class="form-control">
             <span class="help-block"></span>
         </div>
         <div class="form-group">
-            <label for="familyName" class="control-label">اسم العائلة</label>
             <input type="text" placeholder="اسم العائلة" name="familyName" id="familyName" class="form-control">
 
         </div>
-        <div class="form-group">
-            <label class="radio-inline">الجنس:</label>
+        <div class="form-group well well-sm">
             <label class="radio-inline"><input type="radio" value=male>ذكر</label>
             <label for="gender" class="radio-inline"><input type="radio" value=female>أنثى</label>
         </div>
         <div class="form-group">
-            <label for="mobile" class="control-label">الجوال</label>
             <input type="text" placeholder="رقم الجوال" name="mobile" id="mobile" data-schema-key="mobile"
                    class="form-control">
         </div>
         <div class="form-group">
-            <label for="email" class="control-label">البريد الإلكتروني</label>
             <input type="text" placeholder="البريد الإلكتروني" name="email" id="email" data-schema-key="email"
                    class="form-control">
         </div>
