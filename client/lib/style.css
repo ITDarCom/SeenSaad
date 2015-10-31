@@ -110,13 +110,14 @@ a:hover{
 
 .you {
     font-size: 14px;
-    margin: 0px;
+    margin: 5px;
     border-left: 3px solid #204d74 !important;
     padding: 10px;
     padding-left: 5px;
     background-color: #BCE8F1;
     text-align: left;
     word-break: break-word;
+    border-right: 0px;
 
 }
 
@@ -206,7 +207,7 @@ hr.title {
     content: attr(ph)
 }
 
-.fa-hand-paper-o {
+.fa-exclamation-triangle {
     color: red;
 }
 

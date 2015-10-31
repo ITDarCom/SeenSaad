@@ -22,7 +22,7 @@
                         <div class="row">
                             <a href="{{pathFor 'messageStream' id=this}}">
                                 <div class="msbBody">
-                                    <h4 class="col-md-8">{{lastMessage}}</h4>
+                                    <h4 class="col-md-12">{{lastMessage}}</h4>
                                 </div>
                             </a>
                         </div>
@@ -60,11 +60,6 @@
             {{> headerText}}
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <a href="{{pathFor 'messages'}}">
-                        <div class="pull-left">
-                            <i class="fa fa-arrow-circle-left fa-lg"></i>
-                        </div>
-                    </a>
                     <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
                             href="{{pathFor 'profile' id=this.user}}"> &nbsp; {{userUsername currentId}}</a></h4>
 

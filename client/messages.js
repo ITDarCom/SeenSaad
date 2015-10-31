@@ -33,9 +33,10 @@ Template.messages.helpers({
                 sendingAt: -1,
                 limit: 1
             }
-        }).fetch()[0].message.substring(1, 50);
-        if (message.length > 50)
-            return (message + '....')
+        }).fetch()[0].message;
+
+        if (message.length > 200)
+            return (message.substring(1, 200) + '....')
         else
             return message
 
@@ -93,4 +94,7 @@ AutoForm.hooks({
 })
 Template.messages.onRendered(function () {
     $('.select2-chosen').text('إلـى');
+})
+Template.messageStream.onRendered(function () {
+    $('.headerDescription').append('<a href="/messages"><div class="pull-left"><i class="fa fa-arrow-circle-left fa-lg"></i></div></a>')
 })
