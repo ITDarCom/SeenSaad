@@ -120,3 +120,6 @@ Meteor.publish(null, function () {
 
     return profilePicture.find({})
 });
+Meteor.publish(null, function () {
+    return Images.find();
+})

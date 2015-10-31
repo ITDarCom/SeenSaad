@@ -35,5 +35,4 @@ useraccounts:bootstrap
 useraccounts:iron-routing
 cfs:standard-packages
 cfs:s3
-cfs:autoform
 cfs:gridfs
