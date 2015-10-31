@@ -76,8 +76,6 @@
                     <div class="textEditor" name="textEditor">{{{body}}}</div>
                 </div>
             </div>
-
-
             <!--Comments-->
             {{#each comments}}
                 <div class="panel panel-info">
@@ -86,8 +84,7 @@
                             <span class="glyphicon glyphicon-user"
                                   aria-hidden="true"></span>  {{userUsername commenter}}
                             &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="dateSwitch"
-                                                                                                    title="{{dateFormated createdAt}}">{{momentIt createdAt}}</span>:
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}:
                             <hr class="nomargin">
                         </strong></p>
                         <div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
@@ -96,7 +93,6 @@
 
             {{/each}}
             {{#if allowContributing}}
-
                 <div class="panel panel-info">
                     <div class="panel-body">
                         {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}

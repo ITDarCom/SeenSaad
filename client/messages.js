@@ -33,9 +33,9 @@ Template.messages.helpers({
                 sendingAt: -1,
                 limit: 1
             }
-        }).fetch()[0].message.trim().substring(1, 50);
+        }).fetch()[0].message.substring(1, 50);
         if (message.length > 50)
-            return message + '....'
+            return (message + '....')
         else
             return message
 

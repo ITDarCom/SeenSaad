@@ -39,6 +39,12 @@ a:hover{
     float: right;
     direction: ltr;
     margin-right: 5px;
+    font-family: 'Droid Arabic Kufi';
+
+}
+
+.select2-chosen {
+    font-family: 'Droid Arabic Kufi';
 }
 
 #search-box {
