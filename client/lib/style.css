@@ -7,6 +7,10 @@ body {
     padding-bottom: 20px;
 }
 
+a:hover{
+    text-decoration: none;
+}
+
 .nomargin {
     margin: 0;
 }
@@ -118,9 +122,8 @@ body {
 }
 
 hr.title {
-    height: 12px;
-    border: 0;
-    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
 }
 
 .image-preview-input {
