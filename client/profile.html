@@ -57,24 +57,19 @@
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">تعديل المعلومات الشخصية </h3>
+                        <h3 class="panel-title">ملفك الشخصي</h3>
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
                             <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
                                                                                        class="profileSettingBtn"
-                                                                                       href="{{pathFor 'editProfileImg'}}">تعديل
-                                الصورة
-                                الشخصية</a></li>
+                                                                                       href="{{pathFor 'editProfileImg'}}">الصورة</a></li>
                             <li role="presentation" class="{{active 'chgpasswd'}}"><a id="chgpasswd"
                                                                                       class="profileSettingBtn"
-                                                                                      href="{{pathFor 'resetPasswd'}}">تغيير
-                                كلمة
-                                المرور</a></li>
+                                                                                      href="{{pathFor 'resetPasswd'}}">كلمة السر</a></li>
                             <li role="presentation" class="{{active 'personalInformation' }}"><a
                                     id="personalInformation" class="profileSettingBtn"
-                                    href="{{pathFor 'editPresonalInfo'}}">تعديل
-                                المعلومات الشخصية</a></li>
+                                    href="{{pathFor 'editPresonalInfo'}}">معلوماتك الشخصية</a></li>
                         </ul>
                         {{> Template.dynamic template=activeSetting}}
                     </div>

@@ -22,7 +22,7 @@
                         <li><a href="{{pathFor 'read'}}">المشاهدة</a></li>
                         <li><a href="{{pathFor 'participation'}}">المشاركة</a></li>
                         <li><a href="{{pathFor 'favorite'}}">المفضلة</a></li>
-                        <li><a href="{{pathFor 'mine'}}">مواضيعي</a></li>
+                        <li><a href="{{pathFor 'mine'}}">مواضيعك</a></li>
                         <li><a href="{{pathFor 'add'}}">إضافة موضوع</a></li>
                         <li><a href="{{pathFor 'messages'}}">الرسائل</a></li>
                         <li><a href="{{pathFor 'about'}}"><i class="glyphicon glyphicon-exclamation-sign"
@@ -40,13 +40,12 @@
                             <a href="#" class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle"
                                data-toggle="dropdown"
                                role="button" aria-haspopup="true"
-                               aria-expanded="false">{{#if currentUser}}{{userUsername}}{{else}} تسجيل الدخول/إنشاء
-                                حساب{{/if}}
+                               aria-expanded="false">{{#if currentUser}}{{userUsername}}{{else}}دخول / تسجيل{{/if}}
                                 {{#if currentUser}} <span class="caret"></span>{{/if}}</a>
                             {{#if currentUser}}
                                 <ul class="dropdown-menu">
-                                    <li class="myprofile"><a href="{{pathFor 'me'}}">حسابي</a></li>
-                                    <li class="logOut"><a href="#">تسجيل الخروج</a></li>
+                                    <li class="myprofile"><a href="{{pathFor 'me'}}">ملفك الشخصي</a></li>
+                                    <li class="logOut"><a href="#">خروج</a></li>
                                 </ul>
                             {{/if}}
                         </li>
