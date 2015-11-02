@@ -7,6 +7,7 @@ Router.map(function () {
 	this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
 	this.route('profile', {
 		path: '/profile/:id', action: function () {
+			if (Meteor.userId != this.params.id)
 			Session.set('template', 'articles')
 			this.render('profile')
 		}

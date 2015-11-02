@@ -17,7 +17,7 @@ Template.headerText.helpers({
 	headerText: function () {
 		switch (Router.current().route.getName()) {
 			case "read" :
-				return 'مواضيع المشاهدة'
+				return '<h1>' + 'مواضيع المشاهدة' + '</h1>'
 			case "participation" :
 				return 'مواضيع المشاركة'
 			case "favorite" :
@@ -31,9 +31,11 @@ Template.headerText.helpers({
 			case 'messages':
 				return 'الرسائل الخاصة'
 			case 'messageStream':
-				return 'الرسائل الخاصة'
+				return '<a href="/messages"}}">الرسائل الخاصة</a>'
 			case 'about':
 				return 'حول الموقع'
+			case 'me':
+				return 'ملفك الشخصي'
 
 		}
 	},
@@ -57,6 +59,8 @@ Template.headerText.helpers({
 				return ' الرسائل الخاصة المتبادلة مع أعضاء الموقع'
 			case 'about':
 				return 'ما هو موقع س ص؟ '
+			case 'me':
+				return 'لتغيير إعدادات ملفك الشخصي وبياناتك'
 		}
 
 	}

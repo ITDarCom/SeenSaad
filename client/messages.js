@@ -92,13 +92,10 @@ AutoForm.hooks({
 
 })
 Template.messages.events({
-    'click .panel-body': function () {
+    'click .clickableDiv': function () {
         Router.go('messageStream', {id: this})
     }
 })
 Template.messages.onRendered(function () {
     $('.select2-chosen').text('إلـى');
-})
-Template.messageStream.onRendered(function () {
-    $('.headerDescription').append('<a href="/messages"><div class="pull-left"><i class="fa fa-arrow-circle-left fa-lg"></i></div></a>')
 })

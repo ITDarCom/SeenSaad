@@ -32,10 +32,12 @@ Template.profile.onRendered(function () {
         $('#profileSetting').addClass('active')
     else
         $('#profileArticles').addClass('active')
-    if (this.notUserOrGuest())
-        Session.set('template', 'articles')
-    else
+    if ((Meteor.userId() == UI._globalHelpers['currentId']()) || (Router.current().route.getName() == 'me')) {
         Session.set('template', 'profileSetting')
+        Session.set('settings', 'profileImg')
+    }
+    else
+        Session.set('template', 'articles')
 })
 Template.profileSetting.helpers({
     activeSetting: function () {

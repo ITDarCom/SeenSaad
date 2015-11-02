@@ -34,7 +34,7 @@ Template.registerHelper('getProfilePic', function (id) {
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
-Template.registerHelper("currentId", function (toMoment) {
+Template.registerHelper("currentId", function () {
     return Router.current().params.id;
 });
 Template.registerHelper("nl2br", function (str, is_xhtml) {

@@ -1,70 +1,54 @@
 <template name="profile">
     {{#with thisUser}}
         <div class="row profile">
-            <div class="col-md-3">
-                <div class="profile-sidebar">
+            {{#if notUserOrGuest}}
+                <div class="col-md-offset-4 col-md-4">
                     <div class="profile-userpic">
-                        <img src="{{getProfilePic currentId}}"
+                        <img src="{{getProfilePic this._id}}"
                              class="img-responsive" alt="">
                     </div>
-                    <div class="profile-usertitle">
-                        <div class="profile-usertitle-name">
-                            <h3>{{userFullName this._id}}</h3>
-                        </div>
+                    <br>
+
+                    <div class="row profile-userbuttons">
+                        <button type="button" class="btn btn-danger btn-sm col-xs-offset-2 col-xs-8"
+                                id="sendMessage">رسالة خاصة
+                        </button>
                     </div>
-                    {{#if notUserOrGuest}}
-
-                        <div class="row profile-userbuttons">
-                            <button type="button" class="btn btn-danger btn-sm col-xs-offset-2 col-xs-8"
-                                    id="sendMessage">رسالة خاصة
-                            </button>
-                        </div>
-
-                    {{else}}
-                        <div class="profile-usermenu">
-                            <ul class="nav">
-                                <li id="profileSetting" class="{{currentActiveTemplate}}">
-                                    <a href="{{pathFor 'profileSetting'}}">
-                                        <i class="glyphicon glyphicon-home"></i>
-                                        تعديل الملف الشخصي </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    {{/if}}
                 </div>
-            </div>
-            <div class="col-md-9 profile-articles">
+            {{/if}}
+
                 <div class="row">
                     {{> Template.dynamic template=active}}
                 </div>
-            </div>
-
 
         </div>
     {{/with}}
+
+
 </template>
 
 <template name="profileSetting">
     {{#if isMe}}
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
-                <div class="panel panel-info">
+                <div class="panel with-nav-tabs  panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ملفك الشخصي</h3>
-                    </div>
-                    <div class="panel-body">
                         <ul class="nav nav-tabs nav-justified">
                             <li role="presentation" class="{{active 'profileImg'}}"><a id="profileImg"
                                                                                        class="profileSettingBtn"
-                                                                                       href="{{pathFor 'editProfileImg'}}">الصورة</a></li>
+                                                                                       href="{{pathFor 'editProfileImg'}}">الصورة</a>
+                            </li>
                             <li role="presentation" class="{{active 'chgpasswd'}}"><a id="chgpasswd"
                                                                                       class="profileSettingBtn"
-                                                                                      href="{{pathFor 'resetPasswd'}}">كلمة السر</a></li>
+                                                                                      href="{{pathFor 'resetPasswd'}}">كلمة
+                                السر</a></li>
                             <li role="presentation" class="{{active 'personalInformation' }}"><a
                                     id="personalInformation" class="profileSettingBtn"
                                     href="{{pathFor 'editPresonalInfo'}}">معلوماتك الشخصية</a></li>
                         </ul>
+                    </div>
+                    <div class="panel-body">
+
                         {{> Template.dynamic template=activeSetting}}
                     </div>
                 </div>
