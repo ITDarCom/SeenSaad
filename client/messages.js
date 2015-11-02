@@ -1,11 +1,11 @@
 /**
  * Created by omar on 10/4/15.
  */
-Template.messages.events({
-    'click .msbBody': function (e) {
-        Router.go('messageStream', {id: this})
-    }
-});
+//Template.messages.events({
+//    'click .msbBody': function (e) {
+//        Router.go('messageStream', {id: this})
+//    }
+//});
 Template.messages.onRendered(function () {
     $('.select2-chosen').val(null)
 })
@@ -23,7 +23,6 @@ Template.messages.helpers({
     },
     s2Opts: function () {
         return {
-            placeholder: "tesssst",
             allowClear: true
         };
     },
@@ -91,6 +90,11 @@ AutoForm.hooks({
         }
     }
 
+})
+Template.messages.events({
+    'click .panel-body': function () {
+        Router.go('messageStream', {id: this})
+    }
 })
 Template.messages.onRendered(function () {
     $('.select2-chosen').text('إلـى');

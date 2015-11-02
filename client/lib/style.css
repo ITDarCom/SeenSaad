@@ -212,7 +212,7 @@ hr.title {
 }
 
 .clickableDiv {
-    display: block;
+    cursor: pointer;
 }
 
 .panel-body {
