@@ -18,7 +18,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <h4 class="col-md-8"><a href="{{pathFor route='article' id=_id}}">{{{title}}}</a></h4>
-                    <h4 class="col-md-4 text-left">
+                    <h5 class="col-md-4 text-left">
                         {{#if owner}}
                             <button class="remove btn-xs btn btn-danger" title="حذف">
                                 <i class="fa fa-trash"></i>
@@ -30,7 +30,7 @@
                         <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
                             <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
                         </button>
-                    </h4>
+                    </h5>
                 </div>
             </div>
             <div class="panel-body">
