@@ -34,8 +34,8 @@ Template.messages.helpers({
             }
         }).fetch()[0].message;
 
-        if (message.length > 200)
-            return (message.substring(1, 200) + '....')
+        if (message.length > 80)
+            return (message.substring(1, 80) + '....')
         else
             return message
 
