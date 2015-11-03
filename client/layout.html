@@ -19,8 +19,10 @@
                     <ul class="nav navbar-nav nav-pills">
                         <li><a href="{{pathFor 'search'}}"><span class="glyphicon glyphicon-search"
                                                                  aria-hidden="true"></span></a></li>
-                        <li><a href="{{pathFor 'read'}}">المشاهدة</a></li>
-                        <li><a href="{{pathFor 'participation'}}">المشاركة</a></li>
+                        <li><a href="{{pathFor 'read'}}">المشاهدة<span
+                                class="badge alert-danger ">{{unread 0}}</span></a></li>
+                        <li><a href="{{pathFor 'participation'}}">المشاركة<span
+                                class="badge alert-danger">{{unread 1}}</span> </a></li>
                         <li><a href="{{pathFor 'favorite'}}">المفضلة</a></li>
                         <li><a href="{{pathFor 'mine'}}">مواضيعك</a></li>
                         <li><a href="{{pathFor 'add'}}">إضافة موضوع</a></li>

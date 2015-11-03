@@ -1,0 +1,12 @@
+//Notifications = new Mongo.Collection("notifications")
+//
+//Notification.attachSchema(new SimpleSchema({
+//    userId: {
+//        type: string,
+//        autoValue: function () {
+//            if (this.isInsert)
+//                return Meteor.userId();
+//        },
+//        index: 1,
+//    },
+//}))

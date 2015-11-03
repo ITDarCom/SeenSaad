@@ -67,6 +67,11 @@ Template.article.helpers({
         if (this.favorite)
             return this.favorite.length
         else return 0
+    },
+    seenChange: function () {
+        Tracker.nonreactive(function () {
+            Meteor.call("seenChange", Router.current().params.id)
+        })
     }
 });
 Template.article.events({

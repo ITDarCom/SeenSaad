@@ -73,8 +73,20 @@ Template.registerHelper("emailStatus", function () {
     }
     return false
 })
-Template.registerHelper("'currentUser", function () {
+Template.registerHelper("currentUser", function () {
     return Meteor.userId();
+})
+
+Template.registerHelper("unread", function (type) {
+    stream = Stream.findOne({userId: Meteor.userId()})
+    if (stream) {
+        var count = 0
+        _.each(type == 0 ? stream.readingArticles : stream.contributingArticles, function (a) {
+            if (!a.seen)
+                count++;
+        })
+        return count > 0 ? count : null
+    }
 })
 moment.locale('ar_sa');
 T9n.setLanguage('ar');

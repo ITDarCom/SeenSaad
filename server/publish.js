@@ -31,7 +31,7 @@ Meteor.publish(null, function () {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
-            readingArticles = custom.readingArticles ? custom.readingArticles : [];
+            readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
             return Articles.find({_id: {$in: readingArticles}}, {
                 fields: {
                     title: 1,
@@ -47,7 +47,7 @@ Meteor.publish(null, function () {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId})
         if (custom) {
-            contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
+            contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : []
 
             return Articles.find({_id: {$in: contributingArticles}}, {
                 fields: {
@@ -83,6 +83,7 @@ Meteor.publish("Article", function (articleId) {
                 return Articles.find({_id: articleId})
             }
         if (article.readingPermissions == '0') {
+            Meteor.call("seenChange", articleId)
             Meteor.call("readCounter", articleId, this.userId)
             return Articles.find({_id: articleId})
         }
@@ -90,7 +91,7 @@ Meteor.publish("Article", function (articleId) {
             if (!_.isEmpty(_.where(article.readingIds, this.userId))) {
                 if (Articles.find({_id: articleId})) {
                     Meteor.call("readCounter", articleId, this.userId)
-                    return true
+                    return Articles.find({_id: articleId}, {comments: 0})
                 }
             }
     }
@@ -117,7 +118,6 @@ Meteor.publish(null, function () {
         return Stream.find({userId: this.userId})
 });
 Meteor.publish(null, function () {
-
     return profilePicture.find({})
 });
 Meteor.publish(null, function () {

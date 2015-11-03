@@ -8,14 +8,14 @@ Template.articles.helpers({
                 case  "participation":
                     var custom = Stream.findOne({userId: Meteor.userId()})
                     if (custom) {
-                        contributingArticles = custom.contributingArticles ? custom.contributingArticles : []
+                        contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : []
                         return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
                 case "read":
                     var custom = Stream.findOne({userId: Meteor.userId()});
                     if (custom) {
-                        readingArticles = custom.readingArticles ? custom.readingArticles : [];
+                        readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
                         return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
