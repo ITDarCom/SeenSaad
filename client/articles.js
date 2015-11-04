@@ -26,6 +26,8 @@ Template.articles.helpers({
                     break;
                 case "articles" :
                     return Articles.find({}, {sort: {createdAt: -1}});
+                case "home" :
+                    return Articles.find({}, {sort: {createdAt: -1}});
                 case "me":
                     return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
                     break;

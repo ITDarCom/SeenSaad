@@ -2,6 +2,10 @@ Router.configure({
 	layoutTemplate: 'layout',
 	loadingTemplate: 'spinner'
 });
+Router.onStop(function () {
+	// register the previous route location in a session variable
+	Session.set("lastRoute", Router.current().route.getName());
+});
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
 	this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
@@ -44,7 +48,8 @@ Router.map(function () {
 		}
 	})
 	this.route('me', {path: '/profile', template: 'profile'});
-	this.route('articles', {path: '/'});
+	this.route('home', {path: '/', template: 'articles'});
+	this.route('articles', {path: '/articles'});
 	this.route('search', {path:'/search'});
 	this.route('read', {path: '/read', template: 'articles'});
 	this.route('participation', {path: '/participation', template: 'articles'});
