@@ -12,12 +12,16 @@
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{username}}
                             &nbsp;&nbsp;
                             <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
-                            {{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i
-                                    class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}
-                            <a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>
+                                <!--{{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i-->
+                                <!--class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}-->
+                            <!--<a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>-->
                         </div>
                         <div class="col-md-4 text-center">
                             <h4>{{title}}</h4>
+                            {{#if allowReading}}    <span><i title="المشاهدات" class="fa fa-eye"></i> &nbsp; {{read}}
+                                &nbsp;</span> {{/if}}
+                            {{#if allowContributing}}   <span><i title="المشاركات"
+                                                                 class="fa fa-comments"></i> &nbsp; {{commentCounter}}</span> {{/if}}
                         </div>
                         <div class="col-md-4 text-left">
                             {{#if owner}}

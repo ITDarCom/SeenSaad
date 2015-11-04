@@ -29,14 +29,13 @@ Template.headerText.helpers({
             'me': 'ملفك الشخصي'
         }
         if (Router.current().route.getName() == 'article') {
-            if (Session.get('lastRoute')) {
+            if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                 lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
                 return '<a href="/' + lastheader + '">' + headers[Session.get('lastRoute')] + '</a>'
             }
         }
         else
             return headers[Router.current().route.getName()]
-
         //switch (Router.current().route.getName()) {
         //	case 'articles':
         //		return 'س ص'
@@ -88,7 +87,7 @@ Template.headerText.helpers({
             'me': 'الصورة والمعلومات الشخصية'
         }
         if (Router.current().route.getName() == 'article') {
-            if (Session.get('lastRoute'))
+            if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute')))
                 return headerDescriptions[Session.get('lastRoute')]
         }
         else

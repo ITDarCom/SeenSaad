@@ -93,3 +93,15 @@ Template.Time.events({
         target.attr('title', temp)
     }
 })
+Template.articleView.helpers({
+    newLabel: function () {
+        var custom = Stream.findOne({userId: Meteor.userId()})
+        if (this.contributingPermissions == 1)
+            if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
+                return '<i class="fa alert-danger fa-circle"></i>'
+        if (this.readingPermissions == 1)
+            if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
+                return '<i class="fa alert-danger fa-circle"></i>'
+
+    }
+})

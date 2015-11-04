@@ -37,7 +37,8 @@ Meteor.publish(null, function () {
                     title: 1,
                     username: 1,
                     createdAt: 1,
-                    user: 1
+                    user: 1,
+                    readingPermissions: 1
                 }
             });
         }
@@ -54,7 +55,8 @@ Meteor.publish(null, function () {
                     title: 1,
                     username: 1,
                     createdAt: 1,
-                    user: 1
+                    user: 1,
+                    contributingPermissions: 1
                 }
             });
         }

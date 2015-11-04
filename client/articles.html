@@ -17,7 +17,8 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="row">
-                    <h4 class="col-md-8"><a href="{{pathFor route='article' id=_id}}">{{{title}}}</a></h4>
+                    <h4 class="col-md-8"><a href="{{pathFor route='article' id=_id}}">{{{title}}} {{{newLabel}}} </a>
+                    </h4>
                     <h5 class="col-md-4 text-left">
                         {{#if owner}}
                             <button class="remove btn-xs btn btn-danger" title="حذف">
