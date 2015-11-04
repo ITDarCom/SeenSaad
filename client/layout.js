@@ -16,22 +16,22 @@ Template.layout.events({
 Template.headerText.helpers({
 	headerText: function () {
 		switch (Router.current().route.getName()) {
-			case "read" :
-				return '<h1>' + 'مواضيع المشاهدة' + '</h1>'
-			case "participation" :
-				return 'مواضيع المشاركة'
-			case "favorite" :
-				return 'المواضيع المفضلة'
-			case "mine" :
-				return ' مواضيعي'
 			case 'articles':
-				return 'المواضيع العامة'
+				return 'س ص'
 			case 'search':
-				return 'البحث'
+				return 'بحث'
+			case "read":
+				return 'مشاهدة'
+			case "participation":
+				return 'مشاركة'
+			case "favorite":
+				return 'مفضلة'
+			case "mine":
+				return ' مواضيعك'
 			case 'messages':
-				return 'الرسائل الخاصة'
+				return 'الرسائل'
 			case 'messageStream':
-				return '<a href="/messages"}}">الرسائل الخاصة</a>'
+				return '<a href="/messages"}}">الرسائل</a>'
 			case 'about':
 				return 'حول الموقع'
 			case 'me':
@@ -41,26 +41,26 @@ Template.headerText.helpers({
 	},
 	headerDescription: function () {
 		switch (Router.current().route.getName()) {
-			case "read" :
-				return 'المواضيع التي لك صلاحية مشاهدتها'
-			case "participation" :
-				return ' المواضيع التي لك صلاحية مشاهدتها ووالمساهمة في نقاشها'
-			case "favorite" :
-				return 'مواضيعك المفضلة'
-			case "mine" :
-				return 'مواضيعك '
 			case 'articles':
-				return 'جميع المواضيع التي لك صلاحية الوصول إليها'
+				return 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها'
 			case 'search':
-				return 'اكتب الكلمات المراد البحث عنها'
+				return 'بحث في المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها'
+			case "read":
+				return 'المواضيع التي لك صلاحية مشاهدتها'
+			case "participation":
+				return 'المواضيع التي لك صلاحية المشاركة فيها'
+			case "favorite":
+				return 'المواضيع التي وضعتها في المفضلة'
+			case "mine":
+				return 'مواضيعك التي أضفتها'
 			case 'messages':
-				return ' الرسائل الخاصة المتبادلة مع أعضاء الموقع'
+				return ' الرسائل الخاصة مع الأعضاء'
 			case 'messageStream':
-				return ' الرسائل الخاصة المتبادلة مع أعضاء الموقع'
+				return ' الرسائل الخاصة مع:'
 			case 'about':
-				return 'ما هو موقع س ص؟ '
+				return 'ما هو س ص؟'
 			case 'me':
-				return 'لتغيير إعدادات ملفك الشخصي وبياناتك'
+				return 'الصورة والمعلومات الشخصية'
 		}
 
 	}

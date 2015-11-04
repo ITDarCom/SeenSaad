@@ -1,81 +1,79 @@
 <template name="layout">
 
-    <div class="container">
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{pathFor 'articles'}}">س ص</a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav nav-pills">
-                        <li><a href="{{pathFor 'search'}}"><span class="glyphicon glyphicon-search"
-                                                                 aria-hidden="true"></span></a></li>
-                        <li><a href="{{pathFor 'read'}}">المشاهدة<span
-                                class="badge alert-danger ">{{unread 0}}</span></a></li>
-                        <li><a href="{{pathFor 'participation'}}">المشاركة<span
-                                class="badge alert-danger">{{unread 1}}</span> </a></li>
-                        <li><a href="{{pathFor 'favorite'}}">المفضلة</a></li>
-                        <li><a href="{{pathFor 'mine'}}">مواضيعك</a></li>
-                        <li><a href="{{pathFor 'add'}}">إضافة موضوع</a></li>
-                        <li><a href="{{pathFor 'messages'}}">الرسائل</a></li>
-                        <li><a href="{{pathFor 'about'}}"><i class="glyphicon glyphicon-exclamation-sign"
-                                                             aria-hidden="true"></i></a></li>
-                    </ul>
+	<div class="container">
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="{{pathFor 'articles'}}">س ص</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav nav-pills">
+						<li><a href="{{pathFor 'search'}}"><span class="glyphicon glyphicon-search"
+																 aria-hidden="true"></span></a></li>
+						<li><a href="{{pathFor 'read'}}">مشاهدة<span
+								class="badge alert-danger ">{{unread 0}}</span></a></li>
+						<li><a href="{{pathFor 'participation'}}">مشاركة<span
+								class="badge alert-danger">{{unread 1}}</span> </a></li>
+						<li><a href="{{pathFor 'favorite'}}">مفضلة</a></li>
+						<li><a href="{{pathFor 'mine'}}">مواضيعك</a></li>
+						<li><a href="{{pathFor 'add'}}">إضافة موضوع</a></li>
+						<li><a href="{{pathFor 'messages'}}">الرسائل</a></li>
+						<li><a href="{{pathFor 'about'}}"><i class="glyphicon glyphicon-exclamation-sign"
+															 aria-hidden="true"></i></a></li>
+					</ul>
 
-                    <ul class="nav navbar-nav navbar-left">
+					<ul class="nav navbar-nav navbar-left">
+						<li class="dropdown">
+							<a href="#" class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle"
+							   data-toggle="dropdown"
+							   role="button" aria-haspopup="true"
+							   aria-expanded="false">{{#if currentUser}}{{userUsername}} {{#if emailStatus}} <a
+									href="{{pathFor 'editPresonalInfo'}}"
+									title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
+								<i class="fa fa-exclamation-triangle"></i>
 
-                        <li class="dropdown">
-                            <a href="#" class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button" aria-haspopup="true"
-                               aria-expanded="false">{{#if currentUser}}{{userUsername}}   {{#if emailStatus}} <a
-                                    href="{{pathFor 'editPresonalInfo'}}"
-                                    title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
-                                <i class="fa fa-exclamation-triangle"></i>
+							</a>{{/if}}{{else}}دخول / تسجيل{{/if}}
+								{{#if currentUser}} <span class="caret"></span>{{/if}}</a>
+							{{#if currentUser}}
+							<ul class="dropdown-menu">
+								<li class="myprofile"><a href="{{pathFor 'me'}}"><span
+										class="glyphicon glyphicon-user" aria-hidden="true"></span> ملفك
+									الشخصي{{#if emailStatus}} <a
+											href="{{pathFor 'editPresonalInfo'}}"
+											title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
+										<i class="fa fa-exclamation-triangle"></i>
+									</a>{{/if}}</a></li>
+								<li class="logOut"><a href="#"><span><i class="fa fa-power-off"
+																		aria-hidden="true"></i></span>&nbsp; خروج
+								</a></li>
+							</ul>
+							{{/if}}
+						</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</div>
 
-                            </a>{{/if}}{{else}}دخول / تسجيل{{/if}}
-                                {{#if currentUser}} <span class="caret"></span>{{/if}}</a>
-                            {{#if currentUser}}
-                                <ul class="dropdown-menu">
-                                    <li class="myprofile"><a href="{{pathFor 'me'}}"><span
-                                            class="glyphicon glyphicon-user" aria-hidden="true"></span> ملفك
-                                        الشخصي{{#if emailStatus}} <a
-                                            href="{{pathFor 'editPresonalInfo'}}"
-                                            title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
-                                        <i class="fa fa-exclamation-triangle"></i>
+	<div class="container bodyContainer">
 
-                                    </a>{{/if}}</a></li>
-                                    <li class="logOut"><a href="#"><span><i class="fa fa-power-off"
-                                                                            aria-hidden="true"></i></span>&nbsp; خروج
-                                    </a></li>
-                                </ul>
-                            {{/if}}
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
-        </nav>
-    </div>
-
-    <div class="container bodyContainer">
-
-        {{> yield}}
-    </div>
+		{{> yield}}
+	</div>
 
 </template>
 <template name="headerText">
-    <h1>{{{headerText}}}</h1>
-    <small class="headerDescription">{{headerDescription}}</small>
-    <hr class="title">
+	<h1>{{{headerText}}}</h1>
+	<small class="headerDescription">{{headerDescription}}</small>
+	<hr class="title">
 </template>
