@@ -1,3 +1,9 @@
+Myfuncs = {
+    currentId: function () {
+        return Router.current().params.id;
+    }
+
+};
 Template.registerHelper('dateFormated', function (date) {
     return moment(date).format('HH:mm:ss YYYY.MM.DD');
 });
@@ -34,9 +40,7 @@ Template.registerHelper('getProfilePic', function (id) {
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
-Template.registerHelper("currentId", function () {
-    return Router.current().params.id;
-});
+Template.registerHelper("currentId", Myfuncs.currentId);
 Template.registerHelper("nl2br", function (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
 
@@ -76,7 +80,6 @@ Template.registerHelper("emailStatus", function () {
 Template.registerHelper("currentUser", function () {
     return Meteor.userId();
 })
-
 Template.registerHelper("unread", function (type) {
     stream = Stream.findOne({userId: Meteor.userId()})
     if (stream) {

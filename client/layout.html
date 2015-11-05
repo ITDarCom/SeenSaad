@@ -37,7 +37,7 @@
 							   data-toggle="dropdown"
 							   role="button" aria-haspopup="true"
 							   aria-expanded="false">{{#if currentUser}}{{userUsername}} {{#if emailStatus}} <a
-									href="{{pathFor 'editPresonalInfo'}}"
+                                    href="{{pathFor 'editPersonalInfo'}}"
 									title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
 								<i class="fa fa-exclamation-triangle"></i>
 
@@ -48,7 +48,7 @@
 								<li class="myprofile"><a href="{{pathFor 'me'}}"><span
 										class="glyphicon glyphicon-user" aria-hidden="true"></span> ملفك
 									الشخصي{{#if emailStatus}} <a
-											href="{{pathFor 'editPresonalInfo'}}"
+                                            href="{{pathFor 'editPersonalInfo'}}"
 											title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
 										<i class="fa fa-exclamation-triangle"></i>
 									</a>{{/if}}</a></li>

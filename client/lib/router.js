@@ -25,7 +25,7 @@ Router.map(function () {
 
 		}
 	})
-	this.route('editPresonalInfo', {
+	this.route('editPersonalInfo', {
 		path: '/profile/setting/editInfo', template: 'profile', action: function () {
 			this.render('profile')
 			Session.set('template', 'profileSetting');
