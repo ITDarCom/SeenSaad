@@ -5,7 +5,9 @@ Template.profile.helpers({
     thisUser: function () {
         if (Router.current().params.id)
             return Meteor.users.findOne(Router.current().params.id);
-        return Meteor.users.findOne({_id: Meteor.userId()});
+        if (Router.current().params.username)
+            return Meteor.users.findOne({username: Router.current().params.username});
+        return Meteor.users.findOne({_id: Meteor.userId()})
     },
     notUserOrGuest: function () {
         var userId = Meteor.userId();

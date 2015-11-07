@@ -22,6 +22,7 @@
                         <div class="row">
                             <a href="{{pathFor 'messageStream' id=this}}">
                                 <div class="msbBody">
+                                    <div class="pull-left">{{{isNew}}}</div>
                                     <p class="col-md-12  ">{{lastMessage}}</p>
                                 </div>
                             </a>
@@ -39,7 +40,7 @@
                         <div class="col-md-offset-1 col-md-10">
                             {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
                                 <fieldset>
-                                    {{> afQuickField name="to" label=false select2Options=s2Opts}}
+                                    {{> afQuickField name="to" label=false}}
                                     {{> afQuickField name="message" label=false}}
                                 </fieldset>
                                 <button type="submit" class="btn btn-primary form-control">أرسل</button>
@@ -94,7 +95,7 @@
                                         <button class="hidden btn btn-xs btn-danger deleteMsgBtn pull-right">
                                             <small><i class="fa fa-trash"></i></small>
                                         </button>
-                                        <blockquote class="you">{{{nl2br message}}}
+                                        <blockquote class="you">{{{nl2br message}}} {{seenChange this._id}}
                                             <small>{{> Time data=sendingAt}}</small>
                                         </blockquote>
                                     </div>

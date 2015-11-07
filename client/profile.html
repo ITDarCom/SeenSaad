@@ -10,23 +10,19 @@
                     <br>
 
                     <div class="row profile-userbuttons">
-                        <button type="button" class="btn btn-danger btn-sm col-xs-offset-2 col-xs-8"
-                                id="sendMessage">رسالة خاصة
+                        <button type="button" class="btn btn-primary btn-sm col-xs-offset-2 col-xs-8"
+                                id="sendMessage"><span class="glyphicon glyphicon-envelope"></span>&nbsp;رسالة خاصة
                         </button>
                     </div>
                 </div>
             {{/if}}
-
                 <div class="row">
                     {{> Template.dynamic template=active}}
                 </div>
 
         </div>
     {{/with}}
-
-
 </template>
-
 <template name="profileSetting">
     {{#if isMe}}
         <div class="row">

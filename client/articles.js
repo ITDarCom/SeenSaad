@@ -77,7 +77,7 @@ Template.searchBox.events({
     "keyup #search-box": _.throttle(function (e) {
         var text = $(e.target).val().trim();
         if (text)
-        articlesSearch.search(text);
+            articlesSearch.search(text);
     }, 200)
 });
 Template.search.helpers({
@@ -95,13 +95,18 @@ Template.Time.events({
 })
 Template.articleView.helpers({
     newLabel: function () {
-        var custom = Stream.findOne({userId: Meteor.userId()})
-        if (this.contributingPermissions == 1)
+        if (this.user == Meteor.userId())
+            return;
+        var custom;
+        if (this.contributingPermissions == 1) {
             if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
                 return '<i class="fa alert-danger fa-circle"></i>'
-        if (this.readingPermissions == 1)
+        }
+        if (this.readingPermissions == 1) {
+            custom = Stream.findOne({userId: Meteor.userId()})
             if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
                 return '<i class="fa alert-danger fa-circle"></i>'
+        }
 
     }
 })

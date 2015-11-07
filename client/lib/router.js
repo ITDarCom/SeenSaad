@@ -16,6 +16,7 @@ Router.map(function () {
 			this.render('profile')
 		}
 	});
+	//this.route('/:username',{name:'username',template:'profile'});
 	this.route('resetPasswd', {
 		path: '/profile/setting/resetpass', template: 'profile', action: function () {
 			this.render('profile')

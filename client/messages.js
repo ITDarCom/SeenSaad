@@ -6,25 +6,21 @@
 //        Router.go('messageStream', {id: this})
 //    }
 //});
+Template.messages.functions = []
 Template.messages.onRendered(function () {
     $('.select2-chosen').val(null)
-})
+});
 Template.messages.helpers({
     senders: function () {
         var me = Meteor.userId();
         var contacts = [];
         Messages.find({}, {fields: {to: 1, from: 1}}, {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me)
-                contacts.push(e.from)
+                contacts.push(e.from);
             else
-                contacts.push(e.to)
+                contacts.push(e.to);
         })
         return _.uniq(contacts)
-    },
-    s2Opts: function () {
-        return {
-            allowClear: true
-        };
     },
     lastMessage: function () {
         var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
@@ -49,9 +45,21 @@ Template.messages.helpers({
                 limit: 1
             }
         }).fetch()[0].sendingAt
-    }
+    },
+    isNew: function () {
+        message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+            sort: {
+                sendingAt: -1,
+                limit: 1
+            }
+        }).fetch()[0]
+        if (message.reciver == 0 && message.from != Meteor.userId())
+            return '<i class="fa alert-danger fa-circle"></i>'
 
-})
+
+    },
+
+});
 Template.messageStream.helpers({
     fromMe: function () {
         return (this.from == Meteor.userId())
@@ -61,7 +69,13 @@ Template.messageStream.helpers({
     },
     thisUser: function () {
         return (Router.current().params.id)
+    },
+    seenChange: function (id) {
+        Tracker.nonreactive(function () {
+            Meteor.call("seenChangeMsg", id)
+        })
     }
+
 })
 Template.messageStream.onRendered(function () {
     $(document).on('mouseenter', '.clearfix', function () {

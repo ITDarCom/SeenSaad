@@ -81,14 +81,27 @@ Template.registerHelper("currentUser", function () {
     return Meteor.userId();
 })
 Template.registerHelper("unread", function (type) {
-    stream = Stream.findOne({userId: Meteor.userId()})
+    if (Meteor.userId()) {
+        stream = Stream.findOne({userId: Meteor.userId()})
     if (stream) {
         var count = 0
-        _.each(type == 0 ? stream.readingArticles : stream.contributingArticles, function (a) {
+        if (type == 0) {
+            _.each(stream.readingArticles, function (a) {
             if (!a.seen)
                 count++;
-        })
+            })
+        }
+        if (type == 1) {
+            _.each(stream.contributingArticles, function (a) {
+                if (!a.seen)
+                    count++;
+            })
+        }
+        if (type == 2) {
+            count = Messages.find({from: {$ne: Meteor.userId()}, reciver: 0}).count()
+        }
         return count > 0 ? count : null
+    }
     }
 })
 moment.locale('ar_sa');
