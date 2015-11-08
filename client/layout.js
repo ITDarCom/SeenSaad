@@ -15,7 +15,8 @@ Template.layout.events({
 })
 Template.headerText.helpers({
     headerText: function () {
-        var headers = {
+        var headers;
+        headers = {
             'read': 'مشاهدة',
             'participation': 'مشاركة',
             'articles': 'س ص',
@@ -28,6 +29,7 @@ Template.headerText.helpers({
             'messageStream': '<a href="/messages"}}">الرسائل</a>',
             'me': 'ملفك الشخصي'
         }
+
         if (Router.current().route.getName() == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                 lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''

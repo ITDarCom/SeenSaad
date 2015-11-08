@@ -1,18 +1,19 @@
-Myfuncs = {
+golbalHelpers = {
     currentId: function () {
         return Router.current().params.id;
+    },
+    userFullName: function (id) {
+        var name = (UI._globalHelpers['firstName'](id) + ' ')
+        if (UI._globalHelpers['familyName'](id))
+            return name + UI._globalHelpers['familyName'](id)
+        return name
+    },
+    dateFormated: function (date) {
+        return moment(date).format('HH:mm:ss YYYY.MM.DD');
     }
-
 };
-Template.registerHelper('dateFormated', function (date) {
-    return moment(date).format('HH:mm:ss YYYY.MM.DD');
-});
-Template.registerHelper('userFullName', function (id) {
-    var name = (UI._globalHelpers['firstName'](id) + ' ')
-    if (UI._globalHelpers['familyName'](id))
-        return name + UI._globalHelpers['familyName'](id)
-    return name
-})
+Template.registerHelper('dateFormated', golbalHelpers.dateFormated);
+Template.registerHelper('userFullName', golbalHelpers.userFullName)
 Template.registerHelper('userUsername', function (id) {
     if (id)
         var user = Meteor.users.findOne({_id: id});
@@ -40,7 +41,7 @@ Template.registerHelper('getProfilePic', function (id) {
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
-Template.registerHelper("currentId", Myfuncs.currentId);
+Template.registerHelper("currentId", golbalHelpers.currentId);
 Template.registerHelper("nl2br", function (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
 
@@ -70,10 +71,12 @@ Template.registerHelper("mobile", function () {
 });
 Template.registerHelper("emailStatus", function () {
     if (Meteor.userId) {
-        user = Meteor.users.findOne(Meteor.userId());
-        if (!user.emails)
+        var user = Meteor.users.findOne(Meteor.userId());
+        if (user) {
+            if (!user.email)
             return true
-        return ( !user.firstName || !user.familyName || !user.mobile)
+            return ( !user.firstName || !user.familyName || !user.mobile)
+        }
     }
     return false
 })

@@ -13,12 +13,15 @@
                         <button type="button" class="btn btn-primary btn-sm col-xs-offset-2 col-xs-8"
                                 id="sendMessage"><span class="glyphicon glyphicon-envelope"></span>&nbsp;رسالة خاصة
                         </button>
+
                     </div>
+                    <div class="text-center">
+                        <h3> {{userFullName currentId}}</h3></div>
                 </div>
             {{/if}}
-                <div class="row">
-                    {{> Template.dynamic template=active}}
-                </div>
+            <div class="row">
+                {{> Template.dynamic template=active}}
+            </div>
 
         </div>
     {{/with}}
@@ -59,15 +62,15 @@
     <div class="row">
         <div class="col-md-offset-2 col-md-7">
 
-                    <div class="profile-userpic">
-                        <img src="{{getProfilePic}}"
-                             class="img-responsive" alt="">
-                    </div>
-                    <br>
+            <div class="profile-userpic">
+                <img src="{{getProfilePic}}"
+                     class="img-responsive" alt="">
+            </div>
+            <br>
 
-                    <div class="input-group image-preview">
-                        <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                        <!-- don't give a name === doesn't send on POST/GET -->
+            <div class="input-group image-preview">
+                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                <!-- don't give a name === doesn't send on POST/GET -->
                 <span class="input-group-btn">
                     <!-- image-preview-clear button -->
                     <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
@@ -81,7 +84,7 @@
                         <!-- rename it -->
                     </div>
                 </span>
-                    </div>
+            </div>
 
 
         </div>
@@ -96,32 +99,63 @@
     <br>
 
     <div class="alert alert-danger" hidden id="alerter"><a class="close" data-dismiss="alert">×</a></div>
-    <form id="user-profile-form" novalidate="novalidate">
-        <div class="form-group">
-            <input type="text" placeholder="اسمك" name="firstName" id="firstName" class="form-control">
-            <span class="help-block"></span>
+    {{#autoForm schema='personalInformationSchema' meteormethod='updateProfile' resetOnSuccess=false id="updatePersonalInformation" type="method"}}
+        <div class="row">
+            <div class="col-md-10">{{> afQuickField name="username" label=false placeholder = 'اسم المستخدم خاصتك' class="input-group" }}</div>
         </div>
-        <div class="form-group">
-            <input type="text" placeholder="اسم العائلة" name="familyName" id="familyName" class="form-control">
+        <div class="row">
+            <div class="col-md-10 col-xs-10">{{> afQuickField name="fullName.name"  label=false placeholder='اسمك الكامل'}}  </div>
+            <div class="col-md-2 col-xs-2">{{> afQuickField name="fullName.permission"   }}  </div>
+        </div>
+        <div class="row">
 
+            <div class="col-md-10 col-xs-10">
+                <div class="form-group well well-sm">{{> afQuickField name="gender.value"  label=false}}</div>
+            </div>
+            <div class="col-md-2 col-xs-2">{{> afQuickField name="gender.permission"   }} </div>
         </div>
-        <div class="form-group well well-sm">
-            <label class="radio-inline"><input type="radio" value=male>ذكر</label>
-            <label for="gender" class="radio-inline"><input type="radio" value=female>أنثى</label>
+        <div class="row">
+            <div class="col-md-10 col-xs-10">{{> afQuickField name="birthday.date"  label=false placeholder="تاريخ الولادة"}}  </div>
+            <div class="col-md-2 col-xs-2">{{> afQuickField name="birthday.permission"   }} </div>
         </div>
-        <div class="form-group">
-            <input type="text" placeholder="رقم الجوال" name="mobile" id="mobile" data-schema-key="mobile"
-                   class="form-control">
+        <div class="row">
+            <div class="col-md-10 col-xs-10">{{> afQuickField name="email.address"   label=false placeholder='بريدك اﻹلكتروني' }}  </div>
+            <div class="col-md-2 col-xs-2">{{> afQuickField name="email.permission"   }} </div>
         </div>
-        <div class="form-group">
-            <input type="text" placeholder="البريد الإلكتروني" name="email" id="email" data-schema-key="email"
-                   class="form-control">
+        <div class="row">
+            <div class="col-md-10 col-xs-10">{{> afQuickField name="mobile.number"  label=false placeholder = 'رقم الجوال'}}  </div>
+            <div class="col-md-2 col-xs-2">{{> afQuickField name="mobile.permission"   }} </div>
         </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary form-control">حفظ</button>
         </div>
-    </form>
+    {{/autoForm}}
+    <!--<form id="user-profile-form" novalidate="novalidate">-->
+    <!--<div class="form-group">-->
+    <!--<input type="text" placeholder="اسمك الكامل" name="firstName" id="firstName" class="form-control">-->
+    <!--<span class="help-block"></span>-->
+    <!--</div>-->
+    <!--<div class="form-group well well-sm">-->
+    <!--<label class="radio-inline"><input type="radio" value=male>ذكر</label>-->
+    <!--<label for="gender" class="radio-inline"><input type="radio" value=female>أنثى</label>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<input type="date" palceholder="تاريخ الميلاد" name="birthday" id="birthday" class="form-control text-right">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<input type="text" placeholder="رقم الجوال" name="mobile" id="mobile" data-schema-key="mobile"-->
+    <!--class="form-control">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<input type="text" placeholder="البريد الإلكتروني" name="email" id="email" data-schema-key="email"-->
+    <!--class="form-control">-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<button type="submit" class="btn btn-primary form-control">حفظ</button>-->
+    <!--</div>-->
+    <!--</form>-->
     <!--<ul class="list-group">-->
     <!--<li class="list-group-item" field="profile.emails"> البريد الإلكتروني :<span-->
     <!--class="personalField">{{email}}</span> <a href="#" class='edit'>-->

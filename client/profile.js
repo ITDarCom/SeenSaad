@@ -1,5 +1,9 @@
 Template.profile.helpers({
     active: function () {
+        if (Router.current().route.getName() == 'me') {
+            Session.set('settings', 'profileImg');
+            return 'profileSetting';
+        }
         return Session.get('template')
     },
     thisUser: function () {
@@ -25,19 +29,6 @@ Template.profile.events({
         $('.active').removeClass('active');
         $(event.target).parent().addClass('active');
     }
-});
-Template.profile.onRendered(function () {
-    if (_.contains(['profileSetting', 'editProfileImg', 'editPersonalInfo', 'resetPasswd'],
-            Router.current().route.getName()))
-        $('#profileSetting').addClass('active');
-    else
-        $('#profileArticles').addClass('active');
-    if ((Meteor.userId() == Myfuncs.currentId()) || (Router.current().route.getName() == 'me')) {
-        Session.set('template', 'profileSetting');
-        Session.set('settings', 'profileImg');
-    }
-    else
-        Session.set('template', 'articles')
 });
 Template.profileSetting.helpers({
     activeSetting: function () {
@@ -192,28 +183,46 @@ Template.personalInformation.events({
 
     }
 });
-Template.personalInformation.helpers({
-    current: function () {
-        return Meteor.userId();
-    }
-});
 Template.personalInformation.onRendered(function () {
     if (Meteor.userId()) {
-        $('.well')
-            .css('marginBottom', $('.form-group').css('marginBottom'))
-            .css('backgroundColor', $('input').css('backgroundColor'));
-        user = Meteor.users.findOne(Meteor.userId());
-        if (user.firstName)
-            $('#firstName').val(user.firstName).attr('currentValue', user.firstName);
-        if (user.familyName)
-            $('#familyName').val(user.familyName).attr('currentValue', user.familyName);
+        $('.well').css('backgroundColor', $('input').css('backgroundColor'));
+        var user = Meteor.users.findOne(Meteor.userId());
+        $('[name=username]').val(user.username);
+        if (user.fullName)
+            $('[name="fullName.name"]').val(user.fullName.name);
         if (user.email)
-            $('#email').val(user.email).attr('currentValue', user.email);
+            $('[name="email.address"]').val(user.email.address);
         if (user.mobile)
-            $('#mobile').val(user.mobile).attr('currentValue', user.mobile);
-        if (user.gender == "male")
+            $('[name="mobile.number"]').val(user.mobile.number);
+        if (user.gender.value == "male") {
             $('[value="male"]').attr('checked', true);
-        if (user.gender == "female")
-            $('[value="female"]').attr('checked', true)
+        }
+        if (user.gender.value == "female")
+            $('[value="female"]').attr('checked', true);
+        if (user.birthday) {
+            $('[name="birthday.date"]').val(moment(user.birthday.date).format('YYYY-MM-DD'))
+        }
+        if (user.birthday.permission)
+            $('[name="birthday.permission"]').attr('checked', true);
+        if (user.fullName.permission)
+            $('[name="fullName.permission"]').attr('checked', true);
+        if (user.email.permission)
+            $('[name="email.permission"]').attr('checked', true);
+        if (user.gender.permission)
+            $('[name="gender.permission"]').attr('checked', true);
+        if (user.mobile.permission)
+            $('[name="mobile.permission"]').attr('checked', true);
+        $('[name=username]').parent().addClass("input-group");
+        $('.input-group').append('<span class="input-group-addon">/SeenSaad.com</span><span class="help-block"></span>');
+    }
+});
+AutoForm.hooks({
+    updatePersonalInformation: {
+        onSuccess: function () {
+            $('.alert').remove();
+            $('.panel-body')
+                .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
+                + '"alert" aria-label="close">&times;</a> تم تعديل إعدادات حسابك بنجاح </div>')
+        },
     }
 });
