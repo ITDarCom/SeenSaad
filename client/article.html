@@ -1,122 +1,131 @@
 <template name="article">
-    {{#with thisArticle}}
-        <div class="row">
-            <div class="col-md-offset-1 col-md-10">
-        {{#if allowReading}}
-            {{>headerText}}
-            {{seenChange}}
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
-                                href="{{pathFor 'profile' id=this.user}}">&nbsp;{{username}}</a>
-                            &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
-                                <!--{{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i-->
-                                <!--class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}-->
-                            <!--<a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>-->
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <h4>{{title}}</h4>
-                            {{#if allowReading}}    <span><i title="المشاهدات" class="fa fa-eye"></i> &nbsp; {{read}}
-                                &nbsp;</span> {{/if}}
-                            {{#if allowContributing}}   <span><i title="المشاركات"
-                                                                 class="fa fa-comments"></i> &nbsp; {{commentCounter}}</span> {{/if}}
-                        </div>
-                        <div class="col-md-4 text-left">
-                            {{#if owner}}
-                                <button class="remove btn-xs btn btn-danger" title="حذف">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                                <button id="editButton" class="edit btn-xs btn btn-warning" title="تعديل">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                            {{/if}}
-                            <button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
-                                <i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div hidden="true" id="infoDiv" class="alert alert-success" role="alert">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th> عدد المشاهدات: {{read}}</th>
-                            {{#if allowContributing}}
-                                <th> عدد المشاركات: {{commentCounter}}</th>{{/if}}
-                            <th> عدد التفضيلات: {{favoriteCounter}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            {{#if allowReading}}
-                                <td> الأعضاء المشاهدون :
-                                    {{#each readers}}
-                                        <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>
-                                    {{else}}
-                                        لا أحد
-                                    {{/each}}
-                                </td>
-                            {{/if}}
-                            {{#if allowContributing}}
-                                <td> المشاركون :
-                                    {{#each commenters}}
-                                        <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
-                                    {{else}} لا أحد
-                                    {{/each}}
-                                </td>
-                            {{/if}}
-                            <td> من قام بتفضيل هذا الموضوع :
-                                {{#each this.favorite}}
-                                    <a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
-                                {{else}} لا أحد
-                                {{/each}}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="panel-body">
-                    <div class="textEditor" name="textEditor">{{{body}}}</div>
-                </div>
-            </div>
-            <!--Comments-->
-            {{#each comments}}
-                <div class="panel panel-info">
-                    <div class="panel-body">
-                        <p class="text-muted"><strong>
+	{{#with thisArticle}}
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			{{#if allowReading}}
+			{{>headerText}}
+			{{seenChange}}
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="row text-center">
+						<h4>{{title}}</h4>
+						<hr class="title">
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
+								href="{{pathFor 'profile' id=this.user}}">&nbsp;{{username}}</a>
+						</div>
+						<div class="col-md-3">
+							<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
+							<!--{{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i-->
+							<!--class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}-->
+							<!--<a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>-->
+						</div>
+						<div class="col-md-3 text-left">
+							{{#if allowReading}}
+                            <span><i title="المشاهدات" class="fa fa-eye"></i> {{read}}</span>
+							{{/if}}
+							&nbsp; &nbsp;
+							{{#if allowContributing}}
+							<span><i title="المشاركات" class="fa fa-comments"></i> {{commentCounter}}</span>
+							{{/if}}
+						</div>
+						<div class="col-md-3 text-left">
+							{{#if owner}}
+							<button class="remove btn-xs btn btn-danger" title="حذف">
+								<i class="fa fa-trash"></i>
+							</button>
+							<button id="editButton" class="edit btn-xs btn btn-warning" title="تعديل">
+								<i class="fa fa-pencil"></i>
+							</button>
+							{{/if}}
+							<button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+								<i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div hidden="true" id="infoDiv" class="alert alert-success" role="alert">
+					<table class="table table-hover">
+						<thead>
+						<tr>
+							<th> عدد المشاهدات: {{read}}</th>
+							{{#if allowContributing}}
+							<th> عدد المشاركات: {{commentCounter}}</th>
+							{{/if}}
+							<th> عدد التفضيلات: {{favoriteCounter}}</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							{{#if allowReading}}
+							<td> الأعضاء المشاهدون :
+								{{#each readers}}
+								<a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>
+								{{else}}
+								لا أحد
+								{{/each}}
+							</td>
+							{{/if}}
+							{{#if allowContributing}}
+							<td> المشاركون :
+								{{#each commenters}}
+								<a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
+								{{else}} لا أحد
+								{{/each}}
+							</td>
+							{{/if}}
+							<td> من قام بتفضيل هذا الموضوع :
+								{{#each this.favorite}}
+								<a href="{{pathFor 'profile' id=this}}"> {{userUsername this}}</a>,
+								{{else}} لا أحد
+								{{/each}}
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="panel-body">
+					<div class="textEditor" name="textEditor">{{{body}}}</div>
+				</div>
+			</div>
+			<!--Comments-->
+			{{#each comments}}
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<p class="text-muted"><strong>
                             <span class="glyphicon glyphicon-user"
-                                  aria-hidden="true"></span>  {{userUsername commenter}}
-                            &nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}:
-                            <hr class="nomargin">
-                        </strong></p>
-                        <div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
-                    </div>
-                </div>
+								  aria-hidden="true"></span> {{userUsername commenter}}
+						&nbsp;&nbsp;
+						<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}:
+						<hr class="nomargin">
+					</strong></p>
+					<div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
+				</div>
+			</div>
 
-            {{/each}}
-            {{#if allowContributing}}
-                <div class="panel panel-info">
-                    <div class="panel-body">
-                        {{#autoForm id="addComments" type="update-pushArray"  doc=this collection="Articles"  scope="comments" }}
-                            {{> afQuickField name="commentText" label=false class='commentTextarea'}}
-                            <button type="submit" class="btn btn-primary form-control">إضافة</button>
-                        {{/autoForm}}
-                    </div>
-                </div>
-            {{/if}}
-        {{else}}
-            <div class="alert alert-warning">
-                <strong>عفواً!</strong>
-                <blockquote>يبدو أن الموضوع الذي تقوم بالوصول إليه غير متاح</blockquote>
-            </div>
-            {{/if}}
-            </div>
-            <!--col-md-10-->
-        </div>
-        <!--row-->
-    {{/with}}
+			{{/each}}
+			{{#if allowContributing}}
+			<div class="panel panel-info">
+				<div class="panel-body">
+					{{#autoForm id="addComments" type="update-pushArray" doc=this collection="Articles" scope="comments"
+					}}
+					{{> afQuickField name="commentText" label=false class='commentTextarea'}}
+					<button type="submit" class="btn btn-primary form-control">إضافة</button>
+					{{/autoForm}}
+				</div>
+			</div>
+			{{/if}}
+			{{else}}
+			<div class="alert alert-warning">
+				<strong>عفواً!</strong>
+				<blockquote>يبدو أن الموضوع الذي تقوم بالوصول إليه غير متاح</blockquote>
+			</div>
+			{{/if}}
+		</div>
+		<!--col-md-10-->
+	</div>
+	<!--row-->
+	{{/with}}
 </template>

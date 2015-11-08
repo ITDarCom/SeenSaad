@@ -1,129 +1,125 @@
 <template name="messages" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-    <div class="col-md-offset-1 col-md-10 col-md-offset-1">
-        {{> headerText}}
+	<div class="col-md-offset-1 col-md-10 col-md-offset-1">
+		{{> headerText}}
 
-        <hr>
-        {{#each senders}}
-            <div class="panel-group">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a
-                                        href="{{pathFor 'profile' id=this}}">{{userUsername this}}</a></h4>
-                            </div>
-                            <div class="pull-left text-left col-md-4 col-xs-4">
+		<hr>
+		{{#each senders}}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-9">
+						<h4><a href="{{pathFor 'messageStream' id=this}}">{{lastMessage}}</a></h4>
+					</div>
+					<div class="col-md-3 text-left">
+						<h5><span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span></h5>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						<a href="{{pathFor 'profile' id=this}}">{{userUsername this}}</a>
+					</div>
+					<div class="col-md-4">
+						<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time
+						data=lastMessageSendingAt}}
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<strong>أرسل رسالة</strong></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-offset-1 col-md-10">
+						{{#autoForm collection="Messages" id="sendMsg" type="insert" }}
+						<fieldset>
+							{{> afQuickField name="to" label=false}}
+							{{> afQuickField name="message" label=false}}
+						</fieldset>
+						<button type="submit" class="btn btn-primary form-control">أرسل</button>
+						{{/autoForm}}
+					</div>
+				</div>
+			</div>
+		</div>
 
-                                <h5> <span class="glyphicon  glyphicon-time"
-                                           aria-hidden="true"></span> {{> Time data=lastMessageSendingAt}} </h5></div>
-                        </div>
-                    </div>
-                    <div class="panel-body clickableDiv">
-                        <div class="row">
-                            <a href="{{pathFor 'messageStream' id=this}}">
-                                <div class="msbBody">
-                                    <div class="pull-left">{{{isNew}}}</div>
-                                    <p class="col-md-12  ">{{lastMessage}}</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {{/each}}
-        <div class="panel-group">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <strong>أرسل رسالة</strong></div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-offset-1 col-md-10">
-                            {{#autoForm collection="Messages" id="sendMsg"  type="insert" }}
-                                <fieldset>
-                                    {{> afQuickField name="to" label=false}}
-                                    {{> afQuickField name="message" label=false}}
-                                </fieldset>
-                                <button type="submit" class="btn btn-primary form-control">أرسل</button>
-                            {{/autoForm}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+	</div>
 </template>
 
 
 <template name="messageStream">
-    <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            {{> headerText}}
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
-                            href="{{pathFor 'profile' id=currentId}}"> &nbsp; {{userUsername currentId}}</a></h4>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			{{> headerText}}
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
+							href="{{pathFor 'profile' id=currentId}}"> &nbsp; {{userUsername currentId}}</a></h4>
 
-                </div>
-                <div class="panel-body">
-                    {{#each messages }}
-                        <div class="row">
+				</div>
+				<div class="panel-body">
+					{{#each messages }}
+					<div class="row">
 
-                            {{#if fromMe}}
-                                <div class="col-md-1 col-xs-1">
-                                    <img class="img-circle" height="42"
-                                                                                       width="42"
-                                                                                       src="{{getProfilePic}}"
-                                                                                       alt="{{userUsername this.from}}"
-                                         title="{{userUsername this.from}}">
-                                </div>
-                                <div class="col-md-11 col-xs-11 msg">
-                                    <div class="clearfix pull-right">
-                                        <button class="btn hidden btn-xs btn-danger deleteMsgBtn pull-left ">
-                                            <small><i class="fa fa-trash "></i></small>
-                                        </button>
-                                        <blockquote class="me">{{{nl2br message}}}
-                                            <small>{{> Time data=sendingAt}}</small>
-                                        </blockquote>
+						{{#if fromMe}}
+						<div class="col-md-1 col-xs-1">
+							<img class="img-circle" height="42"
+								 width="42"
+								 src="{{getProfilePic}}"
+								 alt="{{userUsername this.from}}"
+								 title="{{userUsername this.from}}">
+						</div>
+						<div class="col-md-11 col-xs-11 msg">
+							<div class="clearfix pull-right">
+								<button class="btn hidden btn-xs btn-danger deleteMsgBtn pull-left ">
+									<small><i class="fa fa-trash "></i></small>
+								</button>
+								<blockquote class="me">{{{nl2br message}}}
+									<small>{{> Time data=sendingAt}}</small>
+								</blockquote>
 
-                                    </div>
-                                </div>
-                            {{else}}
-                                <div class="col-md-11 col-xs-11 msg">
+							</div>
+						</div>
+						{{else}}
+						<div class="col-md-11 col-xs-11 msg">
 
-                                    <div class="clearfix pull-left">
-                                        <button class="hidden btn btn-xs btn-danger deleteMsgBtn pull-right">
-                                            <small><i class="fa fa-trash"></i></small>
-                                        </button>
-                                        <blockquote class="you">{{{nl2br message}}} {{seenChange this._id}}
-                                            <small>{{> Time data=sendingAt}}</small>
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-xs-1">
-                                    <img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
-                                         alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
-                                </div>
+							<div class="clearfix pull-left">
+								<button class="hidden btn btn-xs btn-danger deleteMsgBtn pull-right">
+									<small><i class="fa fa-trash"></i></small>
+								</button>
+								<blockquote class="you">{{{nl2br message}}} {{seenChange this._id}}
+									<small>{{> Time data=sendingAt}}</small>
+								</blockquote>
+							</div>
+						</div>
+						<div class="col-md-1 col-xs-1">
+							<img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
+								 alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
+						</div>
 
-                            {{/if}}
-                        </div>
-                    {{/each}}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-1">
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    {{#autoForm id="sendMsgToUser" type="insert" collection="Messages" }}
-                        {{> afFieldInput name= 'to' type="hidden" value=thisUser}}
-                        {{> afFieldInput name='message' placeholder="اكتب رسالة"   rows=2}}
-                        <button type="submit" class="btn btn-primary form-control">أرسل</button>
-                    {{/autoForm}}
-                </div>
-            </div>
-        </div>
-    </div>
+						{{/if}}
+					</div>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-1">
+			<div class="panel panel-info">
+				<div class="panel-body">
+					{{#autoForm id="sendMsgToUser" type="insert" collection="Messages" }}
+					{{> afFieldInput name= 'to' type="hidden" value=thisUser}}
+					{{> afFieldInput name='message' placeholder="اكتب رسالة" rows=2}}
+					<button type="submit" class="btn btn-primary form-control">أرسل</button>
+					{{/autoForm}}
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
