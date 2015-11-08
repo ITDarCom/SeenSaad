@@ -214,6 +214,8 @@ Template.personalInformation.onRendered(function () {
             $('[name="mobile.permission"]').attr('checked', true);
         $('[name=username]').parent().addClass("input-group");
         $('.input-group').append('<span class="input-group-addon">/SeenSaad.com</span><span class="help-block"></span>');
+        $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]' +
+            ',[name="fullName.name"]').addClass("text-left").css("direction", "ltr")
     }
 });
 AutoForm.hooks({
