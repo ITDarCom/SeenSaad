@@ -1,0 +1,87 @@
+<component name="libraryTable">
+  <library name="meteor-packages-auto-import-browser" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_gridfs/0.0.33/web.browser/packages/cfs_gridfs.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/sacha_spin/2.3.1/web.browser/packages/sacha_spin.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_file/0.1.17/web.browser/packages/cfs_file.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_http-methods/0.0.30/web.browser/packages/cfs_http-methods.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/softwarerero_accounts-t9n/1.1.4/web.browser/packages/softwarerero_accounts-t9n.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_collection-filters/0.2.4/web.browser/packages/cfs:collection-filters.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_data-man/0.0.6/web.browser/packages/cfs:data-man.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/npm-bcrypt/0.7.8_2/web.browser/packages/npm-bcrypt.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_access-point/0.1.49/web.browser/packages/cfs_access-point.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/fortawesome_fontawesome/4.4.0/web.browser/packages/fortawesome_fontawesome.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_collection/0.5.5/web.browser/packages/cfs_collection.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_base-package/0.0.30/web.browser/packages/cfs_base-package.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_eventemitter/0.1.3/web.browser/packages/raix_eventemitter.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_upload-http/0.0.20/web.browser/packages/cfs:upload-http.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/zimme_select2-bootstrap3-css/0.1.2/web.browser/packages/zimme:select2-bootstrap3-css.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/natestrauser_select2/3.5.1/web.browser/packages/natestrauser:select2.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_worker/0.1.4/web.browser/packages/cfs:worker.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/mpowaga_autoform-summernote/0.4.2/web.browser/packages/mpowaga_autoform-summernote.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_standard-packages/0.5.9/web.browser/packages/cfs_standard-packages.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/aldeed_autoform/5.4.0/web.browser/packages/aldeed_autoform.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_storage-adapter/0.2.3/web.browser/packages/cfs_storage-adapter.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/momentjs_moment/2.10.6/web.browser/packages/momentjs_moment.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/meteorhacks_search-source/1.4.0/web.browser/packages/meteorhacks_search-source.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_tempstore/0.1.5/web.browser/packages/cfs_tempstore.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/summernote_standalone/0.6.16/web.browser/packages/summernote_standalone.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/meteorhacks_picker/1.0.3/web.browser/packages/meteorhacks_picker.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.3.3/web.browser/packages/aldeed_simple-schema.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/aldeed_collection2/2.5.0/web.browser/packages/aldeed_collection2.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_reactive-property/0.0.4/web.browser/packages/cfs:reactive-property.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_s3/0.1.3/web.browser/packages/cfs:s3.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/twbs_bootstrap/3.3.5/web.browser/packages/twbs_bootstrap.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/meteorhacks_collection-utils/1.2.0/web.browser/packages/meteorhacks:collection-utils.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/aldeed_autoform-select2/2.0.2/web.browser/packages/aldeed_autoform-select2.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_http-publish/0.0.13/web.browser/packages/cfs:http-publish.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/meteorhacks_aggregate/1.2.1/web.browser/packages/meteorhacks_aggregate.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/aldeed_template-extension/3.4.3/web.browser/packages/aldeed:template-extension.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_power-queue/0.9.11/web.browser/packages/cfs:power-queue.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/cfs_reactive-list/0.0.9/web.browser/packages/cfs:reactive-list.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_gridfs/0.0.33/web.browser/packages/cfs_gridfs.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/sacha_spin/2.3.1/web.browser/packages/sacha_spin.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_file/0.1.17/web.browser/packages/cfs_file.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_http-methods/0.0.30/web.browser/packages/cfs_http-methods.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/softwarerero_accounts-t9n/1.1.4/web.browser/packages/softwarerero_accounts-t9n.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_collection-filters/0.2.4/web.browser/packages/cfs:collection-filters.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_data-man/0.0.6/web.browser/packages/cfs:data-man.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/npm-bcrypt/0.7.8_2/web.browser/packages/npm-bcrypt.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/fortawesome_fontawesome/4.4.0/web.browser/packages/fortawesome_fontawesome.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_access-point/0.1.49/web.browser/packages/cfs_access-point.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_collection/0.5.5/web.browser/packages/cfs_collection.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_base-package/0.0.30/web.browser/packages/cfs_base-package.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_eventemitter/0.1.3/web.browser/packages/raix_eventemitter.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_upload-http/0.0.20/web.browser/packages/cfs:upload-http.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/natestrauser_select2/3.5.1/web.browser/packages/natestrauser:select2.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/zimme_select2-bootstrap3-css/0.1.2/web.browser/packages/zimme:select2-bootstrap3-css.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_worker/0.1.4/web.browser/packages/cfs:worker.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/mpowaga_autoform-summernote/0.4.2/web.browser/packages/mpowaga_autoform-summernote.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_standard-packages/0.5.9/web.browser/packages/cfs_standard-packages.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_storage-adapter/0.2.3/web.browser/packages/cfs_storage-adapter.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/aldeed_autoform/5.4.0/web.browser/packages/aldeed_autoform.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/momentjs_moment/2.10.6/web.browser/packages/momentjs_moment.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/meteorhacks_search-source/1.4.0/web.browser/packages/meteorhacks_search-source.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_tempstore/0.1.5/web.browser/packages/cfs_tempstore.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/summernote_standalone/0.6.16/web.browser/packages/summernote_standalone.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/aldeed_simple-schema/1.3.3/web.browser/packages/aldeed_simple-schema.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/meteorhacks_picker/1.0.3/web.browser/packages/meteorhacks_picker.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_reactive-property/0.0.4/web.browser/packages/cfs:reactive-property.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/aldeed_collection2/2.5.0/web.browser/packages/aldeed_collection2.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_s3/0.1.3/web.browser/packages/cfs:s3.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/meteorhacks_collection-utils/1.2.0/web.browser/packages/meteorhacks:collection-utils.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/twbs_bootstrap/3.3.5/web.browser/packages/twbs_bootstrap.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/aldeed_autoform-select2/2.0.2/web.browser/packages/aldeed_autoform-select2.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_http-publish/0.0.13/web.browser/packages/cfs:http-publish.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/meteorhacks_aggregate/1.2.1/web.browser/packages/meteorhacks_aggregate.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_power-queue/0.9.11/web.browser/packages/cfs:power-queue.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/aldeed_template-extension/3.4.3/web.browser/packages/aldeed:template-extension.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/cfs_reactive-list/0.0.9/web.browser/packages/cfs:reactive-list.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
