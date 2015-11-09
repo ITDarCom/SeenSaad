@@ -4,7 +4,7 @@ AutoForm.hooks(
             onSuccess: function (formType, result) {
                 if (formType == 'insert') {
                     Meteor.call("permissionDeploy", result);
-                Router.go("article", {id: result});
+                    Router.go("article", {id: result});
                     $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
                 }
@@ -56,7 +56,11 @@ Template.add.helpers(
                 return {label: c.username, value: c._id};
                 // return users name for select2 field
             });
-        }
+        },
+        s2Opts: function () {
+            return {placeholder: ' المشاركة بالردود على الموضوع'};
+        },
+
     }
 )
 Template.add.events({
@@ -78,6 +82,7 @@ Template.autoForm.onRendered(function () {
             if (this.data.doc.contributingPermissions == 1) {
                 $('#readingPermissions').val(this.data.doc.readingPermissions)
                 $('#readingDiv').show()
+
             }
             else {
                 $('#readingDiv').hide()
@@ -85,7 +90,16 @@ Template.autoForm.onRendered(function () {
         }
         else if (this.data.type == "insert") {
             $('#readingDiv').hide()
+
+
         }
     //after bug founded in autoform ... in readingPemissions field or contributingPermissions field we get wrong value from the doc (always return 0 value) ... so it's a renedering problem in autoform
     //  so in this function we feed the field with the original value from db and show and hide readingPermission div according to contributing fields
+});
+Template.afQuickField.onRendered(function () {
+    if (this.data.name == 'readingIds') {
+        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice">' +
+            ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>')
+
+    }
 })

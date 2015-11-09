@@ -62,20 +62,6 @@ Template.profileImg.onRendered(function () {
                     if (err) {
                     }
                     else {
-
-                        //Tracker.autorun(function (computation) {
-                        //     var file = Images.findOne(fileObj._id);
-                        //     if (file.isUploaded()) {
-                        //        // $('#textEditor').summernote('insertImage', file.url());
-                        //         console.log("uploaded"+file.url())
-                        //         return
-                        //         // Thumbnail is available. Do something.
-                        //         computation.stop();
-                        //     }
-                        //
-                        // });
-
-
                     }
                 })
             };
@@ -98,8 +84,8 @@ Template.personalInformation.onRendered(function () {
         $('.well').css('backgroundColor', $('input').css('backgroundColor'));
         $('[name=username]').parent().addClass("input-group");
         $('.input-group').append('<span class="input-group-addon">/SeenSaad.com</span><span class="help-block"></span>');
-        $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]' +
-            ',[name="fullName.name"]').addClass("text-left").css("direction", "ltr")
+        $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
+            .addClass("text-left").css("direction", "ltr")
     }
 });
 AutoForm.hooks({

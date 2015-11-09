@@ -28,20 +28,23 @@ Template.headerText.helpers({
             'messages': 'الرسائل',
             'messageStream': '<a href="/messages"}}">الرسائل</a>',
             'me': 'ملفك الشخصي',
+            'resetPasswd': 'ملفك الشخصي',
+            'editPersonalInfo': 'ملفك الشخصي',
+            editProfileImg: 'ملفك الشخصي'
 
         }
         route = Router.current().route.getName()
         if (route == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                 lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                return '<a href="/' + lastheader + '">' + headers[Session.get('lastRoute')] + '</a>'
+                return '<a href="/' + lastheader + '"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + headers[Session.get('lastRoute')] + '</a>'
             }
         }
         if (route == 'global') {
             if (Session.get('urlType') == 'article') {
                 if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                     lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                    return '<a href="/' + lastheader + '">' + headers[Session.get('lastRoute')] + '</a>'
+                    return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + headers[Session.get('lastRoute')] + '</a>'
                 }
             }
             if (Session.get('urlType') == 'profile') {
@@ -65,7 +68,10 @@ Template.headerText.helpers({
             'messages': ' الرسائل الخاصة مع الأعضاء',
             'messageStream': ' الرسائل الخاصة مع:',
             'about': 'ما هو س ص؟',
-            'me': 'الصورة والمعلومات الشخصية'
+            'me': 'الصورة والمعلومات الشخصية',
+            'resetPasswd': 'الصورة والمعلومات الشخصية',
+            'editPersonalInfo': 'الصورة والمعلومات الشخصية',
+            editProfileImg: 'الصورة والمعلومات الشخصية'
         }
         if (Router.current().route.getName() == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute')))

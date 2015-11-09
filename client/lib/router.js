@@ -9,20 +9,11 @@ Router.onStop(function () {
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
     this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
-    //this.route('profile', {
-    //    path: '/profile/:id', action: function () {
-    //        Session.set('template', 'articles')
-    //        this.render('profile')
-    //    }
-    //});
-    //this.route('/:username',{name:'username',template:'profile'});
     this.route('resetPasswd', {
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
             this.render('profile')
             Session.set('template', 'profileSetting');
             Session.set('settings', 'chgpasswd')
-
-
         }
     });
     this.route('editPersonalInfo', {

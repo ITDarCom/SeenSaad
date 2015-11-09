@@ -31,9 +31,14 @@ Template.articles.helpers({
                 case "me":
                     return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
                     break;
-                case "profile" :
+                case "global" :
                     if (Router.current().params.id)
-                        return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+
+                        return Articles.find({
+                                user: registerHelpers.userNameId(Router.current().params.id
+                                    .substr(1, Router.current().params.id.length))
+                            }
+                            , {sort: {createdAt: -1}});
             }
             if (Session.get('template') == "articles") {
                 if (Router.current().params.id)

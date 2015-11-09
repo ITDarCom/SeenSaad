@@ -15,7 +15,7 @@ registerHelpers = {
         return str = '@' + str;
     },
     userNameId: function (id) {
-        return Meteor.users.findOne({_id: id}).username;
+        return Meteor.users.findOne({username: id})._id;
     }
 };
 Template.registerHelper("userNameId", registerHelpers.userNameId)
@@ -82,7 +82,7 @@ Template.registerHelper("emailStatus", function () {
         var user = Meteor.users.findOne(Meteor.userId());
         if (user) {
             if (!user.email)
-            return true
+                return true
             return ( !user.firstName || !user.familyName || !user.mobile)
         }
     }
@@ -94,27 +94,35 @@ Template.registerHelper("currentUser", function () {
 Template.registerHelper("unread", function (type) {
     if (Meteor.userId()) {
         stream = Stream.findOne({userId: Meteor.userId()})
-    if (stream) {
-        var count = 0
-        if (type == 0) {
-            _.each(stream.readingArticles, function (a) {
-            if (!a.seen)
-                count++;
-            })
+        if (stream) {
+            var count = 0
+            if (type == 0) {
+                _.each(stream.readingArticles, function (a) {
+                    if (!a.seen)
+                        count++;
+                })
+            }
+            if (type == 1) {
+                _.each(stream.contributingArticles, function (a) {
+                    if (!a.seen)
+                        count++;
+                })
+            }
+            if (type == 2) {
+                count = Messages.find({from: {$ne: Meteor.userId()}, reciver: 0}).count()
+            }
+            return count > 0 ? count : null
         }
-        if (type == 1) {
-            _.each(stream.contributingArticles, function (a) {
-                if (!a.seen)
-                    count++;
-            })
-        }
-        if (type == 2) {
-            count = Messages.find({from: {$ne: Meteor.userId()}, reciver: 0}).count()
-        }
-        return count > 0 ? count : null
     }
-    }
-})
+});
+AccountsTemplates.configure({
+    continuousValidation: false,
+    negativeFeedback: false,
+    negativeValidation: true,
+    positiveValidation: true,
+    positiveFeedback: true,
+    showValidating: true,
+});
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
 SimpleSchema.messages({
