@@ -9,12 +9,12 @@ Router.onStop(function () {
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
     this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
-    this.route('profile', {
-        path: '/profile/:id', action: function () {
-            Session.set('template', 'articles')
-            this.render('profile')
-        }
-    });
+    //this.route('profile', {
+    //    path: '/profile/:id', action: function () {
+    //        Session.set('template', 'articles')
+    //        this.render('profile')
+    //    }
+    //});
     //this.route('/:username',{name:'username',template:'profile'});
     this.route('resetPasswd', {
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
@@ -24,7 +24,7 @@ Router.map(function () {
 
 
         }
-    })
+    });
     this.route('editPersonalInfo', {
         path: '/profile/setting/editInfo', template: 'profile', action: function () {
             this.render('profile')
@@ -74,12 +74,28 @@ Router.map(function () {
     this.route('messages', {
         path: '/messages', onBeforeAction: function () {
             if (!Meteor.userId())
-                this.render('signIn')
+                this.render('signIn');
             else
                 this.render('messages')
         }
     });
-    this.route('messageStream', {path: '/messageStream/:id'})
+    this.route('messageStream', {path: '/messageStream/:id'});
+    this.route('global', {
+        path: '/:id', onBeforeAction: function () {
+            var currId = this.params.id;
+            if (currId.charAt(0) == '@') {
+                Session.set('template', 'articles');
+                Session.set('urlType', 'profile');
+                this.render('profile');
+            }
+            else {
+                Session.set('urlType', 'article');
+                Meteor.subscribe("Article", currId)
+                this.render('article');
+            }
+        }
+    });
+
 });
 //Meteor.loginWithPassword = _.wrap(Meteor.loginWithPassword, function (login) {
 //	// Store the original arguments

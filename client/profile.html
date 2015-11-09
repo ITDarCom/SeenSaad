@@ -15,10 +15,11 @@
                         </button>
 
                     </div>
+
                     <div class="text-center">
-                        <h3> {{userFullName currentId}}</h3></div>
-                </div>
-            {{/if}}
+                        <h3> {{userFullName this._id}}</h3></div>
+                </div>{{/if}}
+
             <div class="row">
                 {{> Template.dynamic template=active}}
             </div>
@@ -30,6 +31,7 @@
     {{#if isMe}}
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
+                {{> headerText}}
                 <div class="panel with-nav-tabs  panel-info">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs nav-justified">
@@ -58,7 +60,6 @@
 </template>
 <template name="profileImg">
     <br>
-
     <div class="row">
         <div class="col-md-offset-2 col-md-7">
 
@@ -99,7 +100,7 @@
     <br>
 
     <div class="alert alert-danger" hidden id="alerter"><a class="close" data-dismiss="alert">×</a></div>
-    {{#autoForm schema='personalInformationSchema' meteormethod='updateProfile' resetOnSuccess=false id="updatePersonalInformation" type="method"}}
+    {{#autoForm schema='personalInformationSchema'  doc=thisUser meteormethod='updateProfile' resetOnSuccess=false id="updatePersonalInformation" type="method"}}
         <div class="row">
             <div class="col-md-10">{{> afQuickField name="username" label=false placeholder = 'اسم المستخدم خاصتك' class="input-group" }}</div>
         </div>

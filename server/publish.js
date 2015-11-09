@@ -69,6 +69,7 @@ Meteor.publish(null, function () {
     }
 })
 Meteor.publish("Article", function (articleId) {
+    debugger
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId) {
         Meteor.call("readCounter", articleId)

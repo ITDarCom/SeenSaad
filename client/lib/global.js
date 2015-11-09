@@ -1,19 +1,27 @@
-golbalHelpers = {
+registerHelpers = {
     currentId: function () {
         return Router.current().params.id;
     },
     userFullName: function (id) {
-        var name = (UI._globalHelpers['firstName'](id) + ' ')
-        if (UI._globalHelpers['familyName'](id))
-            return name + UI._globalHelpers['familyName'](id)
-        return name
+
+        return Meteor.users.findOne({_id: id}).fullName.name
+            ? Meteor.users.findOne({_id: id}).fullName.name
+            : Meteor.users.findOne({_id: id}).username
     },
     dateFormated: function (date) {
         return moment(date).format('HH:mm:ss YYYY.MM.DD');
+    },
+    addDash: function (str) {
+        return str = '@' + str;
+    },
+    userNameId: function (id) {
+        return Meteor.users.findOne({_id: id}).username;
     }
 };
-Template.registerHelper('dateFormated', golbalHelpers.dateFormated);
-Template.registerHelper('userFullName', golbalHelpers.userFullName)
+Template.registerHelper("userNameId", registerHelpers.userNameId)
+Template.registerHelper('addDash', registerHelpers.addDash);
+Template.registerHelper('dateFormated', registerHelpers.dateFormated);
+Template.registerHelper('userFullName', registerHelpers.userFullName)
 Template.registerHelper('userUsername', function (id) {
     if (id)
         var user = Meteor.users.findOne({_id: id});
@@ -41,7 +49,7 @@ Template.registerHelper('getProfilePic', function (id) {
 Template.registerHelper("momentIt", function (toMoment) {
     return moment(toMoment).fromNow();
 });
-Template.registerHelper("currentId", golbalHelpers.currentId);
+Template.registerHelper("currentId", registerHelpers.currentId);
 Template.registerHelper("nl2br", function (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
 
@@ -110,11 +118,6 @@ Template.registerHelper("unread", function (type) {
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
 SimpleSchema.messages({
-    required: " [label] هو حقل مطلوب ولا بد من إدخاله",
     minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
     maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
 });
-
-function clean(text) {
-
-}

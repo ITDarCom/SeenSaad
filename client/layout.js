@@ -27,52 +27,31 @@ Template.headerText.helpers({
             'about': 'حول الموقع',
             'messages': 'الرسائل',
             'messageStream': '<a href="/messages"}}">الرسائل</a>',
-            'me': 'ملفك الشخصي'
-        }
+            'me': 'ملفك الشخصي',
 
-        if (Router.current().route.getName() == 'article') {
+        }
+        route = Router.current().route.getName()
+        if (route == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                 lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
                 return '<a href="/' + lastheader + '">' + headers[Session.get('lastRoute')] + '</a>'
             }
         }
+        if (route == 'global') {
+            if (Session.get('urlType') == 'article') {
+                if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
+                    lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
+                    return '<a href="/' + lastheader + '">' + headers[Session.get('lastRoute')] + '</a>'
+                }
+            }
+            if (Session.get('urlType') == 'profile') {
+                var id = Router.current().params.id;
+                var userId = Meteor.users.findOne({username: id.substr(1, id.length)})._id;
+                return 'مواضيع العضو:' + registerHelpers.userFullName(userId);
+            }
+        }
         else
-            return headers[Router.current().route.getName()]
-        //switch (Router.current().route.getName()) {
-        //	case 'articles':
-        //		return 'س ص'
-        //	case 'home':
-        //		return 'س ص'
-        //	case 'search':
-        //		return 'بحث'
-        //	case "read":
-        //		return 'مشاهدة'
-        //	case "participation":
-        //		return 'مشاركة'
-        //	case "favorite":
-        //		return 'مفضلة'
-        //	case "mine":
-        //		return ' مواضيعك'
-        //	case 'messages':
-        //		return 'الرسائل'
-        //	case 'messageStream':
-        //		return '<a href="/messages"}}">الرسائل</a>'
-        //	case 'about':
-        //		return 'حول الموقع'
-        //	case 'me':
-        //		return 'ملفك الشخصي'
-        //	case 'article':
-        //		if(this.user==Meteor.userId())
-        //			return '<a href="/mine">مواضيعك</a>'
-        //		if(this.contributingPermissions==1 && _.contains(this.contributingIds,Meteor.userId()))
-        //		   return '<a href="/participation">مشاركة</a>'
-        //		if(this.readingPermissions==1 && _.contains(this.readingIds,Meteor.userId()))
-        //			return '<a href="/read">مشاهدة</a>'
-        //		if(this.readingPermissions==0 || this.contributingPermissions == 0)
-        //			return '<a href="/">س ص </a>'
-        //
-        //
-        //}
+            return headers[route]
     },
     headerDescription: function () {
         headerDescriptions = {

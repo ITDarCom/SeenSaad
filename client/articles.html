@@ -17,7 +17,7 @@
 		<div class="panel-heading">
 			<div class="row">
 				<div class="col-md-9">
-					<h4><a href="{{pathFor route='article' id=_id}}">{{{title}}} {{{newLabel}}}</a></h4>
+                    <h4><a href="{{pathFor route='global' id=_id}}">{{{title}}} {{{newLabel}}}</a></h4>
 				</div>
 				<div class="col-md-3 text-left">
 					<h5><span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span></h5>
@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-					<a href="{{pathFor 'profile' id=this.user}}">{{username}}</a>
+                    <a href="{{pathFor 'global' id=(addDash this.username)}}">{{username}}</a>
 				</div>
 				<div class="col-md-4">
 					<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
