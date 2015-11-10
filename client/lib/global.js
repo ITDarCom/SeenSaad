@@ -115,6 +115,8 @@ Template.registerHelper("unread", function (type) {
         }
     }
 });
+
+
 AccountsTemplates.configure({
     continuousValidation: false,
     negativeFeedback: false,
