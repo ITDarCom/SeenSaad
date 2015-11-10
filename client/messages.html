@@ -5,12 +5,10 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-md-9">
-						<h4><a href="{{pathFor 'messageStream' id=this}}">{{lastMessage}}</a></h4>
-					</div>
-					<div class="col-md-3 text-left">
-						<h5><span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span></h5>
-					</div>
+					<a href="{{pathFor 'messageStream' id=this}}">
+						<h4 class="col-md-9">{{lastMessage}}</h4>
+						<h5 class="col-md-3 text-left"><span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span></h5>
+					</a>
 				</div>
 			</div>
 			<div class="panel-body">

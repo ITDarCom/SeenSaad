@@ -16,13 +16,13 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<div class="row">
-				<div class="col-md-9">
-                    <h4><a href="{{pathFor route='global' id=_id}}">{{{title}}} {{{newLabel}}}</a></h4>
-				</div>
-				<div class="col-md-3 text-left">
-					<h5><span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span></h5>
-					<h5><span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span></h5>
-				</div>
+				<a href="{{pathFor route='global' id=_id}}">
+					<h4 class="col-md-9">{{{title}}} {{{newLabel}}}</h4>
+					<h5 class="col-md-3 text-left">
+						<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>
+						<span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span>
+					</h5>
+				</a>
 			</div>
 		</div>
 		<div class="panel-body">
