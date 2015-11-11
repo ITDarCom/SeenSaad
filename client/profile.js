@@ -86,6 +86,7 @@ Template.personalInformation.onRendered(function () {
         $('.input-group').append('<span class="input-group-addon">/SeenSaad.com</span><span class="help-block"></span>');
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
             .addClass("text-left").css("direction", "ltr")
+        $('.radio').css('display', 'inline-block')
     }
 });
 AutoForm.hooks({

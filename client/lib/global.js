@@ -115,19 +115,6 @@ Template.registerHelper("unread", function (type) {
         }
     }
 });
-
-
-AccountsTemplates.configure({
-    continuousValidation: false,
-    negativeFeedback: false,
-    negativeValidation: true,
-    positiveValidation: true,
-    positiveFeedback: true,
-    showValidating: true,
-});
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
-SimpleSchema.messages({
-    minString: "[label] يجب ألا يكون أقل من [min] حرفاً",
-    maxString: "[label] يجب ألا يتجاوز [max] حرفاً"
-});
+

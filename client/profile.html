@@ -99,80 +99,41 @@
 <template name="personalInformation">
     <br>
 
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
     <div class="alert alert-danger" hidden id="alerter"><a class="close" data-dismiss="alert">×</a></div>
-    {{#autoForm schema='personalInformationSchema'  doc=thisUser meteormethod='updateProfile' resetOnSuccess=false id="updatePersonalInformation" type="method"}}
+            {{#autoForm schema='personalInformationSchema'  doc=thisUser collection='Meteor.users' resetOnSuccess=false id="updatePersonalInformation" type="update"}}
         <div class="row">
-            <div class="col-md-10">{{> afQuickField name="username" label=false placeholder = 'اسم المستخدم خاصتك' class="input-group" }}</div>
+            <div class="col-md-8">{{> afQuickField name="username" label=false placeholder = 'اسم المستخدم خاصتك' class="input-group" }}</div>
         </div>
         <div class="row">
-            <div class="col-md-10 col-xs-10">{{> afQuickField name="fullName.name"  label=false placeholder='اسمك الكامل'}}  </div>
-            <div class="col-md-2 col-xs-2">{{> afQuickField name="fullName.permission"   }}  </div>
+            <div class="col-md-8 col-xs-8">{{> afQuickField name="fullName.name"  label=false placeholder='اسمك الكامل'}}  </div>
+            <div class="col-md-4 col-xs-4">{{> afQuickField name="fullName.permission" }}  </div>
         </div>
         <div class="row">
 
-            <div class="col-md-10 col-xs-10">
+            <div class="col-md-8 col-xs-8">
                 <div class="form-group well well-sm">{{> afQuickField name="gender.value"  label=false}}</div>
             </div>
-            <div class="col-md-2 col-xs-2">{{> afQuickField name="gender.permission"   }} </div>
+            <div class="col-md-4 col-xs-4">{{> afQuickField name="gender.permission"   }} </div>
         </div>
         <div class="row">
-            <div class="col-md-10 col-xs-10">{{> afQuickField name="birthday.date"  label=false placeholder="تاريخ الولادة"}}  </div>
-            <div class="col-md-2 col-xs-2">{{> afQuickField name="birthday.permission"   }} </div>
+            <div class="col-md-8 col-xs-8">{{> afQuickField name="birthday.date"  label=false placeholder="تاريخ الولادة"}}  </div>
+            <div class="col-md-4 col-xs-4">{{> afQuickField name="birthday.permission"   }} </div>
         </div>
         <div class="row">
-            <div class="col-md-10 col-xs-10">{{> afQuickField name="email.address"   label=false placeholder='بريدك اﻹلكتروني' }}  </div>
-            <div class="col-md-2 col-xs-2">{{> afQuickField name="email.permission"   }} </div>
+            <div class="col-md-8 col-xs-8">{{> afQuickField name="email.address"   label=false placeholder='بريدك اﻹلكتروني' }}  </div>
+            <div class="col-md-4 col-xs-4">{{> afQuickField name="email.permission"   }} </div>
         </div>
         <div class="row">
-            <div class="col-md-10 col-xs-10">{{> afQuickField name="mobile.number"  label=false placeholder = 'رقم الجوال'}}  </div>
-            <div class="col-md-2 col-xs-2">{{> afQuickField name="mobile.permission"   }} </div>
+            <div class="col-md-8 col-xs-8">{{> afQuickField name="mobile.number"  label=false placeholder = 'رقم الجوال'}}  </div>
+            <div class="col-md-4 col-xs-4">{{> afQuickField name="mobile.permission"   }} </div>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary form-control">حفظ</button>
+            <button type="submit" class="btn btn-primary col-md-8">حفظ</button>
         </div>
     {{/autoForm}}
-    <!--<form id="user-profile-form" novalidate="novalidate">-->
-    <!--<div class="form-group">-->
-    <!--<input type="text" placeholder="اسمك الكامل" name="firstName" id="firstName" class="form-control">-->
-    <!--<span class="help-block"></span>-->
-    <!--</div>-->
-    <!--<div class="form-group well well-sm">-->
-    <!--<label class="radio-inline"><input type="radio" value=male>ذكر</label>-->
-    <!--<label for="gender" class="radio-inline"><input type="radio" value=female>أنثى</label>-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<input type="date" palceholder="تاريخ الميلاد" name="birthday" id="birthday" class="form-control text-right">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<input type="text" placeholder="رقم الجوال" name="mobile" id="mobile" data-schema-key="mobile"-->
-    <!--class="form-control">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<input type="text" placeholder="البريد الإلكتروني" name="email" id="email" data-schema-key="email"-->
-    <!--class="form-control">-->
-    <!--</div>-->
-
-    <!--<div class="form-group">-->
-    <!--<button type="submit" class="btn btn-primary form-control">حفظ</button>-->
-    <!--</div>-->
-    <!--</form>-->
-    <!--<ul class="list-group">-->
-    <!--<li class="list-group-item" field="profile.emails"> البريد الإلكتروني :<span-->
-    <!--class="personalField">{{email}}</span> <a href="#" class='edit'>-->
-    <!--<small>تعديل</small>-->
-    <!--</a></li>-->
-    <!--<li class="list-group-item" field="profile.firstName">الاسم الأول: <span-->
-    <!--class="personalField">{{firstName}}</span> <a href="#" class='edit'>-->
-    <!--<small>تعديل</small>-->
-    <!--</a></li>-->
-    <!--<li class="list-group-item" field="profile.familyName"> اسم العائلة: <span-->
-    <!--class="personalField">{{familyName}}</span> <a href="#" class='edit'>-->
-    <!--<small>تعديل</small>-->
-    <!--</a></li>-->
-    <!--<li class="list-group-item" field="profile.mobile"> رقم الجوال : <span class="personalField">{{mobile}}</span><a-->
-    <!--href="#" class='edit'>-->
-    <!--<small>تعديل</small>-->
-    <!--</a></li>-->
-    <!--</ul>-->
+        </div>
+    </div>
 </template>

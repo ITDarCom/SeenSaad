@@ -37,7 +37,7 @@ Template.headerText.helpers({
         if (route == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                 lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                return '<a href="/' + lastheader + '"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + headers[Session.get('lastRoute')] + '</a>'
+                return '<a href="/' + lastheader + '"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;' + +headers[Session.get('lastRoute')] + '</a>'
             }
         }
         if (route == 'global') {
