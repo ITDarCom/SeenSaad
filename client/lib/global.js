@@ -117,4 +117,15 @@ Template.registerHelper("unread", function (type) {
 });
 moment.locale('ar_sa');
 T9n.setLanguage('ar');
+Template.afQuickField.onRendered(function () {
+    if (this.data.name == 'readingIds') {
+        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice">' +
+            ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>')
+        $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
+    }
+    if (this.data.name == 'contributingIds') {
+        $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
+    }
+
+});
 

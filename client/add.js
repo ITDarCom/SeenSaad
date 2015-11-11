@@ -96,10 +96,3 @@ Template.autoForm.onRendered(function () {
     //after bug founded in autoform ... in readingPemissions field or contributingPermissions field we get wrong value from the doc (always return 0 value) ... so it's a renedering problem in autoform
     //  so in this function we feed the field with the original value from db and show and hide readingPermission div according to contributing fields
 });
-Template.afQuickField.onRendered(function () {
-    if (this.data.name == 'readingIds') {
-        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice">' +
-            ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>')
-
-    }
-})

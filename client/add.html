@@ -18,7 +18,7 @@
                         {{#if afFieldValueIs name="contributingPermissions" value="1"}}
 
                             <div class="col-xs-10">
-                                {{> afQuickField name="contributingIds" options=usersOptions  select2Options=s2Opts }}
+                                {{> afQuickField name="contributingIds" label=false options=usersOptions  select2Options=s2Opts }}
                             </div>
 
                         {{/if}}
@@ -29,7 +29,7 @@
                                 {{> afQuickField name='readingPermissions' id="readingPermissions"  }}</div>
                             {{#if afFieldValueIs name="readingPermissions" value="1"}}
                                 <div class="col-xs-10">
-                                    {{> afQuickField name="readingIds"}}</div>
+                                    {{> afQuickField label=false name="readingIds"}}</div>
                             {{/if}}
                             </div>
                         </div>
