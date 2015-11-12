@@ -14,12 +14,12 @@ Template.signIn.onRendered(function () {
         .append('<span name= "seensaadlabel" class="input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
     $('[name=seensaadlabel]').css('padding-left', '26px')
 });
-Template.atForm.onRendered(function () {
-    if (this.data.state == 'signUp') {
-        $('#signInTab').find('#at-field-password').attr('id', 'at-field-password2');
-    }
-    if (this.data.state == 'signIn') {
+Template.signIn.events({
+    'click #signInClick': function () {
         $('#signInTab').find('#at-field-password2').attr('id', 'at-field-password');
-    }
+    },
+    'click #signUpClick': function () {
+        $('#signInTab').find('#at-field-password').attr('id', 'at-field-password2');
+    },
 
-});
+})

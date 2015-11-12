@@ -14,7 +14,7 @@
 					<div class="row">
 						<div class="col-md-3">
 							<span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
-                                href="{{pathFor 'global' id=(addDash this.username)}}">&nbsp;{{username}}</a>
+                                href="{{pathFor 'profile' id=this._id}}">&nbsp;{{username}}</a>
 						</div>
 						<div class="col-md-3">
 							<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
@@ -62,7 +62,7 @@
 							{{#if allowReading}}
 							<td> الأعضاء المشاهدون :
 								{{#each readers}}
-                                    <a href="{{pathFor 'global' id=(addDash this.username)}}"> {{userUsername this}}</a>
+                                    <a href="{{pathFor 'profile' id=this._id}}"> {{userUsername this}}</a>
 								{{else}}
 								لا أحد
 								{{/each}}
@@ -71,14 +71,14 @@
 							{{#if allowContributing}}
 							<td> المشاركون :
 								{{#each commenters}}
-                                    <a href="{{pathFor 'global' id=(addDash this.username)}}"> {{userUsername this}}</a>,
+                                    <a href="{{pathFor 'profile' id=this._id}}"> {{userUsername this}}</a>,
 								{{else}} لا أحد
 								{{/each}}
 							</td>
 							{{/if}}
 							<td> من قام بتفضيل هذا الموضوع :
 								{{#each this.favorite}}
-                                    <a href="{{pathFor 'global' id=(addDash this.username)}}"> {{userUsername this}}</a>,
+                                    <a href="{{pathFor 'profile' id=this._id}}"> {{userUsername this}}</a>,
 								{{else}} لا أحد
 								{{/each}}
 							</td>

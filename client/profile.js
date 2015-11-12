@@ -7,15 +7,15 @@ Template.profile.helpers({
         return Session.get('template')
     },
     thisUser: function () {
-        id = Router.current().params.id
-        if (id) {
-            Meteor.users.findOne({username: id.substr(1, id.length)})
+
+        if (registerHelpers.currentId()) {
+            Meteor.users.findOne({_id: Router.current().params.id})
         }
         return Meteor.users.findOne({_id: Meteor.userId()});
     },
-    notUserOrGuest: function () {
+    notUserOrGuest: function (id) {
         var userId = Meteor.userId();
-        var profileId = this._id;
+        var profileId = Router.current().params.id;
         return Meteor.userId() && userId != profileId;
     }
 });
@@ -99,3 +99,22 @@ AutoForm.hooks({
         },
     }
 });
+Template.userInformation.helpers({
+    thisUser: function () {
+        return (Meteor.users.findOne(registerHelpers.currentId()))
+    },
+    properties: function () {
+        var properties = [{value: this.username, label: 'اسم المستخدم: '}];
+        if (this.fullName && this.fullName.name)
+            properties.push({value: this.fullName.name, label: 'الاسم الكامل: '})
+        if (this.email && this.email.address)
+            properties.push({value: this.email.address, label: 'البريد الالكتروني: '})
+        if (this.mobile && this.mobile.number)
+            properties.push({value: this.mobile.number, label: 'رقم الجوال: '})
+        if (this.birthday && this.birthday.date)
+            properties.push({value: moment(this.birthday.date).format('YYYY-MM-DD'), label: 'تاريخ الميلاد'})
+        if (this.gender && this.gender.value)
+            properties.push({value: this.gender.value == 'male' ? 'ذكر' : 'أنثى', label: 'الجنس: '})
+        return properties;
+    }
+})

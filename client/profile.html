@@ -4,7 +4,7 @@
             {{#if notUserOrGuest}}
                 <div class="col-md-offset-4 col-md-4">
                     <div class="profile-userpic">
-                        <img src="{{getProfilePic this._id}}"
+                        <img src="{{getProfilePic currentId}}"
                              class="img-responsive" alt="">
                     </div>
                     <br>
@@ -17,8 +17,10 @@
                     </div>
 
                     <div class="text-center">
-                        <h3> {{userFullName this._id}}</h3></div>
-                </div>{{/if}}
+                        <h3> {{> userInformation}}</h3>
+                    </div>
+                </div>
+            {{/if}}
 
             <div class="row">
                 {{> Template.dynamic template=active}}
@@ -136,4 +138,12 @@
     {{/autoForm}}
         </div>
     </div>
+
+</template>
+<template name="userInformation">
+    {{#with thisUser}}
+        {{#each properties}}
+            <h4>{{label}} {{value}}</h4>
+        {{/each}}
+    {{/with}}
 </template>

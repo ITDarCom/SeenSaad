@@ -1,6 +1,6 @@
 <template name="articles">
 	<div class="row">
-		<div class="col-md-offset-1 col-md-10 col-md-offset-1">
+        <div class="col-md-offset-1 col-md-10">
 			{{> headerText}}
 			{{#each articles}}
 			{{> articleView}}
@@ -16,7 +16,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<div class="row">
-				<a href="{{pathFor route='global' id=_id}}">
+                <a href="{{pathFor route='article' id=_id}}">
                     <h4 class="col-md-9">{{{title}}} </h4>
 					<h5 class="col-md-3 text-left">
                         {{{newLabel}}}
@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <a href="{{pathFor 'global' id=(addDash this.username)}}">{{username}}</a>
+                    <a href="{{pathFor 'profile' id=this.user}}">{{username}}</a>
 				</div>
 				<div class="col-md-4">
 					<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}

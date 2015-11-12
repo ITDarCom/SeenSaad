@@ -4,18 +4,18 @@ registerHelpers = {
     },
     userFullName: function (id) {
 
-        return Meteor.users.findOne({_id: id}).fullName.name
-            ? Meteor.users.findOne({_id: id}).fullName.name
-            : Meteor.users.findOne({_id: id}).username
+        var fullName = Meteor.users.findOne({_id: id}, {fields: {'fullName.name': 1}});
+        return fullName['fullName.name'] ? fullName['fullName.name']
+            : Meteor.users.findOne({_id: id}, {fields: {username: 1}}).username
     },
     dateFormated: function (date) {
         return moment(date).format('HH:mm:ss YYYY.MM.DD');
     },
     addDash: function (str) {
-        return str = '@' + str;
+        return '@' + str;
     },
     userNameId: function (id) {
-        return Meteor.users.findOne({username: id})._id;
+        return Meteor.users.findOne({username: id}, {fields: {_id: 1}})._id;
     }
 };
 Template.registerHelper("userNameId", registerHelpers.userNameId)
@@ -82,18 +82,18 @@ Template.registerHelper("emailStatus", function () {
         var user = Meteor.users.findOne(Meteor.userId());
         if (user) {
             if (!user.email)
-                return true
+                return true;
             return ( !user.firstName || !user.familyName || !user.mobile)
         }
     }
     return false
-})
+});
 Template.registerHelper("currentUser", function () {
     return Meteor.userId();
-})
+});
 Template.registerHelper("unread", function (type) {
     if (Meteor.userId()) {
-        stream = Stream.findOne({userId: Meteor.userId()})
+        stream = Stream.findOne({userId: Meteor.userId()});
         if (stream) {
             var count = 0
             if (type == 0) {
@@ -119,7 +119,7 @@ moment.locale('ar_sa');
 T9n.setLanguage('ar');
 Template.afQuickField.onRendered(function () {
     if (this.data.name == 'readingIds') {
-        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice">' +
+        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice pull-left">' +
             ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>')
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
     }

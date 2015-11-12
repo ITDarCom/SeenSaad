@@ -31,7 +31,7 @@ Meteor.publish(null, function () {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
-            readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
+            var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
             return Articles.find({_id: {$in: readingArticles}}, {
                 fields: {
                     title: 1,
@@ -61,7 +61,7 @@ Meteor.publish(null, function () {
             });
         }
     }
-})
+});
 Meteor.publish(null, function () {
 
     if (this.userId) {
@@ -98,17 +98,29 @@ Meteor.publish("Article", function (articleId) {
                 }
             }
     }
-})
+});
 
 Meteor.publish(null, function () {
         if (this.userId)
-            return Meteor.users.find()
-        else
-            return Meteor.users.find({}, {username: 1})
+            return Meteor.users.find({}, {fields: {username: 1}});
 
+});
+Meteor.publish(null, function () {
+    return Meteor.users.find({_id: this.userId})
+});
+Meteor.publish('specificUser', function (userId) {
+    debugger
+    var user = Meteor.users.findOne(userId);
+    var projections = {};
+    for (var property in user) {
+        if (user.hasOwnProperty(property)) {
+            debugger
+            if (user[property].permission)
+                projections[property] = 1;
     }
-)
-;
+    }
+    return Meteor.users.find({_id: userId}, {fields: projections})
+})
 Meteor.publish(null, function () {
     if (this.userId)
         return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
@@ -125,4 +137,4 @@ Meteor.publish(null, function () {
 });
 Meteor.publish(null, function () {
     return Images.find();
-})
+});

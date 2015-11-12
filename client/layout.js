@@ -14,9 +14,10 @@ Template.layout.events({
     }
 })
 Template.headerText.helpers({
+
     headerText: function () {
-        var headers;
-        headers = {
+        var headers = {
+            'add': 'إضافة موضوع',
             'read': 'مشاهدة',
             'participation': 'مشاركة',
             'articles': 'س ص',
@@ -28,36 +29,28 @@ Template.headerText.helpers({
             'messages': 'الرسائل',
             'messageStream': '<a href="/messages"}}">الرسائل</a>',
             'me': 'ملفك الشخصي',
-            'resetPasswd': 'ملفك الشخصي',
-            'editPersonalInfo': 'ملفك الشخصي',
-            editProfileImg: 'ملفك الشخصي'
 
+        };
+        var route = Router.current().route.getName();
+        if (route == 'profile') {
+            return ('مواضيع العضو ' + registerHelpers.userFullName(registerHelpers.currentId()) )
         }
-        route = Router.current().route.getName()
-        if (route == 'article') {
-            if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
-                lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                return '<a href="/' + lastheader + '"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;' + +headers[Session.get('lastRoute')] + '</a>'
-            }
-        }
+
         if (route == 'global') {
             if (Session.get('urlType') == 'article') {
                 if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
                     lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                    return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + headers[Session.get('lastRoute')] + '</a>'
+                    return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + '&nbsp;' + headers[Session.get('lastRoute')] + '</a>'
                 }
-            }
-            if (Session.get('urlType') == 'profile') {
-                var id = Router.current().params.id;
-                var userId = Meteor.users.findOne({username: id.substr(1, id.length)})._id;
-                return 'مواضيع العضو:' + registerHelpers.userFullName(userId);
             }
         }
         else
             return headers[route]
     },
     headerDescription: function () {
-        headerDescriptions = {
+        var headerDescriptions = {
+            'edit': 'تعديل الموضوع',
+            'add': 'أضف موضوع جديد',
             'articles': 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
             'home': 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
             'search': 'بحث في المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
@@ -72,37 +65,13 @@ Template.headerText.helpers({
             'resetPasswd': 'الصورة والمعلومات الشخصية',
             'editPersonalInfo': 'الصورة والمعلومات الشخصية',
             editProfileImg: 'الصورة والمعلومات الشخصية'
-        }
+        };
         if (Router.current().route.getName() == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute')))
                 return headerDescriptions[Session.get('lastRoute')]
         }
         else
             return headerDescriptions[Router.current().route.getName()]
-        //switch (Router.current().route.getName()) {
-        //    case 'articles':
-        //        return 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها'
-        //    case 'home':
-        //        return 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها'
-        //    case 'search':
-        //        return 'بحث في المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها'
-        //    case "read":
-        //        return 'المواضيع التي لك صلاحية مشاهدتها'
-        //    case "participation":
-        //        return 'المواضيع التي لك صلاحية المشاركة فيها'
-        //    case "favorite":
-        //        return 'المواضيع التي وضعتها في المفضلة'
-        //    case "mine":
-        //        return 'مواضيعك التي أضفتها'
-        //    case 'messages':
-        //        return ' الرسائل الخاصة مع الأعضاء'
-        //    case 'messageStream':
-        //        return ' الرسائل الخاصة مع:'
-        //    case 'about':
-        //        return 'ما هو س ص؟'
-        //    case 'me':
-        //        return 'الصورة والمعلومات الشخصية'
-        //}
 
     }
-})
+});
