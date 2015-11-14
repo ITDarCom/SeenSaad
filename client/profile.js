@@ -14,7 +14,7 @@ Template.profile.helpers({
         return Meteor.users.findOne({_id: Meteor.userId()});
     },
     notUserOrGuest: function () {
-        if (Router.current().getName() == 'me')
+        if (Router.current().route.getName() == 'me')
             return false;
         var userId = Meteor.userId();
         var profileId = Router.current().params.id;

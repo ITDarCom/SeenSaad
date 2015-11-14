@@ -31,14 +31,14 @@ Router.map(function () {
     });
     this.route('editPersonalInfo', {
         pasth: '/profile/setting/editInfo', template: 'profile', action: function () {
-            this.render('profile', {me: true})
+            this.render('profile')
             Session.set('template', 'profileSetting');
             Session.set('settings', 'personalInformation')
         }
     });
     this.route('editProfileImg', {
         path: '/profile/setting/editProfileImg', template: 'profile', action: function () {
-            this.render('profile', {me: true})
+            this.render('profile')
             Session.set('template', 'profileSetting');
             Session.set('settings', 'profileImg')
         }
@@ -47,7 +47,7 @@ Router.map(function () {
         path: '/settings', template: 'profile', action: function () {
             Session.set('template', 'profileSetting')
             Session.set('settings', 'profileImg')
-            this.render('profile', {me: true})
+            this.render('profile')
 
         }
     })
