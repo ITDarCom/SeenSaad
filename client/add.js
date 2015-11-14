@@ -18,6 +18,15 @@ AutoForm.hooks(
                 Router.go("article", {id: this.docId});
 
             },
+            formToDoc: function (doc) {
+                if (doc.contributingIds) {
+                    intersection = _.intersection(doc.readingIds, doc.contributingIds);
+                    _.each(intersection, function (u) {
+                        doc.readingIds = _.without(doc.readingIds, u)
+                    });
+                }
+                return doc;
+            }
         }
     })
 Template.add.helpers(

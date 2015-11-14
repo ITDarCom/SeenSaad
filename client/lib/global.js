@@ -16,19 +16,20 @@ registerHelpers = {
     },
     userNameId: function (id) {
         return Meteor.users.findOne({username: id}, {fields: {_id: 1}})._id;
+    },
+    userUsername: function (id) {
+        if (id)
+            var user = Meteor.users.findOne({_id: id});
+        else
+            var user = Meteor.users.findOne({_id: Meteor.userId()})
+        return user ? user.username : 'notFound';
     }
 };
 Template.registerHelper("userNameId", registerHelpers.userNameId)
 Template.registerHelper('addDash', registerHelpers.addDash);
 Template.registerHelper('dateFormated', registerHelpers.dateFormated);
 Template.registerHelper('userFullName', registerHelpers.userFullName)
-Template.registerHelper('userUsername', function (id) {
-    if (id)
-        var user = Meteor.users.findOne({_id: id});
-    else
-        var user = Meteor.users.findOne({_id: Meteor.userId()})
-    return user ? user.username : 'notFound';
-});
+Template.registerHelper('userUsername', registerHelpers.userUsername());
 Template.registerHelper('favorite', function () {
     var favorited = Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
     return favorited
@@ -121,7 +122,7 @@ T9n.setLanguage('ar');
 Template.afQuickField.onRendered(function () {
     if (this.data.name == 'readingIds') {
         $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice pull-left">' +
-            ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>')
+            ' <div>جميع المشاركين يستطيعون مشاهدة الموضوع</div>  </li>');
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
     }
     if (this.data.name == 'contributingIds') {
