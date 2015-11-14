@@ -1,3 +1,9 @@
+meController = RouteController.extend({
+    data: function () {
+        return {privateRoute: true};
+    }
+
+});
 Router.configure({
     layoutTemplate: 'layout',
     loadingTemplate: 'spinner'
@@ -23,29 +29,36 @@ Router.map(function () {
         }
     });
     this.route('resetPasswd', {
+        controller: meController,
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
+            this.state.set('isForMe', true);
             Session.set('template', 'profileSetting');
             Session.set('settings', 'chgpasswd');
             this.render('profile')
         }
     });
     this.route('editPersonalInfo', {
-        pasth: '/profile/setting/editInfo', template: 'profile', action: function () {
-            this.render('profile')
+        controller: meController,
+        path: '/profile/setting/editInfo', template: 'profile', action: function () {
+            this.state.set('isForMe', true);
+            this.render('profile');
             Session.set('template', 'profileSetting');
             Session.set('settings', 'personalInformation')
         }
     });
     this.route('editProfileImg', {
+        controller: meController,
         path: '/profile/setting/editProfileImg', template: 'profile', action: function () {
-            this.render('profile')
+            this.state.set('isForMe', true);
+            this.render('profile');
             Session.set('template', 'profileSetting');
             Session.set('settings', 'profileImg')
         }
     });
     this.route('profileSetting', {
         path: '/settings', template: 'profile', action: function () {
-            Session.set('template', 'profileSetting')
+            this.state.set('isForMe', true);
+            Session.set('template', 'profileSetting');
             Session.set('settings', 'profileImg')
             this.render('profile')
 

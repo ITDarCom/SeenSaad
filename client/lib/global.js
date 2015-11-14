@@ -29,7 +29,7 @@ Template.registerHelper("userNameId", registerHelpers.userNameId)
 Template.registerHelper('addDash', registerHelpers.addDash);
 Template.registerHelper('dateFormated', registerHelpers.dateFormated);
 Template.registerHelper('userFullName', registerHelpers.userFullName)
-Template.registerHelper('userUsername', registerHelpers.userUsername());
+Template.registerHelper('userUsername', registerHelpers.userUsername);
 Template.registerHelper('favorite', function () {
     var favorited = Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
     return favorited

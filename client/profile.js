@@ -14,7 +14,7 @@ Template.profile.helpers({
         return Meteor.users.findOne({_id: Meteor.userId()});
     },
     notUserOrGuest: function () {
-        if (Router.current().route.getName() == 'me')
+        if (Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe)
             return false;
         var userId = Meteor.userId();
         var profileId = Router.current().params.id;
@@ -98,7 +98,8 @@ AutoForm.hooks({
             $('.panel-body')
                 .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
                 + '"alert" aria-label="close">&times;</a> تم تعديل إعدادات حسابك بنجاح </div>')
-        },
+        }
+
     }
 });
 Template.userInformation.helpers({
