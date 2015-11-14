@@ -83,7 +83,8 @@ Template.registerHelper("emailStatus", function () {
         if (user) {
             if (!user.email)
                 return true;
-            return ( !user.firstName || !user.familyName || !user.mobile)
+            return ( !user.fullName || !user.fullName.name || !user.mobile
+        || !user.mobile.number || !user.birthday || !user.birthday.date || !user.gender || !user.gender.value)
         }
     }
     return false

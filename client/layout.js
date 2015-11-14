@@ -16,12 +16,15 @@ Template.headerText.helpers({
             'articles': 'س ص',
             'home': 'س ص',
             "favorite": 'مفضلة',
-            'mine': ' مواضيعك',
+            'mine': 'مواضيعك',
             'search': 'بحث',
             'about': 'حول الموقع',
             'messages': 'الرسائل',
             'messageStream': '<a href="/messages"}}">الرسائل</a>',
             'me': 'ملفك الشخصي',
+            'resetPasswd': 'ملفك الشخصي',
+            'editPersonalInfo': 'ملفك الشخصي',
+            editProfileImg: 'ملفك الشخصي'
 
         };
         var route = Router.current().route.getName();
@@ -31,7 +34,7 @@ Template.headerText.helpers({
 
         if (route == 'global') {
             if (Session.get('urlType') == 'article') {
-                if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute'))) {
+                if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine', 'search'], Session.get('lastRoute'))) {
                     lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
                     return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + '&nbsp;' + headers[Session.get('lastRoute')] + '</a>'
                 }
