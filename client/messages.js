@@ -1,12 +1,6 @@
 /**
  * Created by omar on 10/4/15.
  */
-//Template.messages.events({
-//    'click .msbBody': function (e) {
-//        Router.go('messageStream', {id: this})
-//    }
-//});
-Template.messages.functions = []
 Template.messages.onRendered(function () {
     $('.select2-chosen').val(null)
 });
@@ -34,11 +28,8 @@ Template.messages.helpers({
             return (message.substring(1, 80) + '....')
         else
             return message
-
-
     },
     lastMessageSendingAt: function () {
-
         return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
             sort: {
                 sendingAt: -1,
@@ -47,7 +38,7 @@ Template.messages.helpers({
         }).fetch()[0].sendingAt
     },
     isNew: function () {
-        message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+        var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
             sort: {
                 sendingAt: -1,
                 limit: 1

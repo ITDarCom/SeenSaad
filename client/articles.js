@@ -32,8 +32,8 @@ Template.articles.helpers({
                     return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
                     break;
                 case "profile" :
-                if (Router.current().params.id)
-                    return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+                    if (Router.current().params.id)
+                        return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
                     break;
                 case "global" :
                     if (Router.current().params.id)
@@ -43,7 +43,7 @@ Template.articles.helpers({
         else {
             if (Router.current().route.getName() == 'articles')
                 return Articles.find({}, {sort: {createdAt: -1}});
-            Router.go("signIn")
+            Router.go('signIn');
         }
     }
 });
@@ -57,6 +57,8 @@ Template.articles.events({
     'click .favorite': function () {
         if (Meteor.userId())
             Meteor.call('favoriteIt', this._id)
+        else
+            Router.go('signIn');
     },
     'click .edit': function () {
         Router.go('edit', {id: this._id})
@@ -83,7 +85,7 @@ Template.search.helpers({
     loading: function () {
         return (articlesSearch.getStatus() === 'loading');
     }
-})
+});
 Template.Time.events({
     'click .dateSwitch': function () {
         var target = $(event.target)
@@ -91,7 +93,7 @@ Template.Time.events({
         target.html(target.attr('title'));
         target.attr('title', temp)
     }
-})
+});
 Template.articleView.helpers({
     newLabel: function () {
         if (this.user == Meteor.userId())
@@ -109,4 +111,4 @@ Template.articleView.helpers({
         }
 
     }
-})
+});
