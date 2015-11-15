@@ -10,9 +10,17 @@
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="signInTab">{{> atForm state='signIn'}}</div>
-                        <div class="tab-pane fade" id="signUpTab">{{> atForm state='signUp'}}</div>
+                        <div class="tab-pane fade in active" id="signInTab">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-10">{{> atForm state='signIn'}}</div>
+                            </div>
                         </div>
+                        <div class="tab-pane fade" id="signUpTab">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-10">{{> atForm state='signUp'}}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
