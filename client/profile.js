@@ -98,6 +98,15 @@ AutoForm.hooks({
             $('.panel-body')
                 .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
                 + '"alert" aria-label="close">&times;</a> تم تعديل إعدادات حسابك بنجاح </div>')
+        },
+        before: {
+            'update': function (doc) {
+                if (doc.$set.username != Meteor.users.findOne(Meteor.userId()).username) {
+                    Meteor.call("setNewUserName", doc.$set.username)
+                }
+                doc.$set.username = undefined;
+                return doc;
+            }
         }
 
     }

@@ -11,6 +11,7 @@ Template.headerText.helpers({
     headerText: function () {
         var headers = {
             'add': 'إضافة موضوع',
+            'edit': 'تعديل الموضوع',
             'read': 'مشاهدة',
             'participation': 'مشاركة',
             'articles': 'س ص',

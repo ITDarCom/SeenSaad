@@ -26,6 +26,14 @@ AutoForm.hooks(
                     });
                 }
                 return doc;
+            },
+            before: {
+                'update': function (doc) {
+                    _.each(_.intersection(doc.$set.readingIds, doc.$set.contributingIds), function (u) {
+                        doc.$set.readingIds = _.without(doc.$set.readingIds, u);
+                    });
+                    return doc;
+                }
             }
         }
     })
