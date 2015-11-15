@@ -98,6 +98,7 @@ Template.articleView.helpers({
             return;
         var custom;
         if (this.contributingPermissions == 1) {
+            custom = Stream.findOne({userId: Meteor.userId()})
             if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
                 return '<i class="fa alert-danger fa-circle"></i>'
         }
