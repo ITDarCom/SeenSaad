@@ -322,3 +322,7 @@ hr.title {
     color: #fff;
     background-color: #8a6d3b;
 }
+
+.dirLtr {
+    direction: ltr;
+}

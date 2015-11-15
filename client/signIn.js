@@ -8,11 +8,15 @@ Template.signIn.onRendered(function () {
     $('.at-form').css('marginBottom', 0)
     $('label').remove()
     $('#at-signUp,#at-signIn').parent().hide();
-    $('#signInTab').find('#at-field-username').addClass("input-group text-left").css('direction', 'ltr').parent().addClass('input-group')
+    $('#signInTab').find('#at-field-username,#at-field-password ').addClass("input-group dirLtr")
+        .parent().addClass('input-group')
         .append('<span name= "seensaadlabel" class="input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
-    $('#signUpTab').find('#at-field-username').addClass("input-group text-left").css('direction', 'ltr').parent().addClass('input-group')
+    $('#signUpTab').find('#at-field-username,#at-field-password ')
+        .addClass("input-group dirLtr").parent().addClass('input-group')
         .append('<span name= "seensaadlabel" class="input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
     $('[name=seensaadlabel]').css('padding-left', '26px')
+
+
 });
 Template.signIn.events({
     'click #signInClick': function () {
