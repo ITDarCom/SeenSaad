@@ -100,12 +100,12 @@ Template.articleView.helpers({
         if (this.contributingPermissions == 1) {
             custom = Stream.findOne({userId: Meteor.userId()})
             if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
-                return '<i class="fa alert-danger fa-circle"></i>'
+                return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
         }
         if (this.readingPermissions == 1) {
             custom = Stream.findOne({userId: Meteor.userId()})
             if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
-                return '<i class="fa alert-danger fa-circle"></i>'
+                return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
         }
 
     }

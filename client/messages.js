@@ -54,10 +54,10 @@ Template.messages.helpers({
             }
         }).fetch()[0]
         if (message.reciver == 0 && message.from != Meteor.userId())
-            return '<i class="fa alert-danger fa-circle"></i>'
+            return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
 
 
-    },
+    }
 
 });
 Template.messageStream.helpers({
@@ -76,14 +76,14 @@ Template.messageStream.helpers({
         })
     }
 
-})
+});
 Template.messageStream.onRendered(function () {
     $(document).on('mouseenter', '.clearfix', function () {
         $(this).find(":button").removeClass("hidden");
     }).on('mouseleave', '.clearfix', function () {
         $(this).find(":button").addClass("hidden");
     });
-})
+});
 Template.messageStream.events({
     'click .deleteMsgBtn': function () {
         if (Meteor.userId())
@@ -104,12 +104,12 @@ AutoForm.hooks({
         }
     }
 
-})
+});
 Template.messages.events({
     'click .clickableDiv': function () {
         Router.go('messageStream', {id: this})
     }
-})
+});
 Template.messages.onRendered(function () {
     $('.select2-chosen').text('إلـى');
-})
+});

@@ -8,7 +8,7 @@
 				<div class="row">
 					<a href="{{pathFor 'messageStream' id=this}}">
 						<h4 class="col-md-9">{{lastMessage}}</h4>
-						<h5 class="col-md-3 text-left"><span class="badge label-danger" title="جديد"><i class="fa fa-comments"></i></span></h5>
+                        <h5 class="col-md-3 text-left">{{{isNew}}}</h5>
 					</a>
 				</div>
 			</div>
