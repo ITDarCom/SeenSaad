@@ -19,7 +19,7 @@ Template.messages.helpers({
                 contacts.push(e.from);
             else
                 contacts.push(e.to);
-        })
+        });
         return _.uniq(contacts)
     },
     lastMessage: function () {
