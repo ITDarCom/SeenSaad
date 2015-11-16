@@ -36,7 +36,7 @@ AutoForm.hooks(
                 }
             }
         }
-    })
+    });
 Template.add.helpers(
     {
         canEdit: function () {
@@ -79,7 +79,7 @@ Template.add.helpers(
         },
 
     }
-)
+);
 Template.add.events({
     'change #contributingPermissions': function () {
         if ($('#contributingPermissions').val() == 0) {
@@ -90,7 +90,7 @@ Template.add.events({
         }
         // if contributing permissions is public then we hide the reading permission div
     }
-})
+});
 Template.autoForm.onRendered(function () {
     if (this.data.id == "addUpdateArticles")
         if (this.data.type == "update") {

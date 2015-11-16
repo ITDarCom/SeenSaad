@@ -8,13 +8,16 @@ Template.signIn.onRendered(function () {
     $('.at-form').css('marginBottom', 0)
     $('label').remove()
     $('#at-signUp,#at-signIn').parent().hide();
-    $('#signInTab').find('#at-field-username,#at-field-password ').addClass("input-group dirLtr")
+    $('#signInTab').find('#at-field-username,#at-field-password ').addClass("input-group dirLtr nopadding");
+    $('#signInTab').find('#at-field-username')
         .parent().addClass('input-group')
-        .append('<span name= "seensaadlabel" class="input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
-    $('#signUpTab').find('#at-field-username,#at-field-password ')
-        .addClass("input-group dirLtr").parent().addClass('input-group')
-        .append('<span name= "seensaadlabel" class="input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
-    $('[name=seensaadlabel]').css('padding-left', '26px')
+        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
+    $('#signUpTab').find('#at-field-username,#at-field-password,#at-field-password_again ')
+        .addClass("input-group dirLtr nopadding");
+    $('#signUpTab').find('#at-field-username')
+        .parent().addClass('input-group')
+        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
+    $('[name=seensaadlabel]').css('padding-left', '26px');
 
 
 });

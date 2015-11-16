@@ -21,7 +21,8 @@ Template.headerText.helpers({
             'search': 'بحث',
             'about': 'حول الموقع',
             'messages': 'الرسائل',
-            'messageStream': '<a href="/messages"}}">الرسائل</a>',
+            'messageStream': '<a href="/messages"}}"><span class="glyphicon glyphicon-share-alt" aria-hidden="true">' +
+            '</span>&nbsp;الرسائل</a>',
             'me': 'ملفك الشخصي',
             'resetPasswd': 'ملفك الشخصي',
             'editPersonalInfo': 'ملفك الشخصي',

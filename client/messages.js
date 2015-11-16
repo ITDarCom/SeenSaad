@@ -77,8 +77,9 @@ Template.messageStream.onRendered(function () {
 });
 Template.messageStream.events({
     'click .deleteMsgBtn': function () {
-        if (Meteor.userId())
+        if (Meteor.userId()) {
             Meteor.call('removeMessage', this._id);
+        }
     }
 })
 AutoForm.hooks({

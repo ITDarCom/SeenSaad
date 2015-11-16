@@ -69,7 +69,7 @@ Meteor.publish(null, function () {
     }
 })
 Meteor.publish("Article", function (articleId) {
-    debugger
+    debugger;
     var article = Articles.findOne({_id: articleId})
     if (article.user === this.userId) {
         Meteor.call("readCounter", articleId)
@@ -101,10 +101,11 @@ Meteor.publish("Article", function (articleId) {
 });
 
 Meteor.publish(null, function () {
-        if (this.userId)
             return Meteor.users.find({}, {fields: {username: 1}});
-
+//TODO is maybe a big problem >> to send all usernames to non-user >> even to user
 });
+
+
 Meteor.publish(null, function () {
     return Meteor.users.find({_id: this.userId})
 });

@@ -1,13 +1,23 @@
 @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
 
+* {
+    font-family: 'Droid Arabic Kufi' !important;
+}
+
+.fa {
+    font-family: FontAwesome !important;
+}
+
+.glyphicon {
+    font-family: 'Glyphicons Halflings' !important;
+}
 body {
     background-color: #F0F0F0;
-    font-family: 'Droid Arabic Kufi';
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-a:hover{
+a:hover {
     text-decoration: none;
 }
 
@@ -322,7 +332,18 @@ hr.title {
     color: #fff;
     background-color: #8a6d3b;
 }
-
 .dirLtr {
     direction: ltr;
+}
+
+.nopadding {
+    padding-left: 5px !important;
+}
+
+.seenSaadLabel {
+    height: 20px !important;
+}
+
+.redDiv {
+    background-color: #d9534f !important;
 }

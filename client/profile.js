@@ -16,13 +16,15 @@ Template.profile.helpers({
     notUserOrGuest: function () {
         if (Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe)
             return false;
-        var userId = Meteor.userId();
-        var profileId = Router.current().params.id;
-        return Meteor.userId() && userId != profileId;
+        return true;
     }
 });
 Template.profile.events({
     'click #sendMessage': function () {
+        if (Meteor.userId() === Router.current().params.id) {
+            alert('لا يمكنك إرسالة لنفسك');
+            return false;
+        }
         Session.set('template', 'messageStream');
     },
     'click #profileSetting': function () {
@@ -41,7 +43,7 @@ Template.profileSetting.helpers({
     },
     isMe: function () {
         return (Meteor.userId() == this._id);
-    },
+    }
 });
 Template.profileSetting.events({
     'click .profileSettingBtn': function () {
@@ -85,7 +87,8 @@ Template.personalInformation.onRendered(function () {
     if (Meteor.userId()) {
         $('.well').css('backgroundColor', $('input').css('backgroundColor'));
         $('[name=username]').parent().addClass("input-group");
-        $('.input-group').append('<span class="input-group-addon">/SeenSaad.com</span><span class="help-block"></span>');
+        $('.input-group').append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>' +
+            '<span class="help-block"></span>');
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
             .addClass("text-left").css("direction", "ltr")
         $('.radio').css('display', 'inline-block')

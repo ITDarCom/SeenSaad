@@ -41,7 +41,7 @@ Template.articles.helpers({
             }
         }
         else {
-            if (Router.current().route.getName() == 'articles')
+            if (Router.current().route.getName() == 'home')
                 return Articles.find({}, {sort: {createdAt: -1}});
             Router.go('signIn');
         }

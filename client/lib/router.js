@@ -11,14 +11,15 @@ Router.configure({
 Router.onStop(function () {
     // register the previous route location in a session variable
     Session.set("lastRoute", Router.current().route.getName());
+    $('.alert').remove();
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
-    this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'})
+    this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'});
     this.route('profile', {
         path: '/profile/:id', onBeforeAction: function () {
             if (Meteor.users.findOne(Meteor.users.findOne(this.params.id))) {
-                Session.set('template', 'articles')
+                Session.set('template', 'articles');
                 this.render('profile')
             }
             else {

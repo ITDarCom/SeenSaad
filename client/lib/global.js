@@ -127,6 +127,7 @@ Template.afQuickField.onRendered(function () {
     }
     if (this.data.name == 'contributingIds') {
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
+        //$('.select2-input,.select2-default').css('font-family','Droid Arabic Kufi')
     }
 
 });
