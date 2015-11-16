@@ -114,6 +114,11 @@ Template.afQuickField.onRendered(function () {
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)));
         //$('.select2-input,.select2-default').css('font-family','Droid Arabic Kufi')
     }
+    if (this.data.name == 'gender.value') {
+        $('.radio').each(function () {
+            $(this).prependTo(this.parentNode);
+        });
+    }
 
 });
 

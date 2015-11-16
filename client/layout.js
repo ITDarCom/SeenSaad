@@ -1,7 +1,6 @@
 Template.layout.events({
     'click .logOut': function () {
         AccountsTemplates.logout();
-        Router.go('home');
     },
     'click .signIn': function () {
         event.preventDefault();
@@ -15,7 +14,7 @@ Template.headerText.helpers({
             'add': arabicMessages.headers.add,
             'edit': arabicMessages.headers.edit,
             'read': arabicMessages.headers.read,
-            'participation': arabicMessages.headers..participation,
+            'participation': arabicMessages.headers.participation,
             'articles': arabicMessages.headers.articles,
             'home': arabicMessages.headers.home,
             'favorite': arabicMessages.headers.favorite,

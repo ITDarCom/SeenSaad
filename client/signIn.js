@@ -9,7 +9,7 @@ Template.signIn.onRendered(function () {
     $('label').remove();
     $('#at-signUp,#at-signIn').parent().hide();
     var signInTab = $('#signInTab');
-    signInTab.find('#at-field-username,#at-field-password ').addClass("input-group dirLtr nopadding");
+    signInTab.find('#at-field-username,#at-field-password ').addClass("input-group dirLtr text-center nopadding");
     //noinspection JSValidateTypes
     signInTab.find('#at-field-username')
         .parent().addClass('input-group')
@@ -17,7 +17,7 @@ Template.signIn.onRendered(function () {
         '@/SeenSaad.com</span><span class="help-block"></span>');
     var signUpTab = $('#signUpTab');
     signUpTab.find('#at-field-username,#at-field-password,#at-field-password_again ')
-        .addClass("input-group dirLtr nopadding");
+        .addClass("input-group dirLtr text-center nopadding");
     //noinspection JSValidateTypes
     signUpTab.find('#at-field-username').parent().addClass('input-group')
         .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +

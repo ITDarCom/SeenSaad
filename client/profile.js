@@ -122,35 +122,34 @@ Template.userInformation.helpers({
     },
     properties: function () {
         //noinspection JSUnresolvedVariable
-        var properties = [{value: this.username, label: arabicMessages.userNameLabel + ':'}];
+        var properties = [{value: '<h3>' + this.username + '</h3>'}];
         //noinspection JSUnresolvedVariable
         if (this.fullName && this.fullName.name) {
             //noinspection JSUnresolvedVariable
-            properties.push({value: this.fullName.name, label: arabicMessages.fullNameLabel});
+            properties.push({value: this.fullName.name});
         }
+        if (this.birthday && this.birthday.date) {
+            //noinspection JSUnresolvedVariable
+            properties.push({
+                value: ((this.gender.value == 'male') ? '<i class="fa fa-male"></i>&nbsp;'
+                    : '<i class="fa fa-female"></i> &nbsp;') + (new Date().getFullYear() - this.birthday.date.getFullYear())
+                + '&nbsp;' + 'سنة'
+            });
+            properties.push({
+                value: moment(this.birthday.date).format('YYYY-MM-DD')
+                , label: arabicMessages.birthdayLabel
+            });
+        }
+
         //noinspection JSUnresolvedVariable
         if (this.email && this.email.address) {
             //noinspection JSUnresolvedVariable
-            properties.push({value: this.email.address, label: arabicMessages.emailLabel});
+            properties.push({value: this.email.address});
         }
         //noinspection JSUnresolvedVariable
         if (this.mobile && this.mobile.number) { //noinspection JSUnresolvedVariable
-            if (this.birthday && this.birthday.date) {
-                //noinspection JSUnresolvedVariable
-                properties.push({
-                    value: moment(this.birthday.date).format('YYYY-MM-DD')
-                    , label: arabicMessages.birthdayLabel
-                });
-            }
         }
         //noinspection JSUnresolvedVariable
-        if (this.gender && this.gender.value) {
-            //noinspection JSUnresolvedVariable
-            properties.push({
-                value: this.gender.value == 'male' ? arabicMessages.maleLabel : arabicMessages.femaleLabel
-                , label: arabicMessages.genderLabel
-            });
-        }
         return properties;
     }
 });
