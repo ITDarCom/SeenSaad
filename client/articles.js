@@ -1,21 +1,23 @@
 Template.articles.helpers({
     articles: function () {
+        var custom;
         if (Meteor.userId()) {
             $('.alert').hide();
             switch (Router.current().route.getName()) {
                 case "mine" :
                     return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
                 case  "participation":
-                    var custom = Stream.findOne({userId: Meteor.userId()})
+                    custom = Stream.findOne({userId: Meteor.userId()});
                     if (custom) {
-                        contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : []
+                        var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
+                            , 'id') : [];
                         return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
                 case "read":
-                    var custom = Stream.findOne({userId: Meteor.userId()});
+                    custom = Stream.findOne({userId: Meteor.userId()});
                     if (custom) {
-                        readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
+                        var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
                         return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
                     }
                     break;
@@ -28,9 +30,6 @@ Template.articles.helpers({
                     return Articles.find({}, {sort: {createdAt: -1}});
                 case "home" :
                     return Articles.find({}, {sort: {createdAt: -1}});
-                case "me":
-                    return Articles.find({username: UI._globalHelpers['userUsername'](Meteor.userId())}, {sort: {createdAt: -1}});
-                    break;
                 case "profile" :
                     if (Router.current().params.id)
                         return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
@@ -48,7 +47,7 @@ Template.articles.helpers({
     }
 });
 Template.articles.events({
-    'click .remove': function (event) {
+    'click .remove': function () {
         var id = this._id;
         if (confirm('هل أنت متأكد من حذف الموضوع؟ ')) {
             Meteor.call("removeArticle", id)
@@ -56,7 +55,7 @@ Template.articles.events({
     },
     'click .favorite': function () {
         if (Meteor.userId())
-            Meteor.call('favoriteIt', this._id)
+            Meteor.call('favoriteIt', this._id);
         else
             Router.go('signIn');
     },
@@ -66,6 +65,7 @@ Template.articles.events({
 });
 Template.searchResult.helpers({
     getArticles: function () {
+        //noinspection JSUnusedGlobalSymbols
         return articlesSearch.getData({
             transform: function (matchText, regExp) {
                 return matchText.replace(regExp, "<b>$&</b>")
@@ -83,31 +83,37 @@ Template.searchBox.events({
 });
 Template.search.helpers({
     loading: function () {
+        //noinspection JSValidateTypes
         return (articlesSearch.getStatus() === 'loading');
     }
 });
 Template.Time.events({
     'click .dateSwitch': function () {
-        var target = $(event.target)
-        var temp = target.html()
+        var target = $(event.target);
+        var temp = target.html();
         target.html(target.attr('title'));
         target.attr('title', temp)
     }
 });
 Template.articleView.helpers({
     newLabel: function () {
+        //noinspection JSUnresolvedVariable
         if (this.user == Meteor.userId())
             return;
         var custom;
+        //noinspection JSUnresolvedVariable
         if (this.contributingPermissions == 1) {
-            custom = Stream.findOne({userId: Meteor.userId()})
+            custom = Stream.findOne({userId: Meteor.userId()});
+            //noinspection JSUnresolvedVariable
             if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
-                return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
+                return '<span class="badge redDiv" title="جديد"><i class="fa fa-comment"></i></span>';
         }
+        //noinspection JSUnresolvedVariable
         if (this.readingPermissions == 1) {
-            custom = Stream.findOne({userId: Meteor.userId()})
+            custom = Stream.findOne({userId: Meteor.userId()});
+            //noinspection JSUnresolvedVariable
             if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
-                return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
+                return '<span class="badge redDiv" title="جديد"><i class="fa fa-comment"></i></span>';
         }
 
     }

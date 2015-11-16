@@ -2,19 +2,22 @@
  * Created by omar on 10/4/15.
  */
 Template.messages.onRendered(function () {
-    $('.select2-chosen').val(null)
+    $('.select2-chosen').val(null);
 });
+//noinspection JSUnusedGlobalSymbols
 Template.messages.helpers({
     senders: function () {
         var me = Meteor.userId();
         var contacts = [];
         Messages.find({}, {fields: {to: 1, from: 1}}, {sort: {sendingAt: -1}}).forEach(function (e) {
-            if (e.to == me)
+            if (e.to == me) {
                 contacts.push(e.from);
-            else
+            }
+            else {
                 contacts.push(e.to);
+            }
         });
-        return _.uniq(contacts)
+        return _.uniq(contacts);
     },
     lastMessage: function () {
         var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
@@ -24,10 +27,12 @@ Template.messages.helpers({
             }
         }).fetch()[0].message;
 
-        if (message.length > 80)
-            return (message.substring(1, 80) + '....')
-        else
-            return message
+        if (message.length > 80) {
+            return (message.substring(1, 80) + '....');
+        }
+        else {
+            return message;
+        }
     },
     lastMessageSendingAt: function () {
         return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
@@ -35,7 +40,7 @@ Template.messages.helpers({
                 sendingAt: -1,
                 limit: 1
             }
-        }).fetch()[0].sendingAt
+        }).fetch()[0].sendingAt;
     },
     isNew: function () {
         var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
@@ -43,9 +48,11 @@ Template.messages.helpers({
                 sendingAt: -1,
                 limit: 1
             }
-        }).fetch()[0]
-        if (message.reciver == 0 && message.from != Meteor.userId())
-            return '<span class="badge label-danger" title="جديد"><i class="fa fa-comment"></i></span>'
+        }).fetch()[0];
+        if (message.reciver == 0 && message.from != Meteor.userId()) {
+            return '<span class="badge label-danger" title=' + arabicMessages.newLabel
+                + '><i class="fa fa-comment"></i></span>';
+        }
 
 
     }
@@ -53,17 +60,18 @@ Template.messages.helpers({
 });
 Template.messageStream.helpers({
     fromMe: function () {
-        return (this.from == Meteor.userId())
+        //noinspection JSUnresolvedVariable
+        return (this.from == Meteor.userId());
     },
     messages: function () {
-        return Messages.find({$or: [{to: Router.current().params.id}, {from: Router.current().params.id}]})
+        return Messages.find({$or: [{to: Router.current().params.id}, {from: Router.current().params.id}]});
     },
     thisUser: function () {
-        return (Router.current().params.id)
+        return (Router.current().params.id );
     },
     seenChange: function (id) {
         Tracker.nonreactive(function () {
-            Meteor.call("seenChangeMsg", id)
+            Meteor.call("seenChangeMsg", id);
         })
     }
 
@@ -81,12 +89,13 @@ Template.messageStream.events({
             Meteor.call('removeMessage', this._id);
         }
     }
-})
+});
 AutoForm.hooks({
     sendMsgToUser: {
         onSuccess: function (formType) {
-            if (formType == 'insert')
+            if (formType == 'insert') {
                 $('.msgTextarea').empty();
+            }
         }
     },
     sendMsg: {
@@ -99,9 +108,9 @@ AutoForm.hooks({
 });
 Template.messages.events({
     'click .clickableDiv': function () {
-        Router.go('messageStream', {id: this})
+        Router.go('messageStream', {id: this});
     }
 });
 Template.messages.onRendered(function () {
-    $('.select2-chosen').text('إلـى');
+    $('.select2-chosen').text(arabicMessages.messageToLabel);
 });

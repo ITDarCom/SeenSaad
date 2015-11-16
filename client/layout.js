@@ -1,44 +1,47 @@
 Template.layout.events({
     'click .logOut': function () {
         AccountsTemplates.logout();
+        Router.go('home');
     },
     'click .signIn': function () {
         event.preventDefault();
         Router.go('signIn');
     }
 });
+//noinspection JSUnusedGlobalSymbols
 Template.headerText.helpers({
     headerText: function () {
         var headers = {
-            'add': 'إضافة موضوع',
-            'edit': 'تعديل الموضوع',
-            'read': 'مشاهدة',
-            'participation': 'مشاركة',
-            'articles': 'س ص',
-            'home': 'س ص',
-            "favorite": 'مفضلة',
-            'mine': 'مواضيعك',
-            'search': 'بحث',
-            'about': 'حول الموقع',
-            'messages': 'الرسائل',
-            'messageStream': '<a href="/messages"}}"><span class="glyphicon glyphicon-share-alt" aria-hidden="true">' +
-            '</span>&nbsp;الرسائل</a>',
-            'me': 'ملفك الشخصي',
-            'resetPasswd': 'ملفك الشخصي',
-            'editPersonalInfo': 'ملفك الشخصي',
-            editProfileImg: 'ملفك الشخصي'
+            'add': arabicMessages.headers.add,
+            'edit': arabicMessages.headers.edit,
+            'read': arabicMessages.headers.read,
+            'participation': arabicMessages.headers..participation,
+            'articles': arabicMessages.headers.articles,
+            'home': arabicMessages.headers.home,
+            'favorite': arabicMessages.headers.favorite,
+            'mine': arabicMessages.headers.mine,
+            'search': arabicMessages.headers.search,
+            'about': arabicMessages.headers.about,
+            'messages': arabicMessages.headers.messages,
+            'messageStream': arabicMessages.headers.messageStream,
+            'me': arabicMessages.headers.me,
+            'resetPasswd': arabicMessages.headers.resetPasswd,
+            'editPersonalInfo': arabicMessages.headers.editPersonalInfo,
+            'editProfileImg': arabicMessages.headers.editProfileImg
 
         };
         var route = Router.current().route.getName();
         if (route == 'profile') {
-            return ('مواضيع العضو ' + registerHelpers.userFullName(registerHelpers.currentId()) )
+            return (arabicMessages.userArticles + registerHelpers.userFullName(registerHelpers.currentId()) )
         }
 
         if (route == 'global') {
             if (Session.get('urlType') == 'article') {
-                if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine', 'search'], Session.get('lastRoute'))) {
-                    lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : ''
-                    return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>' + '&nbsp;' + headers[Session.get('lastRoute')] + '</a>'
+                if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home'
+                        , 'mine', 'search'], Session.get('lastRoute'))) {
+                    var lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : '';
+                    return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" ' +
+                        'aria-hidden="true"></span>' + '&nbsp;' + headers[Session.get('lastRoute')] + '</a>'
                 }
             }
         }
@@ -47,25 +50,26 @@ Template.headerText.helpers({
     },
     headerDescription: function () {
         var headerDescriptions = {
-            'edit': 'تعديل الموضوع',
-            'add': 'أضف موضوع جديد',
-            'articles': 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
-            'home': 'المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
-            'search': 'بحث في المواضيع العامة والمواضيع التي لك صلاحية مشاهدتها أو المشاركة فيها',
-            "read": 'المواضيع التي لك صلاحية مشاهدتها',
-            "participation": 'المواضيع التي لك صلاحية المشاركة فيها',
-            "favorite": 'المواضيع التي وضعتها في المفضلة',
-            "mine": 'مواضيعك التي أضفتها',
-            'messages': ' الرسائل الخاصة مع الأعضاء',
-            'messageStream': ' الرسائل الخاصة مع:',
-            'about': 'ما هو س ص؟',
-            'me': 'الصورة والمعلومات الشخصية',
-            'resetPasswd': 'الصورة والمعلومات الشخصية',
-            'editPersonalInfo': 'الصورة والمعلومات الشخصية',
-            editProfileImg: 'الصورة والمعلومات الشخصية'
+            'edit': arabicMessages.headerDescription.edit,
+            'add': arabicMessages.headerDescription.add,
+            'articles': arabicMessages.headerDescription.articles,
+            'home': arabicMessages.headerDescription.home,
+            'search': arabicMessages.headerDescription.search,
+            'read': arabicMessages.headerDescription.read,
+            'participation': arabicMessages.headerDescription.participation,
+            'favorite': arabicMessages.headerDescription.favorite,
+            'mine': arabicMessages.headerDescription.mine,
+            'messages': arabicMessages.headerDescription.messages,
+            messageStream: arabicMessages.headerDescription.messageStream,
+            'about': arabicMessages.headerDescription.about,
+            'me': arabicMessages.headerDescription.me,
+            'resetPasswd': arabicMessages.headerDescription.resetPasswd,
+            'editPersonalInfo': arabicMessages.headerDescription.editPersonalInfo,
+            editProfileImg: arabicMessages.headerDescription.editProfileImg
         };
         if (Router.current().route.getName() == 'article') {
-            if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine'], Session.get('lastRoute')))
+            if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine']
+                    , Session.get('lastRoute')))
                 return headerDescriptions[Session.get('lastRoute')]
         }
         else

@@ -4,19 +4,24 @@
 Template.signIn.onRendered(function () {
     $('button').removeClass('btn-default').addClass('btn-primary');
     $('.at-title,#at-forgotPwd').remove();
-    $('.at-form').css('marginTop', 0)
-    $('.at-form').css('marginBottom', 0)
-    $('label').remove()
+    $('.at-form').css('marginTop', 0).css('marginBottom', 0);
+
+    $('label').remove();
     $('#at-signUp,#at-signIn').parent().hide();
-    $('#signInTab').find('#at-field-username,#at-field-password ').addClass("input-group dirLtr nopadding");
-    $('#signInTab').find('#at-field-username')
+    var signInTab = $('#signInTab');
+    signInTab.find('#at-field-username,#at-field-password ').addClass("input-group dirLtr nopadding");
+    //noinspection JSValidateTypes
+    signInTab.find('#at-field-username')
         .parent().addClass('input-group')
-        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
-    $('#signUpTab').find('#at-field-username,#at-field-password,#at-field-password_again ')
+        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +
+        '@/SeenSaad.com</span><span class="help-block"></span>');
+    var signUpTab = $('#signUpTab');
+    signUpTab.find('#at-field-username,#at-field-password,#at-field-password_again ')
         .addClass("input-group dirLtr nopadding");
-    $('#signUpTab').find('#at-field-username')
-        .parent().addClass('input-group')
-        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">@/SeenSaad.com</span><span class="help-block"></span>');
+    //noinspection JSValidateTypes
+    signUpTab.find('#at-field-username').parent().addClass('input-group')
+        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +
+        '@/SeenSaad.com</span><span class="help-block"></span>');
     $('[name=seensaadlabel]').css('padding-left', '26px');
 
 
@@ -27,6 +32,6 @@ Template.signIn.events({
     },
     'click #signUpClick': function () {
         $('#signInTab').find('#at-field-password').attr('id', 'at-field-password2');
-    },
+    }
 
-})
+});

@@ -14,15 +14,15 @@ Template.profile.helpers({
         return Meteor.users.findOne({_id: Meteor.userId()});
     },
     notUserOrGuest: function () {
-        if (Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe)
-            return false;
-        return true;
+        //noinspection JSUnresolvedVariable
+        return !(Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe);
+
     }
 });
 Template.profile.events({
     'click #sendMessage': function () {
         if (Meteor.userId() === Router.current().params.id) {
-            alert('لا يمكنك إرسالة لنفسك');
+            alert(arabicMessages.cannotSendToMe);
             return false;
         }
         Session.set('template', 'messageStream');
@@ -42,6 +42,7 @@ Template.profileSetting.helpers({
             return "active"
     },
     isMe: function () {
+        //noinspection JSUnresolvedVariable
         return (Meteor.userId() == this._id);
     }
 });
@@ -74,10 +75,11 @@ Template.profileImg.onRendered(function () {
     });
 });
 Template.chgpasswd.onRendered(function () {
-    $('#at-btn').removeClass("btn-default").addClass("btn-primary").text("حفظ");
+    $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.resetPasswdBtn);
     $('label').hide();
     $('.at-title').remove();
 });
+//noinspection JSUnusedGlobalSymbols
 Template.personalInformation.helpers({
     thisUser: function () {
         return Meteor.users.findOne(Meteor.userId())
@@ -90,7 +92,7 @@ Template.personalInformation.onRendered(function () {
         $('.input-group').append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>' +
             '<span class="help-block"></span>');
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
-            .addClass("text-left").css("direction", "ltr")
+            .addClass("text-left").css("direction", "ltr");
         $('.radio').css('display', 'inline-block')
     }
 });
@@ -100,7 +102,7 @@ AutoForm.hooks({
             $('.alert').remove();
             $('.panel-body')
                 .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
-                + '"alert" aria-label="close">&times;</a> تم تعديل إعدادات حسابك بنجاح </div>')
+                + '"alert" aria-label="close">&times;</a>' + arabicMessages.profileEditSuccess + '</div>')
         },
         before: {
             'update': function (doc) {
@@ -119,17 +121,36 @@ Template.userInformation.helpers({
         return (Meteor.users.findOne(registerHelpers.currentId()))
     },
     properties: function () {
-        var properties = [{value: this.username, label: 'اسم المستخدم: '}];
-        if (this.fullName && this.fullName.name)
-            properties.push({value: this.fullName.name, label: 'الاسم الكامل: '})
-        if (this.email && this.email.address)
-            properties.push({value: this.email.address, label: 'البريد الالكتروني: '})
-        if (this.mobile && this.mobile.number)
-            properties.push({value: this.mobile.number, label: 'رقم الجوال: '})
-        if (this.birthday && this.birthday.date)
-            properties.push({value: moment(this.birthday.date).format('YYYY-MM-DD'), label: 'تاريخ الميلاد'})
-        if (this.gender && this.gender.value)
-            properties.push({value: this.gender.value == 'male' ? 'ذكر' : 'أنثى', label: 'الجنس: '})
+        //noinspection JSUnresolvedVariable
+        var properties = [{value: this.username, label: arabicMessages.userNameLabel + ':'}];
+        //noinspection JSUnresolvedVariable
+        if (this.fullName && this.fullName.name) {
+            //noinspection JSUnresolvedVariable
+            properties.push({value: this.fullName.name, label: arabicMessages.fullNameLabel});
+        }
+        //noinspection JSUnresolvedVariable
+        if (this.email && this.email.address) {
+            //noinspection JSUnresolvedVariable
+            properties.push({value: this.email.address, label: arabicMessages.emailLabel});
+        }
+        //noinspection JSUnresolvedVariable
+        if (this.mobile && this.mobile.number) { //noinspection JSUnresolvedVariable
+            if (this.birthday && this.birthday.date) {
+                //noinspection JSUnresolvedVariable
+                properties.push({
+                    value: moment(this.birthday.date).format('YYYY-MM-DD')
+                    , label: arabicMessages.birthdayLabel
+                });
+            }
+        }
+        //noinspection JSUnresolvedVariable
+        if (this.gender && this.gender.value) {
+            //noinspection JSUnresolvedVariable
+            properties.push({
+                value: this.gender.value == 'male' ? arabicMessages.maleLabel : arabicMessages.femaleLabel
+                , label: arabicMessages.genderLabel
+            });
+        }
         return properties;
     }
-})
+});

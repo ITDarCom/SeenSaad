@@ -35,7 +35,7 @@ Router.map(function () {
             this.state.set('isForMe', true);
             Session.set('template', 'profileSetting');
             Session.set('settings', 'chgpasswd');
-            this.render('profile')
+            this.render('profile');
         }
     });
     this.route('editPersonalInfo', {
@@ -60,11 +60,11 @@ Router.map(function () {
         path: '/settings', template: 'profile', action: function () {
             this.state.set('isForMe', true);
             Session.set('template', 'profileSetting');
-            Session.set('settings', 'profileImg')
+            Session.set('settings', 'profileImg');
             this.render('profile')
 
         }
-    })
+    });
     this.route('me', {path: '/profile', template: 'profile'});
     this.route('home', {path: '/', template: 'articles'});
     this.route('articles', {path: '/articles'});
@@ -78,8 +78,9 @@ Router.map(function () {
     this.route('edit', {path: '/edit/:id', template: 'add'});
     this.route('add', {
         path: '/add', onBeforeAction: function () {
-            if (!Meteor.userId())
-                this.render('signIn')
+            if (!Meteor.userId()) {
+                this.render('signIn');
+            }
             else
                 this.render('add')
         }
@@ -91,8 +92,9 @@ Router.map(function () {
     });
     this.route('messages', {
         path: '/messages', onBeforeAction: function () {
-            if (!Meteor.userId())
+            if (!Meteor.userId()) {
                 this.render('signIn');
+            }
             else
                 this.render('messages')
         }
@@ -105,7 +107,7 @@ Router.map(function () {
                 this.render('article');
             }
             else {
-                this.render('notFound')
+                this.render('notFound');
             }
         },
         waitOn: function () {
