@@ -11,9 +11,6 @@ registerHelpers = {
     dateFormated: function (date) {
         return moment(date).format('HH:mm:ss YYYY.MM.DD');
     },
-    addDash: function (str) {
-        return '@' + str;
-    },
     userNameId: function (id) {
         return Meteor.users.findOne({username: id}, {fields: {_id: 1}})._id;
     },
@@ -24,13 +21,18 @@ registerHelpers = {
         else
             user = Meteor.users.findOne({_id: Meteor.userId()});
         return user ? user.username : 'notFound';
+    },
+    getArabicMsg : function (id) {
+        if(id.indexOf("headers.")!=-1)
+            return arabicMessages.headers[id.substr(8,id.length)]
+        return arabicMessages[id];
     }
 };
 Template.registerHelper('userNameId', registerHelpers.userNameId);
-Template.registerHelper('addDash', registerHelpers.addDash);
 Template.registerHelper('dateFormated', registerHelpers.dateFormated);
 Template.registerHelper('userFullName', registerHelpers.userFullName);
 Template.registerHelper('userUsername', registerHelpers.userUsername);
+Template.registerHelper('getArabicMsg', registerHelpers.getArabicMsg);
 Template.registerHelper('favorite', function () {
     return Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
 
@@ -112,7 +114,6 @@ Template.afQuickField.onRendered(function () {
     }
     if (this.data.name == 'contributingIds') {
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)));
-        //$('.select2-input,.select2-default').css('font-family','Droid Arabic Kufi')
     }
     if (this.data.name == 'gender.value') {
         $('.radio').each(function () {

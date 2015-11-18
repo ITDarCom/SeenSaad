@@ -8,24 +8,25 @@ AutoForm.hooks(
                     Router.go("article", {id: result});
                     $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' + "تم إضافة الموضوع بنجـاح " + '</span></div>')
+                        ' data-dismiss="alert">×</a><span>' +  arabicMessages.addSuccessfully+ '</span></div>')
                 }
                 if (formType == "update") {
                     var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                     var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
                     Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                    Router.go("article", {id: this.docId});
                     $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' + "تم تعديل الموضوع بنجـاح " + '</span></div>')
+                        ' data-dismiss="alert">×</a><span>' +arabicMessages.editSuccessfully + '</span></div>')
                 }
-                Router.go("article", {id: this.docId});
+
 
             },
             formToDoc: function (doc) {
                 if (doc.contributingIds) {
                     var intersection = _.intersection(doc.readingIds, doc.contributingIds);
                     _.each(intersection, function (u) {
-                        doc.readingIds = _.without(doc.readingIds, u)
+                        doc.readingIds = _.without(doc.readingIds, u);
                     });
                 }
                 return doc;
@@ -103,6 +104,7 @@ Template.add.events({
 //noinspection JSUnresolvedVariable
 Template.autoForm.onRendered(function () {
     if (this.data.id == "addUpdateArticles") {
+        $('.panel').css('margin-bottom','5px');
         if (this.data.type == "update") {
             {
                 if (Router.current().route.getName() == "edit") {

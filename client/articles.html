@@ -6,7 +6,7 @@
 			{{#each articles}}
 			{{> articleView}}
 			{{else}}
-			<strong>لا يوجد مواضيع حالياً!</strong>
+			<strong>{{getArabicMsg 'noArticlesFound'}}</strong>
 			{{/each}}
 		</div>
 	</div>
@@ -21,7 +21,6 @@
                     <h4 class="col-md-9">{{{title}}} </h4>
 					<h5 class="col-md-3 text-left">
                         {{{newLabel}}}
-                        <!--<span class="badge redDiv" title="جديد"><i class="fa fa-comments"></i></span>-->
 					</h5>
 				</a>
 			</div>
@@ -37,14 +36,14 @@
 				</div>
 				<div class="col-md-4 text-left">
 					{{#if owner}}
-					<button class="remove btn-xs btn btn-danger" title="حذف">
+					<button class="remove btn-xs btn btn-danger" title='{{getArabicMsg "deleteButtonTitle"}}'>
 						<i class="fa fa-trash"></i>
 					</button>
-					<button class="edit btn-xs btn btn-warning" title="تعديل">
+					<button class="edit btn-xs btn btn-warning" title='{{getArabicMsg "editButtonTitle"}}'>
 						<i class="fa fa-pencil"></i>
 					</button>
 					{{/if}}
-					<button class="favorite btn-xs btn btn-success" title="إضافة إلى المفضلة">
+					<button class="favorite btn-xs btn btn-success" title='{{getArabicMsg "addToFavorites"}}'>
 						<i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
 					</button>
 				</div>

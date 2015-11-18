@@ -9,7 +9,8 @@ Template.signIn.onRendered(function () {
     $('label').remove();
     $('#at-signUp,#at-signIn').parent().hide();
     var signInTab = $('#signInTab');
-    signInTab.find('#at-field-username,#at-field-password ').addClass("input-group dirLtr text-center nopadding");
+    signInTab.find('#at-field-username,#at-field-password ')
+        .addClass("input-group dirLtr text-center nopadding");
     //noinspection JSValidateTypes
     signInTab.find('#at-field-username')
         .parent().addClass('input-group')

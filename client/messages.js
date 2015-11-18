@@ -6,21 +6,21 @@ Template.messages.onRendered(function () {
 });
 //noinspection JSUnusedGlobalSymbols
 Template.messages.helpers({
-    senders: function () {
+    senders: function () { 
         var me = Meteor.userId();
         var contacts = [];
-        Messages.find({}, {fields: {to: 1, from: 1}}, {sort: {sendingAt: -1}}).forEach(function (e) {
+        Messages.find({}, {fields: {to: 1, from: 1,sendingAt:1}}, {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
-                contacts.push(e.from);
+                contacts.push({id:e.from , sendingAt: e.sendingAt});
             }
             else {
-                contacts.push(e.to);
+                contacts.push({id:e.to , sendingAt: e.sendingAt});
             }
         });
-        return _.uniq(contacts);
+        return _.sortBy(_.uniq(contacts,false,function (c) {return c.id}),'sendingAt').reverse();
     },
     lastMessage: function () {
-        var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+        var message = Messages.find({$or: [{to: this.id.toString()}, {from: this.id.toString()}]}, {
             sort: {
                 sendingAt: -1,
                 limit: 1
@@ -35,7 +35,7 @@ Template.messages.helpers({
         }
     },
     lastMessageSendingAt: function () {
-        return Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+        return Messages.find({$or: [{to: this.id.toString()}, {from: this.id.toString()}]}, {
             sort: {
                 sendingAt: -1,
                 limit: 1
@@ -43,7 +43,7 @@ Template.messages.helpers({
         }).fetch()[0].sendingAt;
     },
     isNew: function () {
-        var message = Messages.find({$or: [{to: this.toString()}, {from: this.toString()}]}, {
+        var message = Messages.find({$or: [{to: this.id.toString()}, {from: this.id.toString()}]}, {
             sort: {
                 sendingAt: -1,
                 limit: 1

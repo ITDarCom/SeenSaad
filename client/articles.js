@@ -49,7 +49,7 @@ Template.articles.helpers({
 Template.articles.events({
     'click .remove': function () {
         var id = this._id;
-        if (confirm('هل أنت متأكد من حذف الموضوع؟ ')) {
+        if (confirm(arabicMessages.deleteConfirm)) {
             Meteor.call("removeArticle", id)
         }
     },
@@ -106,14 +106,14 @@ Template.articleView.helpers({
             custom = Stream.findOne({userId: Meteor.userId()});
             //noinspection JSUnresolvedVariable
             if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
-                return '<span class="badge redDiv" title="جديد"><i class="fa fa-comment"></i></span>';
+                return '<span class="badge redDiv" title='+ arabicMessages.newLabel+ '><i class="fa fa-comment"></i></span>';
         }
         //noinspection JSUnresolvedVariable
         if (this.readingPermissions == 1) {
             custom = Stream.findOne({userId: Meteor.userId()});
             //noinspection JSUnresolvedVariable
             if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
-                return '<span class="badge redDiv" title="جديد"><i class="fa fa-comment"></i></span>';
+                return '<span class="badge redDiv" title='+arabicMessages.newLabel+'><i class="fa fa-comment"></i></span>';
         }
 
     }

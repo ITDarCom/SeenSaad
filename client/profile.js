@@ -17,6 +17,11 @@ Template.profile.helpers({
         //noinspection JSUnresolvedVariable
         return !(Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe);
 
+    },
+    removeAlert : function () {
+        Tracker.nonreactive(function () {
+            $('.alert').remove();
+        })
     }
 });
 Template.profile.events({
@@ -75,7 +80,7 @@ Template.profileImg.onRendered(function () {
     });
 });
 Template.chgpasswd.onRendered(function () {
-    $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.resetPasswdBtn);
+    $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.saveButton);
     $('label').hide();
     $('.at-title').remove();
 });
@@ -86,6 +91,7 @@ Template.personalInformation.helpers({
     }
 });
 Template.personalInformation.onRendered(function () {
+
     if (Meteor.userId()) {
         $('.well').css('backgroundColor', $('input').css('backgroundColor'));
         $('[name=username]').parent().addClass("input-group");
@@ -133,14 +139,13 @@ Template.userInformation.helpers({
             properties.push({
                 value: ((this.gender.value == 'male') ? '<i class="fa fa-male"></i>&nbsp;'
                     : '<i class="fa fa-female"></i> &nbsp;') + (new Date().getFullYear() - this.birthday.date.getFullYear())
-                + '&nbsp;' + 'سنة'
+                + '&nbsp;' + arabicMessages.year
             });
             properties.push({
                 value: moment(this.birthday.date).format('YYYY-MM-DD')
                 , label: arabicMessages.birthdayLabel
             });
         }
-
         //noinspection JSUnresolvedVariable
         if (this.email && this.email.address) {
             //noinspection JSUnresolvedVariable
@@ -148,6 +153,7 @@ Template.userInformation.helpers({
         }
         //noinspection JSUnresolvedVariable
         if (this.mobile && this.mobile.number) { //noinspection JSUnresolvedVariable
+            properties.push({value: this.mobile.number});
         }
         //noinspection JSUnresolvedVariable
         return properties;

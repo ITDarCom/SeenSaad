@@ -11,7 +11,7 @@ Router.configure({
 Router.onStop(function () {
     // register the previous route location in a session variable
     Session.set("lastRoute", Router.current().route.getName());
-    $('.alert').remove();
+   // $('.alert').remove();
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {

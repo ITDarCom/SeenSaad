@@ -19,14 +19,14 @@
 					<ul class="nav navbar-nav nav-pills">
 						<li><a href="{{pathFor 'search'}}"><span class="glyphicon glyphicon-search"
 																 aria-hidden="true"></span></a></li>
-						<li><a href="{{pathFor 'read'}}">مشاهدة<span
+						<li><a href="{{pathFor 'read'}}">{{getArabicMsg "headers.read"}}<span
 								class="badge alert-danger ">{{unread 0}}</span></a></li>
-						<li><a href="{{pathFor 'participation'}}">مشاركة<span
+						<li><a href="{{pathFor 'participation'}}">{{getArabicMsg "headers.participation"}}<span
 								class="badge alert-danger">{{unread 1}}</span> </a></li>
-						<li><a href="{{pathFor 'favorite'}}">مفضلة</a></li>
-						<li><a href="{{pathFor 'mine'}}">مواضيعك</a></li>
-						<li><a href="{{pathFor 'add'}}">إضافة موضوع</a></li>
-                        <li><a href="{{pathFor 'messages'}}">الرسائل<span
+						<li><a href="{{pathFor 'favorite'}}">{{getArabicMsg "headers.favorite"}}</a></li>
+						<li><a href="{{pathFor 'mine'}}">{{getArabicMsg "headers.mine"}}</a></li>
+						<li><a href="{{pathFor 'add'}}">{{getArabicMsg "headers.add"}}</a></li>
+                        <li><a href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}<span
                                 class="badge alert-danger ">{{unread 2}}</span></a></li>
 						<li><a href="{{pathFor 'about'}}"><i class="fa fa-exclamation-circle fa-lg"></i></a></li>
 					</ul>
@@ -38,22 +38,22 @@
 							   role="button" aria-haspopup="true"
 							   aria-expanded="false">{{#if currentUser}}{{userUsername}} {{#if emailStatus}} <a
                                     href="{{pathFor 'editPersonalInfo'}}"
-									title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
+									title='{{getArabicMsg "nonCompletedProfile"}}'>
 								<i class="fa fa-exclamation-triangle"></i>
 
-							</a>{{/if}}{{else}}دخول / تسجيل{{/if}}
+							</a>{{/if}}{{else}}{{getArabicMsg "singInUpLabel"}}{{/if}}
 								{{#if currentUser}} <span class="caret"></span>{{/if}}</a>
 							{{#if currentUser}}
 							<ul class="dropdown-menu">
 								<li class="myprofile"><a href="{{pathFor 'me'}}"><span
-										class="glyphicon glyphicon-user" aria-hidden="true"></span> ملفك
-									الشخصي{{#if emailStatus}} <a
+										class="glyphicon glyphicon-user" aria-hidden="true"></span> {{getArabicMsg "headers.me"}}
+									{{#if emailStatus}} <a
                                             href="{{pathFor 'me'}}"
-											title="ملفك الشخصي غير مكتمل .. اضغط لإكماله">
+											title={{getArabicMsg "nonCompletedProfile"}}>
 										<i class="fa fa-exclamation-triangle"></i>
 									</a>{{/if}}</a></li>
 								<li class="logOut"><a href="#"><span><i class="fa fa-power-off"
-																		aria-hidden="true"></i></span>&nbsp; خروج
+																		aria-hidden="true"></i></span>&nbsp; {{getArabicMsg 'logout'}}
 								</a></li>
 							</ul>
 							{{/if}}
