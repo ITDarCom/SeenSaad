@@ -37,3 +37,4 @@ cfs:standard-packages
 cfs:s3
 cfs:gridfs
 djedi:sanitize-html
+meteorhacks:kadira
