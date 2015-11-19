@@ -1,84 +1,84 @@
-<template name="article">
+<template name='article'>
 	{{#with thisArticle}}
-	<div class="row">
-		<div class="col-md-offset-1 col-md-10">
+	<div class='row'>
+		<div class='col-md-offset-1 col-md-10'>
 			{{#if allowReading}}
 			{{>headerText}}
 			{{seenChange}}
-			<div class="panel panel-info">
-                <div class="panel-heading">
-					<div class="row text-center">
+			<div class='panel panel-info'>
+                <div class='panel-heading'>
+					<div class='row text-center'>
 						<h4>{{title}}</h4>
-						<hr class="title">
+						<hr class='title'>
 					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
-                                href="{{pathFor 'profile' id=this.user}}">&nbsp;{{userUsername user}}</a>
+					<div class='row'>
+						<div class='col-md-3'>
+							<span class='glyphicon glyphicon-user' aria-hidden='true'></span><a
+                                href='{{pathFor 'profile' id=this.user}}'>&nbsp;{{userUsername user}}</a>
 						</div>
-						<div class="col-md-3">
-							<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}
+						<div class='col-md-3'>
+							<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
 							<!--{{#if isPrivate}} <i class="fa fa-lock"></i> <strong>خاص</strong> {{else}}<i-->
 							<!--class="fa fa-unlock"></i> <strong>عام</strong>{{/if}}-->
-							<!--<a href="#" id="showInfo"><i class="fa fa-info-circle"></i></a>-->
+							<!--<a href="#" id="showInfo"><i class='fa fa-info-circle"></i></a>-->
 						</div>
-						<div class="col-md-3 text-left">
+						<div class='col-md-3 text-left'>
 							{{#if allowReading}}
                             <span ><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}' ></i> {{read}}</span>
 							{{/if}}
 							&nbsp; &nbsp;
 							{{#if allowContributing}}
-							<span><i  title='{{ getArabicMsg "contributingLabel"}}' class="fa fa-comments"></i> {{commentCounter}}</span>
+							<span><i  title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i> {{commentCounter}}</span>
 							{{/if}}
 						</div>
-						<div class="col-md-3 text-left">
+						<div class='col-md-3 text-left'>
 							{{#if owner}}
-							<button class="remove btn-xs btn btn-danger" title='{{getArabicMsg "deleteButtonTitle"}}'>
-								<i class="fa fa-trash"></i>
+							<button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
+								<i class='fa fa-trash'></i>
 							</button>
-							<button id="editButton" class="edit btn-xs btn btn-warning" title='{{getArabicMsg "editButtonTitle"}}'>
-								<i class="fa fa-pencil"></i>
+							<button id='editButton' class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
+								<i class='fa fa-pencil'></i>
 							</button>
 							{{/if}}
-							<button class="favorite btn-xs btn btn-success" title='{{getArabicMsg "addToFavorites"}}'>
-								<i class="fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}"></i>
+							<button class='favorite btn-xs btn btn-success' title='{{getArabicMsg "addToFavorites"}}'>
+								<i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div class="panel-body">
-					<div class="textEditor" name="textEditor">{{{body}}}</div>
+				<div class='panel-body'>
+					<div class='textEditor' name='textEditor'>{{{body}}}</div>
 				</div>
 			</div>
 			<!--Comments-->
 			{{#each comments}}
-			<div class="panel panel-info">
-				<div class="panel-body">
-					<p class="text-muted"><strong>
-                            <span class="glyphicon glyphicon-user"
-								  aria-hidden="true"></span> {{userUsername commenter}}
+			<div class='panel panel-info'>
+				<div class='panel-body'>
+					<p class='text-muted'><strong>
+                            <span class='glyphicon glyphicon-user'
+								  aria-hidden='true'></span> {{userUsername commenter}}
 						&nbsp;&nbsp;
-						<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time data=createdAt}}:
-						<hr class="nomargin">
+						<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}:
+						<hr class='nomargin'>
 					</strong></p>
-					<div class="textEditor" name="textEditor">{{{nl2br commentText}}}</div>
+					<div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>
 				</div>
 			</div>
 
 			{{/each}}
 			{{#if allowContributing}}
-			<div class="panel panel-info">
-				<div class="panel-body">
-					{{#autoForm id="addComments" type="update-pushArray" doc=this collection="Articles" scope='comments'
+			<div class='panel panel-info'>
+				<div class='panel-body'>
+					{{#autoForm id='addComments' type='update-pushArray' doc=this collection='Articles' scope='comments'
 					}}
-					{{> afQuickField name="commentText" label=false class='commentTextarea'}}
-					<button type="submit" class="btn btn-primary form-control">{{getArabicMsg 'addButtonLabel'}}</button>
+					{{> afQuickField name='commentText' label=false class='commentTextarea'}}
+					<button type='submit' class='btn btn-primary form-control'>{{getArabicMsg 'addButtonLabel'}}</button>
 					{{/autoForm}}
 				</div>
 			</div>
 			{{/if}}
 			{{else}}
-			<div class="alert alert-warning">
+			<div class='alert alert-warning'>
 				<strong>{{getArabicMsg 'sorryMsg'}}</strong>
 				<blockquote>{{getArabicMsg 'articleAccessDenied'}}</blockquote>
 			</div>

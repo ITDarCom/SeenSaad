@@ -11,10 +11,34 @@ Router.configure({
 Router.onStop(function () {
     // register the previous route location in a session variable
     Session.set("lastRoute", Router.current().route.getName());
-   // $('.alert').remove();
+});
+articleListController = RouteController.extend({
+    template: 'test',
+    increment: 5,
+    limit: function() {
+        return parseInt(this.params.articlesLimit) || this.increment;
+    },
+    findOptions: function() {
+        return {sort: {createdAt: -1}, limit: this.limit()};
+    },
+    waitOn: function() {
+        return Meteor.subscribe('publicArticles', this.findOptions());
+    },
+    articles: function() {
+        return Articles.find({}, this.findOptions());
+    },
+    data: function() {
+        var hasMore = this.articles().fetch().length === this.limit();
+        var nextPath = this.route.path({articlesLimit: this.limit() + this.increment});
+        return {
+            articles: this.articles(),
+            nextPath: hasMore ? nextPath : null
+        };
+    }
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
+    this.route('test',{path:'/test',controller:articleListController})
     this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'});
     this.route('profile', {
         path: '/profile/:id', onBeforeAction: function () {

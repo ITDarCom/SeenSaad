@@ -4,17 +4,17 @@ AutoForm.hooks(
         addUpdateArticles: {
             onSuccess: function (formType, result) {
                 if (formType == 'insert') {
-                    Meteor.call("permissionDeploy", result);
-                    Router.go("article", {id: result});
+                    Meteor.call('permissionDeploy', result);
+                    Router.go('article', {id: result});
                     $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
                         ' data-dismiss="alert">×</a><span>' +  arabicMessages.addSuccessfully+ '</span></div>')
                 }
-                if (formType == "update") {
+                if (formType == 'update') {
                     var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                     var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
                     Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
-                    Router.go("article", {id: this.docId});
+                    Router.go('article', {id: this.docId});
                     $('.alert').hide();
                     $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
                         ' data-dismiss="alert">×</a><span>' +arabicMessages.editSuccessfully + '</span></div>')
@@ -46,34 +46,34 @@ Template.add.helpers(
     {
         canEdit: function () {
 
-            if ((Router.current().params.id) && (Router.current().route.getName() == "edit"))
+            if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
                 return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
-            return (Router.current().route.getName() == "add")
+            return (Router.current().route.getName() == 'add')
         },
         formType: function () {
-            if (Router.current().route.getName() == "edit") {
-                return "update";
+            if (Router.current().route.getName() == 'edit') {
+                return 'update';
             }
-            if (Router.current().route.getName() == "add") {
-                return "insert";
+            if (Router.current().route.getName() == 'add') {
+                return 'insert';
             }
             //to choose form type (insert or update)
         },
         thisArticle: function () {
-            if (Router.current().route.getName() == "edit") {
+            if (Router.current().route.getName() == 'edit') {
                 return Articles.findOne({_id: Router.current().params.id});
             }
             // to get the article from collection to display it
         },
         insert: function () {
-            return (Router.current().route.getName() == "add");
+            return (Router.current().route.getName() == 'add');
             // return true if we are in insert operation
         },
         saveButton: function () {
-            if (Router.current().route.getName() == "edit") {
+            if (Router.current().route.getName() == 'edit') {
                 return arabicMessages.editButtonLabel;
             }
-            if (Router.current().route.getName() == "add") {
+            if (Router.current().route.getName() == 'add') {
                 return arabicMessages.addButtonLabel;
             }
             // return the correct title for button that used in the form
@@ -103,11 +103,12 @@ Template.add.events({
 });
 //noinspection JSUnresolvedVariable
 Template.autoForm.onRendered(function () {
-    if (this.data.id == "addUpdateArticles") {
+    if (this.data.id == 'addUpdateArticles') {
+        $('.alert').remove();
         $('.panel').css('margin-bottom','5px');
-        if (this.data.type == "update") {
+        if (this.data.type == 'update') {
             {
-                if (Router.current().route.getName() == "edit") {
+                if (Router.current().route.getName() == 'edit') {
                     //noinspection JSUnresolvedVariable
                     $('#contributingPermissions').val(this.data.doc.contributingPermissions);
                 }
@@ -123,7 +124,7 @@ Template.autoForm.onRendered(function () {
                 }
             }
         }
-        else if (this.data.type == "insert") {
+        else if (this.data.type == 'insert') {
             $('#readingDiv').hide()
 
 
