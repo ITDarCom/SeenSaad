@@ -26,13 +26,20 @@ registerHelpers = {
         if(id.indexOf("headers.")!=-1)
             return arabicMessages.headers[id.substr(8,id.length)]
         return arabicMessages[id];
+    },
+    isAdmin: function () {
+        var Admins = ['SeenSaad'];
+        return (_.contains(Admins, Meteor.users.findOne(Meteor.userId()).username));
+
     }
+
 };
 Template.registerHelper('userNameId', registerHelpers.userNameId);
 Template.registerHelper('dateFormated', registerHelpers.dateFormated);
 Template.registerHelper('userFullName', registerHelpers.userFullName);
 Template.registerHelper('userUsername', registerHelpers.userUsername);
 Template.registerHelper('getArabicMsg', registerHelpers.getArabicMsg);
+Template.registerHelper('isAdmin', registerHelpers.isAdmin);
 Template.registerHelper('favorite', function () {
     return Favorites.findOne({userId: Meteor.userId(), favorites: {$in: [this._id]}});
 
@@ -98,7 +105,7 @@ Template.registerHelper("unread", function (type) {
                 })
             }
             if (type == 2) {
-                count = Messages.find({from: {$ne: Meteor.userId()}, reciver: 0}).count()
+                count = Messages.find({from: {$ne: Meteor.userId()},to:Meteor.userId(),reciver: 0}).count()
             }
             return count > 0 ? count : null
         }

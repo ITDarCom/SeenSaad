@@ -4,6 +4,8 @@
       <w>clearfix</w>
       <w>mouseenter</w>
       <w>mouseleave</w>
+      <w>seensaad</w>
+      <w>unthrottled</w>
     </words>
   </dictionary>
 </component>

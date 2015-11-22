@@ -29,6 +29,7 @@
                         <li><a href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}<span
                                 class="badge alert-danger ">{{unread 2}}</span></a></li>
 						<li><a href="{{pathFor 'about'}}"><i class="fa fa-exclamation-circle fa-lg"></i></a></li>
+					{{#if isAdmin}}	<li><a href="{{pathFor 'admin'}}"><i class="fa fa-cogs fa-lg"></i></a></li>{{/if}}
 					</ul>
 
 					<ul class="nav navbar-nav navbar-left">
@@ -41,7 +42,7 @@
 									title='{{getArabicMsg "nonCompletedProfile"}}'>
 								<i class="fa fa-exclamation-triangle"></i>
 
-							</a>{{/if}}{{else}}{{getArabicMsg "singInUpLabel"}}{{/if}}
+							</a>{{/if}}{{else}}{{getArabicMsg "signInUpLabel"}}{{/if}}
 								{{#if currentUser}} <span class="caret"></span>{{/if}}</a>
 							{{#if currentUser}}
 							<ul class="dropdown-menu">

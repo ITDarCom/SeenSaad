@@ -15,19 +15,19 @@ Router.onStop(function () {
 articleListController = RouteController.extend({
     template: 'test',
     increment: 5,
-    limit: function() {
+    limit: function () {
         return parseInt(this.params.articlesLimit) || this.increment;
     },
-    findOptions: function() {
+    findOptions: function () {
         return {sort: {createdAt: -1}, limit: this.limit()};
     },
-    waitOn: function() {
+    waitOn: function () {
         return Meteor.subscribe('publicArticles', this.findOptions());
     },
-    articles: function() {
+    articles: function () {
         return Articles.find({}, this.findOptions());
     },
-    data: function() {
+    data: function () {
         var hasMore = this.articles().fetch().length === this.limit();
         var nextPath = this.route.path({articlesLimit: this.limit() + this.increment});
         return {
@@ -38,7 +38,17 @@ articleListController = RouteController.extend({
 });
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
-    this.route('test',{path:'/test',controller:articleListController})
+    this.route('admin', {
+        path: '/admin', action: function () {
+            if (registerHelpers.isAdmin())
+                this.render('adminPage');
+            else
+                Router.go('home');
+        },
+        waitOn: function () {
+            Meteor.subscribe('message_counts')
+        }
+    });
     this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'});
     this.route('profile', {
         path: '/profile/:id', onBeforeAction: function () {

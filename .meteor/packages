@@ -38,3 +38,5 @@ cfs:s3
 cfs:gridfs
 djedi:sanitize-html
 meteorhacks:kadira
+aldeed:tabular
+dburles:collection-helpers

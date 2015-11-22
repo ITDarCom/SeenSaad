@@ -44,7 +44,6 @@ Meteor.publish(null, function () {
         }
     }
 });
-
 Meteor.publish(null, function () {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
@@ -100,13 +99,10 @@ Meteor.publish("Article", function (articleId) {
             }
     }
 });
-
 Meteor.publish(null, function () {
     return Meteor.users.find({}, {fields: {username: 1}});
 //TODO is maybe a big problem >> to send all usernames to non-user >> even to user
 });
-
-
 Meteor.publish(null, function () {
     return Meteor.users.find({_id: this.userId})
 });
@@ -123,6 +119,11 @@ Meteor.publish('specificUser', function (userId) {
     return Meteor.users.find({_id: userId}, {fields: projections})
 });
 Meteor.publish(null, function () {
+    if (this.userId) {
+        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
+            return Messages.find({});
+        }
+    }
     if (this.userId)
         return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
             sender: 0,
@@ -140,6 +141,11 @@ Meteor.publish(null, function () {
     return Images.find();
 });
 Meteor.publish('articles', function (limit) {
+    if (this.userId) {
+        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
+            return Articles.find({});
+        }
+    }
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
         fields: {
             title: 1,
@@ -150,3 +156,4 @@ Meteor.publish('articles', function (limit) {
         , limit: limit
     });
 });
+

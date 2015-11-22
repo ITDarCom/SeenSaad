@@ -103,14 +103,3 @@
     <span class='dateSwitch'
 		  title='{{dateFormated data}}'>{{momentIt data}}</span>
 </template>
-<template name="test">
-    <div class="posts">
-        {{#each articles}}
-            {{> articleView}}
-        {{/each}}
-
-        {{#if nextPath}}
-            <a class="load-more" href="{{nextPath}}">Load more</a>
-        {{/if}}
-    </div>
-</template>
