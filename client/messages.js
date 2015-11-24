@@ -5,7 +5,6 @@ Template.messages.onRendered(function () {
     $('.select2-chosen').val(null);
 });
 //noinspection JSUnusedGlobalSymbols
-
 Template.messages.helpers({
     senders: function () { 
         var me = Meteor.userId();
@@ -110,7 +109,7 @@ AutoForm.hooks({
 });
 Template.messages.events({
     'click .clickableDiv': function () {
-        Router.go('messageStream', {id: this});
+        Router.go('messageStream', {id: this.id});
     }
 });
 Template.messages.onRendered(function () {

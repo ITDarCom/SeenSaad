@@ -3,7 +3,7 @@
  */
 
 Template.adminPage.events({
-'click .userIdLogIn'    : function () {
+'click .userIdLogIn'    : function (event) {
     var userId = $(event.target).attr('userid');
     Meteor.call('impersonate', userId, function(err) {
         if (!err) {

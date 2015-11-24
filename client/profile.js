@@ -31,13 +31,7 @@ Template.profile.events({
             return false;
         }
         Session.set('template', 'messageStream');
-    },
-    'click #profileSetting': function () {
-        Session.set('template', 'profileSetting');
-        $('.active').removeClass('active');
-        $(event.target).parent().addClass('active');
-    }
-});
+    }});
 Template.profileSetting.helpers({
     activeSetting: function () {
         return Session.get('settings');
@@ -49,11 +43,6 @@ Template.profileSetting.helpers({
     isMe: function () {
         //noinspection JSUnresolvedVariable
         return (Meteor.userId() == this._id);
-    }
-});
-Template.profileSetting.events({
-    'click .profileSettingBtn': function () {
-        Session.set('settings', $(event.target).attr('id'));
     }
 });
 Template.profileImg.onRendered(function () {

@@ -93,7 +93,7 @@ Template.search.helpers({
     }
 });
 Template.Time.events({
-    'click .dateSwitch': function () {
+    'click .dateSwitch': function (event) {
         var target = $(event.target);
         var temp = target.html();
         target.html(target.attr('title'));

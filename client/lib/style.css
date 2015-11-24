@@ -38,6 +38,9 @@ a:hover {
     cursor: text;
 
 }
+.nopaddingleft {
+    padding-left: 0 !important;
+}
 
 .panel-heading {
     border-bottom: 0;
