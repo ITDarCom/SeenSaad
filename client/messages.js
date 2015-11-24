@@ -5,11 +5,12 @@ Template.messages.onRendered(function () {
     $('.select2-chosen').val(null);
 });
 //noinspection JSUnusedGlobalSymbols
+
 Template.messages.helpers({
     senders: function () { 
         var me = Meteor.userId();
         var contacts = [];
-        Messages.find({$or:[{to:Meteor.userId(),from:Meteor.userId()}]}, {fields: {to: 1, from: 1,sendingAt:1}},
+        Messages.find({$or:[{to:Meteor.userId()},{from:Meteor.userId()}]}, {fields: {to: 1, from: 1,sendingAt:1}},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
                 contacts.push({id:e.from , sendingAt: e.sendingAt});

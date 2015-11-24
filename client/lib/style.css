@@ -28,7 +28,9 @@ a:hover {
 .nopadding {
     padding: 0;
 }
-
+.select2PlaceHolder{
+    display: inline-block;
+}
 .editable {
     border: 1px inset #aaa;
     margin: 5px;

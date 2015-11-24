@@ -13,5 +13,3 @@ Template.adminPage.events({
     });
 }
 });
-
-

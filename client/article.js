@@ -32,7 +32,8 @@ Template.article.helpers({
     allowReading: function () {
         //this refer to this article that is displayed
         //noinspection JSUnresolvedVariable
-        if (this.readingPermissions == '0' || this.contributingPermissions == '0' || this.user == Meteor.userId()) {  // 0 value mean the article is public contribution or reading
+        if (this.readingPermissions == '0' || this.contributingPermissions == '0' || this.user == Meteor.userId()) {
+        // 0 value mean the article is public contribution or reading
             return true;
         }
         else {

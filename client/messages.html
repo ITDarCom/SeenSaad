@@ -4,7 +4,7 @@
 		{{> headerText}}
 		{{#each senders}}
 		<div class="panel panel-info">
-			<div class="panel-heading">
+			<div class="clickableDiv panel-heading">
 				<div class="row">
 					<a href="{{pathFor 'messageStream' id=this.id}}">
 						<h4 class="col-md-9">{{lastMessage}}</h4>
@@ -27,18 +27,18 @@
 		</div>
 		{{/each}}
 		<div class="panel panel-info">
-			<div class="panel-heading">
-				<strong>{{getArabicMsg panelTitleSendMessage}}</strong></div>
+			<div class="clickableDiv panel-heading">
+				<strong>{{getArabicMsg "panelTitleSendMessage"}}</strong></div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-offset-1 col-md-10">
 						{{#autoForm collection="Messages" id="sendMsg" type="insert" }}
 						<fieldset>
 							{{> afQuickField name="to" label=false}}
-							{{> afQuickField name="message" placeholder=(getArabicMsg msgBoxPlaceholder)
+							{{> afQuickField name="message" placeholder=(getArabicMsg "msgBoxPlaceholder")
                             label=false}}
 						</fieldset>
-						<button type="submit" class="btn btn-primary form-control">{{getArabicMsg sendMessageButton}}
+						<button type="submit" class="btn btn-primary form-control">{{getArabicMsg "sendMessageButton"}}
                         </button>
 						{{/autoForm}}
 					</div>
@@ -115,8 +115,8 @@
 				<div class="panel-body">
 					{{#autoForm id="sendMsgToUser" type="insert" collection="Messages" }}
 					{{> afFieldInput name= 'to' type="hidden" value=thisUser}}
-					{{> afFieldInput name='message' placeholder=(getArabicMsg msgBoxPlaceholder) rows=2}}
-					<button type="submit" class="btn btn-primary form-control">{{getArabicMsg sendMessageButton}}</button>
+					{{> afFieldInput name='message' placeholder='اكتب رسالة' rows=2}}
+					<button type="submit" class="btn btn-primary form-control">'أرسل'</button>
 					{{/autoForm}}
 				</div>
 			</div>

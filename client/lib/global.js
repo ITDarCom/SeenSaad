@@ -115,7 +115,7 @@ moment.locale('ar_sa');
 T9n.setLanguage('ar');
 Template.afQuickField.onRendered(function () {
     if (this.data.name == 'readingIds') {
-        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice pull-left">' +
+        $('#readingDiv').find('.select2-choices').append('<li class="select2-search-choice pull-right select2PlaceHolder">' +
             ' <div>' + arabicMessages.readingIdsPlaceHolder + '</div>  </li>');
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
     }

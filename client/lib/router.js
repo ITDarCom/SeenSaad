@@ -2,7 +2,6 @@ meController = RouteController.extend({
     data: function () {
         return {privateRoute: true};
     }
-
 });
 Router.configure({
     layoutTemplate: 'layout',
