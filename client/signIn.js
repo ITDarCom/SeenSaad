@@ -5,8 +5,7 @@ Template.signIn.onRendered(function () {
     $('button').removeClass('btn-default').addClass('btn-primary');
     $('.at-title,#at-forgotPwd').remove();
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
-
-    $('label').remove();
+    $('label').remove()
     $('#at-signUp,#at-signIn').parent().hide();
     var signInTab = $('#signInTab');
     signInTab.find('#at-field-username,#at-field-password ')

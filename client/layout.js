@@ -2,7 +2,7 @@ Template.layout.events({
     'click .logOut': function () {
         AccountsTemplates.logout();
     },
-    'click .signIn': function () {
+    'click .signIn': function (event) {
         event.preventDefault();
         Router.go('signIn');
     }

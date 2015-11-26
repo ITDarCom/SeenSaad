@@ -5,15 +5,17 @@
 			{{> headerText}}
 			{{#each articles}}
 			{{> articleView}}
+
 			{{else}}
 			<strong>{{getArabicMsg 'noArticlesFound'}}</strong>
-			{{/each}}
-            {{#if moreResults}}
+                {{#if moreResults}}
                 <div id="showMoreResults" style="margin-left: 25px;">
                     <span class="loading row "><div class="col-md-offset-5 col-md-2 text-center">
-                        <i class="fa fa-spinner fa-spin fa-4x"></i> </div></span>
+                        <i class="fa fa-spinner fa-spin fa-2x"></i> </div></span>
                 </div>
             {{/if}}
+			{{/each}}
+
 		</div>
 	</div>
 
@@ -21,8 +23,8 @@
 
 <template name='articleView'>
 	<div class='panel panel-info'>
-		<div class='panel-heading'>
-			<div class='clickableDiv row '>
+		<div class='clickableDiv panel-heading'>
+			<div class='row'>
                 <a href="{{pathFor route='global' id=_id}}">
                     <h4 class=' col-md-9'>{{{title}}} </h4>
 					<h5 class='col-md-3 text-left'>
