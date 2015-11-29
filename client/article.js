@@ -33,7 +33,7 @@ Template.article.helpers({
         //this refer to this article that is displayed
         //noinspection JSUnresolvedVariable
         if (this.readingPermissions == '0' || this.contributingPermissions == '0' || this.user == Meteor.userId()) {
-        // 0 value mean the article is public contribution or reading
+            // 0 value mean the article is public contribution or reading
             return true;
         }
         else {
@@ -51,18 +51,18 @@ Template.article.helpers({
             else return false; // false mean not permitted
         }
     },
-    comments: function () {
-        var article = Articles.findOne({_id: this._id});
-        return article.comments;
-        //return comments for this article
-    },
+    //comments: function () {
+    //    var article = Articles.findOne({_id: this._id});
+    //    return article.comments;
+    //    //return comments for this article
+    //},
     isPrivate: function () {
         //noinspection JSUnresolvedVariable
         return this.contributingPermissions == 1;
     },
     commentCounter: function () {
         if (this.comments)
-        return this.comments.length;
+            return this.comments.length;
         else return 0
     },
     commenters: function () {
@@ -105,4 +105,12 @@ Template.article.events({
         Router.go('articles');
     }
 });
+Template.comments.helpers({
+    comments: function () {
+        return Comments.find({articleId: this.data})
+    },
 
+});
+//$('#addCommentForm').submit(function () {
+//   alert();
+//});

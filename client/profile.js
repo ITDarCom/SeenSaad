@@ -95,7 +95,8 @@ Template.autoForm.onRendered(function (){
     if (this.data.id == 'updatePersonalInformation')
     {
         var picker = new Pikaday({ field: $('#birthday')[0] ,format: 'D MMM YYYY',
-            minDate: new Date(1960, 1, 1),maxDate:new Date(new Date().getFullYear() - 10, 1, 1)});
+            minDate: new Date(1960, 1, 1),maxDate:new Date(new Date().getFullYear() - 10, 1, 1)
+            ,yearRange: [1960,new Date().getFullYear() - 10]});
     }
 });
 AutoForm.hooks({

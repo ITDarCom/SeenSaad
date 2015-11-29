@@ -50,37 +50,46 @@
 					<div class='textEditor' name='textEditor'>{{{body}}}</div>
 				</div>
 			</div>
-			<!--Comments-->
-			{{#each comments}}
-			<div class='panel panel-info'>
-				<div class='panel-body'>
-					<p class='text-muted'><strong>
-                            <span class='glyphicon glyphicon-user'
-								  aria-hidden='true'></span> {{userUsername commenter}}
-						&nbsp;&nbsp;
-						<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}:
-						<hr class='nomargin'>
-					</strong></p>
-					<div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>
-				</div>
-			</div>
+                {{#if allowContributing}}
+                    <div class='panel panel-info'>
+                        <div class='panel-body'>
+                            {{#autoForm id='addCommentForm' name='addCommentForm' type='method'  meteormethod='addComment'
+                            schema='commentsSchema'}}
+                            <fieldset>
+                                {{> afQuickField name='commentText' label=false class='commentTextarea'}}
+                                {{> afQuickField name='articleId' type='hidden' label=false value=this._id}}
+                            </fieldset>
+                                <button type='submit' class='btn btn-block btn-primary'>
+                                    {{getArabicMsg 'addButtonLabel'}}</button>
+                            {{/autoForm}}
 
-			{{/each}}
-			{{#if allowContributing}}
-			<div class='panel panel-info'>
-				<div class='panel-body'>
-					{{#autoForm id='addComments' type='update-pushArray' doc=this collection='Articles' scope='comments'
-					}}
-					{{> afQuickField name='commentText' label=false class='commentTextarea'}}
-					<button type='submit' class='btn btn-primary form-control'>{{getArabicMsg 'addButtonLabel'}}</button>
-					{{/autoForm}}
-				</div>
-			</div>
-			{{/if}}
+
+                        </div>
+                    </div>
+                {{/if}}
+                {{> comments data=this._id}}
+
 			{{/if}}
 		</div>
 		<!--col-md-10-->
 	</div>
 	<!--row-->
 	{{/with}}
+</template>
+<template name="comments">
+    <!--Comments-->
+    {{#each comments}}
+        <div class='panel panel-info'>
+            <div class='panel-body'>
+                <p class='text-muted'><strong>
+                            <span class='glyphicon glyphicon-user'
+                                  aria-hidden='true'></span> {{userUsername commenter}}
+                    &nbsp;&nbsp;
+                    <span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}:
+                    <hr class='nomargin'>
+                </strong></p>
+                <div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>
+            </div>
+        </div>
+    {{/each}}
 </template>

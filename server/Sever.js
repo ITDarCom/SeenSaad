@@ -19,7 +19,26 @@ Meteor.methods({
             throw new Meteor.Error(404, 'User not found');
 
         this.setUserId(userId);
+    },
+    deleteUser: function (userId) {
+        check(userId, String);
+        if (_.contains(Admins, Meteor.users.findOne(this.userId).username))
+            if (Meteor.users.findOne(userId)) {
+                Articles.remove({user: userId});
+                Stream.remove({userId: userId});
+                Comments.remove({commenter:userId})
+                Meteor.users.remove({_id: userId});
+
+
+            }
     }
+
 });
 Admins = ['SeenSaad'];
 
+Meteor.users.allow({
+    remove: function (userId) {
+        return (_.contains(Admins, Meteor.users.findOne(this.userId).username))
+
+    }
+});
