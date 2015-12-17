@@ -8,19 +8,17 @@
 
 			{{else}}
 			<strong>{{getArabicMsg 'noArticlesFound'}}</strong>
-                {{#if moreResults}}
-                <div id="showMoreResults" style="margin-left: 25px;">
-                    <span class="loading row "><div class="col-md-offset-5 col-md-2 text-center">
-                        <i class="fa fa-spinner fa-spin fa-2x"></i> </div></span>
-                </div>
-            {{/if}}
 			{{/each}}
+            {{#if hasMore}}
+                <button class='btn btn-block btn-primary' id="loadMore">
+                    {{getArabicMsg 'loadMore'}}
+                </button>
+            {{/if}}
 
-		</div>
+
+        </div>
 	</div>
-
 </template>
-
 <template name='articleView'>
 	<div class='panel panel-info'>
 		<div class='clickableDiv panel-heading'>
@@ -59,10 +57,7 @@
 		</div>
 	</div>
 </template>
-
 <template name='search'>
-
-
 	<div class='container'>
 		<div class='row'>
 			<div class='col-md-offset-1 col-md-10'>
@@ -71,21 +66,15 @@
 				{{> searchResult}}
 			</div>
 			<!--col-md-10-->
-
 		</div>
 		<!--row-->
 	</div>
 </template>
-
 <template name='searchBox'>
-
 	<div class='span1 offset2'>
         <input type='text' id='search-box' class='form-control input-group '>
 	</div>
-
-
 </template>
-
 <template name='searchResult'>
 	<div class='row' id='search-result'>
 		<div id='search-meta'>
@@ -93,15 +82,12 @@
 			يبحث ...
 			{{/if}}
 		</div>
-
 		{{#each getArticles}}
 		{{> articleView}}
 		{{/each}}
 	</div>
 </template>
-
 <template name='Time'>
-
     <span class='dateSwitch'
 		  title='{{dateFormated data}}'>{{momentIt data}}</span>
 </template>

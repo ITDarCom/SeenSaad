@@ -2,11 +2,11 @@
  * Created by omar on 9/19/15.
  */
 Template.article.helpers({
-    thisArticle: function () {
+    thisArticle: function () { //get the user object to display it on the template
         return Articles.findOne(Router.current().params.id);
         // used to get the article from db to display it
     },
-    allowContributing: function () {
+    allowContributing: function () {  // check if the user is authenticated to commenting
         //this refer to this article that is displayed
         if (Meteor.userId()) {
             //noinspection JSUnresolvedVariable
@@ -51,40 +51,6 @@ Template.article.helpers({
             else return false; // false mean not permitted
         }
     },
-    //comments: function () {
-    //    var article = Articles.findOne({_id: this._id});
-    //    return article.comments;
-    //    //return comments for this article
-    //},
-    isPrivate: function () {
-        //noinspection JSUnresolvedVariable
-        return this.contributingPermissions == 1;
-    },
-    commentCounter: function () {
-        if (this.comments)
-            return this.comments.length;
-        else return 0
-    },
-    commenters: function () {
-        var commentrs = [];
-        //noinspection JSUnusedAssignment,JSUnresolvedVariable
-        _.each(this.comments, function (c) {
-            //noinspection JSUnresolvedVariable
-            if (!_.contains(commentrs, c.commenter)) {        //noinspection JSUnresolvedVariable
-                commentrs.push(c.commenter);
-            }
-        });
-        return commentrs;
-    },
-    favoriteCounter: function () {
-        //noinspection JSUnresolvedVariable
-        if (this.favorite) {//noinspection JSUnresolvedVariable
-            return this.favorite.length;
-        }
-        else {
-            return 0
-        }
-    },
     seenChange: function () {
         Tracker.nonreactive(function () {
             Meteor.call('seenChange', Router.current().params.id)
@@ -108,9 +74,5 @@ Template.article.events({
 Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data})
-    },
-
+    }
 });
-//$('#addCommentForm').submit(function () {
-//   alert();
-//});

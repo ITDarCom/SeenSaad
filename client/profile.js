@@ -18,7 +18,7 @@ Template.profile.helpers({
         return !(Router.current().route.getName() == 'me' || Router.current().state.keys.isForMe);
 
     },
-    removeAlert : function () {
+    removeAlert: function () {
         Tracker.nonreactive(function () {
             $('.alert').remove();
         })
@@ -31,7 +31,8 @@ Template.profile.events({
             return false;
         }
         Session.set('template', 'messageStream');
-    }});
+    }
+});
 Template.profileSetting.helpers({
     activeSetting: function () {
         return Session.get('settings');
@@ -89,14 +90,18 @@ Template.personalInformation.onRendered(function () {
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
             .addClass("text-left").css("direction", "ltr");
         $('.radio').css('display', 'inline-block')
+        $('.radio').each(function () {
+            $(this).prependTo(this.parentNode);
+        });
     }
 });
-Template.autoForm.onRendered(function (){
-    if (this.data.id == 'updatePersonalInformation')
-    {
-        var picker = new Pikaday({ field: $('#birthday')[0] ,format: 'D MMM YYYY',
-            minDate: new Date(1960, 1, 1),maxDate:new Date(new Date().getFullYear() - 10, 1, 1)
-            ,yearRange: [1960,new Date().getFullYear() - 10]});
+Template.autoForm.onRendered(function () {
+    if (this.data.id == 'updatePersonalInformation') {
+        var picker = new Pikaday({
+            field: $('#birthday')[0], format: 'DD-MM-YYYY',
+            minDate: new Date(1960, 1, 1), maxDate: new Date(new Date().getFullYear() - 10, 1, 1)
+            , yearRange: [1960, new Date().getFullYear() - 10]
+        });
     }
 });
 AutoForm.hooks({

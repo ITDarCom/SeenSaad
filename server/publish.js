@@ -1,14 +1,4 @@
-//Meteor.publish(null, function () {
-//    return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-//        fields: {
-//            title: 1,
-//            username: 1,
-//            createdAt: 1,
-//            user: 1
-//        }
-//    })
-//});
-Meteor.publish(null, function () {
+Meteor.publish('favorites', function (limit) {
     if (this.userId) {
         var ids = Favorites.findOne({userId: this.userId});
         if (ids)
@@ -18,7 +8,8 @@ Meteor.publish(null, function () {
                     username: 1,
                     createdAt: 1,
                     user: 1
-                }
+                },
+                limit: limit || 5
             });
     }
     return false
@@ -27,7 +18,7 @@ Meteor.publish(null, function () {
     if (this.userId)
         return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
 });
-Meteor.publish(null, function () {
+Meteor.publish('readArticles', function (limit) {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -38,13 +29,15 @@ Meteor.publish(null, function () {
                     username: 1,
                     createdAt: 1,
                     user: 1,
-                    readingPermissions: 1
-                }
+                    readingPermissions: 1,
+
+                },
+                limit: limit || 5,
             });
         }
     }
 });
-Meteor.publish(null, function () {
+Meteor.publish('contribution', function (limit) {
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -57,15 +50,17 @@ Meteor.publish(null, function () {
                     createdAt: 1,
                     user: 1,
                     contributingPermissions: 1
-                }
+                },
+                limit: limit || 5,
+                sort: {createdAt: -1}
             });
         }
     }
 });
-Meteor.publish(null, function () {
+Meteor.publish('mine', function (limit) {
 
     if (this.userId) {
-        return Articles.find({user: this.userId})
+        return Articles.find({user: this.userId}, {limit: limit || 5})
     }
 });
 Meteor.publish("Article", function (articleId) {
@@ -140,22 +135,25 @@ Meteor.publish(null, function () {
     return Images.find();
 });
 Meteor.publish('comments', function (id) {
-    return Comments.find({articleId:id});
+    return Comments.find({articleId: id});
 });
 Meteor.publish('articles', function (limit) {
+
     if (this.userId) {
         if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
-            return Articles.find({});
+            return Articles.find({}, {limit: 5, skip: limit});
         }
     }
+    debugger;
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
         fields: {
             title: 1,
             username: 1,
             createdAt: 1,
             user: 1
-        }
-        , limit: limit
+        },
+        limit: limit || 5,
+        sort: {createdAt: -1}
     });
 });
 

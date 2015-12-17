@@ -1,6 +1,7 @@
 Template.articles.helpers({
     articles: function () {
         var custom;
+        Session.set("itemsLimit", 5);
         if (Meteor.userId()) {
             $('.alert').hide();
             switch (Router.current().route.getName()) {
@@ -26,8 +27,6 @@ Template.articles.helpers({
                     if (ids)
                         return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
                     break;
-                case "articles" :
-                    return Articles.find({}, {sort: {createdAt: -1}});
                 case "home" :
                     return Articles.find({}, {sort: {createdAt: -1}});
                 case "profile" :
@@ -45,10 +44,11 @@ Template.articles.helpers({
             Router.go('signIn');
         }
     },
-    moreResults: function () {
+    hasMore: function () {
         // If, once the subscription is ready, we have less rows than we
         // asked for, we've got all the rows in the collection.
-        return !(Articles.find().count() < Session.get("itemsLimit"));
+        return (Session.get('itemsLimit') && !(Articles.find().count() < Session.get("itemsLimit"))
+        && !(Articles.find().count() === 0));
     }
 });
 Template.articles.events({
@@ -66,6 +66,10 @@ Template.articles.events({
     },
     'click .edit': function () {
         Router.go('edit', {id: this._id})
+    },
+    'click #loadMore': function () {
+        var temp = Session.get('itemsLimit') ? Session.get('itemsLimit') : 0
+        Session.set('itemsLimit', temp + 5);
     }
 });
 Template.searchResult.helpers({
@@ -97,7 +101,7 @@ Template.Time.events({
         var target = $(event.target);
         var temp = target.html();
         target.html(target.attr('title'));
-        target.attr('title', temp)
+        target.attr('title', temp);
     }
 });
 Template.articleView.helpers({
@@ -110,14 +114,16 @@ Template.articleView.helpers({
         if (this.contributingPermissions == 1) {
             custom = Stream.findOne({userId: Meteor.userId()});
             //noinspection JSUnresolvedVariable
-            if (!_.findWhere(custom.contributingArticles, {id: this._id}).seen)
+            var article = _.findWhere(custom.contributingArticles, {id: this._id})
+            if (article && !article.seen)
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
         }
         //noinspection JSUnresolvedVariable
         if (this.readingPermissions == 1) {
             custom = Stream.findOne({userId: Meteor.userId()});
             //noinspection JSUnresolvedVariable
-            if (!_.findWhere(custom.readingArticles, {id: this._id}).seen)
+            var article = _.findWhere(custom.readingArticles, {id: this._id})
+            if (article && !article.seen)
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
         }
 
@@ -128,34 +134,3 @@ Template.articleView.events({
        Router.go('global',{id:this._id});
    }
 });
-
-var ITEMS_INCREMENT = 5;
-Session.setDefault('itemsLimit', ITEMS_INCREMENT);
-Tracker.autorun(function () {
-    Meteor.subscribe('articles', Session.get('itemsLimit'));
-});
-
-
-function showMoreVisible() {
-    var threshold, target = $("#showMoreResults");
-    if (!target.length) return;
-
-    threshold = $(window).scrollTop() + $(window).height() - target.height();
-
-    if (target.offset().top < threshold) {
-        if (!target.data("visible")) {
-            // console.log("target became visible (inside viewable area)");
-            target.data("visible", true);
-            Session.set("itemsLimit",
-                Session.get("itemsLimit") + ITEMS_INCREMENT);
-        }
-    } else {
-        if (target.data("visible")) {
-            // console.log("target became invisible (below viewable arae)");
-            target.data("visible", false);
-        }
-    }
-}
-
-// run the above func every time the user scrolls
-$(window).scroll(showMoreVisible);

@@ -1,41 +1,15 @@
-meController = RouteController.extend({
-    data: function () {
-        return {privateRoute: true};
-    }
-});
 Router.configure({
     layoutTemplate: 'layout',
-    loadingTemplate: 'spinner'
+    loadingTemplate: 'spinner',
+    notFoundTemplate: 'notFound'
 });
 Router.onStop(function () {
     // register the previous route location in a session variable
     Session.set("lastRoute", Router.current().route.getName());
-});
-articleListController = RouteController.extend({
-    template: 'test',
-    increment: 5,
-    limit: function () {
-        return parseInt(this.params.articlesLimit) || this.increment;
-    },
-    findOptions: function () {
-        return {sort: {createdAt: -1}, limit: this.limit()};
-    },
-    waitOn: function () {
-        return Meteor.subscribe('publicArticles', this.findOptions());
-    },
-    articles: function () {
-        return Articles.find({}, this.findOptions());
-    },
-    data: function () {
-        var hasMore = this.articles().fetch().length === this.limit();
-        var nextPath = this.route.path({articlesLimit: this.limit() + this.increment});
-        return {
-            articles: this.articles(),
-            nextPath: hasMore ? nextPath : null
-        };
+    if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
+        $('.updateSuccess,.addSuccess').remove();
     }
 });
-Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 Router.map(function () {
     this.route('admin', {
         path: '/admin', action: function () {
@@ -48,10 +22,9 @@ Router.map(function () {
             Meteor.subscribe('message_counts')
         }
     });
-    this.route('sendMsg', {path: '/sendMsg/:id', template: 'profile'});
     this.route('profile', {
         path: '/profile/:id', onBeforeAction: function () {
-            if (Meteor.users.findOne(Meteor.users.findOne(this.params.id))) {
+            if (Meteor.users.findOne(this.params.id)) {
                 Session.set('template', 'articles');
                 this.render('profile')
             }
@@ -63,7 +36,6 @@ Router.map(function () {
         }
     });
     this.route('resetPasswd', {
-        controller: meController,
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
             this.state.set('isForMe', true);
             Session.set('template', 'profileSetting');
@@ -72,7 +44,6 @@ Router.map(function () {
         }
     });
     this.route('editPersonalInfo', {
-        controller: meController,
         path: '/profile/setting/editInfo', template: 'profile', action: function () {
             this.state.set('isForMe', true);
             this.render('profile');
@@ -81,7 +52,6 @@ Router.map(function () {
         }
     });
     this.route('editProfileImg', {
-        controller: meController,
         path: '/profile/setting/editProfileImg', template: 'profile', action: function () {
             this.state.set('isForMe', true);
             this.render('profile');
@@ -99,13 +69,32 @@ Router.map(function () {
         }
     });
     this.route('me', {path: '/profile', template: 'profile'});
-    this.route('home', {path: '/', template: 'articles'});
-    this.route('articles', {path: '/articles'});
+    this.route('home', {
+        path: '/', template: 'articles', waitOn: function () {
+            Meteor.subscribe('articles', Session.get('itemsLimit'));
+        }
+    });
     this.route('search', {path: '/search'});
-    this.route('read', {path: '/read', template: 'articles'});
-    this.route('participation', {path: '/participation', template: 'articles'});
-    this.route('favorite', {path: '/favorite', template: 'articles'});
-    this.route('mine', {path: '/mine', template: 'articles'});
+    this.route('read', {
+        path: '/read', template: 'articles', waitOn: function () {
+            Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+        }
+    });
+    this.route('participation', {
+        path: '/participation', template: 'articles', waitOn: function () {
+            Meteor.subscribe('contribution', Session.get('itemsLimit'));
+        }
+    });
+    this.route('favorite', {
+        path: '/favorite', template: 'articles', waitOn: function () {
+            Meteor.subscribe('favorites', Session.get('itemsLimit'));
+        }
+    });
+    this.route('mine', {
+        path: '/mine', template: 'articles', waitOn: function () {
+            Meteor.subscribe('mine', Session.get('itemsLimit'));
+        }
+    });
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {path: '/edit/:id', template: 'add'});
@@ -142,7 +131,7 @@ Router.map(function () {
         },
         waitOn: function () {
             Meteor.subscribe("Article", this.params.id);
-            Meteor.subscribe('comments',this.params.id);
+            Meteor.subscribe('comments', this.params.id);
         }
     });
 

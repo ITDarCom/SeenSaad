@@ -1,26 +1,25 @@
 //noinspection JSUnusedGlobalSymbols
-AutoForm.hooks(
+AutoForm.hooks( // Callbacks invoked after submit the autoform
     {
         addUpdateArticles: {
-            onSuccess: function (formType, result) {
+            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
                 if (formType == 'insert') {
                     Meteor.call('permissionDeploy', result);
                     Router.go('article', {id: result});
                     $('.alert').hide();
-                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' +  arabicMessages.addSuccessfully+ '</span></div>')
+                    $('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
+                        ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
                 }
-                if (formType == 'update') {
+                if (formType == 'update') { // after submitting an edit for article we look if we have changes
+                    // in permissions field
                     var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                     var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
                     Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
                     Router.go('article', {id: this.docId});
                     $('.alert').hide();
-                    $('.bodyContainer').prepend('<div class="alert alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' +arabicMessages.editSuccessfully + '</span></div>')
+                    $('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
+                        ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
                 }
-
-
             },
             formToDoc: function (doc) {
                 if (doc.contributingIds) {
@@ -41,7 +40,6 @@ AutoForm.hooks(
             }
         }
     });
-//noinspection JSUnusedGlobalSymbols
 Template.add.helpers(
     {
         canEdit: function () {
@@ -95,7 +93,7 @@ Template.add.events({
         if ($('#contributingPermissions').val() == 0) {
             $('#readingDiv').hide()
         }
-        else {
+        if ($('#contributingPermissions').val() == 1) {
             $('#readingDiv').show()
         }
         // if contributing permissions is public then we hide the reading permission div
@@ -105,7 +103,7 @@ Template.add.events({
 Template.autoForm.onRendered(function () {
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();
-        $('.panel').css('margin-bottom','5px');
+        $('.panel').css('margin-bottom', '5px');
         if (this.data.type == 'update') {
             {
                 if (Router.current().route.getName() == 'edit') {
@@ -120,12 +118,14 @@ Template.autoForm.onRendered(function () {
 
                 }
                 else {
-                    $('#readingDiv').hide()
+                    $('#readingDiv').hide() // here contributing permissions is public so the reading is already public
+
                 }
             }
         }
         else if (this.data.type == 'insert') {
-            $('#readingDiv').hide()
+            $('#readingDiv').hide(); // in some of cases readingDiv still appear event the contributing
+            // permissions is public
 
 
         }

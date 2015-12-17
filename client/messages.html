@@ -45,12 +45,9 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
     </div>
 </template>
-
-
 <template name="messageStream">
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
@@ -60,7 +57,6 @@
 					<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
                             href="{{pathFor 'profile' id=currentId}}">
                         &nbsp; {{userUsername currentId}}</a></h4>
-
 				</div>
 				<div class="panel-body">
 					{{#each messages }}
@@ -82,12 +78,10 @@
 								<blockquote class="me">{{{nl2br message}}}
 									<small>{{> Time data=sendingAt}}</small>
 								</blockquote>
-
 							</div>
 						</div>
 						{{else}}
 						<div class="col-md-11 col-xs-11 msg">
-
 							<div class="clearfix pull-left">
 								<button class="hidden btn btn-xs btn-danger deleteMsgBtn pull-right">
 									<small><i class="fa fa-trash"></i></small>
@@ -101,7 +95,6 @@
 							<img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
 								 alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
 						</div>
-
 						{{/if}}
 					</div>
 					{{/each}}
@@ -113,10 +106,11 @@
 		<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-1">
 			<div class="panel panel-info">
 				<div class="panel-body">
-					{{#autoForm id="sendMsgToUser" type="insert" collection="Messages" }}
+                    {{#autoForm id="sendMsgToUser" type="insert" collection="Messages" resetOnSuccess=true }}
 					{{> afFieldInput name= 'to' type="hidden" value=thisUser}}
-					{{> afFieldInput name='message' placeholder='اكتب رسالة' rows=2}}
-					<button type="submit" class="btn btn-primary form-control">'أرسل'</button>
+                        {{> afFieldInput name='message' placeholder=(getArabicMsg 'msgBoxPlaceholder') rows=2}}
+                        <button type="submit"
+                                class="btn btn-primary form-control">{{getArabicMsg 'sendMessageButton'}}</button>
 					{{/autoForm}}
 				</div>
 			</div>

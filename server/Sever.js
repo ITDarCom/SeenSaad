@@ -3,7 +3,6 @@
  */
 Meteor.methods({
     isAdmin: function () {
-        debugger;
         if (this.userId) {
             if (_.contains(Admins, Meteor.users.findOne(this.userId).username))
                 return true;
@@ -26,7 +25,7 @@ Meteor.methods({
             if (Meteor.users.findOne(userId)) {
                 Articles.remove({user: userId});
                 Stream.remove({userId: userId});
-                Comments.remove({commenter:userId})
+                Comments.remove({commenter: userId})
                 Meteor.users.remove({_id: userId});
 
 
@@ -39,6 +38,5 @@ Admins = ['SeenSaad'];
 Meteor.users.allow({
     remove: function (userId) {
         return (_.contains(Admins, Meteor.users.findOne(this.userId).username))
-
     }
 });

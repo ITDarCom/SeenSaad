@@ -1,6 +1,7 @@
 /**
  * Created by omar on 9/8/15.
  */
+// it's an arabic locale for momentjs library
 //! moment.js locale configuration
 //! locale : Arabic Saudi Arabia (ar-sa)
 //! author : Suhail Alkowaileet : https://github.com/xsoh

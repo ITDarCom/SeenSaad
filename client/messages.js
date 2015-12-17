@@ -1,15 +1,12 @@
 /**
  * Created by omar on 10/4/15.
  */
-Template.messages.onRendered(function () {
-    $('.select2-chosen').val(null);
-});
 //noinspection JSUnusedGlobalSymbols
 Template.messages.helpers({
     senders: function () { 
         var me = Meteor.userId();
         var contacts = [];
-        Messages.find({$or:[{to:Meteor.userId()},{from:Meteor.userId()}]}, {fields: {to: 1, from: 1,sendingAt:1}},
+        Messages.find({$or: [{to: Meteor.userId()}, {from: me}]}, {fields: {to: 1, from: 1, sendingAt: 1}},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
                 contacts.push({id:e.from , sendingAt: e.sendingAt});
@@ -51,7 +48,7 @@ Template.messages.helpers({
             }
         }).fetch()[0];
         if (message.reciver == 0 && message.from != Meteor.userId()) {
-            return '<span class="badge label-danger" title=' + arabicMessages.newLabel
+            return '<span class="badge redDiv" title=' + arabicMessages.newLabel
                 + '><i class="fa fa-comment"></i></span>';
         }
 
@@ -90,22 +87,6 @@ Template.messageStream.events({
             Meteor.call('removeMessage', this._id);
         }
     }
-});
-AutoForm.hooks({
-    sendMsgToUser: {
-        onSuccess: function (formType) {
-            if (formType == 'insert') {
-                $('.msgTextarea').empty();
-            }
-        }
-    },
-    sendMsg: {
-        onSuccess: function (formType) {
-            if (formType == 'insert')
-                $('.msgTextarea').empty();
-        }
-    }
-
 });
 Template.messages.events({
     'click .clickableDiv': function () {
