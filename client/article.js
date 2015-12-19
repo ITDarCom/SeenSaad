@@ -65,10 +65,11 @@ Template.article.events({
         var id = this._id;
         if (confirm(arabicMessages.confirmDelete)) {
             {
-                Meteor.call('removeArticle', id);
+                Meteor.call('removeArticle', id, function (err) {
+                    Session.set('alert', 'deleteSuccessfully')
+                });
             }
         }
-        Router.go('articles');
     }
 });
 Template.comments.helpers({

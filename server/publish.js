@@ -141,7 +141,7 @@ Meteor.publish('articles', function (limit) {
 
     if (this.userId) {
         if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
-            return Articles.find({}, {limit: 5, skip: limit});
+            return Articles.find({}, {limit: 5});
         }
     }
     debugger;

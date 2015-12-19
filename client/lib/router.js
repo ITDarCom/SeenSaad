@@ -9,6 +9,14 @@ Router.onStop(function () {
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
     }
+
+});
+Router.onAfterAction(function () {
+    if (Session.get('alert')) {
+        $('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
+            ' data-dismiss="alert">×</a><span>' + arabicMessages[Session.get('alert')] + '</span></div>')
+        Session.set('alert');
+    }
 });
 Router.map(function () {
     this.route('admin', {
@@ -97,7 +105,11 @@ Router.map(function () {
     });
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
-    this.route('edit', {path: '/edit/:id', template: 'add'});
+    this.route('edit', {
+        path: '/edit/:id', template: 'add', waitOn: function () {
+            Meteor.subscribe("Article", this.params.id);
+        }
+    });
     this.route('add', {
         path: '/add', onBeforeAction: function () {
             if (!Meteor.userId()) {

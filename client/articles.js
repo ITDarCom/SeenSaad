@@ -54,8 +54,13 @@ Template.articles.helpers({
 Template.articles.events({
     'click .remove': function () {
         var id = this._id;
-        if (confirm(arabicMessages.deleteConfirm)) {
-            Meteor.call("removeArticle", id)
+        if (confirm(arabicMessages.confirmDelete)) {
+            {
+                Meteor.call('removeArticle', id, function (err) {
+                    $('alert').remove();
+                    Session.set('alert', 'deleteSuccessfully')
+                });
+            }
         }
     },
     'click .favorite': function () {

@@ -7,8 +7,9 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     Meteor.call('permissionDeploy', result);
                     Router.go('article', {id: result});
                     $('.alert').hide();
-                    $('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
+                    Session.set('alert', 'addSuccessfully');
+                    //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
+                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
                 }
                 if (formType == 'update') { // after submitting an edit for article we look if we have changes
                     // in permissions field
@@ -17,8 +18,9 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
                     Router.go('article', {id: this.docId});
                     $('.alert').hide();
-                    $('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
-                        ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
+                    Session.set('alert', 'editSuccessfully');
+                    //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
+                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
                 }
             },
             formToDoc: function (doc) {
@@ -130,7 +132,7 @@ Template.autoForm.onRendered(function () {
 
         }
     }
-    //after bug founded in autoform ... in readingPermissions field or contributingPermissions field we get wrong value
+    //after a bug founded in autoform ... in readingPermissions field or contributingPermissions field we get wrong value
     // from the doc (always return 0 value) ... so it's a rendering problem in autoform
     //  so in this function we feed the field with the original value from db and show and hide readingPermission div
     // according to contributing fields

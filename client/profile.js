@@ -7,7 +7,6 @@ Template.profile.helpers({
         return Session.get('template')
     },
     thisUser: function () {
-
         if (registerHelpers.currentId()) {
             Meteor.users.findOne({_id: Router.current().params.id})
         }
