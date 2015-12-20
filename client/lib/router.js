@@ -32,12 +32,17 @@ Router.map(function () {
     });
     this.route('profile', {
         path: '/profile/:id', onBeforeAction: function () {
-            if (Meteor.users.findOne(this.params.id)) {
-                Session.set('template', 'articles');
-                this.render('profile')
+            if (Meteor.userId()) {
+                if (Meteor.users.findOne(this.params.id)) {
+                    Session.set('template', 'articles');
+                    this.render('profile')
+                }
+                else {
+                    this.render('notFound')
+                }
             }
             else {
-                this.render('notFound')
+                this.render('signIn')
             }
         }, waitOn: function () {
             return Meteor.subscribe('specificUser', this.params.id)
@@ -153,7 +158,6 @@ Router.map(function () {
         path: "*",
         template: "notFound"
     });
-
 
 
 });

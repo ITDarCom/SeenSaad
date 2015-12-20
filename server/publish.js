@@ -135,7 +135,13 @@ Meteor.publish(null, function () {
     return Images.find();
 });
 Meteor.publish('comments', function (id) {
-    return Comments.find({articleId: id});
+    debugger;
+    var article = Articles.findOne(id);
+    if (article) {
+        if (article.contributingPermissions == 0 || article.user == this.userId
+            || _.contains(article.contributingIds, this.userId))
+            return Comments.find({articleId: id});
+    }
 });
 Meteor.publish('articles', function (limit) {
 
