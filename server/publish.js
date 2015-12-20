@@ -88,7 +88,7 @@ Meteor.publish("Article", function (articleId) {
             if (!_.isEmpty(_.where(article.readingIds, this.userId))) {
                 if (Articles.find({_id: articleId})) {
                     Meteor.call("readCounter", articleId, this.userId);
-                    return Articles.find({_id: articleId}, {comments: 0})
+                    return Articles.find({_id: articleId})
                 }
             }
     }

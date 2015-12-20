@@ -5,7 +5,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
                 if (formType == 'insert') {
                     Meteor.call('permissionDeploy', result);
-                    Router.go('article', {id: result});
+                    Router.go('global', {id: result});
                     $('.alert').hide();
                     Session.set('alert', 'addSuccessfully');
                     //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
@@ -16,7 +16,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                     var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
                     Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
-                    Router.go('article', {id: this.docId});
+                    Router.go('global', {id: this.docId});
                     $('.alert').hide();
                     Session.set('alert', 'editSuccessfully');
                     //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +

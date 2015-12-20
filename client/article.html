@@ -47,15 +47,16 @@
 					<div class='textEditor' name='textEditor'>{{{body}}}</div>
 				</div>
 			</div>
+                {{> comments data=this._id}}
                 {{#if allowContributing}}
                     <div class='panel panel-info'>
                         <div class='panel-body'>
                             {{#autoForm id='addCommentForm' name='addCommentForm' type='method'  meteormethod='addComment'
                             schema='commentsSchema'}}
                                 <fieldset>
-                                {{> afQuickField name='commentText' label=false class='commentTextarea'}}
-                                {{> afQuickField name='articleId' type='hidden' label=false value=this._id}}
-                            </fieldset>
+                                    {{> afQuickField name='commentText' label=false class='commentTextarea'}}
+                                    {{> afQuickField name='articleId' type='hidden' label=false value=this._id}}
+                                </fieldset>
                                 <button type='submit' class='btn btn-block btn-primary'>
                                     {{getArabicMsg 'addButtonLabel'}}</button>
                             {{/autoForm}}
@@ -64,8 +65,7 @@
                         </div>
                     </div>
                 {{/if}}
-                {{> comments data=this._id}}
-			{{/if}}
+            {{/if}}
 		</div>
 		<!--col-md-10-->
 	</div>
@@ -77,13 +77,20 @@
     {{#each comments}}
         <div class='panel panel-info'>
             <div class='panel-body'>
-                <p class='text-muted'><strong>
-                            <span class='glyphicon glyphicon-user'
-                                  aria-hidden='true'></span> {{userUsername commenter}}
-                    &nbsp;&nbsp;
-                    <span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}:
-                    <hr class='nomargin'>
-                </strong></p>
+                <div class='text-muted row'>
+                    <div class="col-md-2 col-xs-2">
+                    <span class='glyphicon glyphicon-user'
+                          aria-hidden='true'></span> {{userUsername commenter}}
+                    </div>
+                    <div class="col-md-3 col-xs-3"> &nbsp;&nbsp; <span class='glyphicon glyphicon-time'
+                                                                       aria-hidden='true'></span>
+                        {{> Time data=createdAt}} &nbsp;&nbsp;</div>
+
+
+                </div>
+                <hr class='nomargin'>
+
+
                 <div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>
             </div>
         </div>

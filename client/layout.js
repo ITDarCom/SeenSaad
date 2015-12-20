@@ -26,7 +26,8 @@ Template.headerText.helpers({
             'me': arabicMessages.headers.me,
             'resetPasswd': arabicMessages.headers.resetPasswd,
             'editPersonalInfo': arabicMessages.headers.editPersonalInfo,
-            'editProfileImg': arabicMessages.headers.editProfileImg
+            'editProfileImg': arabicMessages.headers.editProfileImg,
+            'admin': arabicMessages.headers.adminPage
 
         };
         var route = Router.current().route.getName();
@@ -64,7 +65,9 @@ Template.headerText.helpers({
             'me': arabicMessages.headerDescription.me,
             'resetPasswd': arabicMessages.headerDescription.resetPasswd,
             'editPersonalInfo': arabicMessages.headerDescription.editPersonalInfo,
-            editProfileImg: arabicMessages.headerDescription.editProfileImg
+            'editProfileImg': arabicMessages.headerDescription.editProfileImg,
+            'admin': arabicMessages.headerDescription.adminPage
+
         };
         if (Router.current().route.getName() == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine']

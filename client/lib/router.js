@@ -140,11 +140,20 @@ Router.map(function () {
                 Session.set('urlType', 'article');
                 this.render('article');
             }
+            else {
+                this.render('notFound');
+            }
         },
         waitOn: function () {
             Meteor.subscribe("Article", this.params.id);
             Meteor.subscribe('comments', this.params.id);
         }
     });
+    this.route("notFound", {
+        path: "*",
+        template: "notFound"
+    });
+
+
 
 });
