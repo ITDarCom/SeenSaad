@@ -12,14 +12,14 @@
 						<hr class='title'>
 					</div>
 					<div class='row'>
-						<div class='col-md-3'>
+                        <div class='col-md-3 col-xs-6'>
 							<span class='glyphicon glyphicon-user' aria-hidden='true'></span><a
                                 href='{{pathFor 'profile' id=this.user}}'>&nbsp;{{userUsername user}}</a>
 						</div>
 						<div class='col-md-3'>
 							<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
 						</div>
-						<div class='col-md-3 text-left'>
+                        <div class='col-md-3 text-left '>
 							{{#if allowReading}}
                             <span ><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}' ></i> {{read}}</span>
 							{{/if}}
@@ -28,7 +28,7 @@
 							<span><i  title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i> {{commentCounter}}</span>
 							{{/if}}
 						</div>
-						<div class='col-md-3 text-left'>
+                        <div class='col-md-3 text-left  col-xs-3 '>
 							{{#if owner}}
 							<button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
 								<i class='fa fa-trash'></i>
@@ -78,17 +78,17 @@
         <div class='panel panel-info'>
             <div class='panel-body'>
                 <div class='text-muted row'>
-                    <div class="col-md-2 col-xs-2">
+                    <div class="col-md-6 col-xs-5">
                     <span class='glyphicon glyphicon-user'
                           aria-hidden='true'></span> {{userUsername commenter}}
                     </div>
-                    <div class="col-md-3 col-xs-3"> &nbsp;&nbsp; <span class='glyphicon glyphicon-time'
+                    <div class="col-md-6 col-xs-6"> &nbsp;&nbsp; <span class='glyphicon glyphicon-time'
                                                                        aria-hidden='true'></span>
                         {{> Time data=createdAt}} &nbsp;&nbsp;</div>
 
 
                 </div>
-                <hr class='nomargin'>
+                <hr>
 
 
                 <div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>

@@ -110,8 +110,33 @@ Meteor.publish('specificUser', function (userId) {
                 projections[property] = 1;
         }
     }
+    var custom = Stream.findOne({userId: userId});
+    var contributingIds = [];
+    var readingIds = [];
+    if (custom) {
+        contributingIds = custom.contributingArticles;
+        readingIds = custom.readingArticles;
+    }
     return Meteor.users.find({_id: userId}, {fields: projections})
 });
+Meteor.publish('specificUserArticles', function (userId) {
+    if (this.userId == userId) {
+        return Articles.find({user: this.userId})
+    }
+    var custom = Stream.findOne({userId: userId});
+    var contributingIds = [];
+    var readingIds = [];
+    if (custom) {
+        contributingIds = custom.contributingArticles;
+        readingIds = custom.readingArticles;
+    }
+    return Articles.find({
+        $and: [{user: userId}, {
+            $or: [{contributingPermissions: '0'}, {readingPermissions: '0'}
+                , {_id: {$in: contributingIds}}, {_id: {$in: readingIds}}]
+        }]
+    })
+})
 Meteor.publish(null, function () {
     if (this.userId) {
         if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
@@ -135,7 +160,6 @@ Meteor.publish(null, function () {
     return Images.find();
 });
 Meteor.publish('comments', function (id) {
-    debugger;
     var article = Articles.findOne(id);
     if (article) {
         if (article.contributingPermissions == 0 || article.user == this.userId

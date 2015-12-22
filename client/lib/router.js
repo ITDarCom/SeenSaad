@@ -45,7 +45,8 @@ Router.map(function () {
                 this.render('signIn')
             }
         }, waitOn: function () {
-            return Meteor.subscribe('specificUser', this.params.id)
+            Meteor.subscribe('specificUser', this.params.id);
+            Meteor.subscribe('specificUserArticles', this.params.id);
         }
     });
     this.route('resetPasswd', {

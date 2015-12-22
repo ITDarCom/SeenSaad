@@ -11,6 +11,10 @@
 .glyphicon {
     font-family: 'Glyphicons Halflings', serif !important;
 }
+
+.smallEnough {
+    font-size: x-small;
+}
 body {
     background-color: #F0F0F0;
     padding-top: 20px;
