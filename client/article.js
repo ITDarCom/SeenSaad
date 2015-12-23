@@ -55,6 +55,9 @@ Template.article.helpers({
         Tracker.nonreactive(function () {
             Meteor.call('seenChange', Router.current().params.id)
         })
+    },
+    commentCounter: function () {
+        return Comments.find({articleId: this._id}).count();
     }
 });
 Template.article.events({

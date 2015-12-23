@@ -12,23 +12,24 @@
 						<hr class='title'>
 					</div>
 					<div class='row'>
-                        <div class='col-md-3 col-xs-6'>
+                        <div class='col-xs-12 col-md-3'>
 							<span class='glyphicon glyphicon-user' aria-hidden='true'></span><a
                                 href='{{pathFor 'profile' id=this.user}}'>&nbsp;{{userUsername user}}</a>
 						</div>
-						<div class='col-md-3'>
+                        <div class='col-xs-12 col-md-3'>
 							<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
 						</div>
-                        <div class='col-md-3 text-left '>
+                        <div class='col-xs-12 col-md-3'>
 							{{#if allowReading}}
                             <span ><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}' ></i> {{read}}</span>
 							{{/if}}
 							&nbsp; &nbsp;
 							{{#if allowContributing}}
-							<span><i  title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i> {{commentCounter}}</span>
+                                <span><i title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i>
+                                    {{commentCounter}}</span>
 							{{/if}}
 						</div>
-                        <div class='col-md-3 text-left  col-xs-3 '>
+                        <div class='col-md-3 text-left'>
 							{{#if owner}}
 							<button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
 								<i class='fa fa-trash'></i>

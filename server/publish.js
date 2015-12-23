@@ -49,7 +49,7 @@ Meteor.publish('contribution', function (limit) {
                     username: 1,
                     createdAt: 1,
                     user: 1,
-                    contributingPermissions: 1
+                    contributingPermissions: 1,
                 },
                 limit: limit || 5,
                 sort: {createdAt: -1}
@@ -58,7 +58,6 @@ Meteor.publish('contribution', function (limit) {
     }
 });
 Meteor.publish('mine', function (limit) {
-
     if (this.userId) {
         return Articles.find({user: this.userId}, {limit: limit || 5})
     }
@@ -109,13 +108,6 @@ Meteor.publish('specificUser', function (userId) {
             if (user[property].permission)
                 projections[property] = 1;
         }
-    }
-    var custom = Stream.findOne({userId: userId});
-    var contributingIds = [];
-    var readingIds = [];
-    if (custom) {
-        contributingIds = custom.contributingArticles;
-        readingIds = custom.readingArticles;
     }
     return Meteor.users.find({_id: userId}, {fields: projections})
 });
