@@ -137,5 +137,6 @@ Template.articleView.helpers({
 Template.articleView.events({
    'click .clickableDiv' : function () {
        Router.go('global',{id:this._id});
-   }
+   },
+
 });

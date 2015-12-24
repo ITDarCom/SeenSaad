@@ -30,6 +30,9 @@ Meteor.methods({
 
 
             }
+    },
+    getCommentCount: function (articleId) {
+        return Comments.find({articleId: articleId})
     }
 
 });

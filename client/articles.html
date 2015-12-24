@@ -40,20 +40,29 @@
 				<div class='col-md-4'>
 					<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
 				</div>
-				<div class='col-md-4 text-left'>
-					{{#if owner}}
-					<button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
-						<i class='fa fa-trash'></i>
-					</button>
-					<button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
-						<i class='fa fa-pencil'></i>
-					</button>
-					{{/if}}
-					<button class='favorite btn-xs btn btn-success' title='{{getArabicMsg "addToFavorites"}}'>
-						<i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
-					</button>
-				</div>
-			</div>
+                <div class='col-xs-12 col-md-3'>
+                    <span><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}'></i> {{read}}</span>
+                    &nbsp; &nbsp;
+                    {{#if commentsCounter}}
+                        <span><i title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i>
+                            {{commentsCounter}}</span>
+                    {{/if}}
+                </div>
+
+            </div>
+            <div class='text-left'>
+                {{#if owner}}
+                    <button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
+                        <i class='fa fa-trash'></i>
+                    </button>
+                    <button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
+                        <i class='fa fa-pencil'></i>
+                    </button>
+                {{/if}}
+                <button class='favorite btn-xs btn btn-success' title='{{getArabicMsg "addToFavorites"}}'>
+                    <i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
+                </button>
+            </div>
 		</div>
 	</div>
 </template>

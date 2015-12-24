@@ -83,8 +83,8 @@ Template.personalInformation.onRendered(function () {
 
     if (Meteor.userId()) {
         $('.well').css('backgroundColor', $('input').css('backgroundColor'));
-        $('[name=username]').parent().addClass("input-group");
-        $('.input-group').append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>' +
+        $('[name=username]').parent().addClass("input-group userNameLabel");
+        $('.userNameLabel').append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>' +
             '<span class="help-block"></span>');
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
             .addClass("text-left").css("direction", "ltr");
@@ -92,14 +92,10 @@ Template.personalInformation.onRendered(function () {
         $('.radio').each(function () {
             $(this).prependTo(this.parentNode);
         });
-    }
-});
-Template.autoForm.onRendered(function () {
-    if (this.data.id == 'updatePersonalInformation') {
-        var picker = new Pikaday({
-            field: $('#birthday')[0], format: 'DD-MM-YYYY',
-            minDate: new Date(1960, 1, 1), maxDate: new Date(new Date().getFullYear() - 10, 1, 1)
-            , yearRange: [1960, new Date().getFullYear() - 10]
+        $('#birthday').datepicker({
+            autoclose: true,
+            startDate: "1/1/1960",
+            endDate: new Date(new Date().getFullYear() - 10, 1, 1),
         });
     }
 });

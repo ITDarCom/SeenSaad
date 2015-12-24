@@ -73,10 +73,17 @@ Template.article.events({
                 });
             }
         }
-    }
+    },
+    'click .favorite': function () {
+        if (Meteor.userId())
+            Meteor.call('favoriteIt', this._id);
+        else
+            Router.go('signIn');
+    },
 });
 Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data})
     }
 });
+

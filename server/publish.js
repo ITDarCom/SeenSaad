@@ -7,7 +7,8 @@ Meteor.publish('favorites', function (limit) {
                     title: 1,
                     username: 1,
                     createdAt: 1,
-                    user: 1
+                    user: 1,
+                    commentsCounter: 1
                 },
                 limit: limit || 5
             });
@@ -31,6 +32,7 @@ Meteor.publish('readArticles', function (limit) {
                     user: 1,
                     readingPermissions: 1,
 
+
                 },
                 limit: limit || 5,
             });
@@ -42,7 +44,6 @@ Meteor.publish('contribution', function (limit) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
             var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
-
             return Articles.find({_id: {$in: contributingArticles}}, {
                 fields: {
                     title: 1,
@@ -50,6 +51,7 @@ Meteor.publish('contribution', function (limit) {
                     createdAt: 1,
                     user: 1,
                     contributingPermissions: 1,
+                    commentsCounter: 1
                 },
                 limit: limit || 5,
                 sort: {createdAt: -1}
@@ -128,7 +130,7 @@ Meteor.publish('specificUserArticles', function (userId) {
                 , {_id: {$in: contributingIds}}, {_id: {$in: readingIds}}]
         }]
     })
-})
+});
 Meteor.publish(null, function () {
     if (this.userId) {
         if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
@@ -172,7 +174,8 @@ Meteor.publish('articles', function (limit) {
             title: 1,
             username: 1,
             createdAt: 1,
-            user: 1
+            user: 1,
+            commentsCounter: 1
         },
         limit: limit || 5,
         sort: {createdAt: -1}
