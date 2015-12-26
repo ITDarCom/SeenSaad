@@ -132,11 +132,19 @@ Template.articleView.helpers({
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
         }
 
+    },
+    commentsCounter: function () {
+        Meteor.call('commentsCounter', this._id, function (err, result) {
+            if (!err) {
+                var className = '.commentsCounter' + result[1];
+                $(className).text($(className).text() + result[0])
+            }
+        })
     }
 });
 Template.articleView.events({
-   'click .clickableDiv' : function () {
-       Router.go('global',{id:this._id});
-   },
+    'click .clickableDiv': function () {
+        Router.go('global', {id: this._id});
+    },
 
 });

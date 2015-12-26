@@ -1,14 +1,14 @@
 <!--suppress ALL -->
 <template name='articles'>
-	<div class='row'>
+    <div class='row'>
         <div class='col-md-offset-1 col-md-10'>
-			{{> headerText}}
-			{{#each articles}}
-			{{> articleView}}
+            {{> headerText}}
+            {{#each articles}}
+                {{> articleView}}
 
-			{{else}}
-			<strong>{{getArabicMsg 'noArticlesFound'}}</strong>
-			{{/each}}
+            {{else}}
+                <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
+            {{/each}}
             {{#if hasMore}}
                 <button class='btn btn-block btn-primary' id="loadMore">
                     {{getArabicMsg 'loadMore'}}
@@ -17,36 +17,36 @@
 
 
         </div>
-	</div>
+    </div>
 </template>
 <template name='articleView'>
-	<div class='panel panel-info'>
-		<div class='clickableDiv panel-heading'>
-			<div class='row'>
+    <div class='panel panel-info'>
+        <div class='clickableDiv panel-heading'>
+            <div class='row'>
                 <a href="{{pathFor route='global' id=_id}}">
                     <h4 class=' col-md-9'>{{{title}}} </h4>
-					<h5 class='col-md-3 text-left'>
+                    <h5 class='col-md-3 text-left'>
                         {{{newLabel}}}
-					</h5>
-				</a>
-			</div>
-		</div>
-		<div class='panel-body'>
-			<div class='row'>
-				<div class='col-md-4'>
-					<span class='glyphicon glyphicon-user' aria-hidden='true'></span>
+                    </h5>
+                </a>
+            </div>
+        </div>
+        <div class='panel-body'>
+            <div class='row'>
+                <div class='col-md-4'>
+                    <span class='glyphicon glyphicon-user' aria-hidden='true'></span>
                     <a href="{{pathFor 'profile' id=this.user}}">{{userUsername user}}</a>
-				</div>
-				<div class='col-md-4'>
-					<span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
-				</div>
+                </div>
+                <div class='col-md-4'>
+                    <span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
+                </div>
                 <div class='col-xs-12 col-md-3'>
                     <span><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}'></i> {{read}}</span>
                     &nbsp; &nbsp;
-                    {{#if commentsCounter}}
+
                         <span><i title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i>
-                            {{commentsCounter}}</span>
-                    {{/if}}
+                          <span class='commentsCounter{{_id}}'> {{commentsCounter}}</span></span>
+
                 </div>
 
             </div>
@@ -63,40 +63,40 @@
                     <i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
                 </button>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </template>
 <template name='search'>
-	<div class='container'>
-		<div class='row'>
-			<div class='col-md-offset-1 col-md-10'>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-md-offset-1 col-md-10'>
                 <div class='row'> {{> headerText}} </div>
                 <div class='row'>{{> searchBox }} </div>
-				{{> searchResult}}
-			</div>
-			<!--col-md-10-->
-		</div>
-		<!--row-->
-	</div>
+                {{> searchResult}}
+            </div>
+            <!--col-md-10-->
+        </div>
+        <!--row-->
+    </div>
 </template>
 <template name='searchBox'>
-	<div class='span1 offset2'>
+    <div class='span1 offset2'>
         <input type='text' id='search-box' class='form-control input-group '>
-	</div>
+    </div>
 </template>
 <template name='searchResult'>
-	<div class='row' id='search-result'>
-		<div id='search-meta'>
-			{{#if isLoading}}
-			يبحث ...
-			{{/if}}
-		</div>
-		{{#each getArticles}}
-		{{> articleView}}
-		{{/each}}
-	</div>
+    <div class='row' id='search-result'>
+        <div id='search-meta'>
+            {{#if isLoading}}
+                يبحث ...
+            {{/if}}
+        </div>
+        {{#each getArticles}}
+            {{> articleView}}
+        {{/each}}
+    </div>
 </template>
 <template name='Time'>
     <span class='dateSwitch'
-		  title='{{dateFormated data}}'>{{momentIt data}}</span>
+          title='{{dateFormated data}}'>{{momentIt data}}</span>
 </template>

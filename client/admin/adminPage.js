@@ -15,7 +15,11 @@ Template.adminPage.events({
     'click .deleteUser': function (event) {
         if (confirm('Are you sure')) {
             var userId = $(event.target).attr('userid');
-            Meteor.call('deleteUser',userId);
+            Meteor.call('deleteUser', userId);
         }
     }
 });
+Template.adminPage.onRendered(function () {
+    var temp = $('#DataTables_Table_0_filter').addClass('pull-left').find('label').html().substr('5');
+    $('#DataTables_Table_0_filter').addClass('pull-left').html('<span><i class="fa fa-search"></i></span> : ' + temp);
+})

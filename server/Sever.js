@@ -31,9 +31,13 @@ Meteor.methods({
 
             }
     },
-    getCommentCount: function (articleId) {
-        return Comments.find({articleId: articleId})
-    }
+    getArticlesCounter: function (id) {
+        if (_.contains(Admins, this.userId)) {
+            return [Articles.find({user: id}).count(), id]
+        }
+
+    },
+
 
 });
 Admins = ['SeenSaad'];
@@ -43,3 +47,4 @@ Meteor.users.allow({
         return (_.contains(Admins, Meteor.users.findOne(this.userId).username))
     }
 });
+
