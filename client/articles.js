@@ -136,8 +136,16 @@ Template.articleView.helpers({
     commentsCounter: function () {
         Meteor.call('commentsCounter', this._id, function (err, result) {
             if (!err) {
-                var className = '.commentsCounter' + result[1];
-                $(className).text($(className).text() + result[0])
+                if (result) {
+                    var className = '.commentsCounter' + result[1];
+                    if (result[0] && result[0] != 0) {
+                        $(className).text(result[0]);
+                    }
+                    else {
+                        $(className).parent().remove()
+                    }
+                }
+
             }
         })
     }

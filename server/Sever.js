@@ -30,15 +30,7 @@ Meteor.methods({
 
 
             }
-    },
-    getArticlesCounter: function (id) {
-        if (_.contains(Admins, this.userId)) {
-            return [Articles.find({user: id}).count(), id]
-        }
-
-    },
-
-
+    }
 });
 Admins = ['SeenSaad'];
 
@@ -47,4 +39,10 @@ Meteor.users.allow({
         return (_.contains(Admins, Meteor.users.findOne(this.userId).username))
     }
 });
-
+registerHelpers = {
+    isAdmin: function () {
+        if (this.userId) {
+            return (_.contains(Admins, Meteor.users.findOne(Meteor.userId()).username));
+        }
+    }
+}

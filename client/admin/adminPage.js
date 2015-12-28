@@ -20,6 +20,6 @@ Template.adminPage.events({
     }
 });
 Template.adminPage.onRendered(function () {
-    var temp = $('#DataTables_Table_0_filter').addClass('pull-left').find('label').html().substr('5');
-    $('#DataTables_Table_0_filter').addClass('pull-left').html('<span><i class="fa fa-search"></i></span> : ' + temp);
+    var temp = $('#adminTable_filter').addClass('pull-left').find('label').html().substr('5');
+    $('#adminTable_filter').addClass('pull-left').html('<span><i class="fa fa-search"></i></span> : ' + temp);
 })

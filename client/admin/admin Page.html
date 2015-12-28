@@ -3,8 +3,14 @@
     <div class="container">
         <div class="col-md-offset-1 col-md-10">
             {{> headerText}}
-        {{> tabular table=TabularTables.users class="table table-striped table-bordered table-condensed"}}
+            {{> tabular table=TabularTables.users class="table table-striped table-bordered table-condensed" id="adminTable"}}
     </div>
     </div>
 {{/if}}
+</template>
+<template name="articlesCounterTemplate">
+    <span id='articleCounter{{_id}}'></span>
+</template>
+<template name="commentsCounterTemplate">
+    <span id='commentsCounter{{_id}}'></span>
 </template>
