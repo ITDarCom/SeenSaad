@@ -8,6 +8,7 @@ Meteor.publish('favorites', function (limit) {
                     username: 1,
                     createdAt: 1,
                     user: 1,
+                    read: 1,
                     readingPermissions: 1
                 },
                 limit: limit || 5
@@ -30,6 +31,7 @@ Meteor.publish('readArticles', function (limit) {
                     username: 1,
                     createdAt: 1,
                     user: 1,
+                    read: 1,
                     readingPermissions: 1
                 },
                 limit: limit || 5,
@@ -45,6 +47,7 @@ Meteor.publish('contribution', function (limit) {
             return Articles.find({_id: {$in: contributingArticles}}, {
                 fields: {
                     title: 1,
+                    read: 1,
                     username: 1,
                     createdAt: 1,
                     user: 1,
@@ -100,7 +103,6 @@ Meteor.publish(null, function () {
     return Meteor.users.find({_id: this.userId})
 });
 Meteor.publish('specificUser', function (userId) {
-
     var user = Meteor.users.findOne(userId);
     var projections = {};
     for (var property in user) {
@@ -160,24 +162,16 @@ Meteor.publish('comments', function (id) {
     }
 });
 Meteor.publish('articles', function (limit) {
-
-    if (this.userId) {
-        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
-            return Articles.find({}, {limit: 5});
-        }
-    }
-    debugger;
     return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
         fields: {
             title: 1,
             username: 1,
             createdAt: 1,
             user: 1,
+            read: 1,
             readingPermissions: 1
         },
-        limit: limit || 5,
-        sort: {createdAt: -1}
+        sort: {createdAt: -1},
+        limit: limit || 5
     });
 });
-
-
