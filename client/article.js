@@ -84,6 +84,20 @@ Template.article.events({
 Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data})
+    },
+    owner: function () {
+        return (Meteor.userId() && Template.parentData(2).user == Meteor.userId())
     }
 });
+Template.comments.events({
+    'click .removeComment': function () {
+        if (confirm(arabicMessages.commentDeleteConfirm)) {
+            Meteor.call('deleteComment', this._id, function (err, result) {
+                if (err) {
+                    alert(arabicMessages.commentDeleteFailed)
+                }
+            })
+        }
+    }
+})
 
