@@ -44,12 +44,21 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
     });
 Template.add.helpers(
     {
+        allowedTime: function () {
+            if (Router.current().route.getName() == 'add') {
+                return true;
+            }
+            var articleId = Router.current().params.id;
+            if (articleId) {
+                return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 600 * 1000)
+            }
+        },
         canEdit: function () {
-
             if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
                 return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
             return (Router.current().route.getName() == 'add')
-        },
+        }
+        ,
         formType: function () {
             if (Router.current().route.getName() == 'edit') {
                 return 'update';
@@ -58,17 +67,20 @@ Template.add.helpers(
                 return 'insert';
             }
             //to choose form type (insert or update)
-        },
+        }
+        ,
         thisArticle: function () {
             if (Router.current().route.getName() == 'edit') {
                 return Articles.findOne({_id: Router.current().params.id});
             }
             // to get the article from collection to display it
-        },
+        }
+        ,
         insert: function () {
             return (Router.current().route.getName() == 'add');
             // return true if we are in insert operation
-        },
+        }
+        ,
         saveButton: function () {
             if (Router.current().route.getName() == 'edit') {
                 return arabicMessages.editButtonLabel;
@@ -77,13 +89,15 @@ Template.add.helpers(
                 return arabicMessages.addButtonLabel;
             }
             // return the correct title for button that used in the form
-        },
+        }
+        ,
         usersOptions: function () {
             return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
                 return {label: c.username, value: c._id};
                 // return users name for select2 field
             });
-        },
+        }
+        ,
         s2Opts: function () {
             return {placeholder: arabicMessages.contributingIdsLabel};
         }

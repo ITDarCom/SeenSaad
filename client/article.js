@@ -6,6 +6,31 @@ Template.article.helpers({
         return Articles.findOne(Router.current().params.id);
         // used to get the article from db to display it
     },
+    canEdit: function () {
+        return ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000));
+    },
+    allowedTime: function () {
+        if ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000)) {
+            var count = (600 - parseInt(((new Date()).getTime() - this.createdAt.getTime()) / 1000));
+
+            var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+            function timer() {
+                count = count - 1;
+                if (count <= 0) {
+                    clearInterval(counter);
+                    $('#editCounter').text(0);
+                    $('.edit').removeClass('btn-warning').addClass('btn-default');
+                    return;
+                }
+                $('#editCounter').text(count);
+            }
+
+            //Session.set('editCounter', (600 - parseInt(((new Date()).getTime() - this.createdAt.getTime()) / 1000)));
+            //$('#editCounter').text(Session.get('editCounter'));
+            //return Session.get('editCounter');
+        }
+    },
     allowContributing: function () {  // check if the user is authenticated to commenting
         //this refer to this article that is displayed
         if (Meteor.userId()) {

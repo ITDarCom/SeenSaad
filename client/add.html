@@ -6,8 +6,29 @@
             {{#autoForm collection='Articles' id='addUpdateArticles' name='addUpdateArticles' doc=thisArticle
             type=formType }}
                     <fieldset>
+                        {{#if allowedTime}}
                         {{> afQuickField name='title'}}
                         {{> afQuickField name='body'}}
+                        {{else}}
+                            {{#with thisArticle}}
+                                <div class="form-group" data-required="true">
+                                    <label class="control-label">العنوان</label>
+                                    <input type="text" value="{{title}}" disabled class="form-control">
+                                </div>
+                                <div class="form-group" data-required="true">
+                                    <label class="control-label">الموضوع</label>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><i class="fa fa-lock"></i> محتوى مغلق لا يمكنك
+                                            التعديل
+                                        </div>
+                                        <div class="panel-body">
+                                            {{{body}}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/with}}
+                        {{/if}}
                         <div class='row'>
                             <div class='{{#if afFieldValueIs name="contributingPermissions" value="1"}}col-md-2 col-xs-2
                             {{else}}col-xs-12 col-md-12{{/if}}'>

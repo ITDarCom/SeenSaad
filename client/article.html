@@ -4,6 +4,7 @@
             <div class='col-md-offset-1 col-md-10'>
                 {{#if allowReading}}
                     {{>headerText}}
+
                     {{seenChange}}
                     <div class='panel panel-info'>
                         <div class='panel-heading'>
@@ -35,9 +36,10 @@
                                                 title='{{getArabicMsg "deleteButtonTitle"}}'>
                                             <i class='fa fa-trash'></i>
                                         </button>
-                                        <button id='editButton' class='edit btn-xs btn btn-warning'
+                                        <button id='editButton' class='edit btn-xs btn{{#if canEdit}} btn-warning
+                                        {{else}} btn-default{{/if}}'
                                                 title='{{getArabicMsg "editButtonTitle"}}'>
-                                            <i class='fa fa-pencil'></i>
+                                            <i class='fa fa-pencil'></i>{{allowedTime}} <span id="editCounter"></span>
                                         </button>
                                     {{/if}}
                                     <button class='favorite btn-xs btn btn-success'
