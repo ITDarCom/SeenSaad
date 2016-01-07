@@ -114,6 +114,7 @@ Router.map(function () {
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
             Meteor.subscribe("Article", this.params.id);
+            Meteor.subscribe('articleExtensions', this.params.id);
         }
     });
     this.route('add', {
@@ -123,11 +124,6 @@ Router.map(function () {
             }
             else
                 this.render('add')
-        }
-    });
-    this.route('article', {
-        path: '/article/:id', waitOn: function () {
-            return Meteor.subscribe("Article", Router.current().params.id)
         }
     });
     this.route('messages', {
@@ -153,6 +149,7 @@ Router.map(function () {
         waitOn: function () {
             Meteor.subscribe("Article", this.params.id);
             Meteor.subscribe('comments', this.params.id);
+            Meteor.subscribe('articleExtensions', this.params.id);
         }
     });
     this.route("notFound", {

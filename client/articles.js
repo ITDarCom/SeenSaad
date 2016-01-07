@@ -148,11 +148,20 @@ Template.articleView.helpers({
 
             }
         })
+    },
+    canEdit: function () {
+        return ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000));
     }
 });
 Template.articleView.events({
     'click .clickableDiv': function () {
         Router.go('global', {id: this._id});
-    },
+    }
 
+});
+
+Template.articleExtensions.helpers({
+    articleExtensions: function () {
+        return articlesExtension.find({articleId: this._id});
+    }
 });

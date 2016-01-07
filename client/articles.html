@@ -5,7 +5,6 @@
             {{> headerText}}
             {{#each articles}}
                 {{> articleView}}
-
             {{else}}
                 <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
             {{/each}}
@@ -54,7 +53,8 @@
                     <button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
                         <i class='fa fa-trash'></i>
                     </button>
-                    <button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
+                    <button class='edit btn-xs btn {{#if canEdit}} btn-warning
+                                        {{else}} btn-default{{/if}}' title='{{getArabicMsg "editButtonTitle"}}'>
                         <i class='fa fa-pencil'></i>
                     </button>
                 {{/if}}
@@ -95,6 +95,16 @@
         {{/each}}
     </div>
 </template>
+<template name="articleExtensions">
+    <div class="well">
+        {{#each articleExtensions}}
+            {{{extensionText}}}
+            <hr>
+        {{/each}}
+    </div>
+</template>
+
+
 <template name='Time'>
     <span class='dateSwitch'
           title='{{dateFormated data}}'>{{momentIt data}}</span>

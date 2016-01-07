@@ -1,6 +1,30 @@
 //noinspection JSUnusedGlobalSymbols
+AutoForm.debug();
 AutoForm.hooks( // Callbacks invoked after submit the autoform
     {
+        updatePermissionsForm: {
+            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
+                if (formType == 'insert') {
+                    Meteor.call('permissionDeploy', result);
+                    Router.go('global', {id: result});
+                    $('.alert').hide();
+                    Session.set('alert', 'addSuccessfully');
+                    //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
+                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
+                }
+                if (formType == 'update') { // after submitting an edit for article we look if we have changes
+                    // in permissions field
+                    var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
+                    var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
+                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                    Router.go('global', {id: this.docId});
+                    $('.alert').hide();
+                    Session.set('alert', 'editSuccessfully');
+                    //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
+                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
+                }
+            },
+        },
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
                 if (formType == 'insert') {
@@ -40,7 +64,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     return doc;
                 }
             }
-        }
+        },
     });
 Template.add.helpers(
     {
@@ -61,7 +85,7 @@ Template.add.helpers(
         ,
         formType: function () {
             if (Router.current().route.getName() == 'edit') {
-                return 'update';
+                return 'method';
             }
             if (Router.current().route.getName() == 'add') {
                 return 'insert';
@@ -100,6 +124,22 @@ Template.add.helpers(
         ,
         s2Opts: function () {
             return {placeholder: arabicMessages.contributingIdsLabel};
+        },
+        canAddExtension: function () {
+            if (!allowedUpdateTime(this.createdAt)) {
+                if (articlesExtension.find({articleId: this._id}).count() == 0) {
+                    return true;
+                }
+                if (!allowedUpdateTime(articlesExtension.findOne({articleId: this._id}, {sort: {createdAt: -1}}).createdAt)) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        lastExtensionUpdate: function () {
+            var extension = articlesExtension.findOne({articleId: this._id}, {sort: {createdAt: -1}});
+            if (extension && allowedUpdateTime(extension.createdAt))
+                return extension;
         }
 
     }
@@ -144,6 +184,19 @@ Template.autoForm.onRendered(function () {
             // permissions is public
 
 
+        }
+    }
+    if (this.data.id == 'updatePermissionsForm') {
+        $('.alert').remove();
+        $('#contributingPermissions').val(this.data.doc.contributingPermissions);
+        if (this.data.doc.contributingPermissions == 1) {
+            //noinspection JSUnresolvedVariable
+            $('#readingPermissions').val(this.data.doc.readingPermissions);
+            $('#readingDiv').show();
+
+        }
+        else {
+            $('#readingDiv').hide();// here contributing permissions is public so the reading is already public
         }
     }
     //after a bug founded in autoform ... in readingPermissions field or contributingPermissions field we get wrong value

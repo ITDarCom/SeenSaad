@@ -53,6 +53,7 @@
                             <div class='textEditor' name='textEditor'>{{{body}}}</div>
                         </div>
                     </div>
+                    {{> articleExtensions}}
                     {{> comments data=this._id}}
                     {{#if allowContributing}}
                         <div class='panel panel-info'>
@@ -66,8 +67,6 @@
                                     <button type='submit' class='btn btn-block btn-primary'>
                                         {{getArabicMsg 'addButtonLabel'}}</button>
                                 {{/autoForm}}
-
-
                             </div>
                         </div>
                     {{/if}}
@@ -90,7 +89,7 @@
                     </div>
                     <div class="{{#if owner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
                             class='glyphicon glyphicon-time'
-                                                                       aria-hidden='true'></span>
+                            aria-hidden='true'></span>
                         {{> Time data=createdAt}} </div>
                     {{#if owner}}
                         <div class="col-md-2 col-xs-2 text-left">

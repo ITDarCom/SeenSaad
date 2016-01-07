@@ -62,7 +62,7 @@ Meteor.publish('contribution', function (limit) {
 });
 Meteor.publish('mine', function (limit) {
     if (this.userId) {
-        return Articles.find({user: this.userId}, {limit: limit || 5})
+        return Articles.find({user: this.userId}, {limit: limit || 5, sort: {createdAt: -1}})
     }
 });
 Meteor.publish("Article", function (articleId) {
@@ -94,6 +94,9 @@ Meteor.publish("Article", function (articleId) {
                 }
             }
     }
+});
+Meteor.publish('articleExtensions', function (articleId) {
+    return articlesExtension.find({articleId: articleId});
 });
 Meteor.publish(null, function () {
     return Meteor.users.find({}, {fields: {username: 1}});
