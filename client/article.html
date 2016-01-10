@@ -53,9 +53,7 @@
                             <div class='textEditor' name='textEditor'>{{{body}}}</div>
                         </div>
                     </div>
-                    {{#if hasExtensions}}
                     {{> articleExtensions}}
-                    {{/if}}
                     {{> comments data=this._id}}
                     {{#if allowContributing}}
                         <div class='panel panel-info'>

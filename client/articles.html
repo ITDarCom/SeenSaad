@@ -99,7 +99,9 @@
     {{#if hasExtensions}}
         <div class="well">
             {{#each articleExtensions}}
+                {{#if cannotUpdate}}
                 {{{extensionText}}}
+                {{/if}}
                 <hr>
             {{/each}}
         </div>

@@ -166,5 +166,13 @@ Template.articleExtensions.helpers({
     },
     hasExtensions: function () {
         return articlesExtension.find({articleId: this._id}).count() > 0
+    },
+    cannotUpdate: function () {
+        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAt)) {
+            return false;
+        }
+        return true
+
+
     }
 });

@@ -70,6 +70,20 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                 }
             }
         },
+        addExtension: {
+            onSuccess: function (doc) {
+                Router.go('global', {id: this.insertDoc.articleId});
+                Session.set('alert', 'extentionAddedSuccessfully');
+            }
+        },
+        lastExtentionUpdate: {
+            after: {
+                'update': function () {
+                    Router.go('global', {id: this.currentDoc.articleId});
+                    Session.set('alert', 'editSuccessfully');
+                }
+            }
+        }
     });
 Template.add.helpers(
     {
