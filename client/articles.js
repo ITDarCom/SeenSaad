@@ -163,5 +163,8 @@ Template.articleView.events({
 Template.articleExtensions.helpers({
     articleExtensions: function () {
         return articlesExtension.find({articleId: this._id});
+    },
+    hasExtensions: function () {
+        return articlesExtension.find({articleId: this._id}).count() > 0
     }
 });
