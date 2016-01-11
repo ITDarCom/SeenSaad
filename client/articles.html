@@ -96,12 +96,16 @@
     </div>
 </template>
 <template name="articleExtensions">
-    <div class="well">
-        {{#each articleExtensions}}
-            {{{extensionText}}}
-            <hr>
-        {{/each}}
-    </div>
+    {{#if hasExtensions}}
+        <div class="well">
+            {{#each articleExtensions}}
+                {{#if cannotUpdate}}
+                {{{extensionText}}}
+                {{/if}}
+                <hr>
+            {{/each}}
+        </div>
+    {{/if}}
 </template>
 
 

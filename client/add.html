@@ -75,11 +75,10 @@
                                         {{> afQuickField name='articleId' id='articleId' type='hidden' label=false value=this._id}}
                                     </fieldset>
                                     <button type='submit' class='btn btn-block btn-primary'>
-                                        {{getArabicMsg 'addButtonLabel'}}</button>
+                                        {{getArabicMsg 'editButtonTitle'}}</button>
                                 {{/autoForm}}
                                 <br>
                             {{/if}}
-
                         {{/if}}
                         {{#autoForm collection='Articles' id='updatePermissionsForm' name ='updatePermissionsForm'
                         doc=this type='update'}}

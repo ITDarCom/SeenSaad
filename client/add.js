@@ -24,6 +24,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
                 }
             },
+
         },
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
@@ -58,6 +59,10 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
             },
             before: {
                 'update': function (doc) {
+                    if (!allowedUpdateTime(this.currentDoc.createdAt)) {
+                        alert(arabicMessages.notInUpdateTime);
+                        Router.go('home');
+                    }
                     _.each(_.intersection(doc.$set.readingIds, doc.$set.contributingIds), function (u) {
                         doc.$set.readingIds = _.without(doc.$set.readingIds, u);
                     });
@@ -65,6 +70,20 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                 }
             }
         },
+        addExtension: {
+            onSuccess: function (doc) {
+                Router.go('global', {id: this.insertDoc.articleId});
+                Session.set('alert', 'extentionAddedSuccessfully');
+            }
+        },
+        lastExtentionUpdate: {
+            after: {
+                'update': function () {
+                    Router.go('global', {id: this.currentDoc.articleId});
+                    Session.set('alert', 'editSuccessfully');
+                }
+            }
+        }
     });
 Template.add.helpers(
     {
@@ -85,7 +104,7 @@ Template.add.helpers(
         ,
         formType: function () {
             if (Router.current().route.getName() == 'edit') {
-                return 'method';
+                return 'update';
             }
             if (Router.current().route.getName() == 'add') {
                 return 'insert';
@@ -196,6 +215,7 @@ Template.autoForm.onRendered(function () {
 
         }
         else {
+
             $('#readingDiv').hide();// here contributing permissions is public so the reading is already public
         }
     }
