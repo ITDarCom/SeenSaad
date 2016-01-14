@@ -95,17 +95,19 @@
         {{/each}}
     </div>
 </template>
-<template name="articleExtensions">
-    {{#if hasExtensions}}
-        <div class="well">
-            {{#each articleExtensions}}
-                {{#if cannotUpdate}}
-                {{{extensionText}}}
-                {{/if}}
-                <hr>
-            {{/each}}
-        </div>
-    {{/if}}
+<template name="articleTexts">
+
+    {{#each articleTexts}}
+        {{#if cannotUpdate}}
+            {{{text}}}
+
+            <hr>
+
+            <div>{{>Time data=createdAtText}}</div>
+
+        {{/if}}
+    {{/each}}
+
 </template>
 
 

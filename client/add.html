@@ -4,11 +4,12 @@
             <div class='col-md-offset-1 col-md-10'>
                 {{> headerText}}
                 {{#if allowedTime}}
-                    {{#autoForm collection='Articles' id='addUpdateArticles' name='addUpdateArticles' doc=thisArticle
-                    type=formType }}
+                    {{#autoForm  id='addUpdateArticles' name='addUpdateArticles' doc=thisArticle schema='addUpdateSchema'
+                    meteormethod='addArticle' type='method' }}
                         <fieldset>
                             {{> afQuickField name='title'}}
-                            {{> afQuickField name='body'}}
+                            {{> afQuickField name='text'}}
+                            {{> afQuickField name='articleId' id='articleId' type='hidden' label=false value="test"}}
                             <div class='row'>
                                 <div class='{{#if afFieldValueIs name="contributingPermissions" value="1"}}col-md-2 col-xs-2
                             {{else}}col-xs-12 col-md-12{{/if}}'>
@@ -51,15 +52,15 @@
                                     التعديل
                                 </div>
                                 <div class="panel-body">
-                                    {{{body}}}
+                                    {{> articleTexts}}
                                 </div>
                             </div>
                         </div>
-                        {{> articleExtensions}}
+                        {{> articleTexts}}
                         {{#if canAddExtension}}
-                            {{#autoForm  id='addExtension' name='addExtension'  meteormethod='addExtension'  type='method'  schema='extensionSchema' }}
+                            {{#autoForm  id='addExtension' name='addExtension'  meteormethod='addExtension'  type='method'  schema='articleTextSchema' }}
                                 <fieldset>
-                                    {{> afQuickField name='extensionText' id='extensionText' label=false }}
+                                    {{> afQuickField name='text' id='text' label=false }}
                                     {{> afQuickField name='articleId' id='articleId' type='hidden' label=false value=this._id}}
                                 </fieldset>
                                 <button type='submit' class='btn btn-block btn-primary'>
@@ -69,9 +70,9 @@
                         {{else}}
                             {{#if lastExtensionUpdate}}
                                 {{#autoForm id='lastExtentionUpdate'  name='lastExtentionUpdate' type='update'
-                                doc=lastExtensionUpdate collection='articlesExtension'}}
+                                doc=lastExtensionUpdate collection='articleTexts'}}
                                     <fieldset>
-                                        {{> afQuickField name='extensionText' id='extensionText' label=false }}
+                                        {{> afQuickField name='text' id='text' label=false }}
                                         {{> afQuickField name='articleId' id='articleId' type='hidden' label=false value=this._id}}
                                     </fieldset>
                                     <button type='submit' class='btn btn-block btn-primary'>

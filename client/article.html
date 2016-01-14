@@ -4,7 +4,6 @@
             <div class='col-md-offset-1 col-md-10'>
                 {{#if allowReading}}
                     {{>headerText}}
-
                     {{seenChange}}
                     <div class='panel panel-info'>
                         <div class='panel-heading'>
@@ -50,10 +49,9 @@
                             </div>
                         </div>
                         <div class='panel-body'>
-                            <div class='textEditor' name='textEditor'>{{{body}}}</div>
+                            {{> articleTexts}}
                         </div>
                     </div>
-                    {{> articleExtensions}}
                     {{> comments data=this._id}}
                     {{#if allowContributing}}
                         <div class='panel panel-info'>
@@ -97,7 +95,7 @@
                         </div>{{/if}}
                 </div>
                 <hr>
-                <div class='textEditor' name='textEditor'>{{{nl2br commentText}}}</div>
+                {{{nl2br commentText}}}
             </div>
         </div>
     {{/each}}

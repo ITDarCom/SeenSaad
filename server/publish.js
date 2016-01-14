@@ -96,7 +96,7 @@ Meteor.publish("Article", function (articleId) {
     }
 });
 Meteor.publish('articleExtensions', function (articleId) {
-    return articlesExtension.find({articleId: articleId});
+    return articleTexts.find({articleId: articleId});
 });
 Meteor.publish(null, function () {
     return Meteor.users.find({}, {fields: {username: 1}});

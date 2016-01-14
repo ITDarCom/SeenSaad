@@ -28,6 +28,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
         },
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
+
                 if (formType == 'insert') {
                     Meteor.call('permissionDeploy', result);
                     Router.go('global', {id: result});
@@ -146,17 +147,17 @@ Template.add.helpers(
         },
         canAddExtension: function () {
             if (!allowedUpdateTime(this.createdAt)) {
-                if (articlesExtension.find({articleId: this._id}).count() == 0) {
+                if (articleTexts.find({articleId: this._id}).count() == 0) {
                     return true;
                 }
-                if (!allowedUpdateTime(articlesExtension.findOne({articleId: this._id}, {sort: {createdAt: -1}}).createdAt)) {
+                if (!allowedUpdateTime(articleTexts.findOne({articleId: this._id}, {sort: {createdAt: -1}}).createdAt)) {
                     return true;
                 }
                 return false;
             }
         },
         lastExtensionUpdate: function () {
-            var extension = articlesExtension.findOne({articleId: this._id}, {sort: {createdAt: -1}});
+            var extension = articleTexts.findOne({articleId: this._id}, {sort: {createdAt: -1}});
             if (extension && allowedUpdateTime(extension.createdAt))
                 return extension;
         }
@@ -166,7 +167,7 @@ Template.add.helpers(
 Template.add.events({
     'change #contributingPermissions': function () {
         if ($('#contributingPermissions').val() == 0) {
-            $('#readingDiv').hide()
+            $('#readingDiv').hide();
         }
         if ($('#contributingPermissions').val() == 1) {
             $('#readingDiv').show()
@@ -199,6 +200,7 @@ Template.autoForm.onRendered(function () {
             }
         }
         else if (this.data.type == 'insert') {
+            $('div [contenteditable=true]').html('<br>')
             $('#readingDiv').hide(); // in some of cases readingDiv still appear event the contributing
             // permissions is public
 
