@@ -150,7 +150,7 @@ Template.articleView.helpers({
         })
     },
     canEdit: function () {
-        return ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000));
+        return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));
     },
     lastupdate: function () {
 
@@ -171,7 +171,7 @@ Template.articleTexts.helpers({
         return articleTexts.find({articleId: this._id}).count() > 0
     },
     cannotUpdate: function () {
-        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAt)) {
+        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAtText)) {
             return false;
         }
         return true

@@ -149,7 +149,6 @@ Router.map(function () {
         waitOn: function () {
             Meteor.subscribe("Article", this.params.id);
             Meteor.subscribe('comments', this.params.id);
-            Meteor.subscribe('articleExtensions', this.params.id);
         }
     });
     this.route("notFound", {

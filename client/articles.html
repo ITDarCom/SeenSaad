@@ -46,7 +46,6 @@
                           <span class='commentsCounter{{_id}}'> {{commentsCounter}}</span></span>
 
                 </div>
-
             </div>
             <div class='text-left'>
                 {{#if owner}}
@@ -100,11 +99,8 @@
     {{#each articleTexts}}
         {{#if cannotUpdate}}
             {{{text}}}
-
             <hr>
-
             <div>{{>Time data=createdAtText}}</div>
-
         {{/if}}
     {{/each}}
 

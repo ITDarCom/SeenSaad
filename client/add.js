@@ -12,11 +12,13 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
                     //    ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
                 }
-                if (formType == 'update') { // after submitting an edit for article we look if we have changes
+                if (formType == 'method-update') { // after submitting an edit for article we look if we have changes
                     // in permissions field
-                    var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
-                    var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
-                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                    //Router.go('global', {id: this.docId});
+                    //Meteor.call('permissionDeploy', this.docId );
+                    //var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
+                    //var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
+                    //Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
                     Router.go('global', {id: this.docId});
                     $('.alert').hide();
                     Session.set('alert', 'editSuccessfully');
@@ -28,25 +30,15 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
         },
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
-
-                if (formType == 'insert') {
-                    Meteor.call('permissionDeploy', result);
+                if (formType == 'method') {
                     Router.go('global', {id: result});
                     $('.alert').hide();
                     Session.set('alert', 'addSuccessfully');
-                    //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
-                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
                 }
-                if (formType == 'update') { // after submitting an edit for article we look if we have changes
-                    // in permissions field
-                    var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
-                    var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
-                    Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                if (formType == 'method-update') {
                     Router.go('global', {id: this.docId});
                     $('.alert').hide();
                     Session.set('alert', 'editSuccessfully');
-                    //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
-                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
                 }
             },
             formToDoc: function (doc) {
@@ -57,6 +49,19 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     });
                 }
                 return doc;
+            }
+        },
+        updateArticleS: {
+            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
+                var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
+                var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
+                Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+                Router.go('global', {id: this.docId});
+                $('.alert').hide();
+                Session.set('alert', 'editSuccessfully');
+                //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
+                //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
+
             },
             before: {
                 'update': function (doc) {
@@ -70,11 +75,15 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                     return doc;
                 }
             }
+
         },
-        addExtension: {
+        addText: {
             onSuccess: function (doc) {
                 Router.go('global', {id: this.insertDoc.articleId});
                 Session.set('alert', 'extentionAddedSuccessfully');
+            }, formToDoc: function (doc) {
+
+                return doc;
             }
         },
         lastExtentionUpdate: {
@@ -86,15 +95,14 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
             }
         }
     });
-Template.add.helpers(
-    {
+Template.add.helpers({
         allowedTime: function () {
             if (Router.current().route.getName() == 'add') {
                 return true;
             }
             var articleId = Router.current().params.id;
             if (articleId) {
-                return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 600 * 1000)
+                return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
             }
         },
         canEdit: function () {
@@ -104,13 +112,33 @@ Template.add.helpers(
         }
         ,
         formType: function () {
-            if (Router.current().route.getName() == 'edit') {
-                return 'update';
-            }
             if (Router.current().route.getName() == 'add') {
-                return 'insert';
+                return 'method';
             }
-            //to choose form type (insert or update)
+            if (Router.current().route.getName() == 'edit') {
+                return 'method-update';
+            }
+
+        },
+    getCurrentValue: function (field) {
+        AutoForm.getFieldValue(field)
+    }
+    ,
+    mehtodTarget: function () {
+            if (Router.current().route.getName() == 'add') {
+                return 'addArticle';
+            }
+        if (Router.current().route.getName() == 'edit') {
+            return 'updateArticle';
+        }
+    },
+    schemaTarget: function () {
+        if (Router.current().route.getName() == 'edit') {
+            if (allowedUpdateTime(Articles.findOne(Router.current().params.id).createdAt))
+                return "ArticleSchema";
+            else return "updateSchema";
+        }
+        return 'updateSchema'
         }
         ,
         thisArticle: function () {
@@ -118,11 +146,22 @@ Template.add.helpers(
                 return Articles.findOne({_id: Router.current().params.id});
             }
             // to get the article from collection to display it
-        }
-        ,
-        insert: function () {
+        },
+    thisBody: function () {
+        return Articles.findOne({articleId: this._id}).body;
+    },
+    privateContributing: function () {
+        return AutoForm.getFieldValue('contributingPermissions', 'addText') == 1;
+    },
+    privateReading: function () {
+        return AutoForm.getFieldValue('readingPermissions', 'addText') == 1;
+    },
+    addOperation: function () {
             return (Router.current().route.getName() == 'add');
             // return true if we are in insert operation
+    },
+    updateOperation: function () {
+        return (Router.current().route.getName() == 'edit');
         }
         ,
         saveButton: function () {
@@ -146,20 +185,16 @@ Template.add.helpers(
             return {placeholder: arabicMessages.contributingIdsLabel};
         },
         canAddExtension: function () {
-            if (!allowedUpdateTime(this.createdAt)) {
-                if (articleTexts.find({articleId: this._id}).count() == 0) {
-                    return true;
-                }
-                if (!allowedUpdateTime(articleTexts.findOne({articleId: this._id}, {sort: {createdAt: -1}}).createdAt)) {
-                    return true;
-                }
-                return false;
+            if (!allowedUpdateTime(articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}}).createdAtText)) {
+                return true;
             }
+            return false;
+
         },
         lastExtensionUpdate: function () {
-            var extension = articleTexts.findOne({articleId: this._id}, {sort: {createdAt: -1}});
-            if (extension && allowedUpdateTime(extension.createdAt))
-                return extension;
+            var text = articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}});
+            if (text && allowedUpdateTime(text.createdAtText))
+                return text;
         }
 
     }
@@ -180,46 +215,22 @@ Template.autoForm.onRendered(function () {
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();
         $('.panel').css('margin-bottom', '5px');
-        if (this.data.type == 'update') {
-            {
-                if (Router.current().route.getName() == 'edit') {
-                    //noinspection JSUnresolvedVariable
-                    $('#contributingPermissions').val(this.data.doc.contributingPermissions);
-                }
-                //noinspection JSUnresolvedVariable
-                if (this.data.doc.contributingPermissions == 1) {
-                    //noinspection JSUnresolvedVariable
-                    $('#readingPermissions').val(this.data.doc.readingPermissions);
-                    $('#readingDiv').show();
-
-                }
-                else {
-                    $('#readingDiv').hide() // here contributing permissions is public so the reading is already public
-
-                }
-            }
-        }
-        else if (this.data.type == 'insert') {
+        if (Router.current().route.getName() == 'add') {
             $('div [contenteditable=true]').html('<br>')
-            $('#readingDiv').hide(); // in some of cases readingDiv still appear event the contributing
-            // permissions is public
-
-
         }
+        if (Router.current().route.getName() == 'edit') {
+            $('.alert').remove();
+            $('.panel').css('margin-bottom', '5px');
+            $('#contributingPermissions').val(this.data.doc.contributingPermissions)
+            $('#readingPermissions').val(this.data.doc.readingPermissions)
+        }
+
     }
-    if (this.data.id == 'updatePermissionsForm') {
+    if (this.data.id == 'updateArticles' || this.data.id == 'updatePermissionsForm') {
         $('.alert').remove();
-        $('#contributingPermissions').val(this.data.doc.contributingPermissions);
-        if (this.data.doc.contributingPermissions == 1) {
-            //noinspection JSUnresolvedVariable
-            $('#readingPermissions').val(this.data.doc.readingPermissions);
-            $('#readingDiv').show();
-
-        }
-        else {
-
-            $('#readingDiv').hide();// here contributing permissions is public so the reading is already public
-        }
+        $('.panel').css('margin-bottom', '5px');
+        $('#contributingPermissions').val(this.data.doc.contributingPermissions)
+        $('#readingPermissions').val(this.data.doc.readingPermissions)
     }
     //after a bug founded in autoform ... in readingPermissions field or contributingPermissions field we get wrong value
     // from the doc (always return 0 value) ... so it's a rendering problem in autoform

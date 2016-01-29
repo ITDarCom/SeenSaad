@@ -7,14 +7,13 @@ Template.article.helpers({
         // used to get the article from db to display it
     },
     canEdit: function () {
-        return ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000));
+        return ((new Date()).getTime() - this.createdAt.getTime()) < (3600 * 1000);
     },
     allowedTime: function () {
-        if ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000)) {
-            var count = (600 - parseInt(((new Date()).getTime() - this.createdAt.getTime()) / 1000));
-
+        var createdTime = articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}}).createdAtText.getTime();
+        if ((new Date()).getTime() - createdTime < (3600 * 1000)) {
+            var count = (3600 - parseInt(((new Date()).getTime() - createdTime)) / 1000);
             var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-
             function timer() {
                 count = count - 1;
                 if (count <= 0) {
@@ -23,12 +22,12 @@ Template.article.helpers({
                     $('.edit').removeClass('btn-warning').addClass('btn-default');
                     return;
                 }
-                $('#editCounter').text(count);
+                $('#editCounter').text(parseInt(count / 60) + ' د');
             }
-
-            //Session.set('editCounter', (600 - parseInt(((new Date()).getTime() - this.createdAt.getTime()) / 1000)));
-            //$('#editCounter').text(Session.get('editCounter'));
-            //return Session.get('editCounter');
+        }
+        else {
+            clearInterval(counter);
+            return false;
         }
     },
     allowContributing: function () {  // check if the user is authenticated to commenting
@@ -125,4 +124,3 @@ Template.comments.events({
         }
     }
 })
-
