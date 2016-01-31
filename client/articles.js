@@ -150,7 +150,10 @@ Template.articleView.helpers({
         })
     },
     canEdit: function () {
-        return ((new Date()).getTime() - this.createdAt.getTime() < (600 * 1000));
+        return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));
+    },
+    lastupdate: function () {
+
     }
 });
 Template.articleView.events({
@@ -160,19 +163,17 @@ Template.articleView.events({
 
 });
 
-Template.articleExtensions.helpers({
-    articleExtensions: function () {
-        return articlesExtension.find({articleId: this._id});
+Template.articleTexts.helpers({
+    articleTexts: function () {
+        return articleTexts.find({articleId: this._id});
     },
     hasExtensions: function () {
-        return articlesExtension.find({articleId: this._id}).count() > 0
+        return articleTexts.find({articleId: this._id}).count() > 0
     },
     cannotUpdate: function () {
-        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAt)) {
+        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAtText)) {
             return false;
         }
         return true
-
-
     }
 });

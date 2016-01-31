@@ -95,9 +95,6 @@ Meteor.publish("Article", function (articleId) {
             }
     }
 });
-Meteor.publish('articleExtensions', function (articleId) {
-    return articlesExtension.find({articleId: articleId});
-});
 Meteor.publish(null, function () {
     return Meteor.users.find({}, {fields: {username: 1}});
 //TODO is maybe a big problem >> to send all usernames to non-user >> even to user
