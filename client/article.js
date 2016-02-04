@@ -2,6 +2,9 @@
  * Created by omar on 9/19/15.
  */
 Template.article.helpers({
+    bodyText: function () {
+        return this.body.slice(0, this.body.indexOf('<div'));
+    },
     thisArticle: function () { //get the user object to display it on the template
         return Articles.findOne(Router.current().params.id);
         // used to get the article from db to display it
@@ -10,10 +13,10 @@ Template.article.helpers({
         return ((new Date()).getTime() - this.createdAt.getTime()) < (3600 * 1000);
     },
     allowedTime: function () {
-        var createdTime = articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}}).createdAtText.getTime();
+        var createdTime = Articles.findOne(this._id).createdAt;
         if ((new Date()).getTime() - createdTime < (3600 * 1000)) {
             var count = (3600 - parseInt(((new Date()).getTime() - createdTime)) / 1000);
-            var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+            var counter = setInterval(timer, 3000); //1000 will  run it every 1 second
             function timer() {
                 count = count - 1;
                 if (count <= 0) {
@@ -123,4 +126,46 @@ Template.comments.events({
             })
         }
     }
-})
+});
+Template.additions.helpers({
+    additions: function (id) {
+        var article = Articles.findOne(id);
+        var additions = Addition.getAdditions(article.body);
+        var data = [];
+        additions.forEach(function (s, index) {
+            var createdAt = new Date(Addition.date(s));
+            var text = Addition.getText(s);
+            data.push({
+                createdAt: createdAt,
+                text: text,
+                id: index
+            })
+        });
+        return data;
+    },
+    owner: function () {
+        return Template.parentData(2).user === Meteor.userId();
+    }
+});
+
+Template.additions.events({
+    'mouseenter .well': function (event) {
+        $(event.target).find('.removeAddition').show()
+    },
+    'mouseleave .well': function (event) {
+        $(event.target).find('.removeAddition').hide()
+    },
+    'click .removeAddition': function (event) {
+        if (Template.parentData(1).user === Meteor.userId())
+            Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
+                if (!err) {
+                }
+            })
+        return;
+    }
+
+});
+
+Template.additions.onRendered(function () {
+    $('.removeAddition').hide();
+});

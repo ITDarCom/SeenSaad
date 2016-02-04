@@ -2,32 +2,6 @@
 AutoForm.debug();
 AutoForm.hooks( // Callbacks invoked after submit the autoform
     {
-        updatePermissionsForm: {
-            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
-                if (formType == 'insert') {
-                    Meteor.call('permissionDeploy', result);
-                    Router.go('global', {id: result});
-                    $('.alert').hide();
-                    Session.set('alert', 'addSuccessfully');
-                    //$('.bodyContainer').prepend('<div class="alert addSuccess alert-success"><a class="close"' +
-                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.addSuccessfully + '</span></div>')
-                }
-                if (formType == 'method-update') { // after submitting an edit for article we look if we have changes
-                    // in permissions field
-                    //Router.go('global', {id: this.docId});
-                    //Meteor.call('permissionDeploy', this.docId );
-                    //var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
-                    //var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
-                    //Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
-                    Router.go('global', {id: this.docId});
-                    $('.alert').hide();
-                    Session.set('alert', 'editSuccessfully');
-                    //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
-                    //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
-                }
-            },
-
-        },
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
                 if (formType == 'method') {
@@ -120,10 +94,6 @@ Template.add.helpers({
             }
 
         },
-    getCurrentValue: function (field) {
-        AutoForm.getFieldValue(field)
-    }
-    ,
     mehtodTarget: function () {
             if (Router.current().route.getName() == 'add') {
                 return 'addArticle';
@@ -147,23 +117,6 @@ Template.add.helpers({
             }
             // to get the article from collection to display it
         },
-    thisBody: function () {
-        return Articles.findOne({articleId: this._id}).body;
-    },
-    privateContributing: function () {
-        return AutoForm.getFieldValue('contributingPermissions', 'addText') == 1;
-    },
-    privateReading: function () {
-        return AutoForm.getFieldValue('readingPermissions', 'addText') == 1;
-    },
-    addOperation: function () {
-            return (Router.current().route.getName() == 'add');
-            // return true if we are in insert operation
-    },
-    updateOperation: function () {
-        return (Router.current().route.getName() == 'edit');
-        }
-        ,
         saveButton: function () {
             if (Router.current().route.getName() == 'edit') {
                 return arabicMessages.editButtonLabel;
@@ -184,17 +137,12 @@ Template.add.helpers({
         s2Opts: function () {
             return {placeholder: arabicMessages.contributingIdsLabel};
         },
-        canAddExtension: function () {
-            if (!allowedUpdateTime(articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}}).createdAtText)) {
-                return true;
+    lastAddition: function () {
+        var article = Articles.findOne(registerHelpers.currentId());
+        lastAddition = article.body.substring(article.body.lastIndexOf('<div'), article.body.length);
+        if (allowedUpdateTime(Addition.date(lastAddition), true)) {
+            return Addition.getText(lastAddition)
             }
-            return false;
-
-        },
-        lastExtensionUpdate: function () {
-            var text = articleTexts.findOne({articleId: this._id}, {sort: {createdAtText: -1}});
-            if (text && allowedUpdateTime(text.createdAtText))
-                return text;
         }
 
     }
