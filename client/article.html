@@ -49,7 +49,8 @@
                             </div>
                         </div>
                         <div class='panel-body'>
-                            {{{body}}}
+                            {{{bodyText}}}
+                            {{> additions data=_id }}
                         </div>
                     </div>
                     {{> comments data=this._id}}
@@ -97,6 +98,18 @@
                 <hr>
                 {{{nl2br commentText}}}
             </div>
+        </div>
+    {{/each}}
+</template>
+
+<template name="additions">
+    {{#each additions data}}
+        <div class="well">{{{text}}}
+            <div class="pull-left">{{#if owner}}
+                <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
+                    <i class='fa fa-trash'></i>
+                </button>{{/if}}
+                {{>Time data=createdAt}}</div>
         </div>
     {{/each}}
 </template>
