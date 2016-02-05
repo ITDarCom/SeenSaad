@@ -117,6 +117,12 @@ Template.add.helpers({
             }
             // to get the article from collection to display it
         },
+    bodyText: function () {
+        if (Router.current().route.getName() == 'edit') {
+            var article = Articles.findOne({_id: Router.current().params.id});
+            return article.body.slice(0, article.body.indexOf('<div'));
+        }
+    },
         saveButton: function () {
             if (Router.current().route.getName() == 'edit') {
                 return arabicMessages.editButtonLabel;

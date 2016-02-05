@@ -28,7 +28,7 @@ Template.articles.helpers({
                         return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
                     break;
                 case "home" :
-                    return Articles.find({}, {sort: {createdAt: -1}});
+                    return Articles.find({}, {sort: {generalDate: -1}});
                 case "profile" :
                     if (Router.current().params.id)
                         return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
@@ -132,22 +132,6 @@ Template.articleView.helpers({
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
         }
 
-    },
-    commentsCounter: function () {
-        Meteor.call('commentsCounter', this._id, function (err, result) {
-            if (!err) {
-                if (result) {
-                    var className = '.commentsCounter' + result[1];
-                    if (result[0] && result[0] != 0) {
-                        $(className).text(result[0]);
-                    }
-                    else {
-                        $(className).parent().remove()
-                    }
-                }
-
-            }
-        })
     },
     canEdit: function () {
         return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));

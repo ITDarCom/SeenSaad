@@ -3,7 +3,7 @@
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
+                <div class="navbar-header ">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
 							data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 						<span class="sr-only">Toggle navigation</span>
@@ -17,19 +17,29 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav nav-pills">
-						<li><a href="{{pathFor 'search'}}"><span class="glyphicon glyphicon-search"
-																 aria-hidden="true"></span></a></li>
-						<li><a href="{{pathFor 'read'}}">{{getArabicMsg "headers.read"}}<span
+                        <li class="{{#if isActive 'search'}}active{{/if}}"><a href="{{pathFor 'search'}}"><span
+                                class="glyphicon glyphicon-search"
+                                aria-hidden="true"></span></a></li>
+                        <li class="{{#if isActive 'read'}}active{{/if}}"><a
+                                href="{{pathFor 'read'}}">{{getArabicMsg "headers.read"}}<span
 								class="badge alert-danger ">{{unread 0}}</span></a></li>
-						<li><a href="{{pathFor 'participation'}}">{{getArabicMsg "headers.participation"}}<span
+                        <li class="{{#if isActive 'participation'}}active{{/if}}"><a
+                                href="{{pathFor 'participation'}}">{{getArabicMsg "headers.participation"}}<span
 								class="badge alert-danger">{{unread 1}}</span> </a></li>
-						<li><a href="{{pathFor 'favorite'}}">{{getArabicMsg "headers.favorite"}}</a></li>
-						<li><a href="{{pathFor 'mine'}}">{{getArabicMsg "headers.mine"}}</a></li>
-						<li><a href="{{pathFor 'add'}}">{{getArabicMsg "headers.add"}}</a></li>
-                        <li><a href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}<span
+                        <li class="{{#if isActive 'favorite'}}active{{/if}}"><a
+                                href="{{pathFor 'favorite'}}">{{getArabicMsg "headers.favorite"}}</a></li>
+                        <li class="{{#if isActive 'mine'}}active{{/if}}"><a
+                                href="{{pathFor 'mine'}}">{{getArabicMsg "headers.mine"}}</a></li>
+                        <li class="{{#if isActive 'add'}}active{{/if}}"><a
+                                href="{{pathFor 'add'}}">{{getArabicMsg "headers.add"}}</a></li>
+                        <li class="{{#if isActive 'messages'}}active{{/if}}"><a
+                                href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}<span
                                 class="badge alert-danger ">{{unread 2}}</span></a></li>
-						<li><a href="{{pathFor 'about'}}"><i class="fa fa-exclamation-circle fa-lg"></i></a></li>
-					{{#if isAdmin}}	<li><a href="{{pathFor 'admin'}}"><i class="fa fa-cogs fa-lg"></i></a></li>{{/if}}
+                        <li class="{{#if isActive 'about'}}active{{/if}}"><a href="{{pathFor 'about'}}"><i
+                                class="fa fa-exclamation-circle fa-lg"></i></a></li>
+                        {{#if isAdmin}}
+                            <li class="{{#if isActive 'admin'}}active{{/if}}"><a href="{{pathFor 'admin'}}"><i
+                                    class="fa fa-cogs fa-lg"></i></a></li>{{/if}}
 					</ul>
 
 					<ul class="nav navbar-nav navbar-left">
