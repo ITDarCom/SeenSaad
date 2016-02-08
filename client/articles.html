@@ -85,10 +85,11 @@
 <template name='searchResult'>
     <div class='row' id='search-result'>
         <div id='search-meta'>
-            {{#if isLoading}}
-                يبحث ...
+            {{#if loading}}
+                <h1> يبحث ... </h1>
             {{/if}}
         </div>
+
         {{#each getArticles}}
             {{> articleView}}
         {{/each}}

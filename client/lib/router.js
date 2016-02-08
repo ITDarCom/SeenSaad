@@ -27,7 +27,7 @@ Router.map(function () {
                 Router.go('home');
         },
         waitOn: function () {
-            Meteor.subscribe('message_counts')
+            return Meteor.subscribe('message_counts')
         }
     });
     this.route('profile', {
@@ -45,8 +45,8 @@ Router.map(function () {
                 this.render('signIn')
             }
         }, waitOn: function () {
-            Meteor.subscribe('specificUser', this.params.id);
-            Meteor.subscribe('specificUserArticles', this.params.id);
+            return [Meteor.subscribe('specificUser', this.params.id),
+                Meteor.subscribe('specificUserArticles', this.params.id)];
         }
     });
     this.route('resetPasswd', {
@@ -85,23 +85,23 @@ Router.map(function () {
     this.route('me', {path: '/profile', template: 'profile'});
     this.route('home', {
         path: '/', template: 'articles', waitOn: function () {
-            Meteor.subscribe('articles', Session.get('itemsLimit'));
+            return Meteor.subscribe('articles', Session.get('itemsLimit'));
         }
     });
     this.route('search', {path: '/search'});
     this.route('read', {
         path: '/read', template: 'articles', waitOn: function () {
-            Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+            return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
         }
     });
     this.route('participation', {
         path: '/participation', template: 'articles', waitOn: function () {
-            Meteor.subscribe('contribution', Session.get('itemsLimit'));
+            return Meteor.subscribe('contribution', Session.get('itemsLimit'));
         }
     });
     this.route('favorite', {
         path: '/favorite', template: 'articles', waitOn: function () {
-            Meteor.subscribe('favorites', Session.get('itemsLimit'));
+            return Meteor.subscribe('favorites', Session.get('itemsLimit'));
         }
     });
     this.route('mine', {
@@ -113,8 +113,9 @@ Router.map(function () {
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
-            Meteor.subscribe("Article", this.params.id);
-            Meteor.subscribe('articleExtensions', this.params.id);
+            return [
+                Meteor.subscribe("Article", this.params.id),
+                Meteor.subscribe('articleExtensions', this.params.id)];
         }
     });
     this.route('add', {
@@ -137,7 +138,10 @@ Router.map(function () {
     });
     this.route('messageStream', {path: '/messageStream/:id'});
     this.route('global', {
-        path: '/:id', onBeforeAction: function () {
+        path: '/:id', data: function () {
+            return Articles.findOne(this.params.id);
+        },
+        action: function () {
             if (Articles.findOne(this.params.id)) {
                 Session.set('urlType', 'article');
                 this.render('article');
@@ -147,8 +151,9 @@ Router.map(function () {
             }
         },
         waitOn: function () {
-            Meteor.subscribe("Article", this.params.id);
-            Meteor.subscribe('comments', this.params.id);
+            return [
+                Meteor.subscribe("Article", this.params.id),
+                Meteor.subscribe('comments', this.params.id)];
         }
     });
     this.route("notFound", {

@@ -79,7 +79,8 @@ Template.articles.events({
 });
 Template.searchResult.helpers({
     getArticles: function () {
-        //noinspection JSUnusedGlobalSymbols
+        //noinspection JSUnusedGlobalSymbolscon
+
         return articlesSearch.getData({
             transform: function (matchText, regExp) {
                 return matchText.replace(regExp, "<b>$&</b>")
@@ -87,13 +88,17 @@ Template.searchResult.helpers({
             sort: {createdAt: -1}
         });
     }
+
 });
 Template.searchBox.events({
     "keyup #search-box": _.throttle(function (e) {
+
         var text = $(e.target).val().trim();
-        if (text)
+        {
             articlesSearch.search(text);
-    }, 200)
+        }
+
+    }, 1000)
 });
 Template.search.helpers({
     loading: function () {
