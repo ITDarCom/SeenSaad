@@ -9,7 +9,9 @@ Meteor.publish('favorites', function (limit) {
                     createdAt: 1,
                     user: 1,
                     read: 1,
-                    readingPermissions: 1
+                    readingPermissions: 1,
+                    commentsCounter: 1,
+                    generalDate: 1
                 },
                 limit: limit || 5
             });
@@ -32,7 +34,9 @@ Meteor.publish('readArticles', function (limit) {
                     createdAt: 1,
                     user: 1,
                     read: 1,
-                    readingPermissions: 1
+                    readingPermissions: 1,
+                    commentsCounter: 1,
+                    generalDate: 1
                 },
                 limit: limit || 5,
             });
@@ -52,7 +56,9 @@ Meteor.publish('contribution', function (limit) {
                     createdAt: 1,
                     user: 1,
                     contributingPermissions: 1,
-                    readingPermissions: 1
+                    readingPermissions: 1,
+                    commentsCounter: 1,
+                    generalDate: 1
                 },
                 limit: limit || 5,
                 sort: {createdAt: -1}
@@ -169,9 +175,11 @@ Meteor.publish('articles', function (limit) {
             createdAt: 1,
             user: 1,
             read: 1,
-            readingPermissions: 1
+            readingPermissions: 1,
+            commentsCounter: 1,
+            generalDate: 1
         },
-        sort: {createdAt: -1},
+        sort: {generalDate: -1},
         limit: limit || 5
     });
 });

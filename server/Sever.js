@@ -46,3 +46,12 @@ registerHelpers = {
         }
     }
 }
+
+Meteor.startup(function () {
+    Articles.find().forEach(function (a) {
+        if (!a.generalDate) {
+            a.generalDate = a.createdAt;
+            Articles.update({_id: a._id}, {$set: a})
+        }
+    })
+});

@@ -13,7 +13,9 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="fa fa-lock"></i> محتوى مغلق لا يمكن تعديله</div>
                             <div class="panel-body">
-                                {{{thisBody}}}
+                                {{{bodyText}}}
+                                <hr>
+                                {{> additions data= currentId}}
                             </div>
                         </div>
                         {{> afQuickField name='addition' label=false value=lastAddition}}

@@ -37,7 +37,7 @@
                     <a href="{{pathFor 'profile' id=this.user}}">{{userUsername user}}</a>
                 </div>
                 <div class='col-md-4'>
-                    <span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=createdAt}}
+                    <span class='glyphicon glyphicon-time' aria-hidden='true'></span> {{> Time data=generalDate}}
                 </div>
                 <div class='col-xs-12 col-md-3'>
                     <span><i class='fa fa-eye' title='{{getArabicMsg "readLabel"}}'></i> {{read}}</span>
@@ -85,10 +85,11 @@
 <template name='searchResult'>
     <div class='row' id='search-result'>
         <div id='search-meta'>
-            {{#if isLoading}}
-                يبحث ...
+            {{#if loading}}
+                <h1> يبحث ... </h1>
             {{/if}}
         </div>
+
         {{#each getArticles}}
             {{> articleView}}
         {{/each}}

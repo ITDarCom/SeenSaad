@@ -27,7 +27,7 @@
                                     {{/if}}
                                     &nbsp; &nbsp;
                                 <span><i title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i>
-                                    {{commentCounter}}</span>
+                                    {{commentsCounter}}</span>
                                 </div>
                                 <div class='col-md-3 text-left'>
                                     {{#if owner}}
@@ -50,6 +50,7 @@
                         </div>
                         <div class='panel-body'>
                             {{{bodyText}}}
+                            <hr>
                             {{> additions data=_id }}
                         </div>
                     </div>
@@ -111,5 +112,6 @@
                 </button>{{/if}}
                 {{>Time data=createdAt}}</div>
         </div>
+        <hr>
     {{/each}}
 </template>

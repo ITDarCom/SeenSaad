@@ -7,6 +7,11 @@ Template.layout.events({
         Router.go('signIn');
     }
 });
+Template.layout.helpers({
+    isActive: function (id) {
+        return Router.current().route.getName() == id;
+    }
+});
 //noinspection JSUnusedGlobalSymbols
 Template.headerText.helpers({
     headerText: function () {

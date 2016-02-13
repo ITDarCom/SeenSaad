@@ -12,27 +12,6 @@ Template.article.helpers({
     canEdit: function () {
         return ((new Date()).getTime() - this.createdAt.getTime()) < (3600 * 1000);
     },
-    allowedTime: function () {
-        var createdTime = Articles.findOne(this._id).createdAt;
-        if ((new Date()).getTime() - createdTime < (3600 * 1000)) {
-            var count = (3600 - parseInt(((new Date()).getTime() - createdTime)) / 1000);
-            var counter = setInterval(timer, 3000); //1000 will  run it every 1 second
-            function timer() {
-                count = count - 1;
-                if (count <= 0) {
-                    clearInterval(counter);
-                    $('#editCounter').text(0);
-                    $('.edit').removeClass('btn-warning').addClass('btn-default');
-                    return;
-                }
-                $('#editCounter').text(parseInt(count / 60) + ' د');
-            }
-        }
-        else {
-            clearInterval(counter);
-            return false;
-        }
-    },
     allowContributing: function () {  // check if the user is authenticated to commenting
         //this refer to this article that is displayed
         if (Meteor.userId()) {
@@ -132,16 +111,18 @@ Template.additions.helpers({
         var article = Articles.findOne(id);
         var additions = Addition.getAdditions(article.body);
         var data = [];
-        additions.forEach(function (s, index) {
-            var createdAt = new Date(Addition.date(s));
-            var text = Addition.getText(s);
-            data.push({
-                createdAt: createdAt,
-                text: text,
-                id: index
-            })
-        });
-        return data;
+        if (additions) {
+            additions.forEach(function (s, index) {
+                var createdAt = new Date(Addition.date(s));
+                var text = Addition.getText(s);
+                data.push({
+                    createdAt: createdAt,
+                    text: text,
+                    id: index
+                })
+            });
+            return data;
+        }
     },
     owner: function () {
         return Template.parentData(2).user === Meteor.userId();
@@ -157,11 +138,14 @@ Template.additions.events({
     },
     'click .removeAddition': function (event) {
         if (Template.parentData(1).user === Meteor.userId())
+            if (confirm(arabicMessages.additionDeleteConfirm)) {
             Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
                 if (!err) {
+                    Session.set('alert', 'deleteSuccessfully')
                 }
             })
-        return;
+            }
+
     }
 
 });
