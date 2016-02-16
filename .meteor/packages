@@ -10,8 +10,7 @@ momentjs:moment
 aldeed:collection2
 fortawesome:fontawesome
 mpowaga:autoform-summernote
-aldeed:autoform-select2
-natestrauser:select2@3.5.1
+
 zimme:select2-bootstrap3-css
 aldeed:autoform
 matteodem:easy-search
@@ -43,3 +42,6 @@ dburles:collection-helpers
 rajit:bootstrap3-datepicker
 meteorhacks:npm
 npm-container
+ajduke:bootstrap-tagsinput
+http
+natestrauser:select2

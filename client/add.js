@@ -1,5 +1,4 @@
 //noinspection JSUnusedGlobalSymbols
-AutoForm.debug();
 AutoForm.hooks( // Callbacks invoked after submit the autoform
     {
         addUpdateArticles: {
@@ -145,12 +144,11 @@ Template.add.helpers({
         },
     lastAddition: function () {
         var article = Articles.findOne(registerHelpers.currentId());
-        lastAddition = article.body.substring(article.body.lastIndexOf('<div'), article.body.length);
+        var lastAddition = article.body.substring(article.body.lastIndexOf('<div'), article.body.length);
         if (allowedUpdateTime(Addition.date(lastAddition), true)) {
             return Addition.getText(lastAddition)
             }
         }
-
     }
 );
 Template.add.events({

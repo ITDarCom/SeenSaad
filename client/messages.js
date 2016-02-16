@@ -3,19 +3,21 @@
  */
 //noinspection JSUnusedGlobalSymbols
 Template.messages.helpers({
-    senders: function () { 
+    senders: function () {
         var me = Meteor.userId();
         var contacts = [];
         Messages.find({$or: [{to: Meteor.userId()}, {from: me}]}, {fields: {to: 1, from: 1, sendingAt: 1}},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
-                contacts.push({id:e.from , sendingAt: e.sendingAt});
+                contacts.push({id: e.from, sendingAt: e.sendingAt});
             }
             else {
-                contacts.push({id:e.to , sendingAt: e.sendingAt});
+                contacts.push({id: e.to, sendingAt: e.sendingAt});
             }
         });
-        return _.sortBy(_.uniq(contacts,false,function (c) {return c.id}),'sendingAt').reverse();
+        return _.sortBy(_.uniq(contacts, false, function (c) {
+            return c.id
+        }), 'sendingAt').reverse();
     },
     lastMessage: function () {
         var message = Messages.find({$or: [{to: this.id.toString()}, {from: this.id.toString()}]}, {
@@ -95,4 +97,57 @@ Template.messages.events({
 });
 Template.messages.onRendered(function () {
     $('.select2-chosen').text(arabicMessages.messageToLabel);
+});
+
+
+Template.afQuickField.onRendered(function () {
+
+    if (this.data.name == 'to') {
+        $("#to").select2({
+            ajax: {
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        q: params
+                    };
+                },
+                results: function (data, params) {
+                    var results = [];
+                    _.each(data.results, function (result) {
+                        if (result._id != Meteor.userId())
+                            results.push({
+                                id: result._id,
+                                text: result.username
+                            });
+                    });
+                    return {
+                        results: results
+                    };
+
+                },
+                transport: function (params, success, failure) {
+                    Meteor.call('usernamesSearch', params.data.q, function (err, results) {
+                        if (err) {
+                            params.failure(err);
+                            return;
+                        }
+
+                        params.success(results);
+                    });
+                }
+
+            },
+            minimumInputLength: 1,
+            language: 'ar',
+            minimumInputLength: 2,
+            minimumResultsForSearch: 10,
+        })
+    }
+});
+AutoForm.hooks({
+    sendMsg: {
+        onSuccess: function () {
+            $('.select2-chosen').text('إلى')
+        }
+    }
 });

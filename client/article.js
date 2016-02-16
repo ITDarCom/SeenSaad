@@ -125,7 +125,9 @@ Template.additions.helpers({
         }
     },
     owner: function () {
-        return Template.parentData(2).user === Meteor.userId();
+        if (Template.parentData(2)) {
+            return (Template.parentData(2).user === Meteor.userId());
+        }
     }
 });
 
