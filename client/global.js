@@ -139,20 +139,172 @@ Template.registerHelper("unread", registerHelpers.unread);
 //====================================//
 moment.locale('ar_sa'); // arabic language for momentJs
 T9n.setLanguage('ar');
+//$.fn.select2.defaults.set('language', 'ar');
 Template.afQuickField.onRendered(function () {
     if (this.data.name == 'readingIds') {
-        $('#readingIds').find('.select2-choices').append('<li class="select2-search-choice ' +
+
+        $('#readingIds').select2({
+            initSelection: function (element, callback) {
+                var data = [];
+                $(element.val().split(",")).each(function () {
+                    data.push({id: this, text: Meteor.users.findOne(this.toString()).username});
+                });
+                //data.push({
+                //    id: '1',
+                //    text:arabicMessages.readingIdsPlaceHolder
+                //});
+                callback(data);
+            },
+            ajax: {
+
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        q: params
+                    };
+                },
+                results: function (data, params) {
+                    var results = [];
+                    _.each(data.results, function (result) {
+                        if (result._id != Meteor.userId())
+                            results.push({
+                                id: result._id,
+                                text: result.username
+                            });
+                    });
+
+                    return {
+                        results: results
+                    };
+                },
+                transport: function (params, success, failure) {
+                    Meteor.call('usernamesSearch', params.data.q, function (err, results) {
+                        if (err) {
+                            params.failure(err);
+                            return;
+                        }
+                        params.success(results);
+                    });
+                }
+            },
+            minimumInputLength: 1,
+            //tags: true,
+            multiple: true,
+            language: 'ar',
+            //tokenSeparators: [',', ' '],
+            minimumInputLength: 2,
+            minimumResultsForSearch: 10,
+        });
+
+        //$('#readingIds').tagsinput()
+        $('#s2id_readingIds').find('.select2-choices').append('<li class="select2-search-choice ' +
             'pull-right select2PlaceHolder">' +
             ' <div>' + arabicMessages.readingIdsPlaceHolder + '</div>  </li>');
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)))
     }
     if (this.data.name == 'contributingIds') {
+        $('#contributingIds').select2({
+            initSelection: function (element, callback) {
+                var data = [];
+                $(element.val().split(",")).each(function () {
+                    data.push({id: this, text: Meteor.users.findOne(this.toString()).username});
+                });
+
+                if (data != []) {
+                    callback(data);
+                }
+            },
+            ajax: {
+
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        q: params
+                    };
+                }
+
+                ,
+                results: function (data, params) {
+                    var results = [];
+                    _.each(data.results, function (result) {
+                        if (result._id != Meteor.userId())
+                            results.push({
+                                id: result._id,
+                                text: result.username
+                            });
+                    });
+
+                    return {
+                        results: results
+                    };
+
+                }
+                ,
+                transport: function (params, success, failure) {
+                    Meteor.call('usernamesSearch', params.data.q, function (err, results) {
+                        if (err) {
+                            params.failure(err);
+                            return;
+                        }
+
+                        params.success(results);
+                    });
+                }
+
+            }
+            ,
+            minimumInputLength: 1,
+
+            //tags: true,
+            multiple: true,
+            language: 'ar',
+            //tokenSeparators: [',', ' '],
+            minimumInputLength: 2,
+            minimumResultsForSearch: 10,
+
+
+        });
+
         $('.select2-container').css('margin-top', ($('.control-label').outerHeight(true)));
     }
     if (this.data.name == 'gender.value') {
         $('.radio').each(function () {
-            $(this).prependTo(this.parentNode); // reverse radio button hidden and showf
+            $(this).prependTo(this.parentNode); // reverse radio button hidden and show
         });
     }
 
 });
+$.fn.select2.locales['ar'] = {
+    formatMatches: function (matches) {
+        if (matches === 1) {
+            return "يوجد نتيجة واحدة فقط .. اضفط enter  لاختيارها ";
+        }
+        return matches +
+            " نتيجة تم العثور عليها, استخدم الأسهم فوق وتحت لاختيار طلبك.";
+    },
+    formatNoMatches: function () {
+        return "لا يوجد اسم يوافق هذا البحث";
+    },
+    formatAjaxError: function (jqXHR, textStatus, errorThrown) {
+        return "فشل التحميل";
+    },
+    formatInputTooShort: function (input, min) {
+        var n = min - input.length;
+        return "اكتب اسم المستخدم "
+    },
+    formatInputTooLong: function (input, max) {
+        var n = input.length - max;
+        return "Please delete " + n + " character" + (n == 1 ? "" : "s");
+    },
+    formatSelectionTooBig: function (limit) {
+        return "You can only select " + limit + " item" + (limit == 1 ? "" : "s");
+    },
+    formatLoadMore: function (pageNumber) {
+        return "تحميل المزيد";
+    },
+    formatSearching: function () {
+        return "يبحث…";
+    },
+};
+
+$.extend($.fn.select2.defaults, $.fn.select2.locales['ar']);

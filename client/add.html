@@ -1,4 +1,5 @@
 <template name='add'>
+
     {{#if canEdit}}
         <div class='row'>
             <div class='col-md-offset-1 col-md-10'>
@@ -28,8 +29,8 @@
                         </div>
                         {{#if afFieldValueIs name='contributingPermissions' value='1'}}
                             <div class='col-md-10 col-xs-10'>
-                                {{> afQuickField name='contributingIds' label=false options=usersOptions
-                                select2Options=s2Opts }}
+                                {{> afQuickField name='contributingIds' id='contributingIds' type="text"
+                                label=false   }}
                             </div>{{/if}}
                     </div>
                     {{#if afFieldValueIs name="contributingPermissions" value="1"}}
@@ -39,7 +40,7 @@
                                 {{> afQuickField name='readingPermissions' id='readingPermissions'}}</div>
                             {{#if afFieldValueIs name='readingPermissions' value='1'}}
                                 <div class='col-xs-10 col-md-10'>
-                                    {{> afQuickField label=false options=usersOptions name='readingIds' }}</div>
+                                    {{> afQuickField label=false  name='readingIds' id='readingIds' type="text" }}</div>
                             {{/if}}
                         </div>
                     {{/if}}

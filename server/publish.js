@@ -183,3 +183,19 @@ Meteor.publish('articles', function (limit) {
         limit: limit || 5
     });
 });
+Meteor.publish('usernames', function (articleId) {
+    var article = Articles.findOne(articleId);
+    if (article.readingPermissions == 0 || article.contributingPermissions == 0) {
+        return [];
+    }
+    else {
+        if (article.user == this.userId || _.contains(article.contributingIds, this.userId) || _.contains(article.readingIds, this.userId)) {
+            var ids = _.union(article.contributingIds, article.readingIds);
+            if (ids) {
+                return Meteor.users.find({_id: {$in: ids}});
+            }
+        }
+
+    }
+    return [];
+});

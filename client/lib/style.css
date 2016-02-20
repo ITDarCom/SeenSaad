@@ -360,3 +360,9 @@ hr.title {
 .redDiv {
     background-color: #d9534f !important;
 }
+
+.navbar-brand {
+    padding-top: 20%;
+    padding-right: 20%;
+    padding-left: 30%;
+}

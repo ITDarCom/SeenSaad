@@ -113,9 +113,9 @@ Router.map(function () {
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
-            return [
-                Meteor.subscribe("Article", this.params.id),
-                Meteor.subscribe('articleExtensions', this.params.id)];
+            return [Meteor.subscribe("Article", this.params.id),
+                Meteor.subscribe('usernames', this.params.id)
+            ];
         }
     });
     this.route('add', {

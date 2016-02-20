@@ -34,7 +34,7 @@
 					<div class="col-md-offset-1 col-md-10">
 						{{#autoForm collection="Messages" id="sendMsg" type="insert" }}
 						<fieldset>
-							{{> afQuickField name="to" label=false}}
+                            {{> afQuickField name="to" type='text' id="to" label=false}}
 							{{> afQuickField name="message" placeholder=(getArabicMsg "msgBoxPlaceholder")
                             label=false}}
 						</fieldset>
