@@ -52,8 +52,7 @@
                     <button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
                         <i class='fa fa-trash'></i>
                     </button>
-                    <button class='edit btn-xs btn {{#if canEdit}} btn-warning
-                                        {{else}} btn-default{{/if}}' title='{{getArabicMsg "editButtonTitle"}}'>
+                    <button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
                         <i class='fa fa-pencil'></i>
                     </button>
                 {{/if}}
@@ -95,17 +94,7 @@
         {{/each}}
     </div>
 </template>
-<template name="articleTexts">
 
-    {{#each articleTexts}}
-        {{#if cannotUpdate}}
-            {{{text}}}
-            <hr>
-            <div>{{>Time data=createdAtText}}</div>
-        {{/if}}
-    {{/each}}
-
-</template>
 
 
 <template name='Time'>

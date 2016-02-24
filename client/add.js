@@ -32,9 +32,6 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                 Router.go('global', {id: this.docId});
                 $('.alert').hide();
                 Session.set('alert', 'editSuccessfully');
-                //$('.bodyContainer').prepend('<div class="alert updateSuccess alert-success"><a class="close"' +
-                //    ' data-dismiss="alert">×</a><span>' + arabicMessages.editSuccessfully + '</span></div>')
-
             },
             before: {
                 'update': function (doc) {
