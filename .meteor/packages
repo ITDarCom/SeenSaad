@@ -41,7 +41,9 @@ aldeed:tabular
 dburles:collection-helpers
 rajit:bootstrap3-datepicker
 meteorhacks:npm
-npm-container
 ajduke:bootstrap-tagsinput
 http
 natestrauser:select2
+
+
+npm-container

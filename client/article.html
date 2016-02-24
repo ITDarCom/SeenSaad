@@ -18,7 +18,7 @@
                                 </div>
                                 <div class='col-xs-12 col-md-3'>
                                     <span class='glyphicon glyphicon-time'
-                                          aria-hidden='true'></span> {{> Time data=createdAt}}
+                                          aria-hidden='true'></span> {{> Time data=generalDate}}
                                 </div>
                                 <div class='col-xs-12 col-md-3'>
                                     {{#if allowReading}}
@@ -35,8 +35,7 @@
                                                 title='{{getArabicMsg "deleteButtonTitle"}}'>
                                             <i class='fa fa-trash'></i>
                                         </button>
-                                        <button id='editButton' class='edit btn-xs btn{{#if canEdit}} btn-warning
-                                        {{else}} btn-default{{/if}}'
+                                        <button id='editButton' class='edit btn-xs btn btn-warning btn-default'
                                                 title='{{getArabicMsg "editButtonTitle"}}'>
                                             <i class='fa fa-pencil'></i>{{allowedTime}} <span id="editCounter"></span>
                                         </button>
@@ -50,6 +49,11 @@
                         </div>
                         <div class='panel-body'>
                             {{{bodyText}}}
+                            <p class="pull-left">{{#if owner}}
+                                <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
+                                    <i class='fa fa-trash'></i>
+                                </button>{{/if}}
+                                {{>Time data=createdAt}}</p>
                             <hr>
                             {{> additions data=_id }}
                         </div>
@@ -105,7 +109,7 @@
 
 <template name="additions">
     {{#each additions data}}
-        <div class="well">{{{text}}}
+        <div class="addition">{{{text}}}
             <div class="pull-left">{{#if owner}}
                 <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
                     <i class='fa fa-trash'></i>

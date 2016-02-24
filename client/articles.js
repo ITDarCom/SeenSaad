@@ -152,17 +152,3 @@ Template.articleView.events({
 
 });
 
-Template.articleTexts.helpers({
-    articleTexts: function () {
-        return articleTexts.find({articleId: this._id});
-    },
-    hasExtensions: function () {
-        return articleTexts.find({articleId: this._id}).count() > 0
-    },
-    cannotUpdate: function () {
-        if (Router.current().route.getName() == 'edit' && allowedUpdateTime(this.createdAtText)) {
-            return false;
-        }
-        return true
-    }
-});

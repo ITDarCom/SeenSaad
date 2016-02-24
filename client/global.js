@@ -149,14 +149,9 @@ Template.afQuickField.onRendered(function () {
                 $(element.val().split(",")).each(function () {
                     data.push({id: this, text: Meteor.users.findOne(this.toString()).username});
                 });
-                //data.push({
-                //    id: '1',
-                //    text:arabicMessages.readingIdsPlaceHolder
-                //});
                 callback(data);
             },
             ajax: {
-
                 dataType: "json",
                 data: function (params) {
                     return {
@@ -166,7 +161,7 @@ Template.afQuickField.onRendered(function () {
                 results: function (data, params) {
                     var results = [];
                     _.each(data.results, function (result) {
-                        if (result._id != Meteor.userId())
+                        if (result._id != Meteor.userId() && $('#contributingIds').val().indexOf(result._id) == -1)
                             results.push({
                                 id: result._id,
                                 text: result.username
