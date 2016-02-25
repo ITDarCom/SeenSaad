@@ -360,4 +360,7 @@ hr.title {
 .redDiv {
     background-color: #d9534f !important;
 }
-
+ .commentText[contenteditable=true]:focus{
+     outline-style:ridge ;
+     outline-width: thin ;
+ }

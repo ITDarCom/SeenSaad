@@ -76,7 +76,14 @@ Template.chgpasswd.onRendered(function () {
 //noinspection JSUnusedGlobalSymbols
 Template.personalInformation.helpers({
     thisUser: function () {
-        return Meteor.users.findOne(Meteor.userId())
+        var user = Meteor.users.findOne(Meteor.userId())
+        if(user.birthday && user.birthday.date){
+            user.birthday.date = new Date(user.birthday.date).toLocaleDateString();
+        }
+        return user;
+    },
+    birthdayformat: function () {
+        moment(this.birthday.date).format('MMMM Do YYYY');
     }
 });
 Template.personalInformation.onRendered(function () {

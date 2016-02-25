@@ -91,8 +91,13 @@ Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data})
     },
-    owner: function () {
+    articleOwner: function () {
         return (Meteor.userId() && Template.parentData(2).user == Meteor.userId())
+    },
+    canEdit: function () {
+        if (Meteor.userId() && this.commenter == Meteor.userId()) {
+            return (new Date().getTime() - this.createdAt.getTime() < 600 * 1000)
+        }
     }
 });
 Template.comments.events({
@@ -103,6 +108,18 @@ Template.comments.events({
                     alert(arabicMessages.commentDeleteFailed)
                 }
             })
+        }
+    },
+    'click .updateComment': function (event) {
+        $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent()
+            .append("<div class='pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
+                "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
+    },
+    'click .okUpdate': function (event) {
+        var textDiv = $(event.currentTarget).parents('.panel-body').find('.commentText');
+        var text =‌‌textDiv.text().trim();
+        if (text.length < 3) {
+
         }
     }
 });
@@ -141,11 +158,11 @@ Template.additions.events({
     'click .removeAddition': function (event) {
         if (Template.parentData(1).user === Meteor.userId())
             if (confirm(arabicMessages.additionDeleteConfirm)) {
-            Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
-                if (!err) {
-                    Session.set('alert', 'deleteSuccessfully')
-                }
-            })
+                Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
+                    if (!err) {
+                        Session.set('alert', 'deleteSuccessfully')
+                    }
+                })
             }
 
     }
@@ -155,3 +172,7 @@ Template.additions.events({
 Template.additions.onRendered(function () {
     $('.removeAddition').hide();
 });
+//
+//Template.comments.onRendered(function () {
+//    this.data = {test: this.find('div')}
+//})

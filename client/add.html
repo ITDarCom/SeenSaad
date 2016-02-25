@@ -15,6 +15,9 @@
                             <div class="panel-heading"><i class="fa fa-lock"></i> محتوى مغلق لا يمكن تعديله</div>
                             <div class="panel-body">
                                 {{{bodyText}}}
+                                <br>
+                                <p class="pull-left">{{>Time data=createdAt}}</p>
+
                                 <hr>
                                 {{> additions data= currentId}}
                             </div>

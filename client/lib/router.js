@@ -25,9 +25,6 @@ Router.map(function () {
                 this.render('adminPage');
             else
                 Router.go('home');
-        },
-        waitOn: function () {
-            return Meteor.subscribe('message_counts')
         }
     });
     this.route('profile', {
