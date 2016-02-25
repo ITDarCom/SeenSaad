@@ -110,7 +110,7 @@
             {{#autoForm schema='personalInformationSchema'  doc=thisUser collection='Meteor.users' resetOnSuccess=false
             id="updatePersonalInformation" type="update"}}
                 <div class="row">
-                    <div class="col-md-8">{{> afQuickField name="username" label=false placeholder=(getArabicMsg
+                    <div class="col-md-8">{{> afQuickField name="username" label=false  placeholder=(getArabicMsg
                     "usernamePlaceholder") class="input-group" }}</div>
                 </div>
                 <div class="row">
@@ -126,9 +126,10 @@
                     <div class="col-md-4 col-xs-4">{{> afQuickField name="gender.permission"   }} </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-xs-8">{{> afQuickField name="birthday.date" id="birthday" label=false
+                    <div class="col-md-8 col-xs-8">{{> afQuickField name="birthday.date" id="birthday" type="text"
+                    readonly=true value=birthdayformat label=false
                     placeholder=(getArabicMsg "birthdayPlaceholder")}}  </div>
-                    <div class="col-md-4 col-xs-4">{{> afQuickField name="birthday.permission"   }} </div>
+                    <div class="col-md-4 col-xs-4">{{> afQuickField name="birthday.permission"    }} </div>
                 </div>
                 <div class="row">
                     <div class="col-md-8 col-xs-8">{{> afQuickField name="email.address"   label=false

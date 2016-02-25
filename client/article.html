@@ -49,11 +49,9 @@
                         </div>
                         <div class='panel-body'>
                             {{{bodyText}}}
-                            <p class="pull-left">{{#if owner}}
-                                <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
-                                    <i class='fa fa-trash'></i>
-                                </button>{{/if}}
-                                {{>Time data=createdAt}}</p>
+                            <br>
+
+                            <p class="pull-left">{{>Time data=this.createdAt}}</p>
                             <hr>
                             {{> additions data=_id }}
                         </div>
@@ -91,17 +89,24 @@
                     <span class='glyphicon glyphicon-user'
                           aria-hidden='true'></span> {{userUsername commenter}}
                     </div>
-                    <div class="{{#if owner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
+                    <div class="{{#if articleOwner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
                             class='glyphicon glyphicon-time'
                             aria-hidden='true'></span>
                         {{> Time data=createdAt}} </div>
-                    {{#if owner}}
-                        <div class="col-md-2 col-xs-2 text-left">
+                    <div class="col-md-2 col-xs-2 text-left pull-left">
+                        {{#if owner}}
                             <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
-                        </div>{{/if}}
+                        {{/if}}
+                        {{#if canEdit}}
+                            <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-xs btn-warning updateComment"><i class="fa fa-pencil"></i></button>
+
+                        {{/if}}
+                    </div>
                 </div>
                 <hr>
-                {{{nl2br commentText}}}
+                <div class="commentText">
+                    {{{nl2br commentText}}}</div>
             </div>
         </div>
     {{/each}}
@@ -110,6 +115,8 @@
 <template name="additions">
     {{#each additions data}}
         <div class="addition">{{{text}}}
+            <br>
+
             <div class="pull-left">{{#if owner}}
                 <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
                     <i class='fa fa-trash'></i>
