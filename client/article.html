@@ -94,11 +94,13 @@
                             aria-hidden='true'></span>
                         {{> Time data=createdAt}} </div>
                     <div class="col-md-2 col-xs-2 text-left pull-left">
-                        {{#if owner}}
+                        {{#if articleOwner}}
                             <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
                         {{/if}}
                         {{#if canEdit}}
-                            <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                            {{#unless articleOwner}}
+                                <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                            {{/unless}}
                             <button class="btn btn-xs btn-warning updateComment"><i class="fa fa-pencil"></i></button>
 
                         {{/if}}

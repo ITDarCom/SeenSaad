@@ -112,15 +112,30 @@ Template.comments.events({
     },
     'click .updateComment': function (event) {
         $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent()
-            .append("<div class='pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
+            .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
                 "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
     },
     'click .okUpdate': function (event) {
-        var textDiv = $(event.currentTarget).parents('.panel-body').find('.commentText');
-        var text =‌‌textDiv.text().trim();
+        var textDiv = $(event.target).parents('.panel-body').find('.commentText');
+        var text = textDiv.text().trim();
         if (text.length < 3) {
-
+            alert(arabicMessages.commentMinString);
         }
+        else {
+            Meteor.call('updateComment', this._id, text, function (err, result) {
+                if (!err) {
+                    alert(arabicMessages.commentEditedSuccessfully)
+                }
+                else {
+
+                }
+                textDiv.attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
+            });
+        }
+    },
+    'click .NoCancel': function (event) {
+        $(event.target).parents('.panel-body').find('.commentText')
+            .attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
     }
 });
 Template.additions.helpers({
