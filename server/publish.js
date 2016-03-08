@@ -114,7 +114,9 @@ Meteor.publish(null, function () {
 //TODO is maybe a big problem >> to send all usernames to non-user >> even to user
 });
 Meteor.publish(null, function () {
-    return Meteor.users.find({_id: this.userId})
+    if (this.userId) {
+        return Meteor.users.find({_id: this.userId})
+    }
 });
 Meteor.publish('specificUser', function (userId) {
     var user = Meteor.users.findOne(userId);

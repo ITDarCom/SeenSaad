@@ -1,7 +1,6 @@
 Template.articles.helpers({
     articles: function () {
         var custom;
-        Session.set("itemsLimit", 5);
         if (Meteor.userId()) {
             $('.alert').hide();
             switch (Router.current().route.getName()) {
@@ -47,6 +46,7 @@ Template.articles.helpers({
     hasMore: function () {
         // If, once the subscription is ready, we have less rows than we
         // asked for, we've got all the rows in the collection.
+            Session.setDefault('itemsLimit', 5);
         return (Session.get('itemsLimit') && !(Articles.find().count() < Session.get("itemsLimit"))
         && !(Articles.find().count() === 0));
     }
@@ -140,9 +140,6 @@ Template.articleView.helpers({
     },
     canEdit: function () {
         return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));
-    },
-    lastupdate: function () {
-
     }
 });
 Template.articleView.events({
