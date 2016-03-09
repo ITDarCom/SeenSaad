@@ -5,6 +5,7 @@ Router.configure({
 });
 Router.onStop(function () {
     // register the previous route location in a session variable
+    Session.set('itemsLimit',5);
     Session.set("lastRoute", Router.current().route.getName());
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
@@ -18,6 +19,7 @@ Router.onAfterAction(function () {
         Session.set('alert');
     }
 });
+
 Router.map(function () {
     this.route('admin', {
         path: '/admin', action: function () {

@@ -111,9 +111,12 @@ Template.comments.events({
         }
     },
     'click .updateComment': function (event) {
-        $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent()
-            .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
-                "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
+        var commentBody = $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent();
+        if(commentBody.find('.okUpdate,NoCancel').length == 0 ) {
+            commentBody
+                .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
+                    "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
+        }
     },
     'click .okUpdate': function (event) {
         var textDiv = $(event.target).parents('.panel-body').find('.commentText');
@@ -187,7 +190,3 @@ Template.additions.events({
 Template.additions.onRendered(function () {
     $('.removeAddition').hide();
 });
-//
-//Template.comments.onRendered(function () {
-//    this.data = {test: this.find('div')}
-//})
