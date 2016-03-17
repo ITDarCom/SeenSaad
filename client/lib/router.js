@@ -31,6 +31,7 @@ Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
 
 Router.onStop(function () {
     // register the previous route location in a session variable
+    Session.set('itemsLimit',5);
     Session.set("lastRoute", Router.current().route.getName());
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
@@ -44,6 +45,7 @@ Router.onAfterAction(function () {
         Session.set('alert');
     }
 });
+
 Router.map(function () {
     this.route('admin', {
         path: '/admin', action: function () {
@@ -51,9 +53,6 @@ Router.map(function () {
                 this.render('adminPage');
             else
                 Router.go('home');
-        },
-        waitOn: function () {
-            return Meteor.subscribe('message_counts')
         }
     });
     this.route('profile', {

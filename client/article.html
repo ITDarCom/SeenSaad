@@ -18,7 +18,7 @@
                                 </div>
                                 <div class='col-xs-12 col-md-3'>
                                     <span class='glyphicon glyphicon-time'
-                                          aria-hidden='true'></span> {{> Time data=createdAt}}
+                                          aria-hidden='true'></span> {{> Time data=generalDate}}
                                 </div>
                                 <div class='col-xs-12 col-md-3'>
                                     {{#if allowReading}}
@@ -35,8 +35,7 @@
                                                 title='{{getArabicMsg "deleteButtonTitle"}}'>
                                             <i class='fa fa-trash'></i>
                                         </button>
-                                        <button id='editButton' class='edit btn-xs btn{{#if canEdit}} btn-warning
-                                        {{else}} btn-default{{/if}}'
+                                        <button id='editButton' class='edit btn-xs btn btn-warning btn-default'
                                                 title='{{getArabicMsg "editButtonTitle"}}'>
                                             <i class='fa fa-pencil'></i>{{allowedTime}} <span id="editCounter"></span>
                                         </button>
@@ -50,6 +49,9 @@
                         </div>
                         <div class='panel-body'>
                             {{{bodyText}}}
+                            <br>
+
+                            <p class="pull-left">{{>Time data=this.createdAt}}</p>
                             <hr>
                             {{> additions data=_id }}
                         </div>
@@ -87,17 +89,26 @@
                     <span class='glyphicon glyphicon-user'
                           aria-hidden='true'></span> {{userUsername commenter}}
                     </div>
-                    <div class="{{#if owner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
+                    <div class="{{#if articleOwner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
                             class='glyphicon glyphicon-time'
                             aria-hidden='true'></span>
                         {{> Time data=createdAt}} </div>
-                    {{#if owner}}
-                        <div class="col-md-2 col-xs-2 text-left">
+                    <div class="col-md-2 col-xs-2 text-left pull-left">
+                        {{#if articleOwner}}
                             <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
-                        </div>{{/if}}
+                        {{/if}}
+                        {{#if canEdit}}
+                            {{#unless articleOwner}}
+                                <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                            {{/unless}}
+                            <button class="btn btn-xs btn-warning updateComment"><i class="fa fa-pencil"></i></button>
+
+                        {{/if}}
+                    </div>
                 </div>
                 <hr>
-                {{{nl2br commentText}}}
+                <div class="commentText">
+                    {{{nl2br commentText}}}</div>
             </div>
         </div>
     {{/each}}
@@ -105,7 +116,9 @@
 
 <template name="additions">
     {{#each additions data}}
-        <div class="well">{{{text}}}
+        <div class="addition">{{{text}}}
+            <br>
+
             <div class="pull-left">{{#if owner}}
                 <button class='removeAddition btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
                     <i class='fa fa-trash'></i>

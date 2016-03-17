@@ -91,8 +91,13 @@ Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data})
     },
-    owner: function () {
+    articleOwner: function () {
         return (Meteor.userId() && Template.parentData(2).user == Meteor.userId())
+    },
+    canEdit: function () {
+        if (Meteor.userId() && this.commenter == Meteor.userId()) {
+            return (new Date().getTime() - this.createdAt.getTime() < 600 * 1000)
+        }
     }
 });
 Template.comments.events({
@@ -104,6 +109,36 @@ Template.comments.events({
                 }
             })
         }
+    },
+    'click .updateComment': function (event) {
+        var commentBody = $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent();
+        if(commentBody.find('.okUpdate,NoCancel').length == 0 ) {
+            commentBody
+                .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
+                    "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
+        }
+    },
+    'click .okUpdate': function (event) {
+        var textDiv = $(event.target).parents('.panel-body').find('.commentText');
+        var text = textDiv.text().trim();
+        if (text.length < 3) {
+            alert(arabicMessages.commentMinString);
+        }
+        else {
+            Meteor.call('updateComment', this._id, text, function (err, result) {
+                if (!err) {
+                    alert(arabicMessages.commentEditedSuccessfully)
+                }
+                else {
+
+                }
+                textDiv.attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
+            });
+        }
+    },
+    'click .NoCancel': function (event) {
+        $(event.target).parents('.panel-body').find('.commentText')
+            .attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
     }
 });
 Template.additions.helpers({
@@ -141,11 +176,11 @@ Template.additions.events({
     'click .removeAddition': function (event) {
         if (Template.parentData(1).user === Meteor.userId())
             if (confirm(arabicMessages.additionDeleteConfirm)) {
-            Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
-                if (!err) {
-                    Session.set('alert', 'deleteSuccessfully')
-                }
-            })
+                Meteor.call("removeAddition", Template.parentData(1)._id, this.id, function (err, result) {
+                    if (!err) {
+                        Session.set('alert', 'deleteSuccessfully')
+                    }
+                })
             }
 
     }

@@ -7,14 +7,19 @@
                 {{#autoForm  id='addUpdateArticles'  name='addUpdateArticles' schema=schemaTarget  meteormethod=mehtodTarget
                 doc=thisArticle  type=formType }}
 
-                    {{> afQuickField name='title'}}
+
                     {{#if allowedTime}}
+                        {{> afQuickField name='title'}}
                         {{> afQuickField name='body'}}
                     {{else}}
+                        {{> afQuickField name='title' disabled=true}}
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="fa fa-lock"></i> محتوى مغلق لا يمكن تعديله</div>
                             <div class="panel-body">
                                 {{{bodyText}}}
+                                <br>
+                                <p class="pull-left">{{>Time data=createdAt}}</p>
+
                                 <hr>
                                 {{> additions data= currentId}}
                             </div>
