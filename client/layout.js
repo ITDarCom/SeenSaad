@@ -41,7 +41,7 @@ Template.headerText.helpers({
         }
 
         if (route == 'global') {
-            if (Session.get('urlType') == 'article') {
+            if (Session.get(    'urlType') == 'article') {
                 if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home'
                         , 'mine', 'search','favorite'], Session.get('lastRoute'))) {
                     var lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : '';

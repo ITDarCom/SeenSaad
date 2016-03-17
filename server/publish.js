@@ -1,18 +1,19 @@
+var articleStreamFields = {
+    title: 1,
+    username: 1,
+    createdAt: 1,
+    user: 1,
+    read: 1,
+    readingPermissions: 1,
+    commentsCounter: 1,
+    generalDate: 1
+}
 Meteor.publish('favorites', function (limit) {
     if (this.userId) {
         var ids = Favorites.findOne({userId: this.userId});
         if (ids)
             return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {
-                fields: {
-                    title: 1,
-                    username: 1,
-                    createdAt: 1,
-                    user: 1,
-                    read: 1,
-                    readingPermissions: 1,
-                    commentsCounter: 1,
-                    generalDate: 1
-                },
+                fields: articleStreamFields,
                 limit: limit || 5
             });
     }
@@ -28,16 +29,7 @@ Meteor.publish('readArticles', function (limit) {
         if (custom) {
             var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
             return Articles.find({_id: {$in: readingArticles}}, {
-                fields: {
-                    title: 1,
-                    username: 1,
-                    createdAt: 1,
-                    user: 1,
-                    read: 1,
-                    readingPermissions: 1,
-                    commentsCounter: 1,
-                    generalDate: 1
-                },
+                fields: articleStreamFields,
                 limit: limit || 5,
             });
         }
@@ -49,17 +41,7 @@ Meteor.publish('contribution', function (limit) {
         if (custom) {
             var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
             return Articles.find({_id: {$in: contributingArticles}}, {
-                fields: {
-                    title: 1,
-                    read: 1,
-                    username: 1,
-                    createdAt: 1,
-                    user: 1,
-                    contributingPermissions: 1,
-                    readingPermissions: 1,
-                    commentsCounter: 1,
-                    generalDate: 1
-                },
+                fields: articleStreamFields,
                 limit: limit || 5,
                 sort: {createdAt: -1}
             });
@@ -75,11 +57,11 @@ Meteor.publish("Article", function (articleId) {
     var article = Articles.findOne({_id: articleId});
     if (article.user === this.userId) {
         Meteor.call("readCounter", articleId);
-        return Articles.find({_id: articleId})
+        return Articles.find({_id: articleId});
     }
-    if (article.contributingPermissions == '0') {
+    if (article.contributingPermissions === '0' || article.readingPermissions === '0') {
         Meteor.call("readCounter", articleId, this.userId);
-        return Articles.find({_id: articleId})
+        return Articles.find({_id: articleId});
     }
     else {
         if (article.contributingIds)
@@ -168,21 +150,29 @@ Meteor.publish('comments', function (id) {
     }
 });
 Meteor.publish('articles', function (limit) {
-    return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-        fields: {
-            title: 1,
-            username: 1,
-            createdAt: 1,
-            user: 1,
-            read: 1,
-            readingPermissions: 1,
-            commentsCounter: 1,
-            generalDate: 1
-        },
-        sort: {generalDate: -1},
-        limit: limit || 5
-    });
-});
+        if (!this.userId) {
+            return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
+                fields: articleStreamFields,
+                sort: {generalDate: -1},
+                limit: limit || 5
+            })
+        }
+        else {
+            var custom = Stream.findOne({userId: this.userId});
+            if (custom) {
+                var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
+                var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
+                var privateArticles = _.union(readingArticles, contributingArticles);
+                return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'},{_id: {$in: privateArticles?privateArticles:[]}},{user:this.userId}]},
+                    {
+                        fields: articleStreamFields,
+                        sort: {generalDate: -1},
+                        limit: limit || 5
+                    });
+            }
+        }
+    }
+);
 Meteor.publish('usernames', function (articleId) {
     var article = Articles.findOne(articleId);
     if (article.readingPermissions == 0 || article.contributingPermissions == 0) {

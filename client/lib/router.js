@@ -3,6 +3,32 @@ Router.configure({
     loadingTemplate: 'spinner',
     notFoundTemplate: 'notFound'
 });
+var privateRoutes = [
+    "messages",
+    "read",
+    "add",
+    "edit",
+    "participation",
+    "mine",
+    "profile",
+    "me",
+    "resetPasswd",
+    "editPersonalInfo",
+    "editProfileImg",
+    "messageStream",
+    "favorite"
+];
+Router.ensureLoggedIn = function () {
+    if (!Meteor.user()) {
+        this.redirect('signIn');
+    }
+    else {
+        this.next();
+    }
+};
+
+Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
+
 Router.onStop(function () {
     // register the previous route location in a session variable
     Session.set("lastRoute", Router.current().route.getName());
@@ -31,20 +57,7 @@ Router.map(function () {
         }
     });
     this.route('profile', {
-        path: '/profile/:id', onBeforeAction: function () {
-            if (Meteor.userId()) {
-                if (Meteor.users.findOne(this.params.id)) {
-                    Session.set('template', 'articles');
-                    this.render('profile')
-                }
-                else {
-                    this.render('notFound')
-                }
-            }
-            else {
-                this.render('signIn')
-            }
-        }, waitOn: function () {
+        path: '/profile/:id', waitOn: function () {
             return [Meteor.subscribe('specificUser', this.params.id),
                 Meteor.subscribe('specificUserArticles', this.params.id)];
         }
@@ -91,56 +104,49 @@ Router.map(function () {
     this.route('search', {path: '/search'});
     this.route('read', {
         path: '/read', template: 'articles', waitOn: function () {
-            return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+            if (Meteor.user()) {
+                // I use Meteor.user ad descriped in this article http://www.manuel-schoebel.com/blog/meteorjs-iron-router-filters-before-and-after-hooks
+                return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+            }
         }
     });
     this.route('participation', {
         path: '/participation', template: 'articles', waitOn: function () {
-            return Meteor.subscribe('contribution', Session.get('itemsLimit'));
+            if (Meteor.user()) {
+                return Meteor.subscribe('contribution', Session.get('itemsLimit'));
+            }
         }
     });
     this.route('favorite', {
         path: '/favorite', template: 'articles', waitOn: function () {
-            return Meteor.subscribe('favorites', Session.get('itemsLimit'));
+            if (Meteor.user()) {
+                return Meteor.subscribe('favorites', Session.get('itemsLimit'));
+            }
         }
     });
     this.route('mine', {
         path: '/mine', template: 'articles', waitOn: function () {
-            Meteor.subscribe('mine', Session.get('itemsLimit'));
+            if (Meteor.user()) {
+                Meteor.subscribe('mine', Session.get('itemsLimit'));
+            }
         }
     });
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
-            return [Meteor.subscribe("Article", this.params.id),
-                Meteor.subscribe('usernames', this.params.id)
-            ];
-        }
-    });
-    this.route('add', {
-        path: '/add', onBeforeAction: function () {
-            if (!Meteor.userId()) {
-                this.render('signIn');
+            if (Meteor.user()) {
+                return [Meteor.subscribe("Article", this.params.id),
+                    Meteor.subscribe('usernames', this.params.id)
+                ];
             }
-            else
-                this.render('add')
         }
     });
-    this.route('messages', {
-        path: '/messages', onBeforeAction: function () {
-            if (!Meteor.userId()) {
-                this.render('signIn');
-            }
-            else
-                this.render('messages')
-        }
-    });
+    this.route('add', {path: '/add'});
+    this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});
     this.route('global', {
-        path: '/:id', data: function () {
-            return Articles.findOne(this.params.id);
-        },
+        path: '/:id',
         action: function () {
             if (Articles.findOne(this.params.id)) {
                 Session.set('urlType', 'article');
@@ -153,7 +159,8 @@ Router.map(function () {
         waitOn: function () {
             return [
                 Meteor.subscribe("Article", this.params.id),
-                Meteor.subscribe('comments', this.params.id)];
+                //Meteor.subscribe('comments', this.params.id)
+            ];
         }
     });
     this.route("notFound", {
