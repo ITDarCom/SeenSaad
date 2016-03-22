@@ -1,3 +1,5 @@
+// Will be editted tomorrow
+
 Router.configure({
     layoutTemplate: 'layout',
     loadingTemplate: 'spinner',
