@@ -9,7 +9,8 @@ Template.layout.events({
 });
 Template.layout.helpers({
     isActive: function (id) {
-        return Router.current().route.getName() == id;
+       // return Router.current().route.getName() == id;
+       return false;
     }
 });
 //noinspection JSUnusedGlobalSymbols
