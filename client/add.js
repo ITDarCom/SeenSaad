@@ -4,12 +4,12 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
         addUpdateArticles: {
             onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
                 if (formType == 'method') {
-                    Router.go('global', {id: result});
+                    FlowRouter.go('global', {id: result});
                     $('.alert').hide();
                     Session.set('alert', 'addSuccessfully');
                 }
                 if (formType == 'method-update') {
-                    Router.go('global', {id: this.docId});
+                    FlowRouter.go('global', {id: this.docId});
                     $('.alert').hide();
                     Session.set('alert', 'editSuccessfully');
                 }
@@ -29,7 +29,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                 var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
                 var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
                 Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
-                Router.go('global', {id: this.docId});
+                FlowRouter.go('global', {id: this.docId});
                 $('.alert').hide();
                 Session.set('alert', 'editSuccessfully');
             },
@@ -37,7 +37,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
                 'update': function (doc) {
                     if (!allowedUpdateTime(this.currentDoc.createdAt)) {
                         alert(arabicMessages.notInUpdateTime);
-                        Router.go('home');
+                        FlowRouter.go('home');
                     }
                     _.each(_.intersection(doc.$set.readingIds, doc.$set.contributingIds), function (u) {
                         doc.$set.readingIds = _.without(doc.$set.readingIds, u);
@@ -49,7 +49,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
         },
         addText: {
             onSuccess: function (doc) {
-                Router.go('global', {id: this.insertDoc.articleId});
+                FlowRouter.go('global', {id: this.insertDoc.articleId});
                 Session.set('alert', 'extentionAddedSuccessfully');
             }, formToDoc: function (doc) {
 
@@ -59,7 +59,7 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
         lastExtentionUpdate: {
             after: {
                 'update': function () {
-                    Router.go('global', {id: this.currentDoc.articleId});
+                    FlowRouter.go('global', {id: this.currentDoc.articleId});
                     Session.set('alert', 'editSuccessfully');
                 }
             }
@@ -67,40 +67,40 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
     });
 Template.add.helpers({
         allowedTime: function () {
-            if (Router.current().route.getName() == 'add') {
+            if (FlowRouter.getRouteName() == 'add') {
                 return true;
             }
-            var articleId = Router.current().params.id;
+            var articleId = FlowRouter.getParam('_id');
             if (articleId) {
                 return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
             }
         },
         canEdit: function () {
-            if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
-                return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
-            return (Router.current().route.getName() == 'add')
+            if ((FlowRouter.getParam('_id')) && (FlowRouter.getRouteName() == 'edit'))
+                return (Articles.findOne(FlowRouter.getParam('_id')).user == Meteor.userId());
+            return (FlowRouter.getRouteName() == 'add')
         }
         ,
         formType: function () {
-            if (Router.current().route.getName() == 'add') {
+            if (FlowRouter.getRouteName() == 'add') {
                 return 'method';
             }
-            if (Router.current().route.getName() == 'edit') {
+            if (FlowRouter.getRouteName() == 'edit') {
                 return 'method-update';
             }
 
         },
     mehtodTarget: function () {
-            if (Router.current().route.getName() == 'add') {
+            if (FlowRouter.getRouteName() == 'add') {
                 return 'addArticle';
             }
-        if (Router.current().route.getName() == 'edit') {
+        if (FlowRouter.getRouteName() == 'edit') {
             return 'updateArticle';
         }
     },
     schemaTarget: function () {
-        if (Router.current().route.getName() == 'edit') {
-            if (allowedUpdateTime(Articles.findOne(Router.current().params.id).createdAt))
+        if (FlowRouter.getRouteName() == 'edit') {
+            if (allowedUpdateTime(Articles.findOne(FlowRouter.getParam('_id')).createdAt))
                 return "ArticleSchema";
             else return "updateSchema";
         }
@@ -108,22 +108,22 @@ Template.add.helpers({
         }
         ,
         thisArticle: function () {
-            if (Router.current().route.getName() == 'edit') {
-                return Articles.findOne({_id: Router.current().params.id});
+            if (FlowRouter.getRouteName() == 'edit') {
+                return Articles.findOne({_id: FlowRouter.getParam('_id')});
             }
             // to get the article from collection to display it
         },
     bodyText: function () {
-        if (Router.current().route.getName() == 'edit') {
-            var article = Articles.findOne({_id: Router.current().params.id});
+        if (FlowRouter.getRouteName() == 'edit') {
+            var article = Articles.findOne({_id: FlowRouter.getParam('_id')});
             return article.body.slice(0, article.body.indexOf('<div'));
         }
     },
         saveButton: function () {
-            if (Router.current().route.getName() == 'edit') {
+            if (FlowRouter.getRouteName() == 'edit') {
                 return arabicMessages.editButtonLabel;
             }
-            if (Router.current().route.getName() == 'add') {
+            if (FlowRouter.getRouteName() == 'add') {
                 return arabicMessages.addButtonLabel;
             }
             // return the correct title for button that used in the form
@@ -164,10 +164,10 @@ Template.autoForm.onRendered(function () {
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();
         $('.panel').css('margin-bottom', '5px');
-        if (Router.current().route.getName() == 'add') {
+        if (FlowRouter.getRouteName() == 'add') {
             $('div [contenteditable=true]').html('<br>')
         }
-        if (Router.current().route.getName() == 'edit') {
+        if (FlowRouter.getRouteName() == 'edit') {
             $('.alert').remove();
             $('.panel').css('margin-bottom', '5px');
             $('#contributingPermissions').val(this.data.doc.contributingPermissions)
