@@ -4,9 +4,9 @@
         <div class='row'>
             <div class='col-md-offset-1 col-md-10'>
                 {{> headerText}}
+                <!--//type to determine the type of form //method to determine the the method which will hold the object from the for-->
                 {{#autoForm  id='addUpdateArticles'  name='addUpdateArticles' schema=schemaTarget  meteormethod=mehtodTarget
                 doc=thisArticle  type=formType }}
-
 
                     {{#if allowedTime}}
                         {{> afQuickField name='title'}}
@@ -17,11 +17,12 @@
                             <div class="panel-heading"><i class="fa fa-lock"></i> محتوى مغلق لا يمكن تعديله</div>
                             <div class="panel-body">
                                 {{{bodyText}}}
-                                <br>
+                                <!--<br>                    // where from createdAt came?-->
                                 <p class="pull-left">{{>Time data=createdAt}}</p>
 
-                                <hr>
+                                <hr> //here I have Collided with the wall
                                 {{> additions data= currentId}}
+                                <!--I want to explain the heper additions-->
                             </div>
                         </div>
                         {{> afQuickField name='addition' label=false value=lastAddition}}

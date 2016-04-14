@@ -67,21 +67,21 @@ AutoForm.hooks( // Callbacks invoked after submit the autoform
     });
 Template.add.helpers({
         allowedTime: function () {
-            if (FlowRouter.getRouteName() == 'add') {
-                return true;
+            if (FlowRouter.getRouteName() == 'add') {//if(the route is /add)that means the operation is adding article
+                return true;                         //then always the allowedtime return true
             }
-            var articleId = FlowRouter.getParam('_id');
+            var articleId = FlowRouter.getParam('_id');//if the operation is not add it must to be edit operation
             if (articleId) {
                 return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
             }
         },
-        canEdit: function () {
+        canEdit: function () {//if the route is /edit then the user field in the article must to equale the current userID
             if ((FlowRouter.getParam('_id')) && (FlowRouter.getRouteName() == 'edit'))
                 return (Articles.findOne(FlowRouter.getParam('_id')).user == Meteor.userId());
             return (FlowRouter.getRouteName() == 'add')
         }
         ,
-        formType: function () {
+        formType: function () {//this method is used in the form in add f
             if (FlowRouter.getRouteName() == 'add') {
                 return 'method';
             }
@@ -97,8 +97,8 @@ Template.add.helpers({
             if (FlowRouter.getRouteName() == 'edit') {
                 return 'updateArticle';
             }
-        },
-        schemaTarget: function () {
+        },//thisfunction  return the schema which will we use Depending on the Route
+        schemaTarget: function () {//return the schema which the form will use it
             if (FlowRouter.getRouteName() == 'edit') {
                 if (allowedUpdateTime(Articles.findOne(FlowRouter.getParam('_id')).createdAt))
                     return "ArticleSchema";
@@ -186,3 +186,13 @@ Template.autoForm.onRendered(function () {
     //  so in this function we feed the field with the original value from db and show and hide readingPermission div
     // according to contributing fields
 });
+
+Template.add.onCreated(function () {
+        if (Meteor.user()) {
+            return [Meteor.subscribe("Article", FlowRouter.getParam('id')),
+                Meteor.subscribe('usernames', FlowRouter.getParam('id'))
+            ];
+
+        }
+    }
+)

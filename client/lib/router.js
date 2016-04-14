@@ -5,21 +5,7 @@
  //    loadingTemplate: 'spinner',
  //    notFoundTemplate: 'notFound'
  //});
- //var privateRoutes = [
- //    "messages",
- //    "read",
- //    "add",
- //    "edit",
- //    "participation",
- //    "mine",
- //    "profile",
- //    "me",
- //    "resetPasswd",
- //    "editPersonalInfo",
- //    "editProfileImg",
- //    "messageStream",
- //    "favorite"
- //];
+
  //Router.ensureLoggedIn = function () {
  //    if (!Meteor.user()) {
  //        this.redirect('signIn');
@@ -74,7 +60,7 @@
  //    this.route('editPersonalInfo', {
  //        path: '/profile/setting/editInfo', template: 'profile', action: function () {
  //            this.state.set('isForMe', true);
- //            this.render('profile');
+ //            this.render('prof
  //            Session.set('template', 'profileSetting');
  //            Session.set('settings', 'personalInformation')
  //        }

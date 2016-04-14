@@ -147,9 +147,9 @@ Template.additions.helpers({
         var additions = Addition.getAdditions(article.body);
         var data = [];
         if (additions) {
-            additions.forEach(function (s, index) {
-                var createdAt = new Date(Addition.date(s));
-                var text = Addition.getText(s);
+            additions.forEach(function (addition, index) {
+                var createdAt = new Date(Addition.date(addition));
+                var text = Addition.getText(addition);
                 data.push({
                     createdAt: createdAt,
                     text: text,

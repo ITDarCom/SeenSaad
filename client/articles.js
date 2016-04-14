@@ -108,6 +108,8 @@ Template.search.helpers({
 });
 Template.Time.events({
     'click .dateSwitch': function (event) {
+        //In this function we make a switch the date when the span is clicked So we get the title attribute
+        // which contains the long date (in the first switch) and put it in the html istead of the html content (arabic date in first switch)
         var target = $(event.target);
         var temp = target.html();
         target.html(target.attr('title'));

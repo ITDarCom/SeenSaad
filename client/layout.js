@@ -4,12 +4,12 @@ Template.layout.events({
     },
     'click .signIn': function (event) {
         event.preventDefault();
-        Router.go('signIn');
+        FlowRouter.go('signIn');
     }
 });
 Template.layout.helpers({
     isActive: function (id) {
-        return Router.current().route.getName() == id;
+        return FlowRouter.getRouteName() == id;
     }
 });
 //noinspection JSUnusedGlobalSymbols
@@ -35,7 +35,7 @@ Template.headerText.helpers({
             'admin': arabicMessages.headers.adminPage
 
         };
-        var route = Router.current().route.getName();
+        var route = FlowRouter.getRouteName();
         if (route == 'profile') {
             return (arabicMessages.userArticles + registerHelpers.userFullName(registerHelpers.currentId()) )
         }
@@ -74,13 +74,13 @@ Template.headerText.helpers({
             'admin': arabicMessages.headerDescription.adminPage
 
         };
-        if (Router.current().route.getName() == 'article') {
+        if (FlowRouter.getRouteName() == 'article') {
             if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home', 'mine']
                     , Session.get('lastRoute')))
                 return headerDescriptions[Session.get('lastRoute')]
         }
         else
-            return headerDescriptions[Router.current().route.getName()]
+            return headerDescriptions[FlowRouter.getRouteName()]
 
     }
 });
