@@ -158,7 +158,7 @@ Router.map(function () {
         waitOn: function () {
             return [
                 Meteor.subscribe("Article", this.params.id),
-                //Meteor.subscribe('comments', this.params.id)
+                Meteor.subscribe('comments', this.params.id)
             ];
         }
     });
