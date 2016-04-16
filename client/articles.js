@@ -3,7 +3,7 @@ Template.articles.helpers({
         var custom;
         if (Meteor.userId()) {
             $('.alert').hide();
-            switch (Router.current().route.getName()) {
+            switch (FlowRouter.getRouteName()) {
                 case "mine" :
                     return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
                 case  "participation":
@@ -76,6 +76,12 @@ Template.articles.events({
         var temp = Session.get('itemsLimit') ? Session.get('itemsLimit') : 0
         Session.set('itemsLimit', temp + 5);
     }
+});
+Template.articles.onCreated(function () {
+   switch (FlowRouter.getRouteName())
+   {
+       case 'mine': Meteor.subscribe('mine');
+   }
 });
 Template.searchResult.helpers({
     getArticles: function () {

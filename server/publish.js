@@ -83,10 +83,8 @@ Meteor.publish("Article", function (articleId) {
         else if (article.readingIds)
         {
             if (!_.isEmpty(_.where(article.readingIds, this.userId))) {
-                if (Articles.find({_id: articleId})) {
                     Meteor.call("readCounter", articleId, this.userId);
                     return Articles.find({_id: articleId})
-                }
             }
         }
     }

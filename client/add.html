@@ -6,7 +6,7 @@
                 {{> headerText}}
                 <!--//type to determine the type of form //method to determine the the method which will hold the object from the for-->
                 {{#autoForm  id='addUpdateArticles'  name='addUpdateArticles' schema=schemaTarget  meteormethod=mehtodTarget
-                doc=thisArticle  type=formType }}
+                   doc=thisArticle  type=formType }}
 
                     {{#if allowedTime}}
                         {{> afQuickField name='title'}}
