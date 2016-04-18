@@ -29,9 +29,11 @@ Router.ensureLoggedIn = function () {
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
 
+const increment = 5;
+
 Router.onStop(function () {
     // register the previous route location in a session variable
-    Session.set('itemsLimit',5);
+    Session.set('itemsLimit',increment);
     Session.set("lastRoute", Router.current().route.getName());
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
@@ -96,37 +98,96 @@ Router.map(function () {
     });
     this.route('me', {path: '/profile', template: 'profile'});
     this.route('home', {
-        path: '/', template: 'articles', waitOn: function () {
+        path: '/', template: 'articles', 
+        subscriptions: function(){
             return Meteor.subscribe('articles', Session.get('itemsLimit'));
+        },
+        action: function () {
+            if (this.ready()) {
+                this.render();
+            } else {
+                //if we are loading the page for the first time, we will display the spinner
+                if (this.get('itemsLimit') == increment)
+                    this.render('spinner')
+                else 
+                    this.next();
+            }
         }
     });
     this.route('search', {path: '/search'});
     this.route('read', {
-        path: '/read', template: 'articles', waitOn: function () {
+        path: '/read', template: 'articles', 
+        subscriptions: function(){
             if (Meteor.user()) {
-                // I use Meteor.user ad descriped in this article http://www.manuel-schoebel.com/blog/meteorjs-iron-router-filters-before-and-after-hooks
                 return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+            }
+        },
+        action: function () {
+            if (this.ready()) {
+                this.render();
+            } else {
+                //if we are loading the page for the first time, we will display the spinner
+                if (this.get('itemsLimit') == increment)
+                    this.render('spinner')
+                else 
+                    this.next();
             }
         }
     });
     this.route('participation', {
-        path: '/participation', template: 'articles', waitOn: function () {
+        path: '/participation', template: 'articles', 
+        subscriptions: function(){
             if (Meteor.user()) {
                 return Meteor.subscribe('contribution', Session.get('itemsLimit'));
+            }
+        },
+        action: function () {
+            if (this.ready()) {
+                this.render();
+            } else {
+                //if we are loading the page for the first time, we will display the spinner
+                if (this.get('itemsLimit') == increment)
+                    this.render('spinner')
+                else 
+                    this.next();
             }
         }
     });
     this.route('favorite', {
-        path: '/favorite', template: 'articles', waitOn: function () {
+        path: '/favorite', template: 'articles',
+        subscriptions: function(){
             if (Meteor.user()) {
                 return Meteor.subscribe('favorites', Session.get('itemsLimit'));
+            }
+        },
+        action: function () {
+            if (this.ready()) {
+                this.render();
+            } else {
+                //if we are loading the page for the first time, we will display the spinner
+                if (this.get('itemsLimit') == increment)
+                    this.render('spinner')
+                else 
+                    this.next();
             }
         }
     });
     this.route('mine', {
-        path: '/mine', template: 'articles', waitOn: function () {
+        path: '/mine', template: 'articles',
+        subscriptions: function(){
             if (Meteor.user()) {
-                Meteor.subscribe('mine', Session.get('itemsLimit'));
+                return Meteor.subscribe('mine', Session.get('itemsLimit'));
+            }
+        },
+        action: function () {
+            if (this.ready()) {
+                this.render();
+            } else {
+                //if we are loading the page for the first time, we will display the spinner
+                if (this.get('itemsLimit') == increment)
+                    this.render('spinner')
+                else 
+                    this.next();
             }
         }
     });
