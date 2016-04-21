@@ -162,8 +162,8 @@ Meteor.publish(null, function () {
 Meteor.publish('comments', function (id) {
     var article = Articles.findOne(id);
     if (article) {
-        if (article.contributingPermissions == 0 || article.user == this.userId
-            || _.contains(article.contributingIds, this.userId))
+        if (article.contributingPermissions == 0 || article.user == this.userId || article.readingPermissions == 0
+            || _.contains(article.contributingIds, this.userId) || _.contains(article.readingIds, this.userId))
         {
             return Comments.find({articleId: id});
         }
