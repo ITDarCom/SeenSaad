@@ -19,11 +19,16 @@ var privateRoutes = [
     "favorite"
 ];
 Router.ensureLoggedIn = function () {
-    if (!Meteor.user()) {
-        this.redirect('signIn');
-    }
-    else {
-        this.next();
+    if (Meteor.loggingIn()){
+        //console.log('logging in..')
+        this.render('spinner')
+    } else {
+        //console.log('finished logging in process.')
+        if (!Meteor.user()) {
+            this.redirect('signIn');
+        } else {
+            this.next();
+        }        
     }
 };
 
