@@ -1,16 +1,27 @@
+Template.articles.onRendered(function(){
+    //if we were coming back from an article, scroll down to it.
+    if (Session.get('lastArticle')){
+        jQuery('html, body').animate({
+            scrollTop: jQuery("#article-"+Session.get('lastArticle')).offset().top
+        }, 2000);
+        Tracker.nonreactive(function(){
+            Session.set('lastArticle', null)
+        })
+    }
+})
+
 Template.articles.onCreated(function(){
 
     var instance = this
 
     //a reactive dictionary to store the state of our current list of articles
-    instance.state = new ReactiveDict("articles")
+    instance.state = new ReactiveDict()
     instance.ready = new ReactiveVar()
 
     //we reset our stored state whenever the route changes
     instance.autorun(function(){
 
         console.log('re-setting state..')
-
         var route = Router.current().route.getName()
         var channel
         switch (route) {
@@ -26,14 +37,30 @@ Template.articles.onCreated(function(){
             case "mine":
                 channel = "mine"
                 break;   
-            default:
+            case "home":
                 channel = "articles"
+                break;
         }
+
+
+        //default loaded and limit values (on )
+        var loaded = 0, limit = 5
+
+        //if there are already loaded articles (cached/history)
+        Tracker.nonreactive(function(){
+            console.log('there are already', ArticlesCursor(route).count(), 'articles')
+            if (ArticlesCursor(route).count() > 0){
+                //we are rounding to the nearest multiple of increment amount 
+                //example: increment = 5, existing = 12, then we set limit to 12 + 3 = 15
+                loaded = limit = ArticlesCursor(route).count() + (5-(ArticlesCursor(route).count()%5))
+            }
+        })
 
         instance.state.set('route', route)
         instance.state.set('channel', channel) 
-        instance.state.set('loaded', 0) //number of loaded articles
-        instance.state.set('limit', 5) //number of total displayed items
+        instance.state.set('loaded', loaded) //number of loaded articles
+        instance.state.set('limit', limit) //number of total displayed items
+
     })
 
 
@@ -44,14 +71,14 @@ Template.articles.onCreated(function(){
         var limit = instance.state.get('limit');
 
         console.log('subscribing to ', channel, limit)
-
-        var subscription = instance.subscribe(channel, limit);
+        //subscribing using subscription manager
+        var subscription = ArticlesSubscriptions.subscribe(channel, limit);
         instance.ready.set(subscription.ready())
         
         if (subscription.ready()) {
             //increasing the actual number of displayed items
-            instance.state.set('loaded', limit); 
             console.log('subscribed to ', channel, limit)
+            instance.state.set('loaded', limit); 
         }
     })
 
@@ -67,7 +94,6 @@ Template.articles.onCreated(function(){
             if (!target.data("visible")) {
                 // console.log("target became visible (inside viewable area)");
                 target.data("visible", true);
-                console.log('here')
 
                 // increase limit by 5 and update it
                 var limit = instance.state.get('limit')
@@ -93,53 +119,13 @@ Template.articles.helpers({
         return (Template.instance().state.get('loaded') == 0)
     },
     hasMore: function () {
-        var hasMore = (!(Articles.find().count() < Template.instance().state.get('loaded'))
-            && !(Articles.find().count() === 0));
-        return hasMore
+        var articlesCount = ArticlesCursor(Template.instance().state.get('route')).count()
+        var loaded = Template.instance().state.get('loaded')
+
+        return (!(articlesCount < loaded) && (articlesCount != 0));
     },
     articles: function () {
-        var custom;
-        if (Meteor.userId()) {
-            $('.alert').hide();
-            switch (Router.current().route.getName()) {
-                case "mine" :
-                    return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
-                case  "participation":
-                    custom = Stream.findOne({userId: Meteor.userId()});
-                    if (custom) {
-                        var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
-                            , 'id') : [];
-                        return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
-                    }
-                    break;
-                case "read":
-                    custom = Stream.findOne({userId: Meteor.userId()});
-                    if (custom) {
-                        var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                        return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
-                    }
-                    break;
-                case  "favorite":
-                    var ids = Favorites.findOne({userId: Meteor.userId()});
-                    if (ids)
-                        return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
-                    break;
-                case "home" :
-                    return Articles.find({}, {sort: {generalDate: -1}});
-                case "profile" :
-                    if (Router.current().params.id)
-                        return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
-                    break;
-                case "global" :
-                    if (Router.current().params.id)
-                        return Articles.find({_id: Router.current().params.id});
-            }
-        }
-        else {
-            if (Router.current().route.getName() == 'home')
-                return Articles.find({}, {sort: {createdAt: -1}});
-            Router.go('signIn');
-        }
+        return ArticlesCursor(Router.current().route.getName())
     },
 });
 

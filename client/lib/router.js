@@ -127,6 +127,7 @@ Router.map(function () {
         action: function () {
             if (Articles.findOne(this.params.id)) { //how should this work?
                 Session.set('urlType', 'article');
+                Session.set('lastArticle', this.params.id)
                 this.render('article');
             }
             else {
