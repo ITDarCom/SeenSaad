@@ -29,11 +29,9 @@ Router.ensureLoggedIn = function () {
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
 
-const increment = 5;
-
 Router.onStop(function () {
     // register the previous route location in a session variable
-    Session.set('itemsLimit',increment);
+    Session.set('itemsLimit',5);
     Session.set("lastRoute", Router.current().route.getName());
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
@@ -97,12 +95,41 @@ Router.map(function () {
         }
     });
     this.route('me', {path: '/profile', template: 'profile'});
-    this.route('home', { path: '/', template: 'articles' });
+    this.route('home', {
+        path: '/', template: 'articles', waitOn: function () {
+            return Meteor.subscribe('articles', Session.get('itemsLimit'));
+        }
+    });
     this.route('search', {path: '/search'});
-    this.route('read', {path: '/read', template: 'articles' });
-    this.route('participation', { path: '/participation', template: 'articles'});
-    this.route('favorite', { path: '/favorite', template: 'articles' });
-    this.route('mine', {path: '/mine', template: 'articles' });
+    this.route('read', {
+        path: '/read', template: 'articles', waitOn: function () {
+            if (Meteor.user()) {
+                // I use Meteor.user ad descriped in this article http://www.manuel-schoebel.com/blog/meteorjs-iron-router-filters-before-and-after-hooks
+                return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
+            }
+        }
+    });
+    this.route('participation', {
+        path: '/participation', template: 'articles', waitOn: function () {
+            if (Meteor.user()) {
+                return Meteor.subscribe('contribution', Session.get('itemsLimit'));
+            }
+        }
+    });
+    this.route('favorite', {
+        path: '/favorite', template: 'articles', waitOn: function () {
+            if (Meteor.user()) {
+                return Meteor.subscribe('favorites', Session.get('itemsLimit'));
+            }
+        }
+    });
+    this.route('mine', {
+        path: '/mine', template: 'articles', waitOn: function () {
+            if (Meteor.user()) {
+                Meteor.subscribe('mine', Session.get('itemsLimit'));
+            }
+        }
+    });
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
@@ -120,7 +147,7 @@ Router.map(function () {
     this.route('global', {
         path: '/:id',
         action: function () {
-            if (Articles.findOne(this.params.id)) { //how should this work?
+            if (Articles.findOne(this.params.id)) {
                 Session.set('urlType', 'article');
                 this.render('article');
             }

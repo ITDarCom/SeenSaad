@@ -8,36 +8,7 @@ var articleStreamFields = {
     commentsCounter: 1,
     generalDate: 1
 }
-
-Meteor.publish('articles', function (limit) {
-        Meteor._sleepForMs(2000);
-
-        if (!this.userId) {
-            return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
-                fields: articleStreamFields,
-                sort: {generalDate: -1},
-                limit: limit || 5
-            })
-        }
-        else {
-            var custom = Stream.findOne({userId: this.userId});
-            if (custom) {
-                var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
-                var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                var privateArticles = _.union(readingArticles, contributingArticles);
-                return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'},{_id: {$in: privateArticles?privateArticles:[]}},{user:this.userId}]},
-                    {
-                        fields: articleStreamFields,
-                        sort: {generalDate: -1},
-                        limit: limit || 5
-                    });
-            }
-        }
-    }
-);
-
 Meteor.publish('favorites', function (limit) {
-    Meteor._sleepForMs(2000);
     if (this.userId) {
         var ids = Favorites.findOne({userId: this.userId});
         if (ids)
@@ -50,9 +21,13 @@ Meteor.publish('favorites', function (limit) {
     }
     return false
 });
-
+Meteor.publish(null, function () {
+    if (this.userId)
+    {
+        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
+    }
+});
 Meteor.publish('readArticles', function (limit) {
-    Meteor._sleepForMs(2000);
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -64,9 +39,7 @@ Meteor.publish('readArticles', function (limit) {
         }
     }
 });
-
 Meteor.publish('contribution', function (limit) {
-    Meteor._sleepForMs(2000);
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -79,21 +52,11 @@ Meteor.publish('contribution', function (limit) {
         }
     }
 });
-
 Meteor.publish('mine', function (limit) {
-    Meteor._sleepForMs(2000);
     if (this.userId) {
         return Articles.find({user: this.userId}, {limit: limit || 5, sort: {createdAt: -1}})
     }
 });
-
-Meteor.publish(null, function () {
-    if (this.userId)
-    {
-        return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
-    }
-});
-
 Meteor.publish("Article", function (articleId) {
     var article = Articles.findOne({_id: articleId});
     if (article.user === this.userId) {
@@ -206,7 +169,30 @@ Meteor.publish('comments', function (id) {
         }
     }
 });
-
+Meteor.publish('articles', function (limit) {
+        if (!this.userId) {
+            return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'}]}, {
+                fields: articleStreamFields,
+                sort: {generalDate: -1},
+                limit: limit || 5
+            })
+        }
+        else {
+            var custom = Stream.findOne({userId: this.userId});
+            if (custom) {
+                var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
+                var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
+                var privateArticles = _.union(readingArticles, contributingArticles);
+                return Articles.find({$or: [{readingPermissions: '0'}, {contributingPermissions: '0'},{_id: {$in: privateArticles?privateArticles:[]}},{user:this.userId}]},
+                    {
+                        fields: articleStreamFields,
+                        sort: {generalDate: -1},
+                        limit: limit || 5
+                    });
+            }
+        }
+    }
+);
 Meteor.publish('usernames', function (articleId) {
     var article = Articles.findOne(articleId);
     if (article.readingPermissions == 0 || article.contributingPermissions == 0) {

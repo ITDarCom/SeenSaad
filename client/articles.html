@@ -1,30 +1,21 @@
 <!--suppress ALL -->
-
 <template name='articles'>
     <div class='row'>
         <div class='col-md-offset-1 col-md-10'>
             {{> headerText}}
-            {{#if initialLoad}}
-                <div style="margin-top:200px;">
-                {{> spinner}}
-                </div>
+            {{#each articles}}
+                {{> articleView}}
             {{else}}
-                {{#each articles}}
-                    {{> articleView}}
-                {{else}}
-                    <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
-                {{/each}}
-                {{#if hasMore}}
-                    <div id="showMoreResults" style="margin-left: 25px;">
-                        <center><span class="loading">{{getArabicMsg 'loading'}}</span></center>
-                    </div>
-                {{/if}}
+                <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
+            {{/each}}
+            {{#if hasMore}}
+                <button class='btn btn-block btn-primary' id="loadMore">
+                    {{getArabicMsg 'loadMore'}}
+                </button>
             {{/if}}
-
         </div>
     </div>
 </template>
-
 <template name='articleView'>
     <div class='panel panel-info'>
         <div class='clickableDiv panel-heading'>

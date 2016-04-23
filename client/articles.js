@@ -1,102 +1,4 @@
-Template.articles.onCreated(function(){
-
-    var instance = this
-
-    //a reactive dictionary to store the state of our current list of articles
-    instance.state = new ReactiveDict("articles")
-    instance.ready = new ReactiveVar()
-
-    //we reset our stored state whenever the route changes
-    instance.autorun(function(){
-
-        console.log('re-setting state..')
-
-        var route = Router.current().route.getName()
-        var channel
-        switch (route) {
-            case "read":
-                channel = "readArticles"
-                break;
-            case "participation":
-                channel = "contribution"
-                break;
-            case "favorite":
-                channel = "favorites"
-                break;
-            case "mine":
-                channel = "mine"
-                break;   
-            default:
-                channel = "articles"
-        }
-
-        instance.state.set('route', route)
-        instance.state.set('channel', channel) 
-        instance.state.set('loaded', 0) //number of loaded articles
-        instance.state.set('limit', 5) //number of total displayed items
-    })
-
-
-    //we re-subscribe, when either channel or limit change
-    instance.autorun(function(){
-
-        var channel = instance.state.get('channel');     
-        var limit = instance.state.get('limit');
-
-        console.log('subscribing to ', channel, limit)
-
-        var subscription = instance.subscribe(channel, limit);
-        instance.ready.set(subscription.ready())
-        
-        if (subscription.ready()) {
-            //increasing the actual number of displayed items
-            instance.state.set('loaded', limit); 
-            console.log('subscribed to ', channel, limit)
-        }
-    })
-
-    //It is quite ugly to include this here, sorry. - Amjad
-    //A callback that runs on every user scroll
-    $(window).scroll(function() {
-        var threshold, target = $("#showMoreResults");
-        if (!target.length) return;
-     
-        threshold = $(window).scrollTop() + $(window).height() - target.height();
-     
-        if (target.offset().top < threshold) {
-            if (!target.data("visible")) {
-                // console.log("target became visible (inside viewable area)");
-                target.data("visible", true);
-                console.log('here')
-
-                // increase limit by 5 and update it
-                var limit = instance.state.get('limit')
-                limit += 5;
-                instance.state.set('limit', limit)
-            }
-        } else {
-            if (target.data("visible")) {
-                // console.log("target became invisible (below viewable arae)");
-                target.data("visible", false);
-            }
-        }       
-    })
-     
-    
-
-})
-
 Template.articles.helpers({
-
-    initialLoad : function(){
-        //we know that we are rendering the list for the first time if it has zero items loaded
-        return (Template.instance().state.get('loaded') == 0)
-    },
-    hasMore: function () {
-        var hasMore = (!(Articles.find().count() < Template.instance().state.get('loaded'))
-            && !(Articles.find().count() === 0));
-        return hasMore
-    },
     articles: function () {
         var custom;
         if (Meteor.userId()) {
@@ -141,8 +43,14 @@ Template.articles.helpers({
             Router.go('signIn');
         }
     },
+    hasMore: function () {
+        // If, once the subscription is ready, we have less rows than we
+        // asked for, we've got all the rows in the collection.
+            Session.setDefault('itemsLimit', 5);
+        return (Session.get('itemsLimit') && !(Articles.find().count() < Session.get("itemsLimit"))
+        && !(Articles.find().count() === 0));
+    }
 });
-
 Template.articles.events({
     'click .remove': function () {
         var id = this._id;
@@ -163,6 +71,10 @@ Template.articles.events({
     },
     'click .edit': function () {
         Router.go('edit', {id: this._id})
+    },
+    'click #loadMore': function () {
+        var temp = Session.get('itemsLimit') ? Session.get('itemsLimit') : 0
+        Session.set('itemsLimit', temp + 5);
     }
 });
 Template.searchResult.helpers({
