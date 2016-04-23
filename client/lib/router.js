@@ -97,100 +97,12 @@ Router.map(function () {
         }
     });
     this.route('me', {path: '/profile', template: 'profile'});
-    this.route('home', {
-        path: '/', template: 'articles', 
-        subscriptions: function(){
-            return Meteor.subscribe('articles', Session.get('itemsLimit'));
-        },
-        action: function () {
-            if (this.ready()) {
-                this.render();
-            } else {
-                //if we are loading the page for the first time, we will display the spinner
-                if (this.get('itemsLimit') == increment)
-                    this.render('spinner')
-                else 
-                    this.next();
-            }
-        }
-    });
+    this.route('home', { path: '/', template: 'articles' });
     this.route('search', {path: '/search'});
-    this.route('read', {
-        path: '/read', template: 'articles', 
-        subscriptions: function(){
-            if (Meteor.user()) {
-                return Meteor.subscribe('readArticles', Session.get('itemsLimit'));
-            }
-        },
-        action: function () {
-            if (this.ready()) {
-                this.render();
-            } else {
-                //if we are loading the page for the first time, we will display the spinner
-                if (this.get('itemsLimit') == increment)
-                    this.render('spinner')
-                else 
-                    this.next();
-            }
-        }
-    });
-    this.route('participation', {
-        path: '/participation', template: 'articles', 
-        subscriptions: function(){
-            if (Meteor.user()) {
-                return Meteor.subscribe('contribution', Session.get('itemsLimit'));
-            }
-        },
-        action: function () {
-            if (this.ready()) {
-                this.render();
-            } else {
-                //if we are loading the page for the first time, we will display the spinner
-                if (this.get('itemsLimit') == increment)
-                    this.render('spinner')
-                else 
-                    this.next();
-            }
-        }
-    });
-    this.route('favorite', {
-        path: '/favorite', template: 'articles',
-        subscriptions: function(){
-            if (Meteor.user()) {
-                return Meteor.subscribe('favorites', Session.get('itemsLimit'));
-            }
-        },
-        action: function () {
-            if (this.ready()) {
-                this.render();
-            } else {
-                //if we are loading the page for the first time, we will display the spinner
-                if (this.get('itemsLimit') == increment)
-                    this.render('spinner')
-                else 
-                    this.next();
-            }
-        }
-    });
-    this.route('mine', {
-        path: '/mine', template: 'articles',
-        subscriptions: function(){
-            if (Meteor.user()) {
-                return Meteor.subscribe('mine', Session.get('itemsLimit'));
-            }
-        },
-        action: function () {
-            if (this.ready()) {
-                this.render();
-            } else {
-                //if we are loading the page for the first time, we will display the spinner
-                if (this.get('itemsLimit') == increment)
-                    this.render('spinner')
-                else 
-                    this.next();
-            }
-        }
-    });
+    this.route('read', {path: '/read', template: 'articles' });
+    this.route('participation', { path: '/participation', template: 'articles'});
+    this.route('favorite', { path: '/favorite', template: 'articles' });
+    this.route('mine', {path: '/mine', template: 'articles' });
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
@@ -208,7 +120,7 @@ Router.map(function () {
     this.route('global', {
         path: '/:id',
         action: function () {
-            if (Articles.findOne(this.params.id)) {
+            if (Articles.findOne(this.params.id)) { //how should this work?
                 Session.set('urlType', 'article');
                 this.render('article');
             }
