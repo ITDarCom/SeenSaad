@@ -3,8 +3,8 @@ Template.articles.onCreated(function(){
     var instance = this
 
     //a reactive dictionary to store the state of our current list of articles
-    instance.state = new ReactiveDict("articles")
-    instance.ready = new ReactiveVar()
+    instance.state = new ReactiveDict();
+    instance.ready = new ReactiveVar();
 
     //we reset our stored state whenever the route changes
     instance.autorun(function(){
@@ -25,13 +25,13 @@ Template.articles.onCreated(function(){
                 break;
             case "mine":
                 channel = "mine"
-                break;   
+                break;
             default:
                 channel = "articles"
         }
 
         instance.state.set('route', route)
-        instance.state.set('channel', channel) 
+        instance.state.set('channel', channel)
         instance.state.set('loaded', 0) //number of loaded articles
         instance.state.set('limit', 5) //number of total displayed items
     })
@@ -40,17 +40,17 @@ Template.articles.onCreated(function(){
     //we re-subscribe, when either channel or limit change
     instance.autorun(function(){
 
-        var channel = instance.state.get('channel');     
+        var channel = instance.state.get('channel');
         var limit = instance.state.get('limit');
 
         console.log('subscribing to ', channel, limit)
 
         var subscription = instance.subscribe(channel, limit);
         instance.ready.set(subscription.ready())
-        
+
         if (subscription.ready()) {
             //increasing the actual number of displayed items
-            instance.state.set('loaded', limit); 
+            instance.state.set('loaded', limit);
             console.log('subscribed to ', channel, limit)
         }
     })
@@ -60,9 +60,9 @@ Template.articles.onCreated(function(){
     $(window).scroll(function() {
         var threshold, target = $("#showMoreResults");
         if (!target.length) return;
-     
+
         threshold = $(window).scrollTop() + $(window).height() - target.height();
-     
+
         if (target.offset().top < threshold) {
             if (!target.data("visible")) {
                 // console.log("target became visible (inside viewable area)");
@@ -79,10 +79,10 @@ Template.articles.onCreated(function(){
                 // console.log("target became invisible (below viewable arae)");
                 target.data("visible", false);
             }
-        }       
+        }
     })
-     
-    
+
+
 
 })
 
