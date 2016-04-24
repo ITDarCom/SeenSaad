@@ -3,8 +3,8 @@ Template.articles.onCreated(function(){
     var instance = this
 
     //a reactive dictionary to store the state of our current list of articles
-    instance.state = new ReactiveDict();
-    instance.ready = new ReactiveVar();
+    instance.state = new ReactiveDict()
+    instance.ready = new ReactiveVar()
 
     //we reset our stored state whenever the route changes
     instance.autorun(function(){
