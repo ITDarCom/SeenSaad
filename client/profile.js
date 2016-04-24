@@ -1,3 +1,7 @@
+Template.profile.onCreated(function(){
+    Meteor.subscribe('specificUser', Router.current().params.id)
+})
+
 Template.profile.helpers({
     active: function () {
         if (Router.current().route.getName() == 'me') {

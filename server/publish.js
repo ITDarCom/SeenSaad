@@ -152,7 +152,10 @@ Meteor.publish('specificUser', function (userId) {
     }
     return Meteor.users.find({_id: userId}, {fields: projections})
 });
-Meteor.publish('specificUserArticles', function (userId) {
+Meteor.publish('specificUserArticles', function (userId, limit) {
+
+    Meteor._sleepForMs(2000);
+
     if (this.userId == userId) {
         return Articles.find({user: this.userId})
     }
@@ -168,6 +171,9 @@ Meteor.publish('specificUserArticles', function (userId) {
             $or: [{contributingPermissions: '0'}, {readingPermissions: '0'}
                 , {_id: {$in: contributingIds}}, {_id: {$in: readingIds}}]
         }]
+    }, { 
+        limit: limit || 5,
+        sort: {createdAt: -1}
     })
 });
 Meteor.publish(null, function () {

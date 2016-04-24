@@ -26,10 +26,10 @@
 </template>
 
 <template name='articleView'>
-    <div id="article-{{_id}}" class='panel panel-info'>
+    <div class='panel panel-info'>
         <div class='clickableDiv panel-heading'>
             <div class='row'>
-                <a href="{{pathFor route='global' id=_id}}">
+                <a class="article-link" href="{{pathFor route='global' id=_id}}">
                     <h4 class=' col-md-9'>{{{title}}} </h4>
                     <h5 class='col-md-3 text-left'>
                         {{{newLabel}}}

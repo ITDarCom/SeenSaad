@@ -62,12 +62,6 @@ Router.map(function () {
                 Router.go('home');
         }
     });
-    this.route('profile', {
-        path: '/profile/:id', waitOn: function () {
-            return [Meteor.subscribe('specificUser', this.params.id),
-                Meteor.subscribe('specificUserArticles', this.params.id)];
-        }
-    });
     this.route('resetPasswd', {
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
             this.state.set('isForMe', true);
@@ -98,7 +92,6 @@ Router.map(function () {
             Session.set('template', 'profileSetting');
             Session.set('settings', 'profileImg');
             this.render('profile')
-
         }
     });
     this.route('me', {path: '/profile', template: 'profile'});
@@ -108,6 +101,7 @@ Router.map(function () {
     this.route('participation', { path: '/participation', template: 'articles'});
     this.route('favorite', { path: '/favorite', template: 'articles' });
     this.route('mine', {path: '/mine', template: 'articles' });
+    this.route('profile', {path: '/profile/:id'});
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {
@@ -127,7 +121,6 @@ Router.map(function () {
         action: function () {
             if (Articles.findOne(this.params.id)) { //how should this work?
                 Session.set('urlType', 'article');
-                Session.set('lastArticle', this.params.id)
                 this.render('article');
             }
             else {

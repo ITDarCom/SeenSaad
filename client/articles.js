@@ -1,13 +1,34 @@
+//we wrap this listener so we can use its reference un-register when templates are destroyed
+function ScrollListener(instance){
+    
+    return function(e){
+        var threshold, target = $("#showMoreResults");
+        if (!target.length) return;
+     
+        threshold = $(window).scrollTop() + $(window).height() - target.height();
+     
+        if (target.offset().top < threshold) { 
+            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5, 
+                'was', instance.state.get('limit'))*/
+
+            // increase limit by 5 and update it
+            instance.state.set('limit', ArticlesCursor(Router.current().route.getName()).count() + 5)
+        }
+    }
+}
+
 Template.articles.onRendered(function(){
-    //if we were coming back from an article, scroll down to it.
-    if (Session.get('lastArticle')){
-        jQuery('html, body').animate({
-            scrollTop: jQuery("#article-"+Session.get('lastArticle')).offset().top
-        }, 2000);
+    //if we stored the lastScroll position, we'll scroll down to it
+    if (Session.get('lastScrollPosition')){
+        window.scrollTo(0, Session.get('lastScrollPosition'))
         Tracker.nonreactive(function(){
-            Session.set('lastArticle', null)
+            Session.set('lastScrollPosition', null)
         })
     }
+})
+
+Template.articles.onDestroyed(function(){
+    window.removeEventListener('scroll', Template.instance().listener)
 })
 
 Template.articles.onCreated(function(){
@@ -18,11 +39,15 @@ Template.articles.onCreated(function(){
     instance.state = new ReactiveDict()
     instance.ready = new ReactiveVar()
 
+    //scroll listener to detect when we reach the end of page
+    instance.listener = new ScrollListener(instance)
+    window.addEventListener('scroll', instance.listener)
+
     //we reset our stored state whenever the route changes
     instance.autorun(function(){
 
-        console.log('re-setting state..')
         var route = Router.current().route.getName()
+        //console.log('re-setting state..', route)
         var channel
         switch (route) {
             case "read":
@@ -36,93 +61,61 @@ Template.articles.onCreated(function(){
                 break;
             case "mine":
                 channel = "mine"
-                break;   
+                break;
+            case "profile":
+                channel = "specificUserArticles"
+                break;
             case "home":
                 channel = "articles"
                 break;
         }
 
 
-        //default loaded and limit values (on )
-        var loaded = 0, limit = 5
-
-        //if there are already loaded articles (cached/history)
-        Tracker.nonreactive(function(){
-            console.log('there are already', ArticlesCursor(route).count(), 'articles')
-            if (ArticlesCursor(route).count() > 0){
-                //we are rounding to the nearest multiple of increment amount 
-                //example: increment = 5, existing = 12, then we set limit to 12 + 3 = 15
-                loaded = limit = ArticlesCursor(route).count() + (5-(ArticlesCursor(route).count()%5))
-            }
-        })
+        //default lastRequestSize and limit values (on )
+        var lastRequestSize = 0, limit = 5
 
         instance.state.set('route', route)
         instance.state.set('channel', channel) 
-        instance.state.set('loaded', loaded) //number of loaded articles
+        instance.state.set('lastRequestSize', lastRequestSize) //number of lastRequestSize articles
         instance.state.set('limit', limit) //number of total displayed items
 
     })
-
 
     //we re-subscribe, when either channel or limit change
     instance.autorun(function(){
 
         var channel = instance.state.get('channel');     
         var limit = instance.state.get('limit');
-
-        console.log('subscribing to ', channel, limit)
+        
         //subscribing using subscription manager
-        var subscription = ArticlesSubscriptions.subscribe(channel, limit);
+        //console.log('subscribing to ', channel, limit)
+        var subscription 
+        if (channel == 'specificUserArticles'){
+            subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
+        } else {
+            subscription = ArticlesSubscriptions.subscribe(channel, limit)
+        }
         instance.ready.set(subscription.ready())
         
         if (subscription.ready()) {
             //increasing the actual number of displayed items
-            console.log('subscribed to ', channel, limit)
-            instance.state.set('loaded', limit); 
+            //console.log('subscribed to ', channel, limit)
+            instance.state.set('lastRequestSize', limit); 
         }
     })
-
-    //It is quite ugly to include this here, sorry. - Amjad
-    //A callback that runs on every user scroll
-    $(window).scroll(function() {
-        var threshold, target = $("#showMoreResults");
-        if (!target.length) return;
-     
-        threshold = $(window).scrollTop() + $(window).height() - target.height();
-     
-        if (target.offset().top < threshold) {
-            if (!target.data("visible")) {
-                // console.log("target became visible (inside viewable area)");
-                target.data("visible", true);
-
-                // increase limit by 5 and update it
-                var limit = instance.state.get('limit')
-                limit += 5;
-                instance.state.set('limit', limit)
-            }
-        } else {
-            if (target.data("visible")) {
-                // console.log("target became invisible (below viewable arae)");
-                target.data("visible", false);
-            }
-        }       
-    })
-     
-    
 
 })
 
 Template.articles.helpers({
 
     initialLoad : function(){
-        //we know that we are rendering the list for the first time if it has zero items loaded
-        return (Template.instance().state.get('loaded') == 0)
+        //we know that we are rendering the list for the first time if it has zero items lastRequestSize
+        return (Template.instance().state.get('lastRequestSize') == 0)
     },
     hasMore: function () {
         var articlesCount = ArticlesCursor(Template.instance().state.get('route')).count()
-        var loaded = Template.instance().state.get('loaded')
-
-        return (!(articlesCount < loaded) && (articlesCount != 0));
+        var lastRequestSize = Template.instance().state.get('lastRequestSize')
+        return ((articlesCount >= lastRequestSize) && (articlesCount != 0));
     },
     articles: function () {
         return ArticlesCursor(Router.current().route.getName())
@@ -130,6 +123,10 @@ Template.articles.helpers({
 });
 
 Template.articles.events({
+    'click .article-link' : function(e){
+        //we save the scroll position so we can return to the same position when user goes back
+        Session.set('lastScrollPosition', window.pageYOffset)
+    },
     'click .remove': function () {
         var id = this._id;
         if (confirm(arabicMessages.confirmDelete)) {
