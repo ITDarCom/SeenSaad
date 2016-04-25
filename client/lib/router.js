@@ -19,11 +19,16 @@ var privateRoutes = [
     "favorite"
 ];
 Router.ensureLoggedIn = function () {
-    if (!Meteor.user()) {
-        this.redirect('signIn');
-    }
-    else {
-        this.next();
+    if (Meteor.loggingIn()){
+        //console.log('logging in..')
+        this.render('spinner')
+    } else {
+        //console.log('finished logging in process.')
+        if (!Meteor.user()) {
+            this.redirect('signIn');
+        } else {
+            this.next();
+        }        
     }
 };
 
@@ -57,12 +62,6 @@ Router.map(function () {
                 Router.go('home');
         }
     });
-    this.route('profile', {
-        path: '/profile/:id', waitOn: function () {
-            return [Meteor.subscribe('specificUser', this.params.id),
-                Meteor.subscribe('specificUserArticles', this.params.id)];
-        }
-    });
     this.route('resetPasswd', {
         path: '/profile/setting/resetpass', template: 'profile', action: function () {
             this.state.set('isForMe', true);
@@ -87,16 +86,30 @@ Router.map(function () {
             Session.set('settings', 'profileImg')
         }
     });
+
     this.route('profileSetting', {
         path: '/settings', template: 'profile', action: function () {
             this.state.set('isForMe', true);
             Session.set('template', 'profileSetting');
             Session.set('settings', 'profileImg');
             this.render('profile')
-
         }
     });
-    this.route('me', {path: '/profile', template: 'profile'});
+
+    this.route('me', {path: '/profile', template: 'profile', action : function(){
+        this.state.set('isForMe', true);
+        Session.set('template', 'profileSetting');
+        Session.set('settings', 'profileImg');
+        this.render('profile')
+    }});
+
+    this.route('profile', {path: '/profile/:id', action : function(){
+        Session.set('template', 'articles');
+        Session.set('settings', 'profileImg');
+        this.render('profile')
+    }});
+
+
     this.route('home', { path: '/', template: 'articles' });
     this.route('search', {path: '/search'});
     this.route('read', {path: '/read', template: 'articles' });
