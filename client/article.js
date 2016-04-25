@@ -88,6 +88,10 @@ Template.article.events({
         else
             Router.go('signIn');
     },
+    'click .back-link' : function(){
+        console.log('going back...')
+        window.history.back()
+    }
 });
 Template.comments.helpers({
     comments: function () {
