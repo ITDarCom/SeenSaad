@@ -75,7 +75,9 @@ Template.article.events({
         if (confirm(arabicMessages.confirmDelete)) {
             {
                 Meteor.call('removeArticle', id, function (err) {
-                    Session.set('alert', 'deleteSuccessfully')
+                    $('.alert').remove();
+                    Session.set('alert', 'deleteSuccessfully');
+                    Router.go('mine');
                 });
             }
         }
@@ -112,7 +114,7 @@ Template.comments.events({
     },
     'click .updateComment': function (event) {
         var commentBody = $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent();
-        if(commentBody.find('.okUpdate,NoCancel').length == 0 ) {
+        if (commentBody.find('.okUpdate,NoCancel').length == 0) {
             commentBody
                 .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
                     "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
@@ -150,11 +152,18 @@ Template.additions.helpers({
             additions.forEach(function (s, index) {
                 var createdAt = new Date(Addition.date(s));
                 var text = Addition.getText(s);
-                data.push({
-                    createdAt: createdAt,
-                    text: text,
-                    id: index
-                })
+                if (index == additions.length - 1 && Router.current().route.getName() == 'edit') {
+                    if (allowedUpdateTime(Addition.date(s), true)) { // to prevent show the last addition in edit page
+                        return;
+                    }
+                }
+                else {
+                    data.push({
+                        createdAt: createdAt,
+                        text: text,
+                        id: index
+                    })
+                }
             });
             return data;
         }

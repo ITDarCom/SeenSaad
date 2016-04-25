@@ -149,6 +149,7 @@ Template.articles.events({
         if (confirm(arabicMessages.confirmDelete)) {
             {
                 Meteor.call('removeArticle', id, function (err) {
+                    $('.alert').remove();
                     $('alert').remove();
                     Session.set('alert', 'deleteSuccessfully')
                 });
