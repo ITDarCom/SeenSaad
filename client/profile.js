@@ -52,7 +52,69 @@ Template.profileSetting.helpers({
     }
 });
 
-Template.profileImg.onRendered(function () {
+Template.profileImg.onCreated(function(){
+
+    var instance = this
+
+    instance.fileInProgressId = new ReactiveVar()
+    instance.isUploading = new ReactiveVar(false)
+
+    instance.autorun(function(){
+
+        var fileInProgressId = instance.fileInProgressId.get() //should be null at the beginning
+        if (!fileInProgressId){
+            return ;           
+        } else {
+            var fileObj = profilePicture.findOne(fileInProgressId)
+            //console.log('fileObj.uploadProgress()', fileObj.uploadProgress())
+            //console.log('fileObj.url()', fileObj.url())            
+            if (fileObj.url()) {
+                Template.instance().isUploading.set(false)
+            }             
+        }
+
+    })
+})
+
+Template.profileImg.helpers({
+    isUploading : function(){
+        return Template.instance().isUploading.get()
+    }
+})
+
+Template.profileImg.events({
+
+    'change #profile-image-input' : function(event, instance){
+
+
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function () {
+            var fsFile = new FS.File(file);
+
+            instance.isUploading.set(true)
+            
+            fsFile.owner = Meteor.userId();            
+            Meteor.call('deleteMyPic');
+            $(".image-preview-filename").val(file.name);
+            profilePicture.insert(fsFile, function (err, fileObj) {
+                // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+
+                if (err) {
+                    instance.isUploading.set(false)
+                    throw err
+                }
+                
+                //fileObj is not reactive until you explicitly fetch it from the db in a reactive context
+                //check this issue: https://github.com/CollectionFS/Meteor-CollectionFS/issues/397
+                instance.fileInProgressId.set(fileObj._id)
+            })
+        };
+        reader.readAsDataURL(file);
+    }
+})
+
+/*Template.profileImg.onRendered(function () {
     $(function () {
         $(".image-preview-input input:file").change(function () {
             // Create the preview image
@@ -74,7 +136,7 @@ Template.profileImg.onRendered(function () {
             reader.readAsDataURL(file);
         });
     });
-});
+});*/
 
 Template.chgpasswd.onRendered(function () {
     $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.saveButton);
