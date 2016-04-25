@@ -86,6 +86,7 @@ Router.map(function () {
             Session.set('settings', 'profileImg')
         }
     });
+
     this.route('profileSetting', {
         path: '/settings', template: 'profile', action: function () {
             this.state.set('isForMe', true);
@@ -94,14 +95,27 @@ Router.map(function () {
             this.render('profile')
         }
     });
-    this.route('me', {path: '/profile', template: 'profile'});
+
+    this.route('me', {path: '/profile', template: 'profile', action : function(){
+        this.state.set('isForMe', true);
+        Session.set('template', 'profileSetting');
+        Session.set('settings', 'profileImg');
+        this.render('profile')
+    }});
+
+    this.route('profile', {path: '/profile/:id', action : function(){
+        Session.set('template', 'articles');
+        Session.set('settings', 'profileImg');
+        this.render('profile')
+    }});
+
+
     this.route('home', { path: '/', template: 'articles' });
     this.route('search', {path: '/search'});
     this.route('read', {path: '/read', template: 'articles' });
     this.route('participation', { path: '/participation', template: 'articles'});
     this.route('favorite', { path: '/favorite', template: 'articles' });
     this.route('mine', {path: '/mine', template: 'articles' });
-    this.route('profile', {path: '/profile/:id'});
     this.route('about', {path: '/about'});
     this.route('signIn', {path: '/signIn'});
     this.route('edit', {

@@ -46,27 +46,42 @@
 
 					<ul class="nav navbar-nav navbar-left">
 						<li class="dropdown">
-							<a href="#" class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle"
-							   data-toggle="dropdown"
-							   role="button" aria-haspopup="true"
-                               aria-expanded="false">{{#if currentUser}}{{userUsername}} {{#if profileInCompleted}} <a
-                                    href="{{pathFor 'editPersonalInfo'}}"
-									title='{{getArabicMsg "nonCompletedProfile"}}'>
-								<i class="fa fa-exclamation-triangle"></i>
-
-							</a>{{/if}}{{else}}{{getArabicMsg "signInUpLabel"}}{{/if}}
-								{{#if currentUser}} <span class="caret"></span>{{/if}}</a>
+							<a href="#" 
+								class="{{#unless currentUser}}signIn{{/unless}} dropdown-toggle"
+								data-toggle="dropdown"
+								role="button" aria-haspopup="true"
+								aria-expanded="false">
+									{{#if currentUser}}
+										{{userUsername}} 
+										{{#if profileInCompleted}} 
+											<a href="{{pathFor 'editPersonalInfo'}}"
+											title='{{getArabicMsg "nonCompletedProfile"}}'>
+												<i class="fa fa-exclamation-triangle"></i>
+											</a>
+										{{/if}}
+									{{else}}
+										{{getArabicMsg "signInUpLabel"}}
+									{{/if}}
+								{{#if currentUser}} 
+									<span class="caret"></span>
+								{{/if}}
+							</a>
 							{{#if currentUser}}
 							<ul class="dropdown-menu">
-								<li class="myprofile"><a href="{{pathFor 'me'}}"><span
-										class="glyphicon glyphicon-user" aria-hidden="true"></span> {{getArabicMsg "headers.me"}}
-                                    {{#if profileInCompleted}} <a
-                                            href="{{pathFor 'me'}}"
+								<li class="myprofile">
+									<a href="{{pathFor 'me'}}">
+										<span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
+										{{getArabicMsg "headers.me"}}
+                                    {{#if profileInCompleted}} 
+                                    	<a href="{{pathFor 'me'}}"
 											title={{getArabicMsg "nonCompletedProfile"}}>
 										<i class="fa fa-exclamation-triangle"></i>
-									</a>{{/if}}</a></li>
-								<li class="logOut"><a href="#"><span><i class="fa fa-power-off"
-																		aria-hidden="true"></i></span>&nbsp; {{getArabicMsg 'logout'}}
+										</a>
+									{{/if}}
+								</a></li>
+								<li class="logOut">
+									<a href="#"><span>
+										<i class="fa fa-power-off" aria-hidden="true"></i></span>&nbsp; {{getArabicMsg 'logout'}}
 								</a></li>
 							</ul>
 							{{/if}}
