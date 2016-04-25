@@ -1,3 +1,7 @@
+Template.profile.onCreated(function(){
+    Meteor.subscribe('specificUser', Router.current().params.id)
+});
+
 Template.profile.helpers({
     active: function () {
         if (Router.current().route.getName() == 'me') {
@@ -23,6 +27,7 @@ Template.profile.helpers({
         })
     }
 });
+
 Template.profile.events({
     'click #sendMessage': function () {
         if (Meteor.userId() === Router.current().params.id) {
@@ -32,6 +37,7 @@ Template.profile.events({
         Session.set('template', 'messageStream');
     }
 });
+
 Template.profileSetting.helpers({
     activeSetting: function () {
         return Session.get('settings');
@@ -45,6 +51,7 @@ Template.profileSetting.helpers({
         return (Meteor.userId() == this._id);
     }
 });
+
 Template.profileImg.onRendered(function () {
     $(function () {
         $(".image-preview-input input:file").change(function () {
@@ -68,11 +75,13 @@ Template.profileImg.onRendered(function () {
         });
     });
 });
+
 Template.chgpasswd.onRendered(function () {
     $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.saveButton);
     $('label').hide();
     $('.at-title').remove();
 });
+
 //noinspection JSUnusedGlobalSymbols
 Template.personalInformation.helpers({
     thisUser: function () {
@@ -86,6 +95,7 @@ Template.personalInformation.helpers({
         moment(this.birthday.date).format('MMMM Do YYYY');
     }
 });
+
 Template.personalInformation.onRendered(function () {
 
     if (Meteor.userId()) {
@@ -106,6 +116,7 @@ Template.personalInformation.onRendered(function () {
         });
     }
 });
+
 AutoForm.hooks({
     updatePersonalInformation: {
         onSuccess: function () {
@@ -126,6 +137,7 @@ AutoForm.hooks({
 
     }
 });
+
 Template.userInformation.helpers({
     thisUser: function () {
         return (Meteor.users.findOne(registerHelpers.currentId()))
