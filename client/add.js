@@ -75,6 +75,12 @@ Template.add.helpers({
                 return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
             }
         },
+        createdAt : function(){
+            var articleId = Router.current().params.id;
+            if (articleId) {
+                return (Articles.findOne(articleId).createdAt.getTime())
+            }
+        },
         canEdit: function () {
             if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
                 return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
