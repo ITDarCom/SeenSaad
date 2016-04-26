@@ -2,15 +2,24 @@
  * Created by omar on 9/19/15.
  */
 
+var isSubmitting = new ReactiveVar(false)
+
 AutoForm.hooks({
     addCommentForm : {
+        beginSubmit: function() {
+            isSubmitting.set(true)
+        },
         endSubmit: function() {
             Session.set('formIsDirty', false)
-        }
-    }
+            isSubmitting.set(false)
+        },
+    },
 })
 
 Template.article.helpers({
+    isSubmitting : function(){
+        return isSubmitting.get()
+    },
     bodyText: function () {
         return this.body.slice(0, this.body.indexOf('<div'));
     },
