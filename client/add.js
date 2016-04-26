@@ -1,70 +1,72 @@
 //noinspection JSUnusedGlobalSymbols
-AutoForm.hooks( // Callbacks invoked after submit the autoform
-    {
-        addUpdateArticles: {
-            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
-                if (formType == 'method') {
-                    Router.go('global', {id: result});
-                    $('.alert').hide();
-                    Session.set('alert', 'addSuccessfully');
-                }
-                if (formType == 'method-update') {
-                    Router.go('global', {id: this.docId});
-                    $('.alert').hide();
-                    Session.set('alert', 'editSuccessfully');
-                }
-            },
-            formToDoc: function (doc) {
-                if (doc.contributingIds) {
-                    var intersection = _.intersection(doc.readingIds, doc.contributingIds);
-                    _.each(intersection, function (u) {
-                        doc.readingIds = _.without(doc.readingIds, u);
-                    });
-                }
-                return doc;
-            }
+AutoForm.hooks({
+    addUpdateArticles: {
+        endSubmit: function() {
+            Session.set('formIsDirty', false)
         },
-        updateArticleS: {
-            onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
-                var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
-                var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
-                Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+        onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
+            if (formType == 'method') {
+                Router.go('global', {id: result});
+                $('.alert').hide();
+                Session.set('alert', 'addSuccessfully');
+            }
+            if (formType == 'method-update') {
                 Router.go('global', {id: this.docId});
                 $('.alert').hide();
                 Session.set('alert', 'editSuccessfully');
-            },
-            before: {
-                'update': function (doc) {
-                    if (!allowedUpdateTime(this.currentDoc.createdAt)) {
-                        alert(arabicMessages.notInUpdateTime);
-                        Router.go('home');
-                    }
-                    _.each(_.intersection(doc.$set.readingIds, doc.$set.contributingIds), function (u) {
-                        doc.$set.readingIds = _.without(doc.$set.readingIds, u);
-                    });
-                    return doc;
-                }
             }
-
         },
-        addText: {
-            onSuccess: function (doc) {
-                Router.go('global', {id: this.insertDoc.articleId});
-                Session.set('alert', 'extentionAddedSuccessfully');
-            }, formToDoc: function (doc) {
-
+        formToDoc: function (doc) {
+            if (doc.contributingIds) {
+                var intersection = _.intersection(doc.readingIds, doc.contributingIds);
+                _.each(intersection, function (u) {
+                    doc.readingIds = _.without(doc.readingIds, u);
+                });
+            }
+            return doc;
+        }
+    },
+    updateArticleS: {
+        onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
+            var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
+            var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
+            Meteor.call('permissionUpdate', this.docId, oldReadingIds, oldContributingIds);
+            Router.go('global', {id: this.docId});
+            $('.alert').hide();
+            Session.set('alert', 'editSuccessfully');
+        },
+        before: {
+            'update': function (doc) {
+                if (!allowedUpdateTime(this.currentDoc.createdAt)) {
+                    alert(arabicMessages.notInUpdateTime);
+                    Router.go('home');
+                }
+                _.each(_.intersection(doc.$set.readingIds, doc.$set.contributingIds), function (u) {
+                    doc.$set.readingIds = _.without(doc.$set.readingIds, u);
+                });
                 return doc;
             }
-        },
-        lastExtentionUpdate: {
-            after: {
-                'update': function () {
-                    Router.go('global', {id: this.currentDoc.articleId});
-                    Session.set('alert', 'editSuccessfully');
-                }
+        }
+
+    },
+    addText: {
+        onSuccess: function (doc) {
+            Router.go('global', {id: this.insertDoc.articleId});
+            Session.set('alert', 'extentionAddedSuccessfully');
+        }, formToDoc: function (doc) {
+
+            return doc;
+        }
+    },
+    lastExtentionUpdate: {
+        after: {
+            'update': function () {
+                Router.go('global', {id: this.currentDoc.articleId});
+                Session.set('alert', 'editSuccessfully');
             }
         }
-    });
+    }
+});
 Template.add.helpers({
         allowedTime: function () {
             if (Router.current().route.getName() == 'add') {
@@ -111,13 +113,15 @@ Template.add.helpers({
             else return "updateSchema";
         }
         return 'updateSchema'
+        
         }
         ,
         thisArticle: function () {
+            var article = {}
             if (Router.current().route.getName() == 'edit') {
-                return Articles.findOne({_id: Router.current().params.id});
-            }
-            // to get the article from collection to display it
+                article = Articles.findOne({_id: Router.current().params.id});
+            }            
+            return article
         },
     bodyText: function () {
         if (Router.current().route.getName() == 'edit') {
@@ -163,6 +167,9 @@ Template.add.events({
             $('#readingDiv').show()
         }
         // if contributing permissions is public then we hide the reading permission div
+    },
+    'input #addUpdateArticles': function(){
+        Session.set('formIsDirty', true)
     }
 });
 //noinspection JSUnresolvedVariable

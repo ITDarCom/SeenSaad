@@ -1,6 +1,15 @@
 /**
  * Created by omar on 9/19/15.
  */
+
+AutoForm.hooks({
+    addCommentForm : {
+        endSubmit: function() {
+            Session.set('formIsDirty', false)
+        }
+    }
+})
+
 Template.article.helpers({
     bodyText: function () {
         return this.body.slice(0, this.body.indexOf('<div'));
@@ -88,9 +97,8 @@ Template.article.events({
         else
             Router.go('signIn');
     },
-    'click .back-link' : function(){
-        console.log('going back...')
-        window.history.back()
+    'change #addCommentForm' : function(){
+        Session.set('formIsDirty', true)
     }
 });
 Template.comments.helpers({
