@@ -3,7 +3,11 @@ AutoForm.hooks({
     addUpdateArticles: {
         endSubmit: function() {
             Session.set('formIsDirty', false)
+
         },
+        /*onError: function(formType, error) {
+            this.resetForm()
+        },*/
         onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
             if (formType == 'method') {
                 Router.go('global', {id: result});
@@ -155,11 +159,13 @@ Template.add.helpers({
         var article = Articles.findOne(registerHelpers.currentId());
         var lastAddition = article.body.substring(article.body.lastIndexOf('<div'), article.body.length);
         if (allowedUpdateTime(Addition.date(lastAddition), true)) {
-            return Addition.getText(lastAddition)
-            }
+        return Addition.getText(lastAddition)
         }
-    }
-);
+    },
+/*    isInValid : function(){
+        return AutoForm.validateForm("addUpdateArticles")
+    }*/
+});
 Template.add.events({
     'change #contributingPermissions': function () {
         if ($('#contributingPermissions').val() == 0) {
@@ -176,6 +182,15 @@ Template.add.events({
 });
 //noinspection JSUnresolvedVariable
 Template.autoForm.onRendered(function () {
+
+    this.autorun(function () {
+        if (!AutoForm.getValidationContext('addUpdateArticles').isValid()) {
+            //A jQuery hack to solve sticky disabled button (unfixed bug in AutoForm)
+            //Check this https://github.com/aldeed/meteor-autoform/issues/363
+            $('#submit-button').prop("disabled", false)
+        }
+    });
+
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();
         $('.panel').css('margin-bottom', '5px');

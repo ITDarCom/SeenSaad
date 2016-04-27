@@ -8,7 +8,8 @@
                     id='addUpdateArticles'  
                     name='addUpdateArticles' 
                     schema=schemaTarget  
-                    meteormethod=methodTarget                
+                    meteormethod=methodTarget 
+                    validation="submit"
                     type=formType }}
 
                     {{#if allowedTime}}
@@ -52,7 +53,10 @@
                             {{/if}}
                         </div>
                     {{/if}}
-                    <button type='submit' class='btn btn-block btn-primary'>{{saveButton}}</button>
+                    <button 
+                        id="submit-button"
+                        type='submit' class='btn btn-block btn-primary'>
+                        {{saveButton}}</button>
                 {{/autoForm}}
             </div>
         </div>
