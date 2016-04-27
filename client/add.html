@@ -1,12 +1,16 @@
 <template name='add'>
-
     {{#if canEdit}}
         <div class='row'>
             <div class='col-md-offset-1 col-md-10'>
                 {{> headerText}}
-                {{#autoForm  id='addUpdateArticles'  name='addUpdateArticles' schema=schemaTarget  meteormethod=mehtodTarget
-                doc=thisArticle  type=formType }}
-
+                {{#autoForm  
+                    doc=thisArticle  
+                    id='addUpdateArticles'  
+                    name='addUpdateArticles' 
+                    schema=schemaTarget  
+                    meteormethod=methodTarget 
+                    validation="submit"
+                    type=formType }}
 
                     {{#if allowedTime}}
                         {{> afQuickField name='title'}}
@@ -49,7 +53,10 @@
                             {{/if}}
                         </div>
                     {{/if}}
-                    <button type='submit' class='btn btn-block btn-primary'>{{saveButton}}</button>
+                    <button 
+                        id="submit-button"
+                        type='submit' class='btn btn-block btn-primary'>
+                        {{saveButton}}</button>
                 {{/autoForm}}
             </div>
         </div>

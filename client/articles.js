@@ -1,62 +1,138 @@
+//we wrap this listener so we can use its reference un-register when templates are destroyed
+function ScrollListener(instance){
+    
+    return function(e){
+        var threshold, target = $("#showMoreResults");
+        if (!target.length) return;
+     
+        threshold = $(window).scrollTop() + $(window).height() - target.height();
+     
+        if (target.offset().top < threshold) { 
+            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5, 
+                'was', instance.state.get('limit'))*/
+
+            // increase limit by 5 and update it
+            instance.state.set('limit', ArticlesCursor(Router.current().route.getName()).count() + 5)
+        }
+    }
+}
+
+Template.articles.onRendered(function(){
+    //if we stored the lastScroll position, we'll scroll down to it
+    if (Session.get('lastScrollPosition')){
+        window.scrollTo(0, Session.get('lastScrollPosition'))
+        Tracker.nonreactive(function(){
+            Session.set('lastScrollPosition', null)
+        })
+    }
+})
+
+Template.articles.onDestroyed(function(){
+    window.removeEventListener('scroll', Template.instance().listener)
+})
+
+Template.articles.onCreated(function(){
+
+    var instance = this
+
+    //a reactive dictionary to store the state of our current list of articles
+    instance.state = new ReactiveDict()
+    instance.ready = new ReactiveVar()
+
+    //scroll listener to detect when we reach the end of page
+    instance.listener = new ScrollListener(instance)
+    window.addEventListener('scroll', instance.listener)
+
+    //we reset our stored state whenever the route changes
+    instance.autorun(function(){
+
+        var route = Router.current().route.getName()
+        //console.log('re-setting state..', route)
+        var channel
+        switch (route) {
+            case "read":
+                channel = "readArticles"
+                break;
+            case "participation":
+                channel = "contribution"
+                break;
+            case "favorite":
+                channel = "favorites"
+                break;
+            case "mine":
+                channel = "mine"
+                break;
+            case "profile":
+                channel = "specificUserArticles"
+                break;
+            case "home":
+                channel = "articles"
+                break;
+        }
+
+
+        //default lastRequestSize and limit values (on )
+        var lastRequestSize = 0, limit = 5
+
+        instance.state.set('route', route)
+        instance.state.set('channel', channel) 
+        instance.state.set('lastRequestSize', lastRequestSize) //number of lastRequestSize articles
+        instance.state.set('limit', limit) //number of total displayed items
+
+    })
+
+    //we re-subscribe, when either channel or limit change
+    instance.autorun(function(){
+
+        var channel = instance.state.get('channel');
+        var limit = instance.state.get('limit');
+        
+        //subscribing using subscription manager
+        //console.log('subscribing to ', channel, limit)
+        var subscription 
+        if (channel == 'specificUserArticles'){
+            subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
+        } else {
+            subscription = ArticlesSubscriptions.subscribe(channel, limit)
+        }
+        instance.ready.set(subscription.ready())
+
+        if (subscription.ready()) {
+            //increasing the actual number of displayed items
+            //console.log('subscribed to ', channel, limit)
+            instance.state.set('lastRequestSize', limit); 
+        }
+    })
+
+})
+
 Template.articles.helpers({
-    articles: function () {
-        var custom;
-        if (Meteor.userId()) {
-            $('.alert').hide();
-            switch (Router.current().route.getName()) {
-                case "mine" :
-                    return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
-                case  "participation":
-                    custom = Stream.findOne({userId: Meteor.userId()});
-                    if (custom) {
-                        var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
-                            , 'id') : [];
-                        return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
-                    }
-                    break;
-                case "read":
-                    custom = Stream.findOne({userId: Meteor.userId()});
-                    if (custom) {
-                        var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                        return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
-                    }
-                    break;
-                case  "favorite":
-                    var ids = Favorites.findOne({userId: Meteor.userId()});
-                    if (ids)
-                        return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
-                    break;
-                case "home" :
-                    return Articles.find({}, {sort: {generalDate: -1}});
-                case "profile" :
-                    if (Router.current().params.id)
-                        return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
-                    break;
-                case "global" :
-                    if (Router.current().params.id)
-                        return Articles.find({_id: Router.current().params.id});
-            }
-        }
-        else {
-            if (Router.current().route.getName() == 'home')
-                return Articles.find({}, {sort: {createdAt: -1}});
-            Router.go('signIn');
-        }
+
+    initialLoad : function(){
+        //we know that we are rendering the list for the first time if it has zero items lastRequestSize
+        return (Template.instance().state.get('lastRequestSize') == 0)
     },
     hasMore: function () {
-        // If, once the subscription is ready, we have less rows than we
-        // asked for, we've got all the rows in the collection.
-            Session.setDefault('itemsLimit', 5);
-        return (Session.get('itemsLimit') && !(Articles.find().count() < Session.get("itemsLimit"))
-        && !(Articles.find().count() === 0));
-    }
+        var articlesCount = ArticlesCursor(Template.instance().state.get('route')).count()
+        var lastRequestSize = Template.instance().state.get('lastRequestSize')
+        return ((articlesCount >= lastRequestSize) && (articlesCount != 0));
+    },
+    articles: function () {
+        return ArticlesCursor(Router.current().route.getName())
+    },
 });
+
 Template.articles.events({
+    'click .article-link' : function(e){
+        //we save the scroll position so we can return to the same position when user goes back
+        Session.set('lastScrollPosition', window.pageYOffset)
+    },
     'click .remove': function () {
         var id = this._id;
         if (confirm(arabicMessages.confirmDelete)) {
             {
                 Meteor.call('removeArticle', id, function (err) {
+                    $('.alert').remove();
                     $('alert').remove();
                     Session.set('alert', 'deleteSuccessfully')
                 });
@@ -71,10 +147,6 @@ Template.articles.events({
     },
     'click .edit': function () {
         Router.go('edit', {id: this._id})
-    },
-    'click #loadMore': function () {
-        var temp = Session.get('itemsLimit') ? Session.get('itemsLimit') : 0
-        Session.set('itemsLimit', temp + 5);
     }
 });
 Template.searchResult.helpers({

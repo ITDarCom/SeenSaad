@@ -1,3 +1,52 @@
+ArticlesSubscriptions = new SubsManager();
+
+ArticlesCursor = function(route){
+
+    var custom;
+    if (Meteor.userId()) {
+        $('.alert').hide();
+        switch (route) {
+            case "mine" :
+                return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
+            case  "participation":
+                custom = Stream.findOne({userId: Meteor.userId()});
+                if (custom) {
+                    var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
+                        , 'id') : [];
+                    return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
+                }
+                break;
+            case "read":
+                custom = Stream.findOne({userId: Meteor.userId()});
+                if (custom) {
+                    var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
+                    return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
+                }
+                break;
+            case  "favorite":
+                var ids = Favorites.findOne({userId: Meteor.userId()});
+                if (ids)
+                    return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+                break;
+            case "home" :
+                return Articles.find({}, {sort: {generalDate: -1}});
+            case "profile" :
+                if (Router.current().params.id)
+                    return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+                break;
+            case "global" :
+                if (Router.current().params.id)
+                    return Articles.find({_id: Router.current().params.id});
+        }
+    }
+    else {
+        if (route == 'home')
+            return Articles.find({}, {sort: {createdAt: -1}});
+        Router.go('signIn');
+    }
+
+}
+
 //this file contains a global functions used in HTML ans js files
 //functions used globally in the project
 // we define registerHelpers object to access global helpers in js files cause register helpers used only in Html
@@ -38,9 +87,10 @@ registerHelpers = {
         }
     },
     isAdmin: function () {
-        if (Meteor.userId()) {
+        //return false //A BUG SHOULD BE FIXED HERE
+        if (Meteor.user()) {
             var Admins = ['SeenSaad'];
-            return (_.contains(Admins, Meteor.users.findOne(Meteor.userId()).username));
+            return (_.contains(Admins, Meteor.user().username));
         }
     },
     owner: function () { //return true if the current user is the owner of this article

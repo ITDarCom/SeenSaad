@@ -1,26 +1,35 @@
 <!--suppress ALL -->
+
 <template name='articles'>
     <div class='row'>
         <div class='col-md-offset-1 col-md-10'>
             {{> headerText}}
-            {{#each articles}}
-                {{> articleView}}
+            {{#if initialLoad}}
+                <div style="margin-top:200px;">
+                {{> spinner}}
+                </div>
             {{else}}
-                <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
-            {{/each}}
-            {{#if hasMore}}
-                <button class='btn btn-block btn-primary' id="loadMore">
-                    {{getArabicMsg 'loadMore'}}
-                </button>
+                {{#each articles}}
+                    {{> articleView}}
+                {{else}}
+                    <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
+                {{/each}}
+                {{#if hasMore}}
+                    <div id="showMoreResults" style="margin-left: 25px;">
+                        <center><span class="loading">{{getArabicMsg 'loading'}}</span></center>
+                    </div>
+                {{/if}}
             {{/if}}
+
         </div>
     </div>
 </template>
+
 <template name='articleView'>
     <div class='panel panel-info'>
         <div class='clickableDiv panel-heading'>
             <div class='row'>
-                <a href="{{pathFor route='global' id=_id}}">
+                <a class="article-link" href="{{pathFor route='global' id=_id}}">
                     <h4 class=' col-md-9'>{{{title}}} </h4>
                     <h5 class='col-md-3 text-left'>
                         {{{newLabel}}}

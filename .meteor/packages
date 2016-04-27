@@ -40,10 +40,10 @@ meteorhacks:kadira
 aldeed:tabular
 dburles:collection-helpers
 rajit:bootstrap3-datepicker
-meteorhacks:npm
 ajduke:bootstrap-tagsinput
 http
 natestrauser:select2
-
-
-npm-container
+reactive-var
+reactive-dict
+meteorhacks:subs-manager
+cfs:ui
