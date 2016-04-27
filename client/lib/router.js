@@ -175,6 +175,14 @@ Router.map(function () {
             }
         }
     });
+    Router.route('/logOut', {
+        name: 'logOut',
+        onBeforeAction: function () {
+            AccountsTemplates.logout();
+            Router.go('/');
+            //this.next(); //this line causes 'sign-out template not found error
+        }
+    });
     this.route('add', {path: '/add'});
     this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});
