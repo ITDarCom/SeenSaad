@@ -154,7 +154,7 @@ Template.personalInformation.helpers({
         return user;
     },
     birthdayformat: function () {
-        moment(this.birthday.date).format('MMMM Do YYYY');
+        return moment(this.birthday.date).format('MMMM Do YYYY');
     }
 });
 
