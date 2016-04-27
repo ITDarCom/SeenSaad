@@ -26,7 +26,10 @@ AutoForm.hooks({
             return doc;
         }
     },
-    updateArticleS: {
+    updateArticles: {
+        endSubmit: function() {
+            Session.set('formIsDirty', false)
+        },
         onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
             var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
             var oldContributingIds = this.currentDoc.contributingIds ? this.currentDoc.contributingIds : [];
@@ -68,37 +71,37 @@ AutoForm.hooks({
     }
 });
 Template.add.helpers({
-        allowedTime: function () {
-            if (Router.current().route.getName() == 'add') {
-                return true;
-            }
-            var articleId = Router.current().params.id;
-            if (articleId) {
-                return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
-            }
-        },
-        createdAt : function(){
-            var articleId = Router.current().params.id;
-            if (articleId) {
-                return (Articles.findOne(articleId).createdAt.getTime())
-            }
-        },
-        canEdit: function () {
-            if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
-                return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
-            return (Router.current().route.getName() == 'add')
+    allowedTime: function () {
+        if (Router.current().route.getName() == 'add') {
+            return true;
         }
-        ,
-        formType: function () {
-            if (Router.current().route.getName() == 'add') {
-                return 'method';
-            }
-            if (Router.current().route.getName() == 'edit') {
-                return 'method-update';
-            }
+        var articleId = Router.current().params.id;
+        if (articleId) {
+            return ((new Date()).getTime() - Articles.findOne(articleId).createdAt.getTime() < 3600 * 1000)
+        }
+    },
+    createdAt : function(){
+        var articleId = Router.current().params.id;
+        if (articleId) {
+            return (Articles.findOne(articleId).createdAt.getTime())
+        }
+    },
+    canEdit: function () {
+        if ((Router.current().params.id) && (Router.current().route.getName() == 'edit'))
+            return (Articles.findOne(Router.current().params.id).user == Meteor.userId());
+        return (Router.current().route.getName() == 'add')
+    }
+    ,
+    formType: function () {
+        if (Router.current().route.getName() == 'add') {
+            return 'method';
+        }
+        if (Router.current().route.getName() == 'edit') {
+            return 'method-update';
+        }
 
-        },
-    mehtodTarget: function () {
+    },
+    methodTarget: function () {
             if (Router.current().route.getName() == 'add') {
                 return 'addArticle';
             }
@@ -112,43 +115,42 @@ Template.add.helpers({
                 return "ArticleSchema";
             else return "updateSchema";
         }
-        return 'updateSchema'
-        
-        }
-        ,
-        thisArticle: function () {
-            var article = {}
-            if (Router.current().route.getName() == 'edit') {
-                article = Articles.findOne({_id: Router.current().params.id});
-            }            
-            return article
-        },
+        return 'updateSchema'    
+    }
+    ,
+    thisArticle: function () {
+        var article = {}
+        if (Router.current().route.getName() == 'edit') {
+            article = Articles.findOne({_id: Router.current().params.id});
+        }            
+        return article
+    },
     bodyText: function () {
         if (Router.current().route.getName() == 'edit') {
             var article = Articles.findOne({_id: Router.current().params.id});
             return article.body.slice(0, article.body.indexOf('<div'));
         }
     },
-        saveButton: function () {
-            if (Router.current().route.getName() == 'edit') {
-                return arabicMessages.editButtonLabel;
-            }
-            if (Router.current().route.getName() == 'add') {
-                return arabicMessages.addButtonLabel;
-            }
-            // return the correct title for button that used in the form
+    saveButton: function () {
+        if (Router.current().route.getName() == 'edit') {
+            return arabicMessages.editButtonLabel;
         }
-        ,
-        usersOptions: function () {
-            return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
-                return {label: c.username, value: c._id};
-                // return users name for select2 field
-            });
+        if (Router.current().route.getName() == 'add') {
+            return arabicMessages.addButtonLabel;
         }
-        ,
-        s2Opts: function () {
-            return {placeholder: arabicMessages.contributingIdsLabel};
-        },
+        // return the correct title for button that used in the form
+    }
+    ,
+    usersOptions: function () {
+        return Meteor.users.find({_id: {$not: Meteor.userId()}}).map(function (c) {
+            return {label: c.username, value: c._id};
+            // return users name for select2 field
+        });
+    }
+    ,
+    s2Opts: function () {
+        return {placeholder: arabicMessages.contributingIdsLabel};
+    },
     lastAddition: function () {
         var article = Articles.findOne(registerHelpers.currentId());
         var lastAddition = article.body.substring(article.body.lastIndexOf('<div'), article.body.length);
