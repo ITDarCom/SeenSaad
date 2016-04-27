@@ -88,7 +88,7 @@ registerHelpers = {
     },
     isAdmin: function () {
         //return false //A BUG SHOULD BE FIXED HERE
-        if (Meteor.userId()) {
+        if (Meteor.user()) {
             var Admins = ['SeenSaad'];
             return (_.contains(Admins, Meteor.user().username));
         }
