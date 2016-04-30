@@ -26,25 +26,33 @@ Meteor.publish('articles', function (limit) {
         }
         else {
             var custom = Stream.findOne({userId: this.userId});
-            if (custom) {
-                var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles, 'id') : [];
-                var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                var privateArticles = _.union(readingArticles, contributingArticles);
-                return Articles.find({
-                        $or: [{readingPermissions: '0', deleted: null}, {
-                            contributingPermissions: '0',
-                            deleted: null
-                        }, {_id: {$in: privateArticles ? privateArticles : []}, deleted: null}, {
-                            user: this.userId,
-                            deleted: null
-                        }]
-                    },
-                    {
-                        fields: articleStreamFields,
-                        sort: {generalDate: -1},
-                        limit: limit || 5
-                    });
-            }
+
+            if (!custom) custom = {}
+
+            var contributingArticles = 
+                custom.contributingArticles ? 
+                _.pluck(custom.contributingArticles, 'id') : [];
+            var readingArticles = 
+                custom.readingArticles ? 
+                _.pluck(custom.readingArticles, 'id') : [];
+            var privateArticles = 
+                _.union(readingArticles, contributingArticles);
+
+            return Articles.find({
+                    $or: [{readingPermissions: '0', deleted: null}, {
+                        contributingPermissions: '0',
+                        deleted: null
+                    }, {_id: {$in: privateArticles ? privateArticles : []}, deleted: null}, {
+                        user: this.userId,
+                        deleted: null
+                    }]
+                },
+                {
+                    fields: articleStreamFields,
+                    sort: {generalDate: -1},
+                    limit: limit || 5
+                });
+            
         }
     }
 );

@@ -165,7 +165,6 @@ Router.map(function () {
     this.route('favorite', { path: '/favorite', template: 'articles' });
     this.route('mine', {path: '/mine', template: 'articles' });
     this.route('about', {path: '/about'});
-    this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
             if (Meteor.user()) {
@@ -175,14 +174,17 @@ Router.map(function () {
             }
         }
     });
+
+    this.route('signIn', {path: '/signIn'});
     Router.route('/logOut', {
         name: 'logOut',
         onBeforeAction: function () {
-            AccountsTemplates.logout();            
-            window.location = "/"
-            //this.next(); //this line causes 'sign-out template not found error
+            //we only redirect to 'home' after we fully logged out using 'onLogoutHook'
+            AccountsTemplates.logout();
+            this.render('spinner')
         }
     });
+
     this.route('add', {path: '/add'});
     this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});
