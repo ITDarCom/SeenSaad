@@ -1,14 +1,14 @@
 //we wrap this listener so we can use its reference un-register when templates are destroyed
 function ScrollListener(instance){
-
+    
     return function(e){
         var threshold, target = $("#showMoreResults");
         if (!target.length) return;
-
+     
         threshold = $(window).scrollTop() + $(window).height() - target.height();
-
-        if (target.offset().top < threshold) {
-            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5,
+     
+        if (target.offset().top < threshold) { 
+            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5, 
                 'was', instance.state.get('limit'))*/
 
             // increase limit by 5 and update it
@@ -46,9 +46,8 @@ Template.articles.onCreated(function(){
     //we reset our stored state whenever the route changes
     instance.autorun(function(){
 
-        console.log('re-setting state..')
-
         var route = Router.current().route.getName()
+        //console.log('re-setting state..', route)
         var channel
         switch (route) {
             case "read":
@@ -67,8 +66,6 @@ Template.articles.onCreated(function(){
                 channel = "specificUserArticles"
                 break;
             case "home":
-                break;
-            default:
                 channel = "articles"
                 break;
         }
@@ -79,57 +76,33 @@ Template.articles.onCreated(function(){
 
         instance.state.set('route', route)
         instance.state.set('channel', channel) 
-        instance.state.set('loaded', 0) //number of loaded articles
-        instance.state.set('limit', 5) //number of total displayed items
-    })
+        instance.state.set('lastRequestSize', lastRequestSize) //number of lastRequestSize articles
+        instance.state.set('limit', limit) //number of total displayed items
 
+    })
 
     //we re-subscribe, when either channel or limit change
     instance.autorun(function(){
 
-        var channel = instance.state.get('channel');     
+        var channel = instance.state.get('channel');
         var limit = instance.state.get('limit');
-
-        console.log('subscribing to ', channel, limit)
-
-        var subscription = instance.subscribe(channel, limit);
-        instance.ready.set(subscription.ready())
         
+        //subscribing using subscription manager
+        //console.log('subscribing to ', channel, limit)
+        var subscription 
+        if (channel == 'specificUserArticles'){
+            subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
+        } else {
+            subscription = ArticlesSubscriptions.subscribe(channel, limit)
+        }
+        instance.ready.set(subscription.ready())
+
         if (subscription.ready()) {
             //increasing the actual number of displayed items
-            instance.state.set('loaded', limit); 
-            console.log('subscribed to ', channel, limit)
+            //console.log('subscribed to ', channel, limit)
+            instance.state.set('lastRequestSize', limit); 
         }
     })
-
-    //It is quite ugly to include this here, sorry. - Amjad
-    //A callback that runs on every user scroll
-    $(window).scroll(function() {
-        var threshold, target = $("#showMoreResults");
-        if (!target.length) return;
-
-        threshold = $(window).scrollTop() + $(window).height() - target.height();
-
-        if (target.offset().top < threshold) {
-            if (!target.data("visible")) {
-                // console.log("target became visible (inside viewable area)");
-                target.data("visible", true);
-                console.log('here')
-
-                // increase limit by 5 and update it
-                var limit = instance.state.get('limit')
-                limit += 5;
-                instance.state.set('limit', limit)
-            }
-        } else {
-            if (target.data("visible")) {
-                // console.log("target became invisible (below viewable arae)");
-                target.data("visible", false);
-            }
-        }
-    })
-
-
 
 })
 

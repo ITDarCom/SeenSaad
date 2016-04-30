@@ -87,10 +87,10 @@ registerHelpers = {
         }
     },
     isAdmin: function () {
-        return false //A BUG SHOULD BE FIXED HERE
-        if (Meteor.userId()) {
+        //return false //A BUG SHOULD BE FIXED HERE
+        if (Meteor.user()) {
             var Admins = ['SeenSaad'];
-            return (_.contains(Admins, Meteor.users.findOne(Meteor.userId()).username));
+            return (_.contains(Admins, Meteor.user().username));
         }
     },
     owner: function () { //return true if the current user is the owner of this article

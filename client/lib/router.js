@@ -3,6 +3,7 @@ Router.configure({
     loadingTemplate: 'spinner',
     notFoundTemplate: 'notFound'
 });
+
 var privateRoutes = [
     "messages",
     "read",
@@ -34,6 +35,52 @@ Router.ensureLoggedIn = function () {
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
 
+//formIsDirty https://gist.github.com/dferber90/acf560226fe76fe91534
+Session.setDefault('formIsDirty', false)
+const confirmationMessage = 'You have unsaved data. Are you sure you want to leave?'
+
+// whether the user should confirm the navigation or not,
+// set to `true` before redirecting programmatically to skip confirmation
+var skipConfirmationForNextTransition = false
+Router.onStop(function () {
+  // register dependencies immediately
+  const formIsDirty = Session.equals('formIsDirty', true)
+  // prevent duplicate execution of onStop route, because it would run again
+  // after the redirect
+  if (skipConfirmationForNextTransition) {
+    skipConfirmationForNextTransition = false
+    return
+  }
+  if (formIsDirty) {
+    const shouldLeave = confirm(confirmationMessage)
+    if (shouldLeave) {
+      Session.set('formIsDirty', false)
+      return
+    }
+    // obtain a non-reactive reference to the current route
+    var currentRoute
+    Tracker.nonreactive(function () {
+      currentRoute = Router.current()
+    })
+    skipConfirmationForNextTransition = true
+    // "cancel" the transition by redirecting to the same route
+    // this had to be used because Iron Router doesn't support cancling the
+    // current transition. `url` contains the query params and hash.
+    this.redirect(currentRoute.url)
+    return
+  }
+})
+
+// Bonus: confirm closing of browser window
+window.addEventListener('beforeunload', function(event){
+  if (Session.get('formIsDirty')) {
+    // cross-browser requries returnValue to be set, as well as an actual
+    // return value
+    event.returnValue = confirmationMessage // eslint-disable-line no-param-reassign
+    return confirmationMessage
+  }
+})
+
 const increment = 5;
 
 Router.onStop(function () {
@@ -43,6 +90,7 @@ Router.onStop(function () {
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
     }
+
 
 });
 Router.onAfterAction(function () {
@@ -117,7 +165,6 @@ Router.map(function () {
     this.route('favorite', { path: '/favorite', template: 'articles' });
     this.route('mine', {path: '/mine', template: 'articles' });
     this.route('about', {path: '/about'});
-    this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
             if (Meteor.user()) {
@@ -127,6 +174,17 @@ Router.map(function () {
             }
         }
     });
+
+    this.route('signIn', {path: '/signIn'});
+    Router.route('/logOut', {
+        name: 'logOut',
+        onBeforeAction: function () {
+            //we only redirect to 'home' after we fully logged out using 'onLogoutHook'
+            AccountsTemplates.logout();
+            this.render('spinner')
+        }
+    });
+
     this.route('add', {path: '/add'});
     this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});
