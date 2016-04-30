@@ -5,6 +5,7 @@ var articleStreamFields = {
     user: 1,
     read: 1,
     readingPermissions: 1,
+    contributingPermissions: 1,
     commentsCounter: 1,
     generalDate: 1
 }
