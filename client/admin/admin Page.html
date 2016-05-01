@@ -23,12 +23,12 @@
     <i class="fa fa-sign-in userIdLogIn" userId = {{this._id}}></i></button> &nbsp;
     <button 
         class="blockUser btn {{#unless blocked}}btn-warning{{/unless}} btn-xs" userId = {{this._id}} >
-        <i class="fa fa-{{#unless blocked}}ban{{else}}refresh{{/unless}} blockUser" userId = {{this._id}} ></i>
+        <i class="fa fa-{{#unless blocked}}ban{{else}}refresh{{/unless}}" userId = {{this._id}} ></i>
     </button>
 
     {{#if blocked}}
     <button  class="deleteUser btn btn-danger btn-xs" userId = {{this._id}} >
-        <i class="fa fa-trash deleteUser" userId = {{this._id}} ></i>
+        <i class="fa fa-trash" userId = {{this._id}} ></i>
     </button> &nbsp;
     {{/if}}
 
