@@ -7,7 +7,7 @@ ArticlesCursor = function(route){
         $('.alert').hide();
         switch (route) {
             case "mine" :
-                return Articles.find({user: Meteor.userId()}, {sort: {createdAt: -1}});
+                return Articles.find({user: Meteor.userId(),deleted:null}, {sort: {createdAt: -1}});
             case  "participation":
                 custom = Stream.findOne({userId: Meteor.userId()});
                 if (custom) {
@@ -29,7 +29,7 @@ ArticlesCursor = function(route){
                     return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
                 break;
             case "home" :
-                return Articles.find({}, {sort: {generalDate: -1}});
+                return Articles.find({deleted:null}, {sort: {generalDate: -1}});
             case "profile" :
                 if (Router.current().params.id)
                     return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
