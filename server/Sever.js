@@ -27,6 +27,16 @@ Meteor.methods({
 
         this.setUserId(userId);
     },
+    setUserBlocked : function(userId, blocked){
+        check(userId, String);
+        check(blocked, Boolean);
+
+        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)){
+            if (Meteor.users.findOne(userId)) {
+                Meteor.users.update({ _id: userId }, { $set: { blocked: blocked } })
+            }
+        }
+    },
     deleteUser: function (userId) {
         check(userId, String);
         if (_.contains(Admins, Meteor.users.findOne(this.userId).username))
@@ -36,12 +46,11 @@ Meteor.methods({
                 Stream.remove({userId: userId});
                 Comments.remove({commenter:userId});
                 Meteor.users.remove({_id: userId});
-
-
             }
         }
     }
 });
+
 Admins = ['SeenSaad'];
 
 Meteor.users.allow({

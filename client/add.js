@@ -1,19 +1,23 @@
 //noinspection JSUnusedGlobalSymbols
 AutoForm.hooks({
     addUpdateArticles: {
-        endSubmit: function() {
+        beginSubmit: function() {
             Session.set('formIsDirty', false)
-
         },
-        /*onError: function(formType, error) {
-            this.resetForm()
-        },*/
+        endSubmit: function() {
+            var isDirty = false
+            if (!this.validationContext.isValid()){ 
+                isDirty = true 
+                $('#submit-button').prop("disabled", false)
+            }
+            Session.set('formIsDirty', isDirty)
+        },
         onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
             if (formType == 'method') {
                 Router.go('global', {id: result});
                 $('.alert').hide();
                 Session.set('alert', 'addSuccessfully');
-            }
+            }   
             if (formType == 'method-update') {
                 Router.go('global', {id: this.docId});
                 $('.alert').hide();
@@ -31,8 +35,16 @@ AutoForm.hooks({
         }
     },
     updateArticles: {
-        endSubmit: function() {
+        beginSubmit: function() {
             Session.set('formIsDirty', false)
+        },
+        endSubmit: function() {
+            var isDirty = false
+            if (!this.validationContext.isValid()){ 
+                isDirty = true 
+                $('#submit-button').prop("disabled", false)
+            }
+            Session.set('formIsDirty', isDirty)
         },
         onSuccess: function (formType, result) { // here we deploy the permissions of this article to users
             var oldReadingIds = this.currentDoc.readingIds ? this.currentDoc.readingIds : [];
@@ -182,14 +194,6 @@ Template.add.events({
 });
 //noinspection JSUnresolvedVariable
 Template.autoForm.onRendered(function () {
-
-    this.autorun(function () {
-        if (!AutoForm.getValidationContext('addUpdateArticles').isValid()) {
-            //A jQuery hack to solve sticky disabled button (unfixed bug in AutoForm)
-            //Check this https://github.com/aldeed/meteor-autoform/issues/363
-            $('#submit-button').prop("disabled", false)
-        }
-    });
 
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();
