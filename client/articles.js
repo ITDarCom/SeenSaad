@@ -1,15 +1,15 @@
 //we wrap this listener so we can use its reference un-register when templates are destroyed
-function ScrollListener(instance){
-    
-    return function(e){
+function ScrollListener(instance) {
+
+    return function (e) {
         var threshold, target = $("#showMoreResults");
         if (!target.length) return;
-     
+
         threshold = $(window).scrollTop() + $(window).height() - target.height();
-     
-        if (target.offset().top < threshold) { 
+
+        if (target.offset().top < threshold) {
             /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5, 
-                'was', instance.state.get('limit'))*/
+             'was', instance.state.get('limit'))*/
 
             // increase limit by 5 and update it
             instance.state.set('limit', ArticlesCursor(Router.current().route.getName()).count() + 5)
@@ -17,21 +17,21 @@ function ScrollListener(instance){
     }
 }
 
-Template.articles.onRendered(function(){
+Template.articles.onRendered(function () {
     //if we stored the lastScroll position, we'll scroll down to it
-    if (Session.get('lastScrollPosition')){
+    if (Session.get('lastScrollPosition')) {
         window.scrollTo(0, Session.get('lastScrollPosition'))
-        Tracker.nonreactive(function(){
+        Tracker.nonreactive(function () {
             Session.set('lastScrollPosition', null)
         })
     }
 })
 
-Template.articles.onDestroyed(function(){
+Template.articles.onDestroyed(function () {
     window.removeEventListener('scroll', Template.instance().listener)
 })
 
-Template.articles.onCreated(function(){
+Template.articles.onCreated(function () {
 
     var instance = this
 
@@ -44,7 +44,7 @@ Template.articles.onCreated(function(){
     window.addEventListener('scroll', instance.listener)
 
     //we reset our stored state whenever the route changes
-    instance.autorun(function(){
+    instance.autorun(function () {
 
         var route = Router.current().route.getName()
         //console.log('re-setting state..', route)
@@ -68,6 +68,8 @@ Template.articles.onCreated(function(){
             case "home":
                 channel = "articles"
                 break;
+            case "deleted" :
+                channel = "deleted";
         }
 
 
@@ -75,22 +77,22 @@ Template.articles.onCreated(function(){
         var lastRequestSize = 0, limit = 5
 
         instance.state.set('route', route)
-        instance.state.set('channel', channel) 
+        instance.state.set('channel', channel)
         instance.state.set('lastRequestSize', lastRequestSize) //number of lastRequestSize articles
         instance.state.set('limit', limit) //number of total displayed items
 
     })
 
     //we re-subscribe, when either channel or limit change
-    instance.autorun(function(){
+    instance.autorun(function () {
 
         var channel = instance.state.get('channel');
         var limit = instance.state.get('limit');
-        
+
         //subscribing using subscription manager
         //console.log('subscribing to ', channel, limit)
-        var subscription 
-        if (channel == 'specificUserArticles'){
+        var subscription
+        if (channel == 'specificUserArticles') {
             subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
         } else {
             subscription = ArticlesSubscriptions.subscribe(channel, limit)
@@ -100,7 +102,7 @@ Template.articles.onCreated(function(){
         if (subscription.ready()) {
             //increasing the actual number of displayed items
             //console.log('subscribed to ', channel, limit)
-            instance.state.set('lastRequestSize', limit); 
+            instance.state.set('lastRequestSize', limit);
         }
     })
 
@@ -108,7 +110,7 @@ Template.articles.onCreated(function(){
 
 Template.articles.helpers({
 
-    initialLoad : function(){
+    initialLoad: function () {
         //we know that we are rendering the list for the first time if it has zero items lastRequestSize
         return (Template.instance().state.get('lastRequestSize') == 0)
     },
@@ -123,7 +125,7 @@ Template.articles.helpers({
 });
 
 Template.articles.events({
-    'click .article-link' : function(e){
+    'click .article-link': function (e) {
         //we save the scroll position so we can return to the same position when user goes back
         Session.set('lastScrollPosition', window.pageYOffset)
     },
@@ -199,6 +201,9 @@ Template.articleView.helpers({
             var article = _.findWhere(custom.contributingArticles, {id: this._id})
             if (article && !article.seen)
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+            if (article && !article.newComment)
+                return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+
         }
         //noinspection JSUnresolvedVariable
         if (this.readingPermissions == 1) {
@@ -212,7 +217,7 @@ Template.articleView.helpers({
     },
     canEdit: function () {
         return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));
-    }
+    },
 });
 Template.articleView.events({
     'click .clickableDiv': function () {

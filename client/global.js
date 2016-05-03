@@ -37,6 +37,9 @@ ArticlesCursor = function(route){
             case "global" :
                 if (Router.current().params.id)
                     return Articles.find({_id: Router.current().params.id});
+            case 'deleted':
+                if(Meteor.userId())
+                return Articles.find({user:Meteor.userId(),deleted:true});
         }
     }
     else {
@@ -168,10 +171,15 @@ registerHelpers = {
                 return count > 0 ? count : null
             }
         }
+    },    isDeleted: function () {
+        return this.deleted ;
     }
+
+
 
 };
 Template.registerHelper('userNameId', registerHelpers.userNameId);
+Template.registerHelper('isDeleted', registerHelpers.isDeleted);
 Template.registerHelper('dateFormated', registerHelpers.dateFormated);
 Template.registerHelper('userFullName', registerHelpers.userFullName);
 Template.registerHelper('userUsername', registerHelpers.userUsername);

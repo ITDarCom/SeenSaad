@@ -29,6 +29,7 @@
                                 <span><i title='{{ getArabicMsg "contributingLabel"}}' class='fa fa-comments'></i>
                                     {{commentsCounter}}</span>
                                 </div>
+                                {{#unless isDeleted}}
                                 <div class='col-md-3 text-left'>
                                     {{#if owner}}
                                         <button class='remove btn-xs btn btn-danger'
@@ -45,7 +46,9 @@
                                         <i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
                                     </button>
                                 </div>
+                                {{/unless}}
                             </div>
+
                         </div>
                         <div class='panel-body'>
                             {{{bodyText}}}

@@ -8,7 +8,8 @@ var articleStreamFields = {
     contributingPermissions: 1,
     commentsCounter: 1,
     generalDate: 1
-}
+};
+
 
 Meteor.publish('articles', function (limit) {
         Meteor._sleepForMs(2000);
@@ -116,11 +117,12 @@ Meteor.publish(null, function () {
 
 Meteor.publish("Article", function (articleId) {
     var article = Articles.findOne({_id: articleId});
+    if (article.user === this.userId) {
+        Meteor.call("readCounter", articleId);
+        return Articles.find({_id: articleId});
+    }
     if (!article.deleted) {
-        if (article.user === this.userId) {
-            Meteor.call("readCounter", articleId);
-            return Articles.find({_id: articleId});
-        }
+
         if (article.contributingPermissions === '0' || article.readingPermissions === '0') {
             Meteor.call("readCounter", articleId, this.userId);
             return Articles.find({_id: articleId});
@@ -224,8 +226,11 @@ Meteor.publish(null, function () {
 });
 Meteor.publish('comments', function (id) {
     var article = Articles.findOne(id);
+    if(article.user == this.userId){
+        return Comments.find({articleId: id});
+    }
     if (article && !article.deleted) {
-        if (article.contributingPermissions == 0 || article.user == this.userId || article.readingPermissions == 0
+        if (article.contributingPermissions == 0 || article.readingPermissions == 0
             || _.contains(article.contributingIds, this.userId) || _.contains(article.readingIds, this.userId)) {
             return Comments.find({articleId: id});
         }
@@ -248,3 +253,15 @@ Meteor.publish('usernames', function (articleId) {
     }
     return [];
 });
+Meteor.publish('deleted', function ( limit) {
+
+    //Meteor._sleepForMs(2000);
+
+    if (this.userId) {
+        return Articles.find({user: this.userId,deleted:true},{
+            limit: limit || 5,
+                sort: {createdAt: -1}
+        })
+    }
+
+})

@@ -150,6 +150,7 @@ Router.map(function () {
         Session.set('settings', 'profileImg');
         this.render('profile')
     }});
+    this.route('deleted', {path: '/deletedItems', template: 'articles'});
 
     this.route('profile', {path: '/profile/:id', action : function(){
         Session.set('template', 'articles');
