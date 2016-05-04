@@ -13,26 +13,26 @@ ArticlesCursor = function(route){
                 if (custom) {
                     var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
                         , 'id') : [];
-                    return Articles.find({_id: {$in: contributingArticles}}, {sort: {createdAt: -1}});
+                    return Articles.find({_id: {$in: contributingArticles},deleted:null}, {sort: {createdAt: -1}});
                 }
                 break;
             case "read":
                 custom = Stream.findOne({userId: Meteor.userId()});
                 if (custom) {
                     var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                    return Articles.find({_id: {$in: readingArticles}}, {sort: {createdAt: -1}});
+                    return Articles.find({_id: {$in: readingArticles},deleted:null}, {sort: {createdAt: -1}});
                 }
                 break;
             case  "favorite":
                 var ids = Favorites.findOne({userId: Meteor.userId()});
                 if (ids)
-                    return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []}}, {sort: {createdAt: -1}});
+                    return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []},deleted:null}, {sort: {createdAt: -1}});
                 break;
             case "home" :
                 return Articles.find({deleted:null}, {sort: {generalDate: -1}});
             case "profile" :
                 if (Router.current().params.id)
-                    return Articles.find({user: Router.current().params.id}, {sort: {createdAt: -1}});
+                    return Articles.find({user: Router.current().params.id,deleted:null}, {sort: {createdAt: -1}});
                 break;
             case "global" :
                 if (Router.current().params.id)
@@ -44,7 +44,7 @@ ArticlesCursor = function(route){
     }
     else {
         if (route == 'home')
-            return Articles.find({}, {sort: {createdAt: -1}});
+            return Articles.find({deleted:null}, {sort: {createdAt: -1}});
         Router.go('signIn');
     }
 
