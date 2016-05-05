@@ -2,23 +2,28 @@
  * Created by omar on 9/19/15.
  */
 
-var isSubmitting = new ReactiveVar(false)
+//var isSubmitting = new ReactiveVar(false);
 
 AutoForm.hooks({
-    addCommentForm : {
-        beginSubmit: function() {
-            isSubmitting.set(true)
-        },
-        endSubmit: function() {
-            Session.set('formIsDirty', false)
-            isSubmitting.set(false)
-        },
-    },
+    addCommentForm: {
+
+        onSubmit: function (insertDoc, updateDoc, currentDoc) {
+            this.event.preventDefault();
+            alert();
+            this.done();
+            // else {
+            //    this.done(new Error("Submission failed"));
+            //}
+            return false;
+        }
+
+    }
+
 })
 
 Template.article.helpers({
-    isSubmitting : function(){
-        return isSubmitting.get()
+    isSubmitting: function () {
+        //return isSubmitting.get()
     },
     bodyText: function () {
         return this.body.slice(0, this.body.indexOf('<div'));
@@ -88,6 +93,18 @@ Template.article.events({
     'click #editButton': function () {
         Router.go('edit', {id: Router.current().params.id})
     },
+    "submit #addCommentForm": function (event) {
+        event.preventDefault();
+            var comment= {commentText:$('.commentTextarea').val(),articleId:Router.current().params.id};
+        commentsSchema.clean(comment);
+  if(!commentsSchema.validate(comment)){
+      Meteor.call('addComment',comment,function(){
+          console.log('added');
+      })
+  }
+
+    }
+    ,
     'click .remove': function () {
         var id = this._id;
         if (confirm(arabicMessages.confirmDelete)) {
@@ -106,7 +123,7 @@ Template.article.events({
         else
             Router.go('signIn');
     },
-    'change #addCommentForm' : function(){
+    'change #addCommentForm': function () {
         Session.set('formIsDirty', true)
     }
 });
@@ -162,7 +179,7 @@ Template.comments.events({
     'click .NoCancel': function (event) {
         $(event.target).parents('.panel-body').find('.commentText')
             .attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
-    }
+    },
 });
 Template.additions.helpers({
     additions: function (id) {
