@@ -201,7 +201,7 @@ Template.articleView.helpers({
             var article = _.findWhere(custom.contributingArticles, {id: this._id})
             if (article && !article.seen)
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
-            if (article && !article.newComment)
+            if (article && article.newComment)
                 return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
 
         }

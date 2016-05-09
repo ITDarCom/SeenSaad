@@ -92,18 +92,18 @@ Template.article.helpers({
 Template.article.events({
     'click #editButton': function () {
         Router.go('edit', {id: Router.current().params.id})
-    },
-    "submit #addCommentForm": function (event) {
-        event.preventDefault();
-            var comment= {commentText:$('.commentTextarea').val(),articleId:Router.current().params.id};
-        commentsSchema.clean(comment);
-  if(!commentsSchema.validate(comment)){
-      Meteor.call('addComment',comment,function(){
-          console.log('added');
-      })
-  }
-
     }
+  //  "submit #addCommentForm": function (event) {
+  //      event.preventDefault();
+  //          var comment= {commentText:$('.commentTextarea').val(),articleId:Router.current().params.id};
+  //      commentsSchema.clean(comment);
+  //if(!commentsSchema.validate(comment)){
+  //    Meteor.call('addComment',comment,function(){
+  //        console.log('added');
+  //    })
+  //}
+  //
+  //  }
     ,
     'click .remove': function () {
         var id = this._id;

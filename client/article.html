@@ -63,20 +63,15 @@
                     {{#if allowContributing}}
                         <div class='panel panel-info'>
                             <div class='panel-body'>
-
-                                <form id="addCommentForm"  novalidate="novalidate">
+                                {{#autoForm id='addCommentForm' name='addCommentForm' type='method'  meteormethod='addComment'
+                                schema='commentsSchema'}}
                                     <fieldset>
-
-                                        <div class="form-group" data-required="true">
-                                            <textarea class="commentTextarea form-control" name="commentText" id="JBviGfmkXoYT7REXb" required="" data-schema-key="commentText" maxlength="300"></textarea><grammarly-btn><div style="z-index: 2; opacity: 1; transform: translate(585px, 1153px);" class="_9b5ef6-textarea_btn _9b5ef6-not_focused" data-grammarly-reactid=".0"><div class="_9b5ef6-transform_wrap" data-grammarly-reactid=".0.0"><div title="Protected by Grammarly" class="_9b5ef6-status" data-grammarly-reactid=".0.0.0">&nbsp;</div></div></div></grammarly-btn>
-                                            <span class="help-block"></span>
-                                        </div>
-                                       <input type="hidden" value="z9QX6K" name="articleId" label="false" required="" data-schema-key="articleId">
+                                        {{> afQuickField name='commentText' label=false class='commentTextarea'}}
+                                        {{> afQuickField name='articleId' type='hidden' label=false value=this._id}}
                                     </fieldset>
-                                    <button type="submit" class="btn btn-block btn-primary">
-                                        إضافة</button>
-                                </form>
-
+                                    <button type='submit' class='btn btn-block btn-primary'>
+                                        {{getArabicMsg 'addButtonLabel'}}</button>
+                                {{/autoForm}}
                             </div>
                         </div>
                     {{/if}}

@@ -152,13 +152,13 @@ registerHelpers = {
                 var count = 0;
                 if (type == 0) {
                     _.each(stream.readingArticles, function (a) {
-                        if (!a.seen)
+                        if (!a.seen || (a.seen && a.newComment))
                             count++;
                     })
                 }
                 if (type == 1) {
                     _.each(stream.contributingArticles, function (a) {
-                        if (!a.seen)
+                        if (!a.seen || (a.seen && a.newComment))
                             count++;
                     })
                 }
