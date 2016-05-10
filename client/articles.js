@@ -31,6 +31,10 @@ Template.articles.onDestroyed(function () {
     window.removeEventListener('scroll', Template.instance().listener)
 })
 
+
+
+var ArticlesCache = new SubsManager();
+
 Template.articles.onCreated(function () {
 
     var instance = this
@@ -91,11 +95,14 @@ Template.articles.onCreated(function () {
 
         //subscribing using subscription manager
         //console.log('subscribing to ', channel, limit)
+
         var subscription
         if (channel == 'specificUserArticles') {
-            subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
+            subscription = instance.subscribe(channel, Router.current().params.id, limit)
+        } if (channel.match(/readArticles|contribution/)){
+            subscription = instance.subscribe(channel, limit)
         } else {
-            subscription = ArticlesSubscriptions.subscribe(channel, limit)
+            subscription = ArticlesCache.subscribe(channel, limit)
         }
         instance.ready.set(subscription.ready())
 

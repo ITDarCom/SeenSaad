@@ -1,5 +1,3 @@
-ArticlesSubscriptions = new SubsManager();
-
 ArticlesCursor = function(route){
 
     var custom;
