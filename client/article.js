@@ -26,7 +26,12 @@ Template.article.helpers({
         //return isSubmitting.get()
     },
     bodyText: function () {
-        return this.body.slice(0, this.body.indexOf('<div'));
+        if (this.body.indexOf("<div") != -1) {
+            return this.body.slice(0, this.body.indexOf('<div'));
+        }
+        else {
+            return this.body;
+        }
     },
     thisArticle: function () { //get the user object to display it on the template
         return Articles.findOne(Router.current().params.id);
@@ -37,7 +42,7 @@ Template.article.helpers({
     },
     allowContributing: function () {  // check if the user is authenticated to commenting
         //this refer to this article that is displayed
-        if (Meteor.userId()) {
+        if (Meteor.userId() && !this.deleted) {
             //noinspection JSUnresolvedVariable
             if (this.contributingPermissions == '0' || this.user == Meteor.userId()) { // 0 value mean the
                 // article is public contribution
@@ -93,17 +98,17 @@ Template.article.events({
     'click #editButton': function () {
         Router.go('edit', {id: Router.current().params.id})
     }
-  //  "submit #addCommentForm": function (event) {
-  //      event.preventDefault();
-  //          var comment= {commentText:$('.commentTextarea').val(),articleId:Router.current().params.id};
-  //      commentsSchema.clean(comment);
-  //if(!commentsSchema.validate(comment)){
-  //    Meteor.call('addComment',comment,function(){
-  //        console.log('added');
-  //    })
-  //}
-  //
-  //  }
+    //  "submit #addCommentForm": function (event) {
+    //      event.preventDefault();
+    //          var comment= {commentText:$('.commentTextarea').val(),articleId:Router.current().params.id};
+    //      commentsSchema.clean(comment);
+    //if(!commentsSchema.validate(comment)){
+    //    Meteor.call('addComment',comment,function(){
+    //        console.log('added');
+    //    })
+    //}
+    //
+    //  }
     ,
     'click .remove': function () {
         var id = this._id;

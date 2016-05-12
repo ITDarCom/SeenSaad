@@ -12,7 +12,7 @@ var articleStreamFields = {
 
 
 Meteor.publish('articles', function (limit) {
-        Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
 
         if (!this.userId) {
             return Articles.find({
@@ -60,7 +60,7 @@ Meteor.publish('articles', function (limit) {
 );
 
 Meteor.publish('favorites', function (limit) {
-    Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
     if (this.userId) {
         var ids = Favorites.findOne({userId: this.userId});
         if (ids) {
@@ -74,7 +74,7 @@ Meteor.publish('favorites', function (limit) {
 });
 
 Meteor.publish('readArticles', function (limit) {
-    Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -88,7 +88,7 @@ Meteor.publish('readArticles', function (limit) {
 });
 
 Meteor.publish('contribution', function (limit) {
-    Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
     if (this.userId) {
         var custom = Stream.findOne({userId: this.userId});
         if (custom) {
@@ -103,7 +103,7 @@ Meteor.publish('contribution', function (limit) {
 });
 
 Meteor.publish('mine', function (limit) {
-    Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
     if (this.userId) {
         return Articles.find({user: this.userId, deleted: null}, {limit: limit || 5, sort: {createdAt: -1}})
     }
@@ -178,7 +178,7 @@ Meteor.publish('specificUser', function (userId) {
 });
 Meteor.publish('specificUserArticles', function (userId, limit) {
 
-    Meteor._sleepForMs(2000);
+    //Meteor._sleepForMs(2000);
 
     if (this.userId == userId) {
         return Articles.find({user: this.userId,deleted:null})

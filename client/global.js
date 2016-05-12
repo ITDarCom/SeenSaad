@@ -1,50 +1,53 @@
 ArticlesSubscriptions = new SubsManager();
 
-ArticlesCursor = function(route){
+ArticlesCursor = function (route) {
 
     var custom;
     if (Meteor.userId()) {
         $('.alert').hide();
         switch (route) {
             case "mine" :
-                return Articles.find({user: Meteor.userId(),deleted:null}, {sort: {createdAt: -1}});
+                return Articles.find({user: Meteor.userId(), deleted: null}, {sort: {createdAt: -1}});
             case  "participation":
                 custom = Stream.findOne({userId: Meteor.userId()});
                 if (custom) {
                     var contributingArticles = custom.contributingArticles ? _.pluck(custom.contributingArticles
                         , 'id') : [];
-                    return Articles.find({_id: {$in: contributingArticles},deleted:null}, {sort: {createdAt: -1}});
+                    return Articles.find({_id: {$in: contributingArticles}, deleted: null}, {sort: {createdAt: -1}});
                 }
                 break;
             case "read":
                 custom = Stream.findOne({userId: Meteor.userId()});
                 if (custom) {
                     var readingArticles = custom.readingArticles ? _.pluck(custom.readingArticles, 'id') : [];
-                    return Articles.find({_id: {$in: readingArticles},deleted:null}, {sort: {createdAt: -1}});
+                    return Articles.find({_id: {$in: readingArticles}, deleted: null}, {sort: {createdAt: -1}});
                 }
                 break;
             case  "favorite":
                 var ids = Favorites.findOne({userId: Meteor.userId()});
                 if (ids)
-                    return Articles.find({_id: {$in: ids.favorites ? ids.favorites : []},deleted:null}, {sort: {createdAt: -1}});
+                    return Articles.find({
+                        _id: {$in: ids.favorites ? ids.favorites : []},
+                        deleted: null
+                    }, {sort: {createdAt: -1}});
                 break;
             case "home" :
-                return Articles.find({deleted:null}, {sort: {generalDate: -1}});
+                return Articles.find({deleted: null}, {sort: {generalDate: -1}});
             case "profile" :
                 if (Router.current().params.id)
-                    return Articles.find({user: Router.current().params.id,deleted:null}, {sort: {createdAt: -1}});
+                    return Articles.find({user: Router.current().params.id, deleted: null}, {sort: {createdAt: -1}});
                 break;
             case "global" :
                 if (Router.current().params.id)
                     return Articles.find({_id: Router.current().params.id});
             case 'deleted':
-                if(Meteor.userId())
-                return Articles.find({user:Meteor.userId(),deleted:true});
+                if (Meteor.userId())
+                    return Articles.find({user: Meteor.userId(), deleted: true});
         }
     }
     else {
         if (route == 'home')
-            return Articles.find({deleted:null}, {sort: {createdAt: -1}});
+            return Articles.find({deleted: null}, {sort: {createdAt: -1}});
         Router.go('signIn');
     }
 
@@ -171,29 +174,15 @@ registerHelpers = {
                 return count > 0 ? count : null
             }
         }
-    },    isDeleted: function () {
-        return this.deleted ;
+    }, isDeleted: function () {
+        return this.deleted;
     }
 
 
-
 };
-Template.registerHelper('userNameId', registerHelpers.userNameId);
-Template.registerHelper('isDeleted', registerHelpers.isDeleted);
-Template.registerHelper('dateFormated', registerHelpers.dateFormated);
-Template.registerHelper('userFullName', registerHelpers.userFullName);
-Template.registerHelper('userUsername', registerHelpers.userUsername);
-Template.registerHelper('getArabicMsg', registerHelpers.getArabicMsg);
-Template.registerHelper('isAdmin', registerHelpers.isAdmin);
-Template.registerHelper('favorite', registerHelpers.favorite);
-Template.registerHelper('owner', registerHelpers.owner);
-Template.registerHelper('getProfilePic', registerHelpers.getProfilePic);
-Template.registerHelper("momentIt", registerHelpers.momentIt);
-Template.registerHelper("currentId", registerHelpers.currentId);
-Template.registerHelper("nl2br", registerHelpers.nl2br);
-Template.registerHelper("currentRouteName", registerHelpers.currentRouteName);
-Template.registerHelper("profileInCompleted", registerHelpers.profileInCompleted);
-Template.registerHelper("unread", registerHelpers.unread);
+_.each(registerHelpers, function (helper, key) {
+    Template.registerHelper(key, helper);
+});
 //====================================//
 moment.locale('ar_sa'); // arabic language for momentJs
 T9n.setLanguage('ar');
