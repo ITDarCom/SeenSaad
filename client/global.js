@@ -1,6 +1,6 @@
 ArticlesSubscriptions = new SubsManager();
 
-ArticlesCursor = function (route) {
+ArticlesCursor = function(route){
 
     var custom;
     if (Meteor.userId()) {

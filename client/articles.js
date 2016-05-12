@@ -31,6 +31,12 @@ Template.articles.onDestroyed(function () {
     window.removeEventListener('scroll', Template.instance().listener)
 })
 
+
+//global cache for articles
+var ArticlesCache = new SubsManager();
+//a cache for read/contribute articles only
+var ReadContributeCache = new SubsManager();
+
 Template.articles.onCreated(function () {
 
     var instance = this
@@ -76,6 +82,8 @@ Template.articles.onCreated(function () {
         //default lastRequestSize and limit values (on )
         var lastRequestSize = 0, limit = 5
 
+        instance.state.set('counter0', registerHelpers.unread(0))
+        instance.state.set('counter1', registerHelpers.unread(1))
         instance.state.set('route', route)
         instance.state.set('channel', channel)
         instance.state.set('lastRequestSize', lastRequestSize) //number of lastRequestSize articles
@@ -83,20 +91,33 @@ Template.articles.onCreated(function () {
 
     })
 
+    //resetting the ReadContributeCache each time the read/contribute articles change
+    instance.autorun(function(){
+        instance.state.set('counter0',registerHelpers.unread(0))
+        instance.state.set('counter1',registerHelpers.unread(1))
+        ReadContributeCache = new SubsManager()
+    })
+
+    var subscription
     //we re-subscribe, when either channel or limit change
     instance.autorun(function () {
 
         var channel = instance.state.get('channel');
         var limit = instance.state.get('limit');
+        var counter0 = instance.state.get('counter0');
+        var counter1 = instance.state.get('counter1');
 
         //subscribing using subscription manager
         //console.log('subscribing to ', channel, limit)
-        var subscription
+
         if (channel == 'specificUserArticles') {
-            subscription = ArticlesSubscriptions.subscribe(channel, Router.current().params.id, limit)
+            subscription = ArticlesCache.subscribe(channel, Router.current().params.id, limit)
+        } if (channel.match(/readArticles|contribution/)){
+            subscription = ReadContributeCache.subscribe(channel, limit)
         } else {
-            subscription = ArticlesSubscriptions.subscribe(channel, limit)
+            subscription = ArticlesCache.subscribe(channel, limit)
         }
+
         instance.ready.set(subscription.ready())
 
         if (subscription.ready()) {
@@ -149,6 +170,9 @@ Template.articles.events({
     },
     'click .edit': function () {
         Router.go('edit', {id: this._id})
+    },
+    'click .referesh': function(event, instance){
+        instance.state.set('referesh', new Date())
     }
 });
 Template.searchResult.helpers({

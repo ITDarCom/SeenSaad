@@ -15,7 +15,15 @@ AutoForm.hooks({
             //    this.done(new Error("Submission failed"));
             //}
             return false;
-        }
+        },
+
+        endSubmit: function() {
+            var isDirty = false
+            if (!this.validationContext.isValid()){ 
+                isDirty = true                 
+            }
+            Session.set('formIsDirty', isDirty)
+        },        
 
     }
 
