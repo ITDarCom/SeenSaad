@@ -4,6 +4,7 @@ Router.configure({
     notFoundTemplate: 'notFound'
 });
 
+
 var privateRoutes = [
     "messages",
     "read",
@@ -34,6 +35,15 @@ Router.ensureLoggedIn = function () {
 };
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
+Router.onBeforeAction(function () {
+
+    if (Meteor.user() && Meteor.user().blocked == 1) {
+        this.render('blockWarningPage');
+    }
+    else {
+        this.next();
+    }
+})
 
 //formIsDirty https://gist.github.com/dferber90/acf560226fe76fe91534
 Session.setDefault('formIsDirty', false)
