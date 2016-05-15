@@ -32,7 +32,8 @@ Template.headerText.helpers({
             'resetPasswd': arabicMessages.headers.resetPasswd,
             'editPersonalInfo': arabicMessages.headers.editPersonalInfo,
             'editProfileImg': arabicMessages.headers.editProfileImg,
-            'admin': arabicMessages.headers.adminPage
+            'admin': arabicMessages.headers.adminPage,
+            'deleted':arabicMessages.deleted
 
         };
         var route = Router.current().route.getName();
@@ -71,7 +72,8 @@ Template.headerText.helpers({
             'resetPasswd': arabicMessages.headerDescription.resetPasswd,
             'editPersonalInfo': arabicMessages.headerDescription.editPersonalInfo,
             'editProfileImg': arabicMessages.headerDescription.editProfileImg,
-            'admin': arabicMessages.headerDescription.adminPage
+            'admin': arabicMessages.headerDescription.adminPage,
+            'deleted':arabicMessages.headerDescription.deleted
 
         };
         if (Router.current().route.getName() == 'article') {

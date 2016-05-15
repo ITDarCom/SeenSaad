@@ -4,6 +4,7 @@ Router.configure({
     notFoundTemplate: 'notFound'
 });
 
+
 var privateRoutes = [
     "messages",
     "read",
@@ -34,6 +35,15 @@ Router.ensureLoggedIn = function () {
 };
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
+Router.onBeforeAction(function () {
+
+    if (Meteor.user() && Meteor.user().blocked == 1) {
+        this.render('blockWarningPage');
+    }
+    else {
+        this.next();
+    }
+})
 
 //formIsDirty https://gist.github.com/dferber90/acf560226fe76fe91534
 Session.setDefault('formIsDirty', false)
@@ -150,6 +160,7 @@ Router.map(function () {
         Session.set('settings', 'profileImg');
         this.render('profile')
     }});
+    this.route('deleted', {path: '/deletedItems', template: 'articles'});
 
     this.route('profile', {path: '/profile/:id', action : function(){
         Session.set('template', 'articles');
@@ -165,7 +176,6 @@ Router.map(function () {
     this.route('favorite', { path: '/favorite', template: 'articles' });
     this.route('mine', {path: '/mine', template: 'articles' });
     this.route('about', {path: '/about'});
-    this.route('signIn', {path: '/signIn'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
             if (Meteor.user()) {
@@ -175,14 +185,17 @@ Router.map(function () {
             }
         }
     });
+
+    this.route('signIn', {path: '/signIn'});
     Router.route('/logOut', {
         name: 'logOut',
         onBeforeAction: function () {
+            //we only redirect to 'home' after we fully logged out using 'onLogoutHook'
             AccountsTemplates.logout();
-            Router.go('/');
-            //this.next(); //this line causes 'sign-out template not found error
+            this.render('spinner')
         }
     });
+
     this.route('add', {path: '/add'});
     this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});

@@ -6,7 +6,7 @@
             {{> headerText}}
             {{#if initialLoad}}
                 <div style="margin-top:200px;">
-                {{> spinner}}
+                    {{> spinner}}
                 </div>
             {{else}}
                 {{#each articles}}
@@ -55,17 +55,18 @@
                 </div>
             </div>
             <div class='text-left'>
-                {{#if owner}}
-                    <button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
-                        <i class='fa fa-trash'></i>
-                    </button>
-                    <button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
-                        <i class='fa fa-pencil'></i>
-                    </button>
-                {{/if}}
-                <button class='favorite btn-xs btn btn-success' title='{{getArabicMsg "addToFavorites"}}'>
-                    <i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
-                </button>
+                {{#unless isDeleted}}
+                    {{#if owner}}
+                        <button class='remove btn-xs btn btn-danger' title='{{getArabicMsg "deleteButtonTitle"}}'>
+                            <i class='fa fa-trash'></i>
+                        </button>
+                        <button class='edit btn-xs btn btn-warning' title='{{getArabicMsg "editButtonTitle"}}'>
+                            <i class='fa fa-pencil'></i>
+                        </button>
+                    {{/if}}
+                    <button class='favorite btn-xs btn btn-success' title='{{getArabicMsg "addToFavorites"}}'>
+                        <i class='fa {{#if favorite}}fa-heart-o{{else}}fa-heart{{/if}}'></i>
+                    </button>{{/unless}}
             </div>
         </div>
     </div>
@@ -101,7 +102,6 @@
         {{/each}}
     </div>
 </template>
-
 
 
 <template name='Time'>

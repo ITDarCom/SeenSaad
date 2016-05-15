@@ -36,7 +36,6 @@ cfs:standard-packages
 cfs:s3
 cfs:gridfs
 djedi:sanitize-html
-meteorhacks:kadira
 aldeed:tabular
 dburles:collection-helpers
 rajit:bootstrap3-datepicker

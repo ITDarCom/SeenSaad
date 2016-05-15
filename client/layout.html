@@ -79,6 +79,12 @@
 										</a>
 									{{/if}}
 								</a></li>
+                                <li class="deleted">
+									<a href="{{pathFor 'deleted'}}">
+										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+										{{getArabicMsg "deleted"}}
+								</a></li>
+
 								<li class="logOut">
 									<a href="{{pathFor 'logOut'}}"><span>
 										<i class="fa fa-power-off" aria-hidden="true"></i></span>&nbsp; {{getArabicMsg 'logout'}}
