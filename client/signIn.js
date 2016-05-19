@@ -2,6 +2,7 @@
  * Created by omar on 10/19/15.
  */
 Template.signIn.onRendered(function () {
+
     $('button').removeClass('btn-default').addClass('btn-primary');
     $('.at-title,#at-forgotPwd').remove();
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
@@ -29,9 +30,14 @@ Template.signIn.onRendered(function () {
 Template.signIn.events({
     'click #signInClick': function () {
         $('#signInTab').find('#at-field-password2').attr('id', 'at-field-password');
+        $('.has-error').removeClass('has-error');
+        $('.help-block').text('');
     },
     'click #signUpClick': function () {
         $('#signInTab').find('#at-field-password').attr('id', 'at-field-password2');
+        $('.has-error').removeClass('has-error');
+        $('.help-block').text('');
     }
 
 });
+

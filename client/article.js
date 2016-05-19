@@ -207,6 +207,13 @@ Template.additions.helpers({
                     if (allowedUpdateTime(Addition.date(s), true)) { // to prevent show the last addition in edit page
                         return;
                     }
+                    else {
+                        data.push({
+                            createdAt: createdAt,
+                            text: text,
+                            id: index
+                        })
+                    }
                 }
                 else {
                     data.push({

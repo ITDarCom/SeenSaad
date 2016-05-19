@@ -46,3 +46,4 @@ reactive-var
 reactive-dict
 meteorhacks:subs-manager
 cfs:ui
+aldeed:template-extension

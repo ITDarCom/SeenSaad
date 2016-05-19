@@ -349,4 +349,8 @@ $.fn.select2.locales['ar'] = {
     },
 };
 
+Template.myAtInput.replaces("atTextInput");
+
+Template.myAtInput.inheritsHelpersFrom("atTextInput");
+Template.myAtInput.inheritsEventsFrom("atTextInput");
 $.extend($.fn.select2.defaults, $.fn.select2.locales['ar']);
