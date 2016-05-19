@@ -54,7 +54,7 @@
                             {{{bodyText}}}
                             <br>
 
-                            <p class="pull-left">{{>Time data=this.createdAt}}</p>
+                            <div class="pull-left">{{>Time data=this.createdAt}}</div>
                             <hr>
                             {{> additions data=_id }}
                         </div>
@@ -127,7 +127,8 @@
                     <i class='fa fa-trash'></i>
                 </button>{{/if}}
                 {{>Time data=createdAt}}</div>
+            <hr>
         </div>
-        <hr>
+
     {{/each}}
 </template>

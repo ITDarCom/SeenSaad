@@ -6,9 +6,11 @@ Template.userAdministrativeActions.helpers({
     blocked : function(){
         return Template.instance().data.blocked
     }
-})
+});
 
 Template.userAdministrativeActions.events({
+
+
     'click .userIdLogIn': function (event) {
         var userId = $(event.target).attr('userid');
         Meteor.call('impersonate', userId, function (err) {
@@ -35,9 +37,11 @@ Template.userAdministrativeActions.events({
 });
 
 Template.adminPage.onRendered(function () {
-    var temp = $('#adminTable_filter').addClass('pull-left').find('label').html().substr('5');
-    $('#adminTable_filter')
-        .addClass('pull-left')
-        .html('<span><i class="fa fa-search"></i></span> : ' + temp);
+    $('#adminTable_filter').addClass('pull-left');
+    $("div.dataTables_filter input").unbind();
+
+    $('#filter').click(function (e) {
+        $("#adminTable").dataTable().fnFilter($("div.dataTables_filter input").val());
+    });
 })
     
