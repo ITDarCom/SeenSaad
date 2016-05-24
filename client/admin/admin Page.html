@@ -1,7 +1,7 @@
 <template name="adminPage">
 {{#if isAdmin}}
     <div class="container">
-        <div class="col-md-offset-1 col-md-10">
+        <div class="col-md-offset-1 col-md-10  col-xs-10  col-sm-10">
             {{> headerText}}
             {{> tabular 
             	table=TabularTables.users 
@@ -16,6 +16,12 @@
 </template>
 <template name="commentsCounterTemplate">
     <span id='commentsCounter{{_id}}'></span>
+</template>
+<template name="lastSignInTemplate">
+    <span id='lastSignIn{{_id}}'></span>
+</template>
+<template name="registerdAtTemplate">
+    <span id='registerdAt{{_id}}'></span>
 </template>
 
 <template name="userAdministrativeActions">

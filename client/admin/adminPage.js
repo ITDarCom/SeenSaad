@@ -38,10 +38,6 @@ Template.userAdministrativeActions.events({
 
 Template.adminPage.onRendered(function () {
     $('#adminTable_filter').addClass('pull-left');
-    $("div.dataTables_filter input").unbind();
-
-    $('#filter').click(function (e) {
-        $("#adminTable").dataTable().fnFilter($("div.dataTables_filter input").val());
-    });
+    $('.dataTables_info').remove();
 })
     

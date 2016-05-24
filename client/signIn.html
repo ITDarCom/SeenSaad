@@ -42,3 +42,12 @@
     </div>
     <span class="help-block {{#unless hasError}}hide{{/unless}}">{{errorText}}</span>
 </template>
+<template name="myAtError">
+    <div class=" at-error alert alert-danger">
+        {{#each error}}
+            <div class="text-right">
+                <p>{{errorText}}</p>
+            </div>
+        {{/each}}
+    </div>
+</template>

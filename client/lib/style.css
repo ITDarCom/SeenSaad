@@ -355,6 +355,8 @@ hr.title {
 
 .seenSaadLabel {
     height: 20px !important;
+    padding-left: 2px;
+    padding-right: 2px !important;
 }
 
 .redDiv {
