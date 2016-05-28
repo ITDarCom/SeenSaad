@@ -158,7 +158,7 @@ Template.comments.events({
         if (confirm(arabicMessages.commentDeleteConfirm)) {
             Meteor.call('deleteComment', this._id, function (err, result) {
                 if (err) {
-                    alert(arabicMessages.commentDeleteFailed)
+                    alert(arabicMessages.deleteTryAgain)
                 }
             })
         }

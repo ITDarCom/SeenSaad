@@ -34,6 +34,7 @@ Template.signIn.events({
         $('.has-error').removeClass('has-error');
         $('.help-block').text('');
         $('.at-error').hide();
+        $('.alert-success').hide();
         $('.btn-primary').prop('disabled', false);
 
     },
