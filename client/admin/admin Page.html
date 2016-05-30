@@ -1,11 +1,24 @@
+<!--<head>-->
+
+    <!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
+    <!--<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>-->
+    <!--<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>-->
+    <!--<script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>-->
+
+
+    <!--<link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css"   rel="stylesheet">-->
+
+<!--</head>-->
+
 <template name="adminPage">
 {{#if isAdmin}}
     <div class="container">
-        <div class="col-md-offset-1 col-md-10  col-xs-10  col-sm-10">
+        <div class="col-md-offset-1 col-md-10  col-xs-12  col-sm-12 ">
             {{> headerText}}
             {{> tabular 
             	table=TabularTables.users 
-            	class="table table-striped table-bordered table-condensed" 
+            	class="table table-striped table-bordered table-condensed table-responsive"
             	id="adminTable"}}
     </div>
     </div>
@@ -30,6 +43,10 @@
     <button 
         class="blockUser btn {{#unless blocked}}btn-warning{{/unless}} btn-xs" userId = {{this._id}} >
         <i class="fa fa-{{#unless blocked}}ban{{else}}refresh{{/unless}}" userId = {{this._id}} ></i>
+    </button>
+    <button
+            class="resetPasswd btn btn-default btn-xs" userId = {{this._id}} >
+        <i class="fa fa-refresh" userId = {{this._id}} ></i>
     </button>
 
     {{#if blocked}}

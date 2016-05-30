@@ -33,7 +33,20 @@ Template.userAdministrativeActions.events({
             var userId = $(event.target).attr('userid');
             Meteor.call('setUserBlocked', userId, !Template.instance().data.blocked);
         }
+    },
+    'click .resetPasswd': function (event) {
+        var pwd = prompt(arabicMessages.enterNewPasswd);
+
+        if (pwd != null) {
+            var userId = $(event.target).attr('userid');
+            Meteor.call('setNewPasswd', userId,pwd,function(err,res){
+                if(~err){
+                    alert("Done");
+                }
+            });
+        }
     }
+
 });
 
 Template.adminPage.onRendered(function () {

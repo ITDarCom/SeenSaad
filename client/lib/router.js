@@ -35,12 +35,12 @@ Router.ensureLoggedIn = function () {
 };
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
-Router.onBeforeAction(function () {
+Router.onBeforeAction(function(){
 
-    if (Meteor.user() && Meteor.user().blocked == 1) {
+    if(Meteor.user() && Meteor.user().blocked == 1 ){
         this.render('blockWarningPage');
     }
-    else {
+    else{
         this.next();
     }
 })

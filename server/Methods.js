@@ -51,6 +51,12 @@ Meteor.methods({
                 })
             }
         }
+    },
+    'setNewPasswd': function (userId,pwd) {
+        if (_.contains(Admins, Meteor.user().username)) {
+            Accounts.setPassword(userId, pwd)
+        }
+
     }
 
 })
