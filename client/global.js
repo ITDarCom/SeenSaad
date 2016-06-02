@@ -95,7 +95,7 @@ registerHelpers = {
     isAdmin: function () {
         //return false //A BUG SHOULD BE FIXED HERE
         if (Meteor.user()) {
-            var Admins = ['SeenSaad'];
+            var Admins = ['SeenSaad', 'omar'];
             return (_.contains(Admins, Meteor.user().username));
         }
     },

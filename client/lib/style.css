@@ -367,3 +367,10 @@ hr.title {
      outline-width: thin ;
  }
 
+.note-editor.note-frame .note-editing-area .note-editable {
+    padding: 0;
+    overflow: auto;
+    color: #000;
+    background-color: #fff;
+    margin: 10px;
+}       

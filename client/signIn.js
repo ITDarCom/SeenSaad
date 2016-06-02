@@ -4,48 +4,53 @@
 Template.signIn.onRendered(function () {
 
     $('button').removeClass('btn-default').addClass('btn-primary');
-    $('.at-title,#at-forgotPwd').remove();
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
-    $('label').remove()
-    $('#at-signUp,#at-signIn').parent().hide();
 
-    var signInTab = $('#signInTab');
-    signInTab.find('#at-field-username,#at-field-password ')
+    var activeTab = $('.tab-pane.active');
+    activeTab.find('#at-field-username,#at-field-password,#at-field-password_again')
         .addClass("input-group dirLtr text-center nopadding");
-    //noinspection JSValidateTypes
-    signInTab.find('#at-field-username')
+
+    activeTab.find('#at-field-username')
         .parent().addClass('input-group')
         .append('<span style="padding-right=6px;" name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +
-        '@/SeenSaad.com</span><span class="help-block"></span>');
-    var signUpTab = $('#signUpTab');
-    signUpTab.find('#at-field-username,#at-field-password,#at-field-password_again ')
-        .addClass("input-group dirLtr text-center nopadding");
-    //noinspection JSValidateTypes
-    signUpTab.find('#at-field-username').parent().addClass('input-group')
-        .append('<span name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +
-        '@/SeenSaad.com</span><span class="help-block"></span>');
-    //$('[name=seensaadlabel]').css('padding-left', '26px');
-
+            '@/SeenSaad.com &nbsp;&nbsp; &nbsp;</span><span class="help-block"></span>');
 
 });
 Template.signIn.events({
     'click #signInClick': function () {
-        $('#signInTab').find('#at-field-password2').attr('id', 'at-field-password');
         $('.has-error').removeClass('has-error');
         $('.help-block').text('');
         $('.at-error').hide();
         $('.alert-success').hide();
         $('.btn-primary').prop('disabled', false);
+        $('.at-signin-link>p').remove();
+
+        Router.go('signIn');
+
 
     },
     'click #signUpClick': function () {
-        $('#signInTab').find('#at-field-password').attr('id', 'at-field-password2');
+
+
+        $('.at-signin-link>p').remove();
+        $('.alert-success').hide();
         $('.has-error').removeClass('has-error');
         $('.help-block').text('');
         $('.at-error').hide();
         $('.btn-primary').prop('disabled', false);
 
+        Router.go("signUp");
+
+
+
     }
 
 });
+
+Template.signIn.helpers({
+    state: function () {
+        return Session.get("state");
+    }
+});
+
 

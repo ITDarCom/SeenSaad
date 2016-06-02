@@ -17,7 +17,6 @@ Template.headerText.helpers({
     headerText: function () {
         var headers = {
             'add': arabicMessages.headers.add,
-            'edit': arabicMessages.headers.edit,
             'read': arabicMessages.headers.read,
             'participation': arabicMessages.headers.participation,
             'articles': arabicMessages.headers.articles,
@@ -39,6 +38,10 @@ Template.headerText.helpers({
         var route = Router.current().route.getName();
         if (route == 'profile') {
             return (arabicMessages.userArticles + registerHelpers.userFullName(registerHelpers.currentId()) )
+        }
+        if (route == 'edit') {
+            return "<a href=/" + registerHelpers.currentId() + "><span class='glyphicon glyphicon-share-alt' " +
+                "aria-hidden='true'></span>&nbsp;   " + arabicMessages.headers.edit + "</a>"
         }
 
         if (route == 'global') {

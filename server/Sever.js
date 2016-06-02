@@ -51,7 +51,7 @@ Meteor.methods({
     }
 });
 
-Admins = ['SeenSaad'];
+Admins = ['SeenSaad','omar'];
 
 Meteor.users.allow({
     remove: function (/*TODO which is this argument??? userId*/) {

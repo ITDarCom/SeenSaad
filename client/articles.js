@@ -49,7 +49,7 @@ Template.articles.onCreated(function () {
     instance.listener = new ScrollListener(instance)
     window.addEventListener('scroll', instance.listener)
 
-    //we reset our stored state whenever the route changes
+    //we reset our stored state whenever the route achanges
     instance.autorun(function () {
 
         var route = Router.current().route.getName()

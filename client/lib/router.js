@@ -5,6 +5,8 @@ Router.configure({
 });
 
 
+var publicRoutes = ['signIn', 'signUp'];
+
 var privateRoutes = [
     "messages",
     "read",
@@ -33,8 +35,22 @@ Router.ensureLoggedIn = function () {
         }        
     }
 };
+Router.ensureNotLoggedIn = function () {
+    if (Meteor.loggingIn()) {
+        //console.log('logging in..')
+        this.render('spinner')
+    } else {
+        //console.log('finished logging in process.')
+        if (Meteor.user()) {
+            this.redirect('home');
+        } else {
+            this.next();
+        }
+    }
+}
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
+Router.onBeforeAction(Router.ensureNotLoggedIn, {only: publicRoutes});
 Router.onBeforeAction(function(){
 
     if(Meteor.user() && Meteor.user().blocked == 1 ){
@@ -47,7 +63,7 @@ Router.onBeforeAction(function(){
 
 //formIsDirty https://gist.github.com/dferber90/acf560226fe76fe91534
 Session.setDefault('formIsDirty', false)
-const confirmationMessage = 'You have unsaved data. Are you sure you want to leave?'
+const confirmationMessage = 'عفواً.. لديك تغييرات لم تقم بحفظها هل تريد فعلاً مغادرة الصفحة دون حفظها؟';
 
 // whether the user should confirm the navigation or not,
 // set to `true` before redirecting programmatically to skip confirmation
@@ -68,7 +84,7 @@ Router.onStop(function () {
       return
     }
     // obtain a non-reactive reference to the current route
-    var currentRoute
+      var currentRoute;
     Tracker.nonreactive(function () {
       currentRoute = Router.current()
     })
@@ -86,10 +102,12 @@ window.addEventListener('beforeunload', function(event){
   if (Session.get('formIsDirty')) {
     // cross-browser requries returnValue to be set, as well as an actual
     // return value
-    event.returnValue = confirmationMessage // eslint-disable-line no-param-reassign
-    return confirmationMessage
+      event.returnValue = arabicMessages.alertLeaveFromTouched // eslint-disable-line no-param-reassign
+      return arabicMessages.alertLeaveFromTouched
   }
-})
+});
+
+
 
 const increment = 5;
 
@@ -186,7 +204,18 @@ Router.map(function () {
         }
     });
 
-    this.route('signIn', {path: '/signIn'});
+    this.route('signIn', {
+        path: '/signIn', action: function () {
+            Session.set('state', "signIn");
+            this.render('signIn')
+        }
+    })
+    this.route('signUp', {
+        path: '/signUp', action: function () {
+            Session.set('state', "signUp");
+            this.render('signIn')
+        }
+    });
     Router.route('/logOut', {
         name: 'logOut',
         onBeforeAction: function () {
