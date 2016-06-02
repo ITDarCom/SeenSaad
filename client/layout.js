@@ -32,7 +32,7 @@ Template.headerText.helpers({
             'editPersonalInfo': arabicMessages.headers.editPersonalInfo,
             'editProfileImg': arabicMessages.headers.editProfileImg,
             'admin': arabicMessages.headers.adminPage,
-            'deleted':arabicMessages.deleted
+            'deleted': arabicMessages.headers.deleted
 
         };
         var route = Router.current().route.getName();
