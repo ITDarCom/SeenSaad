@@ -142,7 +142,7 @@ Template.article.events({
 });
 Template.comments.helpers({
     comments: function () {
-        return Comments.find({articleId: this.data})
+        return Comments.find({articleId: this.data},{sort: {createdAt: -1}})
     },
     articleOwner: function () {
         return (Meteor.userId() && Template.parentData(2).user == Meteor.userId())
