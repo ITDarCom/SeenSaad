@@ -277,12 +277,12 @@ Meteor.publish('comments', function (id) {
     }
     var article = Articles.findOne(id);
     if(article.user == this.userId){
-        return Comments.find({articleId: id},{sort: {createdAt: -1}});
+        return Comments.find({articleId: id},{sort: {createdAt: 1}});
     }
     if (article && !article.deleted) {
         if (article.contributingPermissions == 0 || article.readingPermissions == 0
             || _.contains(article.contributingIds, this.userId) || _.contains(article.readingIds, this.userId)) {
-            return Comments.find({articleId: id},{sort: {createdAt: -1}});
+            return Comments.find({articleId: id},{sort: {createdAt: 1}});
         }
     }
 });
