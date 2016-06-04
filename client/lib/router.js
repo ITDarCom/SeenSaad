@@ -198,7 +198,8 @@ Router.map(function () {
         path: '/edit/:id', template: 'add', waitOn: function () {
             if (Meteor.user()) {
                 return [Meteor.subscribe("Article", this.params.id),
-                    Meteor.subscribe('usernames', this.params.id)
+                    Meteor.subscribe('usernames', this.params.id),
+                    Meteor.subscribe('comments',this.params.id)
                 ];
             }
         }
