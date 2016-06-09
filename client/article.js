@@ -144,11 +144,11 @@ Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: this.data},{sort: {createdAt: 1}})
     },
-    articleOwner: function () {
-        return (Meteor.userId() && Template.parentData(2).user == Meteor.userId())
+    articleOwner:   function () {
+        return (Meteor.userId() && Template.parentData(2).user == Meteor.userId() && Meteor.userId() && this.commenter == Meteor.userId() && !Template.parentData(2).deleted)
     },
     canEdit: function () {
-        if (Meteor.userId() && this.commenter == Meteor.userId()) {
+        if (Meteor.userId() && this.commenter == Meteor.userId() && !Template.parentData(2).deleted) {
             return (new Date().getTime() - this.createdAt.getTime() < 600 * 1000)
         }
     }

@@ -47,7 +47,7 @@ Template.headerText.helpers({
         if (route == 'global') {
             if (Session.get(    'urlType') == 'article') {
                 if (Session.get('lastRoute') && _.contains(['read', 'participation', 'articles', 'home'
-                        , 'mine', 'search','favorite'], Session.get('lastRoute'))) {
+                        , 'mine', 'search','favorite' ,'deleted'], Session.get('lastRoute'))) {
                     var lastheader = Session.get('lastRoute') != 'home' ? Session.get('lastRoute') : '';
                     return '<a href="/' + lastheader + '">' + '<span class="glyphicon glyphicon-share-alt" ' +
                         'aria-hidden="true"></span>' + '&nbsp;' + headers[Session.get('lastRoute')] + '</a>'

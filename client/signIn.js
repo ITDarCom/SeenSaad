@@ -7,8 +7,11 @@ Template.signIn.onRendered(function () {
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
 
     var activeTab = $('.tab-pane.active');
-    activeTab.find('#at-field-username,#at-field-password,#at-field-password_again')
+    activeTab.find('#at-field-username,#at-field-password')
         .addClass("input-group dirLtr text-center nopadding");
+    if(Session.get('state') == "signUp"){
+        $('#at-field-password_again').addClass("input-group dirLtr text-center nopadding");
+    }
 
     activeTab.find('#at-field-username')
         .parent().addClass('input-group')

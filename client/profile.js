@@ -155,7 +155,7 @@ Template.personalInformation.helpers({
     },
     birthdayformat: function () {
         if(this.birthday && this.birthday.date) {
-            return moment(this.birthday.date).format('MMMM Do YYYY');
+            return moment(this.birthday.date).format('MM/Do/YYYY');
         }
     }
 });
@@ -164,9 +164,14 @@ Template.personalInformation.onRendered(function () {
 
     if (Meteor.userId()) {
         $('.well').css('backgroundColor', $('input').css('backgroundColor'));
-        $('[name=username]').parent().addClass("input-group userNameLabel");
-        $('.userNameLabel').append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>' +
-            '<span class="help-block"></span>');
+
+
+        var errorHelp = $('[name=username]').parent().find(".help-block").detach();
+
+        $('[name=username]').parent().addClass("input-group userNameLabel")
+            .append('<span class="seenSaadLabel input-group-addon">@/SeenSaad.com</span>')
+            .parent()
+            .append(errorHelp)
         $('[name=username],[name="email.address"],[name="mobile.number"],[name="birthday"]')
             .addClass("text-left").css("direction", "ltr");
         $('.radio').css('display', 'inline-block')

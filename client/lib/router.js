@@ -130,6 +130,7 @@ Router.onAfterAction(function () {
 });
 
 Router.map(function () {
+
     this.route('admin', {
         path: '/admin', action: function () {
             if (registerHelpers.isAdmin())
@@ -178,7 +179,7 @@ Router.map(function () {
         Session.set('settings', 'profileImg');
         this.render('profile')
     }});
-    this.route('deleted', {path: '/deletedItems', template: 'articles'});
+    ;
 
     this.route('profile', {path: '/profile/:id', action : function(){
         Session.set('template', 'articles');
@@ -225,7 +226,7 @@ Router.map(function () {
             this.render('spinner')
         }
     });
-
+    this.route('deleted', {path: '/deleted', template: 'articles'})
     this.route('add', {path: '/add'});
     this.route('messages', {path: '/messages'});
     this.route('messageStream', {path: '/messageStream/:id'});
@@ -237,6 +238,7 @@ Router.map(function () {
                 this.render('article');
             }
             else {
+                console.log('invoked');
                 this.render('notFound');
             }
         },
