@@ -67,8 +67,8 @@
 							<img class="img-circle" height="42"
 								 width="42"
 								 src="{{getProfilePic}}"
-								 alt="{{userUsername this.from}}"
-								 title="{{userUsername this.from}}">
+								 alt="{{ this.fromUsername}}"
+								 title="{{ this.fromUsername}}">
 						</div>
 						<div class="col-md-11 col-xs-11 msg">
 							<div class="clearfix pull-right">
@@ -93,7 +93,7 @@
 						</div>
 						<div class="col-md-1 col-xs-1">
 							<img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
-								 alt="{{userUsername this.from}}" title="{{userUsername this.from}}">
+								 alt="{{ this.fromUserName}}" title="{{ this.fromUsername}}">
 						</div>
 						{{/if}}
 					</div>
