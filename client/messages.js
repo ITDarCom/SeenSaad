@@ -9,10 +9,10 @@ Template.messages.helpers({
         Messages.find({$or: [{to: Meteor.userId()}, {from: me}]},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
-                contacts.push({id: e.from, sendingAt: e.sendingAt, username: e.fromUsername});
+                contacts.push({id: e.from, sendingAt: e.sendingAt, fromUsername: e.fromUsername ,toUsername: e.toUsername});
             }
             else {
-                contacts.push({id: e.to, sendingAt: e.sendingAt, username: e.toUsername});
+                contacts.push({id: e.to, sendingAt: e.sendingAt, fromUsername: e.fromUsername ,toUsername: e.toUsername});
             }
         });
         return _.sortBy(_.uniq(contacts, false, function (c) {
@@ -55,6 +55,14 @@ Template.messages.helpers({
         }
 
 
+    },
+    getUsername:function(){
+        if (Meteor.user().username == this.fromUsername){
+            return this.toUsername
+        }
+        else{
+            return this.fromUsername
+        }
     }
 
 });
@@ -156,7 +164,7 @@ Template.afQuickField.onRendered(function () {
     }
 });
 AutoForm.hooks({
-    sendMsg: {
+        sendMsg: {
         onSuccess: function () {
             $('.select2-chosen').text('إلى')
         }
