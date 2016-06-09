@@ -57,6 +57,6 @@ Meteor.methods({
             Accounts.setPassword(userId, pwd)
         }
 
-    }
+    },
 
 })

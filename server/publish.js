@@ -177,13 +177,13 @@ Meteor.publish("Article", function (articleId) {
         this.ready();
     }}
 });
-Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
-    }
-    return Meteor.users.find({}, {fields: {username: 1}});
-//TODO is maybe a big problem >> to send all usernames to non-user >> even to user
-});
+//Meteor.publish(null, function () {
+//    if (Meteor._isBlocked) {
+//        this.ready();
+//    }
+//    return Meteor.users.find({}, {fields: {username: 1}});
+////TODO is maybe a big problem >> to send all usernames to non-user >> even to user
+//});
 Meteor.publish(null, function () {
     if (Meteor._isBlocked) {
         this.ready();

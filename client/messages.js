@@ -6,13 +6,13 @@ Template.messages.helpers({
     senders: function () {
         var me = Meteor.userId();
         var contacts = [];
-        Messages.find({$or: [{to: Meteor.userId()}, {from: me}]}, {fields: {to: 1, from: 1, sendingAt: 1}},
+        Messages.find({$or: [{to: Meteor.userId()}, {from: me}]},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
-                contacts.push({id: e.from, sendingAt: e.sendingAt});
+                contacts.push({id: e.from, sendingAt: e.sendingAt, username: e.fromUsername});
             }
             else {
-                contacts.push({id: e.to, sendingAt: e.sendingAt});
+                contacts.push({id: e.to, sendingAt: e.sendingAt, username: e.toUsername});
             }
         });
         return _.sortBy(_.uniq(contacts, false, function (c) {
@@ -68,6 +68,17 @@ Template.messageStream.helpers({
     },
     thisUser: function () {
         return (Router.current().params.id );
+    },
+    thisUsername: function () {
+        if (registerHelpers.currentId()) {
+            if (Messages.findOne({to: registerHelpers.currentId()})) {
+                return Messages.findOne({to: registerHelpers.currentId()}).toUsername;
+            }
+            if (Messages.findOne({from: registerHelpers.currentId()})) {
+                return Messages.findOne({from: registerHelpers.currentId()}).fromUsername;
+            }
+        }
+
     },
     seenChange: function (id) {
         Tracker.nonreactive(function () {
