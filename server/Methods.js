@@ -3,60 +3,54 @@
  */
 
 Meteor.methods({
-    removeArticle: function (docId) {
-        check(docId, String);
-        var article = Articles.findOne(docId);
-        if (article && article.user == this.userId)
-            Articles.update({_id: docId}, {$set: {deleted: true}}, {filter: false}, function (err, result) {
-                Meteor.call("removePermissions", article._id);
-            });
-    },
-    removePermissions: function (articleId) {
-        var article = Articles.findOne(articleId);
-        if (article && article.user == Meteor.userId()) {
-            if (article.readingPermissions == 0 && article.contributingPermissions == 0) {
-                return;
-            }
-            if (article.readingPermissions == 1 && article.readingIds.length > 0) {
-                revokePermissions(article.readingIds);
-            }
-            if (article.contributingPermissions == 1 && article.contributingIds.length > 0) {
-                revokePermissions(article.contributingIds, true);
-            }
 
-
-            revokePermissions = function (ids, flag) {
-                _.each(ids, function (id) {
-                    if (flag)
-                        Stream.upsert({userId: id}, {
-                            $pull: {
-                                contributingArticles: {
-                                    id: articleId,
-                                    seen: false,
-                                    newComment: false
-                                }
-                            }
-                        });
-
-                    else
-                        Stream.upsert({userId: id}, {
-                            $pull: {
-                                readingArticles: {
-                                    id: articleId,
-                                    seen: false,
-                                    newComment: false
-                                }
-                            }
-                        });
-                })
-            }
-        }
-    },
-    'setNewPasswd': function (userId,pwd) {
+    'setNewPasswd': function (userId, pwd) {
         if (_.contains(Admins, Meteor.user().username)) {
             Accounts.setPassword(userId, pwd)
         }
 
     },
+    'setNewUserName': function (newName) {
+        if (newName == Meteor.user().username) {
+            return;
+        }
+        var regex = new RegExp(["^", newName, "$"].join(""), "i");
+        if (Meteor.users.findOne({$and: [{username: regex}, {id: {$ne: Meteor.userId()}}]})) {
+            throw new Meteor.Error(500, 'There was an error processing your request');
+
+        }
+        if (newName.indexOf("--") != -1) {
+            return false;
+        }
+        check(newName, String);
+        if (!Meteor.users.findOne({username: newName})) {
+            //noinspection JSUnresolvedFunction
+            Accounts.setUsername(Meteor.userId(), newName);
+            Meteor.users.update(Meteor.userId(),{$set:{lastUsernameChange:new Date()}},{validate:false,getAutoValues:false});
+            this.unblock();
+            Meteor.call('refreshUsernames');
+
+        }
+    },
+    'refreshUsernames': function () {
+        var i = 0;
+        Articles.find({user: Meteor.userId()}).forEach(function (elem) {
+            elem.username = Meteor.user().username;
+            Articles.update(elem._id, {$set: elem});
+        });
+
+        Messages.find({from: Meteor.userId()}).forEach(function (elem) {
+            elem.fromUsername = Meteor.user().username;
+            elem.toUsername = Meteor.users.findOne(elem.to).username;
+            Messages.update(elem._id, {$set: elem})
+            console.log(i++)
+        });
+        Comments.find({commenter: Meteor.userId()}).forEach(function (elem) {
+            elem.commenterUsername = Meteor.user().username;
+            Comments.update(elem._id, {$set: elem});
+            console.log(i++);
+        })
+    }
+
 
 })

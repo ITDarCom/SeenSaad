@@ -1,4 +1,4 @@
-Template.profile.onCreated(function(){
+Template.profile.onCreated(function () {
     Meteor.subscribe('specificUser', Router.current().params.id)
 });
 
@@ -35,6 +35,9 @@ Template.profile.events({
             return false;
         }
         Session.set('template', 'messageStream');
+    },
+    'click li': function () {
+        $('.alert').remove();
     }
 });
 
@@ -52,39 +55,39 @@ Template.profileSetting.helpers({
     }
 });
 
-Template.profileImg.onCreated(function(){
+Template.profileImg.onCreated(function () {
 
     var instance = this
 
     instance.fileInProgressId = new ReactiveVar()
     instance.isUploading = new ReactiveVar(false)
 
-    instance.autorun(function(){
+    instance.autorun(function () {
 
         var fileInProgressId = instance.fileInProgressId.get() //should be null at the beginning
-        if (!fileInProgressId){
-            return ;           
+        if (!fileInProgressId) {
+            return;
         } else {
             var fileObj = profilePicture.findOne(fileInProgressId)
             //console.log('fileObj.uploadProgress()', fileObj.uploadProgress())
             //console.log('fileObj.url()', fileObj.url())            
             if (fileObj.url()) {
                 Template.instance().isUploading.set(false)
-            }             
+            }
         }
 
     })
 })
 
 Template.profileImg.helpers({
-    isUploading : function(){
+    isUploading: function () {
         return Template.instance().isUploading.get()
     }
 })
 
 Template.profileImg.events({
 
-    'change #profile-image-input' : function(event, instance){
+    'change #profile-image-input': function (event, instance) {
 
 
         var file = event.target.files[0];
@@ -93,8 +96,8 @@ Template.profileImg.events({
             var fsFile = new FS.File(file);
 
             instance.isUploading.set(true)
-            
-            fsFile.owner = Meteor.userId();            
+
+            fsFile.owner = Meteor.userId();
             Meteor.call('deleteMyPic');
             $(".image-preview-filename").val(file.name);
             profilePicture.insert(fsFile, function (err, fileObj) {
@@ -104,7 +107,7 @@ Template.profileImg.events({
                     instance.isUploading.set(false)
                     throw err
                 }
-                
+
                 //fileObj is not reactive until you explicitly fetch it from the db in a reactive context
                 //check this issue: https://github.com/CollectionFS/Meteor-CollectionFS/issues/397
                 instance.fileInProgressId.set(fileObj._id)
@@ -115,28 +118,28 @@ Template.profileImg.events({
 })
 
 /*Template.profileImg.onRendered(function () {
-    $(function () {
-        $(".image-preview-input input:file").change(function () {
-            // Create the preview image
-            var file = this.files[0];
-            var reader = new FileReader();
-            reader.onload = function () {
-                var fsFile = new FS.File(file);
-                fsFile.owner = Meteor.userId();
-                Meteor.call('deleteMyPic');
-                $(".image-preview-filename").val(file.name);
-                profilePicture.insert(fsFile, function (err) {
-                    // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
-                    if (err) {
-                    }
-                    else {
-                    }
-                })
-            };
-            reader.readAsDataURL(file);
-        });
-    });
-});*/
+ $(function () {
+ $(".image-preview-input input:file").change(function () {
+ // Create the preview image
+ var file = this.files[0];
+ var reader = new FileReader();
+ reader.onload = function () {
+ var fsFile = new FS.File(file);
+ fsFile.owner = Meteor.userId();
+ Meteor.call('deleteMyPic');
+ $(".image-preview-filename").val(file.name);
+ profilePicture.insert(fsFile, function (err) {
+ // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+ if (err) {
+ }
+ else {
+ }
+ })
+ };
+ reader.readAsDataURL(file);
+ });
+ });
+ });*/
 
 Template.chgpasswd.onRendered(function () {
     $('#at-btn').removeClass("btn-default").addClass("btn-primary").text(arabicMessages.saveButton);
@@ -148,13 +151,13 @@ Template.chgpasswd.onRendered(function () {
 Template.personalInformation.helpers({
     thisUser: function () {
         var user = Meteor.users.findOne(Meteor.userId())
-        if(user.birthday && user.birthday.date){
+        if (user.birthday && user.birthday.date) {
             user.birthday.date = new Date(user.birthday.date).toLocaleDateString();
         }
         return user;
     },
     birthdayformat: function () {
-        if(this.birthday && this.birthday.date) {
+        if (this.birthday && this.birthday.date) {
             return moment(this.birthday.date).format('MM/Do/YYYY');
         }
     }
@@ -190,14 +193,29 @@ AutoForm.hooks({
     updatePersonalInformation: {
         onSuccess: function () {
             $('.alert').remove();
-            $('.panel-body')
-                .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
-                + '"alert" aria-label="close">&times;</a>' + arabicMessages.profileEditSuccess + '</div>')
+            if (Session.get('usedUsername')) {
+                $('.panel-body')
+                    .prepend('<div class="alert alert-danger">  <a href="#" class="close" data-dismiss='
+                        + '"alert" aria-label="close">&times;</a>' + arabicMessages.usedUsername + '</div>')
+
+            }
+            else {
+                $('.panel-body')
+                    .prepend('<div class="alert alert-success">  <a href="#" class="close" data-dismiss='
+                        + '"alert" aria-label="close">&times;</a>' + arabicMessages.profileEditSuccess + '</div>')
+            }
         },
         before: {
             'update': function (doc) {
-                if (doc.$set.username != Meteor.users.findOne(Meteor.userId()).username) {
-                    Meteor.call("setNewUserName", doc.$set.username)
+
+                if (doc.$set.username != Meteor.user().username) {
+                    Session.set('usedUsername', false);
+                    Meteor.call("setNewUserName", doc.$set.username, function (err, result) {
+                        if (err) {
+                            Session.set('usedUsername', true);
+                            return false;
+                        }
+                    })
                 }
                 doc.$set.username = undefined;
                 return doc;

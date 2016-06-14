@@ -1,6 +1,8 @@
 /**
  * Created by omar on 6/9/16.
  */
+//this migration for adding username name to old article & comments and messages documents
+
 Meteor.startup(function () {
     Articles.find({}).forEach(function (elem, val, test) {
         elem.username = Meteor.users.findOne(elem.user).username;

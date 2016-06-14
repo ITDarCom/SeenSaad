@@ -177,13 +177,7 @@ Meteor.publish("Article", function (articleId) {
         this.ready();
     }}
 });
-//Meteor.publish(null, function () {
-//    if (Meteor._isBlocked) {
-//        this.ready();
-//    }
-//    return Meteor.users.find({}, {fields: {username: 1}});
-////TODO is maybe a big problem >> to send all usernames to non-user >> even to user
-//});
+
 Meteor.publish(null, function () {
     if (Meteor._isBlocked) {
         this.ready();
@@ -240,11 +234,6 @@ Meteor.publish(null, function () {
     if (Meteor._isBlocked) {
         this.ready();
     }
-    //if (this.userId) {
-    //    if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
-    //        return Messages.find({});
-    //    }
-    //}
     if (this.userId) {
         return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
             sender: 0,
@@ -311,8 +300,6 @@ Meteor.publish('deleted', function (limit) {
     if (Meteor._isBlocked) {
         this.ready();
     }
-
-    //Meteor._sleepForMs(2000);
 
     if (this.userId) {
         return Articles.find({user: this.userId, deleted: true}, {

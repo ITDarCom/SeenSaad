@@ -122,7 +122,9 @@ Template.article.events({
         var id = this._id;
         if (confirm(arabicMessages.confirmDelete)) {
             {
+
                 Meteor.call('removeArticle', id, function (err) {
+                    //TODO remove article from contribute and readding ids after deleting it
                     $('.alert').remove();
                     Session.set('alert', 'deleteSuccessfully');
                     Router.go('mine');
