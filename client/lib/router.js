@@ -238,7 +238,6 @@ Router.map(function () {
                 this.render('article');
             }
             else {
-                console.log('invoked');
                 this.render('notFound');
             }
         },
