@@ -3,7 +3,7 @@
  */
 
 Template.userAdministrativeActions.helpers({
-    blocked : function(){
+    blocked: function () {
         return Template.instance().data.blocked
     }
 });
@@ -23,13 +23,13 @@ Template.userAdministrativeActions.events({
     'click .deleteUser': function (event) {
         if (confirm('Are you sure')) {
             var userId = $(event.target).attr('userid');
-            Meteor.call('deleteUser', userId);
+            Meteor.call('deleteUser',userId);
         }
     },
     'click .blockUser': function (event) {
         var blockAction = Template.instance().data.blocked ?
             'unblock' : 'block'
-        if (confirm('Are you sure you want to '+blockAction+' this user?')) {
+        if (confirm('Are you sure you want to ' + blockAction + ' this user?')) {
             var userId = $(event.target).attr('userid');
             Meteor.call('setUserBlocked', userId, !Template.instance().data.blocked);
         }
@@ -39,8 +39,8 @@ Template.userAdministrativeActions.events({
 
         if (pwd != null) {
             var userId = $(event.target).attr('userid');
-            Meteor.call('setNewPasswd', userId,pwd,function(err,res){
-                if(~err){
+            Meteor.call('setNewPasswd', userId, pwd, function (err, res) {
+                if (~err) {
                     alert("Done");
                 }
             });

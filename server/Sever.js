@@ -4,57 +4,71 @@
 Meteor.methods({
     isAdmin: function () {
         if (this.userId) {
-            if (_.contains(Admins, Meteor.users.findOne(this.userId).username))
-            {
+            if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
                 return true;
             }
         }
-        else
-        {
+        else {
             throw new Meteor.Error(403, 'you are not an admin!')
         }
     },
     impersonate: function (userId) {
         check(userId, String);
-        if (!_.contains(Admins, Meteor.users.findOne(this.userId).username))
-        {
+        if (!_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
             throw new Meteor.Error(403, 'Permission denied');
         }
-        if (!Meteor.users.findOne(userId))
-        {
+        if (!Meteor.users.findOne(userId)) {
             throw new Meteor.Error(404, 'User not found');
         }
 
         this.setUserId(userId);
     },
-    setUserBlocked : function(userId, blocked){
+    setUserBlocked: function (userId, blocked) {
         check(userId, String);
         check(blocked, Boolean);
 
-        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)){
+        if (_.contains(Admins, Meteor.users.findOne(this.userId).username)) {
             if (Meteor.users.findOne(userId)) {
-                Meteor.users.update({ _id: userId }, { $set: { blocked: blocked } })
+                Meteor.users.update({_id: userId}, {$set: {blocked: blocked}})
             }
         }
     },
     deleteUser: function (userId) {
+
         check(userId, String);
-        if (_.contains(Admins, Meteor.users.findOne(this.userId).username))
-        {
+        if (_.contains(Admins, Meteor.user().username)) {
             if (Meteor.users.findOne(userId)) {
-                Articles.remove({user: userId});
-                Stream.remove({userId: userId});
-                Comments.remove({commenter:userId});
-                Meteor.users.remove({_id: userId});
-            }
+
+                Articles.find({user: userId}).forEach(function (elem) {
+                    if (elem.readingIds && elem.readingIds.length > 0) {
+                        _.each(elem.readingIds, function (value) {
+                            Stream.update({userId: value}, {$pull: {readingArticles: {id: elem._id}}});
+                        })
+                        _.each(elem.contributingIds, function (value) {
+                            Stream.update({userId: value}, {$pull: {contributingArticles: {id: elem._id}}});
+                        })
+                    }
+
+                })
+
+                Stream.remove({userId: userId}, function () {
+                    Comments.remove({commenter: userId}, function () {
+                        Messages.remove({$or: [{to: userId}, {from: userId}]}, function () {
+                            Meteor.users.remove({_id: userId});
+                        });
+                    });
+                });
+
+                }
         }
     }
+
 });
 
 Admins = ['SeenSaad'];
 
 Meteor.users.allow({
-    remove: function (/*TODO which is this argument??? userId*/) {
+    remove: function () {
         return (_.contains(Admins, Meteor.users.findOne(this.userId).username))
     }
 });
@@ -66,11 +80,11 @@ registerHelpers = {
     }
 };
 
-Meteor.startup(function () {
-    Articles.find().forEach(function (a) {
-        if (!a.generalDate) {
-            a.generalDate = a.createdAt;
-            Articles.update({_id: a._id}, {$set: a})
-        }
-    })
-});
+//Meteor.startup(function () {
+//    Articles.find().forEach(function (a) {
+//        if (!a.generalDate) {
+//            a.generalDate = a.createdAt;
+//            Articles.update({_id: a._id}, {$set: a})
+//        }
+//    })
+//});

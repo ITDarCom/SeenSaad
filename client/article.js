@@ -170,7 +170,7 @@ Template.comments.events({
         if (commentBody.find('.okUpdate,NoCancel').length == 0) {
             commentBody
                 .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
-                    "<button class='btn btn-xs btn-success'><i class='fa fa-check okUpdate '></i></button></div>");
+                    "<button class='btn btn-xs btn-success okUpdate '><i class='fa fa-check  '></i></button></div>");
         }
     },
     'click .okUpdate': function (event) {
