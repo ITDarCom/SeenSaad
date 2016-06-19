@@ -2,17 +2,19 @@
  * Created by omar on 10/19/15.
  */
 Template.signIn.onRendered(function () {
+var currentRoute = Router.current().route.getName();
+    Session.set("state", currentRoute);
+if(currentRoute == "signIn"){
+        $("#signIn").addClass("active")
+    }
+    else{
+    $("#signUp").addClass("active")
 
+}
     $('button').removeClass('btn-default').addClass('btn-primary');
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
 
     var activeTab = $('.tab-pane.active');
-    activeTab.find('#at-field-username,#at-field-password')
-        .addClass("input-group dirLtr text-center nopadding");
-    if(Session.get('state') == "signUp"){
-        $('#at-field-password_again').addClass("input-group dirLtr text-center nopadding");
-    }
-
     activeTab.find('#at-field-username')
         .parent().addClass('input-group')
         .append('<span style="padding-right=6px;" name= "seensaadlabel" class="seenSaadLabel input-group-addon">' +
@@ -20,19 +22,20 @@ Template.signIn.onRendered(function () {
 
 });
 Template.signIn.events({
-    'click #signInClick': function () {
+    'click #signIn': function () {
         $('.has-error').removeClass('has-error');
         $('.help-block').text('');
         $('.at-error').hide();
         $('.alert-success').hide();
         $('.btn-primary').prop('disabled', false);
         $('.at-signin-link>p').remove();
+        Session.set('state',"signIn");
 
         Router.go('signIn');
 
 
     },
-    'click #signUpClick': function () {
+    'click #signUp': function () {
 
 
         $('.at-signin-link>p').remove();
@@ -41,9 +44,9 @@ Template.signIn.events({
         $('.help-block').text('');
         $('.at-error').hide();
         $('.btn-primary').prop('disabled', false);
+        Session.set('state',"signUp");
 
         Router.go("signUp");
-
 
 
     }

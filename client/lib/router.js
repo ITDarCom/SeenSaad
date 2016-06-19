@@ -208,14 +208,12 @@ Router.map(function () {
 
     this.route('signIn', {
         path: '/signIn', action: function () {
-            Session.set('state', "signIn");
-            this.render('signIn')
+            this.render('signIn');
         }
     })
     this.route('signUp', {
         path: '/signUp', action: function () {
-            Session.set('state', "signUp");
-            this.render('signIn')
+            this.render('signIn');
         }
     });
     Router.route('/logOut', {

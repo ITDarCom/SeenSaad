@@ -5,9 +5,9 @@
             <div class="panel with-nav-tabs panel-info">
                 <div class="panel-heading">
                     <ul class="nav nav-tabs nav-justified">
-                        <li class="active"><a href="#signInTab" id="signInClick" data-toggle="tab">
+                        <li id="signIn"  ><a href="#signInTab"  data-toggle="tab">
                             {{getArabicMsg "signIn"}}</a></li>
-                        <li><a href="#signUpTab" id="signUpClick" data-toggle="tab">{{getArabicMsg "signUp"}}</a></li>
+                        <li id="signUp" ><a href="#signUpTab"  data-toggle="tab">{{getArabicMsg "signUp"}}</a></li>
                     </ul>
                 </div>
                 <div class="panel-body">
@@ -31,7 +31,7 @@
         <label class="control-label {{#unless showLabels}}sr-only{{/unless}}" for="at-field-{{_id}}">
             {{displayName}} {{#unless required}}{{optionalText}}{{/unless}}
         </label>
-        <input type="{{type}}" class="form-control" id="at-field-{{_id}}" name="at-field-{{_id}}"
+        <input type="{{type}}" class="form-control input-group dirLtr text-center nopadding" id="at-field-{{_id}}" name="at-field-{{_id}}"
                placeholder="{{placeholder}}" autocapitalize="none" autocorrect="off">
         {{#if hasIcon}}
             <span class="{{iconClass}} form-control-feedback"></span>
@@ -51,5 +51,16 @@
 </template>
 
 
-
+<template name="myAtTextInput">
+    <div class="at-input form-group {{#if isValidating}}validating{{/if}} {{#if hasError}}has-error{{/if}} {{#if hasSuccess}}has-success{{/if}} {{#if feedback}}has-feedback{{/if}}">
+        <label class="control-label {{#unless showLabels}}sr-only{{/unless}}" for="at-field-{{_id}}">
+            {{displayName}} {{#unless required}}{{optionalText}}{{/unless}}
+        </label>
+        <input type="{{type}}" class="form-control" id="at-field-{{_id}}" name="at-field-{{_id}}" placeholder="{{placeholder}}" autocapitalize="none" autocorrect="off">
+        {{#if hasIcon}}
+            <span class="{{iconClass}} form-control-feedback"></span>
+        {{/if}}
+        <span class="help-block {{#unless hasError}}hide{{/unless}}">{{errorText}}</span>
+    </div>
+</template>
 
