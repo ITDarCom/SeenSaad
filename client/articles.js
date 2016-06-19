@@ -92,9 +92,9 @@ Template.articles.onCreated(function () {
     })
 
     //resetting the ReadContributeCache each time the read/contribute articles change
-    instance.autorun(function(){
-        instance.state.set('counter0',registerHelpers.unread(0))
-        instance.state.set('counter1',registerHelpers.unread(1))
+    instance.autorun(function () {
+        instance.state.set('counter0', registerHelpers.unread(0))
+        instance.state.set('counter1', registerHelpers.unread(1))
         ReadContributeCache = new SubsManager()
     })
 
@@ -112,7 +112,8 @@ Template.articles.onCreated(function () {
 
         if (channel == 'specificUserArticles') {
             subscription = ArticlesCache.subscribe(channel, Router.current().params.id, limit)
-        } if (channel.match(/readArticles|contribution/)){
+        }
+        if (channel.match(/readArticles|contribution/)) {
             subscription = ReadContributeCache.subscribe(channel, limit)
         } else {
             subscription = ArticlesCache.subscribe(channel, limit)
@@ -171,7 +172,7 @@ Template.articles.events({
     'click .edit': function () {
         Router.go('edit', {id: this._id})
     },
-    'click .referesh': function(event, instance){
+    'click .referesh': function (event, instance) {
         instance.state.set('referesh', new Date())
     }
 });
@@ -215,29 +216,31 @@ Template.Time.events({
 Template.articleView.helpers({
     newLabel: function () {
         //noinspection JSUnresolvedVariable
-        if (this.user == Meteor.userId())
-            return;
-        var custom;
-        //noinspection JSUnresolvedVariable
-        if (this.contributingPermissions == 1) {
-            custom = Stream.findOne({userId: Meteor.userId()});
+        if (Meteor.userId()) {
+            if (this.user == Meteor.userId())
+                return;
+            var custom;
             //noinspection JSUnresolvedVariable
-            var article = _.findWhere(custom.contributingArticles, {id: this._id})
-            if (article && !article.seen)
-                return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
-            if (article && article.newComment)
-                return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+            if (this.contributingPermissions == 1) {
+                custom = Stream.findOne({userId: Meteor.userId()});
+                //noinspection JSUnresolvedVariable
+                var article = _.findWhere(custom.contributingArticles, {id: this._id})
+                if (article && !article.seen)
+                    return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+                if (article && article.newComment)
+                    return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+
+            }
+            //noinspection JSUnresolvedVariable
+            if (this.readingPermissions == 1) {
+                custom = Stream.findOne({userId: Meteor.userId()});
+                //noinspection JSUnresolvedVariable
+                var article = _.findWhere(custom.readingArticles, {id: this._id})
+                if (article && !article.seen)
+                    return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
+            }
 
         }
-        //noinspection JSUnresolvedVariable
-        if (this.readingPermissions == 1) {
-            custom = Stream.findOne({userId: Meteor.userId()});
-            //noinspection JSUnresolvedVariable
-            var article = _.findWhere(custom.readingArticles, {id: this._id})
-            if (article && !article.seen)
-                return '<span class="badge redDiv" title=' + arabicMessages.newLabel + '><i class="fa fa-comment"></i></span>';
-        }
-
     },
     canEdit: function () {
         return ((new Date()).getTime() - this.createdAt.getTime() < (3600 * 1000));
