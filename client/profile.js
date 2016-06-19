@@ -205,22 +205,20 @@ AutoForm.hooks({
                         + '"alert" aria-label="close">&times;</a>' + arabicMessages.profileEditSuccess + '</div>')
             }
         },
-        before: {
-            'update': function (doc) {
+        formToModifier: function (doc) {
 
-                if (doc.$set.username != Meteor.user().username) {
-                    Session.set('usedUsername', false);
-                    Meteor.call("setNewUserName", doc.$set.username, function (err, result) {
-                        if (err) {
-                            Session.set('usedUsername', true);
-                            return false;
-                        }
-                    })
-                }
-                doc.$set.username = undefined;
-                return doc;
+            if (doc.$set.username != Meteor.user().username) {
+                Session.set('usedUsername', false);
+                Meteor.call("setNewUserName", doc.$set.username, function (err, result) {
+                    if (err) {
+                        Session.set('usedUsername', true);
+                        return false;
+                    }
+                })
             }
-        }
+            delete doc.$set.username;
+            return doc;
+        },
 
     }
 });
@@ -252,7 +250,6 @@ Template.userInformation.helpers({
         //noinspection JSUnresolvedVariable
         if (this.email && this.email.address) {
             //noinspection JSUnresolvedVariable
-            properties.push({value: this.email.address});
         }
         //noinspection JSUnresolvedVariable
         if (this.mobile && this.mobile.number) { //noinspection JSUnresolvedVariable
