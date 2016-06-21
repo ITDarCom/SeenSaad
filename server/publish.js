@@ -14,8 +14,8 @@ Meteor._isBlocked = function (userId) {
 }
 Meteor.publish('articles', function (limit) {
         //Meteor._sleepForMs(2000);
-        if (Meteor._isBlocked) {
-            this.ready();
+        if (Meteor._isBlocked()) {
+            return [];
         }
 
 
@@ -66,8 +66,8 @@ Meteor.publish('articles', function (limit) {
 
 Meteor.publish('favorites', function (limit) {
     //Meteor._sleepForMs(2000);
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     if (this.userId) {
         var ids = Favorites.findOne({userId: this.userId});
@@ -82,8 +82,8 @@ Meteor.publish('favorites', function (limit) {
 });
 
 Meteor.publish('readArticles', function (limit) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     //Meteor._sleepForMs(2000);
     if (this.userId) {
@@ -99,8 +99,8 @@ Meteor.publish('readArticles', function (limit) {
 });
 
 Meteor.publish('contribution', function (limit) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     //Meteor._sleepForMs(2000);
     if (this.userId) {
@@ -117,8 +117,8 @@ Meteor.publish('contribution', function (limit) {
 });
 
 Meteor.publish('mine', function (limit) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     //Meteor._sleepForMs(2000);
     if (this.userId) {
@@ -127,8 +127,8 @@ Meteor.publish('mine', function (limit) {
 });
 
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     if (this.userId) {
         return Favorites.find({userId: this.userId}) ? Favorites.find({userId: this.userId}) : null;
@@ -136,8 +136,8 @@ Meteor.publish(null, function () {
 });
 
 Meteor.publish("Article", function (articleId) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     var article = Articles.findOne({_id: articleId});
     if (article) {
@@ -174,21 +174,21 @@ Meteor.publish("Article", function (articleId) {
             }
         }
     else {
-        this.ready();
+        return [];
     }}
 });
 
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     if (this.userId) {
         return Meteor.users.find({_id: this.userId})
     }
 });
 Meteor.publish('specificUser', function (userId) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     var user = Meteor.users.findOne(userId);
     var projections = {};
@@ -204,8 +204,8 @@ Meteor.publish('specificUser', function (userId) {
     return Meteor.users.find({_id: userId}, {fields: projections})
 });
 Meteor.publish('specificUserArticles', function (userId, limit) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
 
     //Meteor._sleepForMs(2000);
@@ -231,8 +231,8 @@ Meteor.publish('specificUserArticles', function (userId, limit) {
     })
 });
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     if (this.userId) {
         return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
@@ -242,28 +242,28 @@ Meteor.publish(null, function () {
     }
 });
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     if (this.userId) {
         return Stream.find({userId: this.userId})
     }
 });
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     return profilePicture.find({})
 });
 Meteor.publish(null, function () {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     return Images.find();
 });
 Meteor.publish('comments', function (id) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     var article = Articles.findOne(id);
     if (article && article.user == this.userId) {
@@ -278,8 +278,8 @@ Meteor.publish('comments', function (id) {
 });
 
 Meteor.publish('usernames', function (articleId) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
     var article = Articles.findOne(articleId);
     if (article.readingPermissions == 0 || article.contributingPermissions == 0) {
@@ -297,8 +297,8 @@ Meteor.publish('usernames', function (articleId) {
     return [];
 });
 Meteor.publish('deleted', function (limit) {
-    if (Meteor._isBlocked) {
-        this.ready();
+    if (Meteor._isBlocked()) {
+        return [];
     }
 
     if (this.userId) {
