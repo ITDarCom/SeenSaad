@@ -64,6 +64,7 @@ AutoForm.hooks({
                     doc.$set.readingIds = _.without(doc.$set.readingIds, u);
                 });
                 return doc;
+                return doc;
             }
         }
 
@@ -194,6 +195,7 @@ Template.add.events({
 });
 //noinspection JSUnresolvedVariable
 Template.autoForm.onRendered(function () {
+    $('#loadingModal').hide();
 
     if (this.data.id == 'addUpdateArticles') {
         $('.alert').remove();

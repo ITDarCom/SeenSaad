@@ -13,7 +13,7 @@ Meteor._isBlocked = function (userId) {
     return userId && Meteor.users.findOne(userId).blocked
 };
 Meteor.publish('articles', function (limit) {
-        //Meteor._sleepForMs(2000);
+            //Meteor._sleepForMs(2000);
         if (Meteor._isBlocked(this.userId)) {
             return [];
         }
