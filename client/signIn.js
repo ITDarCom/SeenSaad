@@ -2,15 +2,18 @@
  * Created by omar on 10/19/15.
  */
 Template.signIn.onRendered(function () {
-var currentRoute = Router.current().route.getName();
+    var currentRoute = Router.current().route.getName();
     Session.set("state", currentRoute);
-if(currentRoute == "signIn"){
+    if (currentRoute == "signIn") {
         $("#signIn").addClass("active")
+        if (Session.get('inputUserName')) {
+            $('#at-field-username').val(Session.get('inputUserName'));
+        }
     }
-    else{
-    $("#signUp").addClass("active")
+    else {
+        $("#signUp").addClass("active")
 
-}
+    }
     $('button').removeClass('btn-default').addClass('btn-primary');
     $('.at-form').css('marginTop', 0).css('marginBottom', 0);
 
@@ -29,7 +32,7 @@ Template.signIn.events({
         $('.alert-success').hide();
         $('.btn-primary').prop('disabled', false);
         $('.at-signin-link>p').remove();
-        Session.set('state',"signIn");
+        Session.set('state', "signIn");
 
         Router.go('signIn');
 
@@ -44,11 +47,17 @@ Template.signIn.events({
         $('.help-block').text('');
         $('.at-error').hide();
         $('.btn-primary').prop('disabled', false);
-        Session.set('state',"signUp");
+        Session.set('state', "signUp");
 
         Router.go("signUp");
 
 
+    },
+    'submit #at-pwd-form': function (event) {
+        var inputUserName = $('#at-field-username').val();
+        if (inputUserName) {
+            Session.set('inputUserName', inputUserName)
+        }
     }
 
 });
