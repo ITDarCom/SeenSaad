@@ -282,7 +282,7 @@ Meteor.publish('usernames', function (articleId) {
         return [];
     }
     var article = Articles.findOne(articleId);
-    if (article.readingPermissions == 0 || article.contributingPermissions == 0) {
+    if ( article.contributingPermissions == 0) {
         return [];
     }
     else {
