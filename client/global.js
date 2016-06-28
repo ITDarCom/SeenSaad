@@ -69,7 +69,7 @@ registerHelpers = {
     },
     dateFormated: function (date) { // reformat ISO Date as : HH:mm:ss YYYY.MM.DD
         if (date) {
-            return moment(date).format('HH:mm:ss YYYY.MM.DD');
+            return moment(date).format('HH:mm YYYY.MM.DD');
         }
     },
     userNameId: function (name) { //find the id of username parameter

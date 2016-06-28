@@ -87,16 +87,19 @@
     {{#each comments}}
         <div class='panel panel-info'>
             <div class='panel-body'>
-                <div class='text-muted row'>
-                    <div class="{{#if owner}}col-md-4 col-xs-4{{else}}col-md-6 col-xs-4{{/if}}">
+                <div class='text-muted'>
+                    <div class="row">
+                    <div class="col-md-12 col-xs-12">
                     <span class='glyphicon glyphicon-user'
                           aria-hidden='true'></span> {{commenterUsername}}
                     </div>
-                    <div class="{{#if articleOwner}}col-md-6 col-xs-6{{else}} col-md-6 col-xs-4{{/if}}">  <span
+                    </div>
+                    <div class="row">
+                    <div class=" col-md-6 col-xs-6" style=" white-space: nowrap; text-overflow: ellipsis;">  <span
                             class='glyphicon glyphicon-time'
                             aria-hidden='true'></span>
                         {{> Time data=createdAt}} </div>
-                    <div class="col-md-2 col-xs-2 text-left pull-left">
+                    <div class="col-md-6 col-xs-6 text-left" style="padding-left:10px !important;">
                         {{#if articleOwner}}
                             <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
                         {{/if}}
@@ -107,6 +110,7 @@
                             <button class="btn btn-xs btn-warning updateComment"><i class="fa fa-pencil"></i></button>
 
                         {{/if}}
+                        </div>
                     </div>
                 </div>
                 <hr>
