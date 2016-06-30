@@ -3,7 +3,7 @@ Router.configure({
     loadingTemplate: 'spinner',
     notFoundTemplate: 'notFound'
 });
-
+    AutoForm.debug();
 
 var publicRoutes = ['signIn', 'signUp'];
 
@@ -23,7 +23,7 @@ var privateRoutes = [
     "favorite"
 ];
 Router.ensureLoggedIn = function () {
-    if (Meteor.loggingIn()){
+    if (Meteor.loggingIn()) {
         //console.log('logging in..')
         this.render('spinner')
     } else {
@@ -32,7 +32,7 @@ Router.ensureLoggedIn = function () {
             this.redirect('signIn');
         } else {
             this.next();
-        }        
+        }
     }
 };
 Router.ensureNotLoggedIn = function () {
@@ -51,12 +51,12 @@ Router.ensureNotLoggedIn = function () {
 
 Router.onBeforeAction(Router.ensureLoggedIn, {only: privateRoutes});
 Router.onBeforeAction(Router.ensureNotLoggedIn, {only: publicRoutes});
-Router.onBeforeAction(function(){
+Router.onBeforeAction(function () {
 
-    if(Meteor.user() && Meteor.user().blocked == 1 ){
+    if (Meteor.user() && Meteor.user().blocked == 1) {
         this.render('blockWarningPage');
     }
-    else{
+    else {
         this.next();
     }
 })
@@ -69,51 +69,50 @@ const confirmationMessage = 'عفواً.. لديك تغييرات لم تقم ب
 // set to `true` before redirecting programmatically to skip confirmation
 var skipConfirmationForNextTransition = false
 Router.onStop(function () {
-  // register dependencies immediately
-  const formIsDirty = Session.equals('formIsDirty', true)
-  // prevent duplicate execution of onStop route, because it would run again
-  // after the redirect
-  if (skipConfirmationForNextTransition) {
-    skipConfirmationForNextTransition = false
-    return
-  }
-  if (formIsDirty) {
-    const shouldLeave = confirm(confirmationMessage)
-    if (shouldLeave) {
-      Session.set('formIsDirty', false)
-      return
+    // register dependencies immediately
+    const formIsDirty = Session.equals('formIsDirty', true)
+    // prevent duplicate execution of onStop route, because it would run again
+    // after the redirect
+    if (skipConfirmationForNextTransition) {
+        skipConfirmationForNextTransition = false
+        return
     }
-    // obtain a non-reactive reference to the current route
-      var currentRoute;
-    Tracker.nonreactive(function () {
-      currentRoute = Router.current()
-    })
-    skipConfirmationForNextTransition = true
-    // "cancel" the transition by redirecting to the same route
-    // this had to be used because Iron Router doesn't support cancling the
-    // current transition. `url` contains the query params and hash.
-    this.redirect(currentRoute.url)
-    return
-  }
+    if (formIsDirty) {
+        const shouldLeave = confirm(confirmationMessage)
+        if (shouldLeave) {
+            Session.set('formIsDirty', false)
+            return
+        }
+        // obtain a non-reactive reference to the current route
+        var currentRoute;
+        Tracker.nonreactive(function () {
+            currentRoute = Router.current()
+        })
+        skipConfirmationForNextTransition = true
+        // "cancel" the transition by redirecting to the same route
+        // this had to be used because Iron Router doesn't support cancling the
+        // current transition. `url` contains the query params and hash.
+        this.redirect(currentRoute.url)
+        return
+    }
 })
 
 // Bonus: confirm closing of browser window
-window.addEventListener('beforeunload', function(event){
-  if (Session.get('formIsDirty')) {
-    // cross-browser requries returnValue to be set, as well as an actual
-    // return value
-      event.returnValue = arabicMessages.alertLeaveFromTouched // eslint-disable-line no-param-reassign
-      return arabicMessages.alertLeaveFromTouched
-  }
+window.addEventListener('beforeunload', function (event) {
+    if (Session.get('formIsDirty')) {
+        // cross-browser requries returnValue to be set, as well as an actual
+        // return value
+        event.returnValue = arabicMessages.alertLeaveFromTouched // eslint-disable-line no-param-reassign
+        return arabicMessages.alertLeaveFromTouched
+    }
 });
-
 
 
 const increment = 5;
 
 Router.onStop(function () {
     // register the previous route location in a session variable
-    Session.set('itemsLimit',increment);
+    Session.set('itemsLimit', increment);
     Session.set("lastRoute", Router.current().route.getName());
     if (this.route.getName() != 'add' && this.route.getName() != 'edit') {
         $('.updateSuccess,.addSuccess').remove();
@@ -173,34 +172,38 @@ Router.map(function () {
         }
     });
 
-    this.route('me', {path: '/profile', template: 'profile', action : function(){
-        this.state.set('isForMe', true);
-        Session.set('template', 'profileSetting');
-        Session.set('settings', 'profileImg');
-        this.render('profile')
-    }});
+    this.route('me', {
+        path: '/profile', template: 'profile', action: function () {
+            this.state.set('isForMe', true);
+            Session.set('template', 'profileSetting');
+            Session.set('settings', 'profileImg');
+            this.render('profile')
+        }
+    });
     ;
 
-    this.route('profile', {path: '/profile/:id', action : function(){
-        Session.set('template', 'articles');
-        Session.set('settings', 'profileImg');
-        this.render('profile')
-    }});
+    this.route('profile', {
+        path: '/profile/:id', action: function () {
+            Session.set('template', 'articles');
+            Session.set('settings', 'profileImg');
+            this.render('profile')
+        }
+    });
 
 
-    this.route('home', { path: '/', template: 'articles' });
+    this.route('home', {path: '/', template: 'articles'});
     this.route('search', {path: '/search'});
-    this.route('read', {path: '/read', template: 'articles' });
-    this.route('participation', { path: '/participation', template: 'articles'});
-    this.route('favorite', { path: '/favorite', template: 'articles' });
-    this.route('mine', {path: '/mine', template: 'articles' });
+    this.route('read', {path: '/read', template: 'articles'});
+    this.route('participation', {path: '/participation', template: 'articles'});
+    this.route('favorite', {path: '/favorite', template: 'articles'});
+    this.route('mine', {path: '/mine', template: 'articles'});
     this.route('about', {path: '/about'});
     this.route('edit', {
         path: '/edit/:id', template: 'add', waitOn: function () {
             if (Meteor.user()) {
                 return [Meteor.subscribe("Article", this.params.id),
                     Meteor.subscribe('usernames', this.params.id),
-                    Meteor.subscribe('comments',this.params.id)
+                    Meteor.subscribe('comments', this.params.id)
                 ];
             }
         }

@@ -2,37 +2,22 @@
  * Created by omar on 9/19/15.
  */
 
-//var isSubmitting = new ReactiveVar(false);
-
 AutoForm.hooks({
     addCommentForm: {
+        beginSubmit: function() {
+            $('#addCommentForm > :submit').prop( "disabled", true);
+            },
+        endSubmit: function () {
+            $('#addCommentForm > :submit').prop( "disabled", false);
 
-        onSubmit: function (insertDoc, updateDoc, currentDoc) {
-            this.event.preventDefault();
-            alert();
-            this.done();
-            // else {
-            //    this.done(new Error("Submission failed"));
-            //}
-            return false;
-        },
-
-        endSubmit: function() {
-            var isDirty = false
-            if (!this.validationContext.isValid()){ 
-                isDirty = true                 
-            }
-            Session.set('formIsDirty', isDirty)
-        },        
+        }
 
     }
 
 })
 
 Template.article.helpers({
-    isSubmitting: function () {
-        //return isSubmitting.get()
-    },
+
     bodyText: function () {
         if (this.body.indexOf("<div") != -1) {
             return this.body.slice(0, this.body.indexOf('<div'));
