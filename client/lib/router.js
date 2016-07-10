@@ -3,7 +3,6 @@ Router.configure({
     loadingTemplate: 'spinner',
     notFoundTemplate: 'notFound'
 });
-    AutoForm.debug();
 
 var publicRoutes = ['signIn', 'signUp'];
 
@@ -234,6 +233,7 @@ Router.map(function () {
     this.route('global', {
         path: '/:id',
         action: function () {
+            debugger;
             if (Articles.findOne(this.params.id)) { //how should this work?
                 Session.set('urlType', 'article');
                 this.render('article');
@@ -245,7 +245,6 @@ Router.map(function () {
         waitOn: function () {
             return [
                 Meteor.subscribe("Article", this.params.id),
-                Meteor.subscribe('comments', this.params.id)
             ];
         }
     });

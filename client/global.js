@@ -1,6 +1,6 @@
 ArticlesSubscriptions = new SubsManager();
 
-ArticlesCursor = function(route){
+ArticlesCursor = function (route) {
 
     var custom;
     if (Meteor.userId()) {
@@ -51,7 +51,7 @@ ArticlesCursor = function(route){
         Router.go('signIn');
     }
 
-}
+};
 
 //this file contains a global functions used in HTML ans js files
 //functions used globally in the project

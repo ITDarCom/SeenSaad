@@ -2,6 +2,7 @@
 function ScrollListener(instance) {
 
     return function (e) {
+        debugger;
         var threshold, target = $("#showMoreResults");
         if (!target.length) return;
 
@@ -39,40 +40,40 @@ var ReadContributeCache = new SubsManager();
 
 Template.articles.onCreated(function () {
 
-    var instance = this
+    var instance = this;
 
     //a reactive dictionary to store the state of our current list of articles
     instance.state = new ReactiveDict()
     instance.ready = new ReactiveVar()
 
     //scroll listener to detect when we reach the end of page
-    instance.listener = new ScrollListener(instance)
-    window.addEventListener('scroll', instance.listener)
+    instance.listener = new ScrollListener(instance);
+    debugger;
+    window.addEventListener('scroll', instance.listener);
 
     //we reset our stored state whenever the route achanges
     instance.autorun(function () {
 
         var route = Router.current().route.getName()
-        //console.log('re-setting state..', route)
-        var channel
+        var channel;
         switch (route) {
             case "read":
-                channel = "readArticles"
+                channel = "readArticles";
                 break;
             case "participation":
-                channel = "contribution"
+                channel = "contribution";
                 break;
             case "favorite":
-                channel = "favorites"
+                channel = "favorites";
                 break;
             case "mine":
-                channel = "mine"
+                channel = "mine";
                 break;
             case "profile":
-                channel = "specificUserArticles"
+                channel = "specificUserArticles";
                 break;
             case "home":
-                channel = "articles"
+                channel = "articles";
                 break;
             case "deleted" :
                 channel = "deleted";

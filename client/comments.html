@@ -1,0 +1,59 @@
+<template name="comments">
+    <!--Comments-->
+    {{#each comments}}
+        <div class='panel panel-info'>
+            <div class='panel-body'>
+                <div class='text-muted'>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                    <span class='glyphicon glyphicon-user'
+                          aria-hidden='true'></span> {{commenterUsername}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-md-6 col-xs-6" style=" white-space: nowrap; text-overflow: ellipsis;">  <span
+                                class='glyphicon glyphicon-time'
+                                aria-hidden='true'></span>
+                            {{> Time data=createdAt}} </div>
+                        <div class="col-md-6 col-xs-6 text-left" style="padding-left:10px !important;">
+                            {{#if articleOwner}}
+                                <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                            {{/if}}
+                            {{#if canEdit}}
+                                {{#unless articleOwner}}
+                                    <button class="btn btn-xs btn-danger removeComment"><i class="fa fa-trash"></i></button>
+                                {{/unless}}
+                                <button class="btn btn-xs btn-warning updateComment"><i class="fa fa-pencil"></i></button>
+
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="commentText">
+                    {{{nl2br commentText}}}</div>
+            </div>
+        </div>
+    {{/each}}
+    <nav>
+        <ul class="pager">
+            <li><a href="#" class ='previousBtn'><i class='fa fa-arrow-right'></i></a></li>
+            <li><a href="#" class="nextBtn"><i class='fa fa-arrow-left'></i></a></li>
+        </ul>
+    </nav>
+    {{#if allowContributing}}
+        <div class='panel panel-info'>
+            <div class='panel-body'>
+                {{#autoForm   id='addCommentForm' name='addCommentForm' type='method'  meteormethod='addComment'
+                schema='commentsSchema'}}
+
+                    {{> afQuickField name='commentText' label=false class='commentTextarea'}}
+                    {{> afQuickField name='articleId' type='hidden' label=false value=this._id}}
+
+                    <button type='submit' class='btn btn-block btn-primary'>
+                        {{getArabicMsg 'addButtonLabel'}}</button>
+                {{/autoForm}}
+            </div>
+        </div>
+    {{/if}}
+</template>

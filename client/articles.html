@@ -5,9 +5,7 @@
         <div class='col-md-offset-1 col-md-10'>
             {{> headerText}}
             {{#if initialLoad}}
-                <div style="margin-top:200px;">
                     {{> spinner}}
-                </div>
             {{else}}
                 {{#each articles}}
                     {{> articleView}}

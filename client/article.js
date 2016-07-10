@@ -1,14 +1,15 @@
 /**
  * Created by omar on 9/19/15.
  */
-
 AutoForm.hooks({
     addCommentForm: {
-        beginSubmit: function() {
-            $('#addCommentForm > :submit').prop( "disabled", true);
-            },
+        beginSubmit: function () {
+            $('#addCommentForm > :submit').prop("disabled", true);
+            debugger;
+        },
         endSubmit: function () {
-            $('#addCommentForm > :submit').prop( "disabled", false);
+            $('#addCommentForm > :submit').prop("disabled", false);
+            Router.go("global", {id: Template.parentData()._id}, {query: {skip:  10}});
 
         }
 
@@ -89,6 +90,7 @@ Template.article.helpers({
 });
 Template.article.events({
     'click #editButton': function () {
+        debugger;
         Router.go('edit', {id: Router.current().params.id})
     }
     //  "submit #addCommentForm": function (event) {
@@ -127,60 +129,8 @@ Template.article.events({
         Session.set('formIsDirty', true)
     }
 });
-Template.comments.helpers({
-    comments: function () {
-        return Comments.find({articleId: this.data},{sort: {createdAt: 1}})
-    },
-    articleOwner:   function () {
-        return (Meteor.userId() && Template.parentData(2).user == Meteor.userId() && Meteor.userId() && this.commenter == Meteor.userId() && !Template.parentData(2).deleted)
-    },
-    canEdit: function () {
-        if (Meteor.userId() && this.commenter == Meteor.userId() && !Template.parentData(2).deleted) {
-            return (new Date().getTime() - this.createdAt.getTime() < 600 * 1000)
-        }
-    }
-});
-Template.comments.events({
-    'click .removeComment': function () {
-        if (confirm(arabicMessages.commentDeleteConfirm)) {
-            Meteor.call('deleteComment', this._id, function (err, result) {
-                if (err) {
-                    alert(arabicMessages.deleteTryAgain)
-                }
-            })
-        }
-    },
-    'click .updateComment': function (event) {
-        var commentBody = $(event.currentTarget).parents('.panel-body').find('.commentText').attr('contentEditable', true).focus().parent();
-        if (commentBody.find('.okUpdate,NoCancel').length == 0) {
-            commentBody
-                .append("<div class='updateButtonsPanel pull-left'><button class='btn btn-xs btn-danger NoCancel '><i class='fa fa-times'></i></button>" +
-                    "<button class='btn btn-xs btn-success okUpdate '><i class='fa fa-check  '></i></button></div>");
-        }
-    },
-    'click .okUpdate': function (event) {
-        var textDiv = $(event.target).parents('.panel-body').find('.commentText');
-        var text = textDiv.text().trim();
-        if (text.length < 3) {
-            alert(arabicMessages.commentMinString);
-        }
-        else {
-            Meteor.call('updateComment', this._id, text, function (err, result) {
-                if (!err) {
-                    alert(arabicMessages.commentEditedSuccessfully)
-                }
-                else {
 
-                }
-                textDiv.attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
-            });
-        }
-    },
-    'click .NoCancel': function (event) {
-        $(event.target).parents('.panel-body').find('.commentText')
-            .attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
-    },
-});
+
 Template.additions.helpers({
     additions: function (id) {
         var article = Articles.findOne(id);
@@ -244,3 +194,5 @@ Template.additions.events({
 Template.additions.onRendered(function () {
     $('.removeAddition').hide();
 });
+
+
