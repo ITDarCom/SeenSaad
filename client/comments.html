@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class=" col-md-6 col-xs-6" style=" white-space: nowrap; text-overflow: ellipsis;">  <span
+                        <div class="col-md-6 col-xs-6" style=" white-space: nowrap; text-overflow: ellipsis;">  <span
                                 class='glyphicon glyphicon-time'
                                 aria-hidden='true'></span>
                             {{> Time data=createdAt}} </div>
@@ -35,14 +35,12 @@
             </div>
         </div>
     {{/each}}
-    <nav>
-        <ul class="pager">
-            <li><a href="#" class ='previousBtn'><i class='fa fa-arrow-right'></i></a></li>
-            <li><a href="#" class="nextBtn"><i class='fa fa-arrow-left'></i></a></li>
-        </ul>
-    </nav>
+    {{#if hasMore}}
+    {{> loadMoreResults}}
+    {{/if}}
     {{#if allowContributing}}
         <div class='panel panel-info'>
+
             <div class='panel-body'>
                 {{#autoForm   id='addCommentForm' name='addCommentForm' type='method'  meteormethod='addComment'
                 schema='commentsSchema'}}

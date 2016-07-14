@@ -13,9 +13,7 @@
                     <strong>{{getArabicMsg 'noArticlesFound'}}</strong>
                 {{/each}}
                 {{#if hasMore}}
-                    <div id="showMoreResults" style="margin-left: 25px;">
-                        <center><span class="loading">{{getArabicMsg 'loading'}}</span></center>
-                    </div>
+                    {{> loadMoreResults}}
                 {{/if}}
             {{/if}}
 

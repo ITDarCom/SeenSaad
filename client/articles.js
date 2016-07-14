@@ -1,8 +1,8 @@
 //we wrap this listener so we can use its reference un-register when templates are destroyed
-function ScrollListener(instance) {
+ScrollListener = function (instance) {
 
     return function (e) {
-        debugger;
+
         var threshold, target = $("#showMoreResults");
         if (!target.length) return;
 
@@ -13,7 +13,7 @@ function ScrollListener(instance) {
              'was', instance.state.get('limit'))*/
 
             // increase limit by 5 and update it
-            instance.state.set('limit', ArticlesCursor(Router.current().route.getName()).count() + 5)
+            instance.state.set('limit', instance.state.get('limit')+5 );
         }
     }
 }
@@ -48,7 +48,7 @@ Template.articles.onCreated(function () {
 
     //scroll listener to detect when we reach the end of page
     instance.listener = new ScrollListener(instance);
-    debugger;
+
     window.addEventListener('scroll', instance.listener);
 
     //we reset our stored state whenever the route achanges

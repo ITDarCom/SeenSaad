@@ -1,21 +1,6 @@
 /**
  * Created by omar on 9/19/15.
  */
-AutoForm.hooks({
-    addCommentForm: {
-        beginSubmit: function () {
-            $('#addCommentForm > :submit').prop("disabled", true);
-            debugger;
-        },
-        endSubmit: function () {
-            $('#addCommentForm > :submit').prop("disabled", false);
-            Router.go("global", {id: Template.parentData()._id}, {query: {skip:  10}});
-
-        }
-
-    }
-
-})
 
 Template.article.helpers({
 
@@ -90,7 +75,7 @@ Template.article.helpers({
 });
 Template.article.events({
     'click #editButton': function () {
-        debugger;
+
         Router.go('edit', {id: Router.current().params.id})
     }
     //  "submit #addCommentForm": function (event) {

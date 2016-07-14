@@ -9,10 +9,20 @@ Template.messages.helpers({
         Messages.find({$or: [{to: Meteor.userId()}, {from: me}]},
             {sort: {sendingAt: -1}}).forEach(function (e) {
             if (e.to == me) {
-                contacts.push({id: e.from, sendingAt: e.sendingAt, fromUsername: e.fromUsername ,toUsername: e.toUsername});
+                contacts.push({
+                    id: e.from,
+                    sendingAt: e.sendingAt,
+                    fromUsername: e.fromUsername,
+                    toUsername: e.toUsername
+                });
             }
             else {
-                contacts.push({id: e.to, sendingAt: e.sendingAt, fromUsername: e.fromUsername ,toUsername: e.toUsername});
+                contacts.push({
+                    id: e.to,
+                    sendingAt: e.sendingAt,
+                    fromUsername: e.fromUsername,
+                    toUsername: e.toUsername
+                });
             }
         });
         return _.sortBy(_.uniq(contacts, false, function (c) {
@@ -56,11 +66,11 @@ Template.messages.helpers({
 
 
     },
-    getUsername:function(){
-        if (Meteor.user().username == this.fromUsername){
+    getUsername: function () {
+        if (Meteor.user().username == this.fromUsername) {
             return this.toUsername
         }
-        else{
+        else {
             return this.fromUsername
         }
     }
@@ -96,23 +106,44 @@ Template.messageStream.helpers({
 
 });
 Template.messageStream.onRendered(function () {
-    $(document).on('mouseenter', '.clearfix', function () {
-        $(this).find(":button").removeClass("hidden");
-    }).on('mouseleave', '.clearfix', function () {
-        $(this).find(":button").addClass("hidden");
-    });
+    var stream = $('.messagesStream');
+    stream.scrollTop(stream[0].scrollHeight);
+
+
 });
 Template.messageStream.events({
     'click .deleteMsgBtn': function () {
+
         if (Meteor.userId()) {
             Meteor.call('removeMessage', this._id);
         }
+    },
+    'mouseenter .clearfix ': function (event, template) {
+        event.preventDefault();
+        $(event.target).find("button").css('display', 'inline-block');
+        //console.log(template.find(":button"));
+
+    },
+    'mouseleave .clearfix': function (event, template) {
+        event.preventDefault();
+
+        $(event.target).find("button").css('display', 'none');
+        //console.log(template.find(":button"));
+
+    },
+    'keydown': function (e) {
+
+        if (e.keyCode == 13) {
+            $('#sendMsgToUser').submit();
+        }
     }
+
+
 });
 Template.messages.events({
     'click .clickableDiv': function () {
         Router.go('messageStream', {id: this.id});
-    }
+    },
 });
 Template.messages.onRendered(function () {
     $('.select2-chosen').text(arabicMessages.messageToLabel);
@@ -164,9 +195,24 @@ Template.afQuickField.onRendered(function () {
     }
 });
 AutoForm.hooks({
-        sendMsg: {
+    sendMsg: {
         onSuccess: function () {
             $('.select2-chosen').text('إلى')
         }
+    },
+    sendMsgToUser: {
+        onSuccess: function () {
+            var stream = $('.messagesStream');
+            stream.scrollTop(stream[0].scrollHeight);
+        }
     }
+});
+Template.messageStream.onCreated(function () {
+    var instance = this;
+    instance.autorun(function () {
+        if (Messages.find({to: Meteor.userId()}).count() > 0) {
+            var current = $('.messagesStream').scrollTop();
+            $('.messagesStream').scrollTop(current + $('.clearfix').height())
+        }
+    })
 });

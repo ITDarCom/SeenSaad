@@ -261,7 +261,7 @@ Meteor.publish(null, function () {
     }
     return Images.find();
 });
-Meteor.publish('comments', function (id,skip,limit) {
+    Meteor.publish('comments', function (id,skip,limit) {
     if (Meteor._isBlocked(this.userId)) {
         return [];
     }

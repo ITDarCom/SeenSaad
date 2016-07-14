@@ -363,3 +363,9 @@ Tracker.autorun(function () {
         Meteor.call("setLoginTime");
     }
 });
+
+Template.registerHelper('log', function (text) {
+
+    console.log(text);
+
+})

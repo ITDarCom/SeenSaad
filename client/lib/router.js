@@ -233,7 +233,7 @@ Router.map(function () {
     this.route('global', {
         path: '/:id',
         action: function () {
-            debugger;
+
             if (Articles.findOne(this.params.id)) { //how should this work?
                 Session.set('urlType', 'article');
                 this.render('article');
