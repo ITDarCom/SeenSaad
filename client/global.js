@@ -368,4 +368,43 @@ Template.registerHelper('log', function (text) {
 
     console.log(text);
 
-})
+});
+
+ScrollListener = function (instance,element) {
+    return function (e) {
+
+
+        var threshold, target = $("#showMoreResults");
+        if (!target.length) return;
+
+        threshold = $(element).scrollTop() + $(element).height() - target.height();
+
+        if (target.offset().top < threshold) {
+            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5,
+             'was', instance.state.get('limit'))*/
+
+            // increase limit by 5 and update it
+            instance.state.set('limit', instance.state.get('limit') + 5);
+        }
+    }
+}
+
+
+reverseScrollListener = function (instance,element,callback) {
+    return function (e) {
+
+
+        var target = $("#showMoreResults");
+        if (!target.length) return;
+
+
+        if ($(element).scrollTop()< 5) {
+            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5,
+             'was', instance.state.get('limit'))*/
+
+            // increase limit by 5 and update it
+            instance.state.set('limit', instance.state.get('limit') + 15);
+            callback();
+        }
+    }
+}

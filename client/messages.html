@@ -1,129 +1,145 @@
 <template name="messages">
     <div class="row">
         <div class="col-md-offset-1 col-md-10">
-		{{> headerText}}
-		{{#each senders}}
-		<div class="panel panel-info">
-			<div class="clickableDiv panel-heading">
-				<div class="row">
-					<a href="{{pathFor 'messageStream' id=this.id}}">
-						<h4 class="col-md-9">{{lastMessage}}</h4>
-                        <h5 class="col-md-3 text-left">{{{isNew}}}</h5>
-					</a>
-				</div>
-			</div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-4">
-						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                        <a href="{{pathFor 'profile' id=this.id}}">{{getUsername}}</a>
-					</div>
-					<div class="col-md-4">
-						<span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time
-						data=lastMessageSendingAt}}
-					</div>
-				</div>
-			</div>
-		</div>
-		{{/each}}
-		<div class="panel panel-info">
-			<div class="clickableDiv panel-heading">
-				<strong>{{getArabicMsg "panelTitleSendMessage"}}</strong></div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-offset-1 col-md-10">
-						{{#autoForm collection="Messages" id="sendMsg" type="insert" }}
-						<fieldset>
-                            {{> afQuickField name="to" type='text' id="to" label=false}}
-							{{> afQuickField name="message" placeholder=(getArabicMsg "msgBoxPlaceholder")
-                            label=false}}
-						</fieldset>
-						<button type="submit" class="btn btn-primary form-control">{{getArabicMsg "sendMessageButton"}}
-                        </button>
-						{{/autoForm}}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            {{> headerText}}
+
+            {{#each senders}}
+                <div class="panel panel-info">
+                    <div class="clickableDiv panel-heading">
+                        <div class="row">
+                            <a>
+                                <h4 class="col-md-9">{{lastMessage}}</h4>
+                                <h5 class="col-md-3 text-left">{{#unless seen}}<span class="badge redDiv"
+                                                                                     title={{getArabicMsg "newLabel"}}>
+                                    <i class="fa fa-comment"></i></span> {{/unless}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <a href="{{pathFor 'profile' id=this.participant}}">{{participantUsername}}</a>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{> Time
+                            data=sentAt}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+            {{#if hasMore}}
+                {{>loadMoreResults}}
+            {{/if}}
+
+            <div class="panel panel-info">
+                <div class="clickableDiv panel-heading">
+                    <strong>{{getArabicMsg "panelTitleSendMessage"}}</strong></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            {{#autoForm collection="Messages" id="sendMsg" type="method" meteormethod="sendMsg" }}
+                                <fieldset>
+                                    {{> afQuickField name="to" type='text' id="to" label=false}}
+                                    {{> afQuickField name="message" placeholder=(getArabicMsg "msgBoxPlaceholder")
+                                    label=false}}
+                                </fieldset>
+                                <button type="submit"
+                                        class="btn btn-primary form-control">{{getArabicMsg "sendMessageButton"}}
+                                </button>
+                            {{/autoForm}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <template name="messageStream">
-	<div class="row">
-		<div class="col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10">
-			{{> headerText}}
-			<div class="panel panel-info">
-				<div class="panel-heading panelheaderMessages  " >
-					<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
-                            href="{{pathFor 'profile' id=currentId}}">
-                        &nbsp; {{thisUsername}}</a></h4>
-				</div>
-				<div class="panel-body messagesStream" >
-                    {{#if hasMore}}
-                        {{> loadMoreResults}}
-                    {{/if}}
-					{{#each messages }}
-					<div class="row">
+    {{#if Template.subscriptionsReady}}
 
-						{{#if fromMe}}
-                        <div class="col-md-11 col-xs-11 msg">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10">
+                {{> headerText}}
+                <div class="panel panel-info">
+                    <div class="panel-heading panelheaderMessages  ">
+                        <h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span><a
+                                href="{{pathFor 'profile' id=currentId}}">
+                            &nbsp; {{thisUsername}}</a></h4>
+                    </div>
+                    <div class="panel-body messagesStream" id="msgStream">
+                        {{#if hasMore}}
+                            {{> loadMoreResults}}
+                        {{/if}}
+                        {{#each messages }}
                             <div class="row">
-                            <div class="col-md-1 col-xs-1" >
-							<img class="img-circle" height="42"
-								 width="42"
-								 src="{{getProfilePic}}"
-								 alt="{{ this.fromUsername}}"
-								 title="{{ this.fromUsername}}">
-						</div>
-						<div class="pull-right  col-md-10 col-xs-offset-1 col-md-offset-0 col-xs-8  msg">
-							<div class="clearfix pull-right ">
-								<button class="btn hidden btn-xs btn-danger deleteMsgBtn pull-left ">
-									<small><i class="fa fa-trash "></i></small>
-								</button>
-								<blockquote class="me">{{{nl2br message}}}
-									<small>{{> Time data=sendingAt}}</small>
-								</blockquote>
-							</div>
-						</div>
-                            </div>
-                            </div>
-						{{else}}
-						<div class="col-md-11 col-xs-11 msg">
 
-                            <div class="col-md-1 col-xs-1 pull-left">
-                                <img class="img-circle" height="42" width="42" src="{{getProfilePic currentId}}"
-                                     alt="{{ this.fromUserName}}" title="{{ this.fromUsername}}">
-                            </div>
-							<div class="clearfix pull-left">
-								<button class=" btn btn-xs hidden btn-danger deleteMsgBtn pull-right">
-									<small><i class="fa fa-trash"></i></small>
-								</button>
-								<blockquote class="you">{{{nl2br message}}} {{seenChange this._id}}
-									<small>{{> Time data=sendingAt}}</small>
-								</blockquote>
-							</div>
-						</div>
+                                {{#if fromMe}}
+                                    <div class="col-md-11 col-xs-11 msg">
+                                        <div class="row">
+                                            <div class="col-md-1 col-xs-1">
+                                                <img class="img-circle" height="42"
+                                                     width="42"
+                                                     src="{{getProfilePic}}"
+                                                     alt="{{ this.fromUsername}}"
+                                                     title="{{ this.fromUsername}}">
+                                            </div>
+                                            <div class="pull-right  col-md-10 col-xs-offset-1 col-md-offset-0 col-xs-8  msg">
+                                                <div class="clearfix pull-right ">
+                                                    <button class="btn  btn-xs btn-danger deleteMsgBtn pull-left "
+                                                            style="display:none;">
+                                                        <small><i class="fa fa-trash "></i></small>
+                                                    </button>
+                                                    <blockquote class="me">{{{nl2br message}}}
+                                                        <small>{{> Time data=sendingAt}}</small>
+                                                    </blockquote>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{else}}
+                                    <div class="col-md-11 col-xs-11 msg">
 
-						{{/if}}
-					</div>
-					{{/each}}
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-        <div class="col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10">
-			<div class="panel panel-info">
-				<div class="panel-body">
-                    {{#autoForm id="sendMsgToUser" type="insert" collection="Messages" resetOnSuccess=true }}
-					{{> afFieldInput name= 'to' type="hidden" value=thisUser}}
-                        {{> afFieldInput name='message' placeholder=(getArabicMsg 'msgBoxPlaceholder') rows=2}}
-                        <button type="submit"
-                                class="btn btn-primary form-control">{{getArabicMsg 'sendMessageButton'}}</button>
-					{{/autoForm}}
-				</div>
-			</div>
-		</div>
-	</div>
+                                        <div class="col-md-1 col-xs-1 pull-left">
+                                            <img class="img-circle" height="42" width="42"
+                                                 src="{{getProfilePic currentId}}"
+                                                 alt="{{ this.fromUserName}}" title="{{ this.fromUsername}}">
+                                        </div>
+                                        <div class="col-md-11 col-xs-11 clearfix pull-left">
+                                            <button class=" btn btn-xs btn-danger deleteMsgBtn pull-right"
+                                                    style="display:none;">
+                                                <small><i class="fa fa-trash"></i></small>
+                                            </button>
+                                            <blockquote class="you">{{{nl2br message}}} {{seenChange this._id}}
+                                                <small>{{> Time data=sendingAt}}</small>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        {{#autoForm id="sendMsgToUser" type="method" meteormethod="sendMsg" collection="Messages" resetOnSuccess=true }}
+                            {{> afFieldInput name= 'to' type="hidden" value=thisUser}}
+                            {{> afFieldInput name='message' placeholder=(getArabicMsg 'msgBoxPlaceholder') rows=2}}
+                            <button type="submit"
+                                    class="btn btn-primary form-control">{{getArabicMsg 'sendMessageButton'}}</button>
+                        {{/autoForm}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        {{> spinner}}
+    {{/if}}
 </template>
 

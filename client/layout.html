@@ -34,9 +34,9 @@
                                 href="{{pathFor 'mine'}}">{{getArabicMsg "headers.mine"}}</a></li>
                         <li class="{{#if isActive 'add'}}active{{/if}}"><a
                                 href="{{pathFor 'add'}}">{{getArabicMsg "headers.add"}}</a></li>
-                        <li class="{{#if isActive 'messages'}}active{{/if}}"><a
-                                href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}<span
-                                class="badge alert-danger ">{{unread 2}}</span></a></li>
+                    <li class="{{#if isActive 'messages'}}active{{/if}}"><a
+                            href="{{pathFor 'messages'}}">{{getArabicMsg "headers.messages"}}
+                        {{#if hasUnread}}<span class="badge alert-danger ">{{unreadMessages}}</span>{{/if}}</a></li>
                         {{#if currentUser}}
                             <li class="{{#if isActive 'deleted'}}active{{/if}}"><a href="{{pathFor 'deleted'}}">
                                 {{getArabicMsg "headers.deleted"}}</a></li>{{/if}}

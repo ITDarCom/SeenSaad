@@ -47,3 +47,5 @@ reactive-dict
 meteorhacks:subs-manager
 cfs:ui
 aldeed:template-extension
+aldeed:schema-deny
+tmeasday:publish-counts

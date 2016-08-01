@@ -13,7 +13,7 @@ Meteor._isBlocked = function (userId) {
     return userId && Meteor.users.findOne(userId).blocked
 };
 Meteor.publish('articles', function (limit) {
-            //Meteor._sleepForMs(2000);
+        //Meteor._sleepForMs(2000);
         if (Meteor._isBlocked(this.userId)) {
             return [];
         }
@@ -173,9 +173,10 @@ Meteor.publish("Article", function (articleId) {
                 }
             }
         }
-    else {
-        return [];
-    }}
+        else {
+            return [];
+        }
+    }
 });
 
 Meteor.publish(null, function () {
@@ -230,15 +231,62 @@ Meteor.publish('specificUserArticles', function (userId, limit) {
         sort: {createdAt: -1}
     })
 });
+//Meteor.publish(null, function () {
+//    if (Meteor._isBlocked(this.userId)) {
+//        return [];
+//    }
+//    if (this.userId) {
+//        return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
+//            sender: 0,
+//            reciver: 0
+//        })
+//    }
+//});
 Meteor.publish(null, function () {
+    if (this.userId) {
+        Counts.publish(this, 'unreadMessages', Messages.find({to: this.userId, reciver: 0}));
+    }
+});
+
+
+
+Meteor.publish("messages", function (uid, limit) {
     if (Meteor._isBlocked(this.userId)) {
         return [];
     }
-    if (this.userId) {
-        return Messages.find({$or: [{to: this.userId, reciver: {$lte: 1}}, {from: this.userId, sender: 0}]}, {
-            sender: 0,
-            reciver: 0
+    var self = this;
+    check(uid, String);
+    var handle = Messages.find({
+            $or: [{sender: 0, from: this.userId, to: uid}, {
+                from: uid,
+                to: this.userId,
+                reciver: {$lte: 1}
+            }]
+        }, {sort: {sendingAt: -1}, limit: limit})
+        .observeChanges({
+            added: function (id, doc) {
+                self.added("messages", id, doc)
+            }
         })
+
+    self.onStop(function () {
+        handle.stop();
+    });
+
+
+});
+Meteor.publish('chatlists', function (limit) {
+    if (this.userId) {
+        return Chatlist.find({userId: this.userId}, {sort: {sentAt: -1}, limit: limit})
+    }
+
+})
+
+Meteor.publish("chatParticipant", function (id) {
+    if (this.userId && !Meteor._isBlocked(this.userId)) {
+        if (Meteor.users.findOne({_id: id})) {
+            return Meteor.users.find({_id: id})
+        }
     }
 });
 Meteor.publish(null, function () {
@@ -261,18 +309,18 @@ Meteor.publish(null, function () {
     }
     return Images.find();
 });
-    Meteor.publish('comments', function (id,skip,limit) {
+Meteor.publish('comments', function (id, skip, limit) {
     if (Meteor._isBlocked(this.userId)) {
         return [];
     }
     var article = Articles.findOne(id);
     if (article && article.user == this.userId) {
-        return Comments.find({articleId: id}, {sort: {createdAt: 1},skip:skip,limit:limit});
+        return Comments.find({articleId: id}, {sort: {createdAt: 1}, skip: skip, limit: limit});
     }
     if (article && !article.deleted) {
         if (article.contributingPermissions == 0 || article.readingPermissions == 0
             || _.contains(article.contributingIds, this.userId) || _.contains(article.readingIds, this.userId)) {
-            return Comments.find({articleId: id}, {sort: {createdAt: 1},skip:skip,limit:limit});
+            return Comments.find({articleId: id}, {sort: {createdAt: 1}, skip: skip, limit: limit});
         }
     }
 });
@@ -282,7 +330,7 @@ Meteor.publish('usernames', function (articleId) {
         return [];
     }
     var article = Articles.findOne(articleId);
-    if ( article.contributingPermissions == 0) {
+    if (article.contributingPermissions == 0) {
         return [];
     }
     else {

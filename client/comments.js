@@ -114,7 +114,7 @@ Template.comments.onCreated(function () {
         var skip = instance.state.get('skip') || 0;
         commentsSubscribtion.subscribe("comments", Router.current().params.id, skip, limit);
     });
-    instance.listener = new ScrollListener(instance);
+    instance.listener = new ScrollListener(instance,window);
     window.addEventListener('scroll', instance.listener);
 
 

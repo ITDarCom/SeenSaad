@@ -1,22 +1,4 @@
 //we wrap this listener so we can use its reference un-register when templates are destroyed
-ScrollListener = function (instance) {
-
-    return function (e) {
-
-        var threshold, target = $("#showMoreResults");
-        if (!target.length) return;
-
-        threshold = $(window).scrollTop() + $(window).height() - target.height();
-
-        if (target.offset().top < threshold) {
-            /*console.log('setting limit', ArticlesCursor(Router.current().route.getName()).count() + 5, 
-             'was', instance.state.get('limit'))*/
-
-            // increase limit by 5 and update it
-            instance.state.set('limit', instance.state.get('limit')+5 );
-        }
-    }
-}
 
 Template.articles.onRendered(function () {
     //if we stored the lastScroll position, we'll scroll down to it
@@ -47,7 +29,7 @@ Template.articles.onCreated(function () {
     instance.ready = new ReactiveVar()
 
     //scroll listener to detect when we reach the end of page
-    instance.listener = new ScrollListener(instance);
+    instance.listener = new ScrollListener(instance,window);
 
     window.addEventListener('scroll', instance.listener);
 

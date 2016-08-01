@@ -51,3 +51,30 @@
 
 
 //==================================
+
+
+// this migration done after changing messages and adding chatlist collection to to denormalize the chat list page
+
+Messages.find({}, {sort: {createdAt: 1}}).forEach(function (doc) {
+    Chatlist.upsert({userId: doc.from, participant: doc.to}, {
+        $set: {
+            lastMessage: doc.message,
+            sentAt: doc.sendingAt,
+            direction: true,
+            participantUsername: doc.toUsername,
+            seen: true
+        }
+    });
+    Chatlist.upsert({userId: doc.to, participant: doc.from}, {
+        $set: {
+            lastMessage: doc.message,
+            sentAt: doc.sendingAt,
+            direction: false,
+            participantUsername: doc.toUsername,
+            seen: doc.reciver > 0
+        }
+
+    })
+})
+
+
