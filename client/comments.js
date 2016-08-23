@@ -5,7 +5,9 @@
 Template.comments.helpers({
     comments: function () {
         return Comments.find({articleId: Template.instance().articleId}, {
-            sort: {createdAt: 1},
+            limit: Template.instance().state.get('limit'),
+            skip: Template.instance().state.get('skip'),
+            sort: {createdAt: 1}
         })
     },
     articleOwner: function () {
@@ -86,36 +88,57 @@ Template.comments.events({
         $(event.target).parents('.panel-body').find('.commentText')
             .attr('contentEditable', false).parent().find('.updateButtonsPanel').remove();
     },
+    'click .pagerControl': function (event, template) {
+        var type = $(event.target).attr("type") ? $(event.target).attr("type") : $(event.target).parent().attr("type");
+        var skip = template.state.get("skip");
+        switch (type) {
+            case "next":
+                template.state.set('skip', skip > 5 ? skip - 5 : 0);
+                break;
+            case "previous":
+                var newSkip = skip + 5;
+                if (newSkip < this.commentsCounter) {
+                    template.state.set('skip', newSkip);
+                }
+                break;
+            case "last":
+                template.state.set("skip", 0);
+                break;
+            case "first":
+                template.state.set("skip", this.commentsCounter > 5 ? this.commentsCounter - 5 : 0);
+                break;
+        }
+        $('html, body').animate({
+            scrollTop: $(".panel-info").offset().top
+        }, 500);
+    },
     'click .previousBtn': function (event, template) {
         console.log(template.state.get('skip'));
         var skip = template.state.get('skip') || 0;
         template.state.set('skip', skip >= 5 ? skip - 5 : 0);
     },
     'click .nextBtn': function (event, template) {
-        console.log(template.state.get('skip'));
-
-        console.log(template.state);
         var skip = template.state.get('skip') || 0;
         template.state.set('skip', skip < template.data.commentsCounter ? skip + 5 : template.data.commentsCounter - 5);
     },
 });
 var commentsSubscribtion = new SubsManager();
 Template.comments.onCreated(function () {
-
     var instance = this;
     instance.articleId = Router.current().params.id;
     instance.state = new ReactiveDict();
-    instance.state.set('limit', 5);
+    var limit = 5;
+    debugger;
+    //if (instance.data.commentsCounter % 5 != 0) {
+    //    limit = instance.data.commentsCounter % 5;
+    //}
+    instance.state.set('limit', limit);
     instance.state.set('skip', 0);
 
 
     instance.autorun(function () {
-        var limit = instance.state.get('limit') || 5;
-        var skip = instance.state.get('skip') || 0;
-        commentsSubscribtion.subscribe("comments", Router.current().params.id, skip, limit);
+        commentsSubscribtion.subscribe("comments", instance.articleId);
     });
-    instance.listener = new ScrollListener(instance,window);
-    window.addEventListener('scroll', instance.listener);
 
 
 });
@@ -128,8 +151,7 @@ AutoForm.hooks({
         },
         endSubmit: function () {
             $('#addCommentForm > :submit').prop("disabled", false);
-            //this.template.get('state').set('skip', this.template.parent().data.commentsCounter - 5)
-
+            this.template.parent().state.set('skip',this.template.parent().data.commentsCounter - 5 )
         }
     }
 
