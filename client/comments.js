@@ -109,7 +109,7 @@ Template.comments.events({
                 break;
         }
         $('html, body').animate({
-            scrollTop: $(".panel-info").offset().top
+            scrollTop: $(".panel-info:eq( 1 )").offset().top
         }, 500);
     },
     'click .previousBtn': function (event, template) {
